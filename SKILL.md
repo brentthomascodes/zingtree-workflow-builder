@@ -33,6 +33,8 @@ live here.
 1. **Form data, once.** Every value is written once, to form data (`JSON.stringify` objects),
    read with `ZT.getVariableValue("name", default)` — one call, one default, never a chain.
    Transforms only for a native dynamic-select source or a merge field that must dot-path.
+   Never write the same fact under two names, or into both namespaces without a verified
+   consumer on each side — grep every read of a value before adding a second write of it.
 2. **No constants block, no shared blocks, no logging.** No `const LOG_*`/UUIDs/field ids in
    scripts; no helper pasted into two nodes; no `ZT.log`, execution log, arm/flush. If two
    nodes need the same code, the design is wrong.

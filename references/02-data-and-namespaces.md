@@ -81,6 +81,39 @@ the whole string is the body.) Confirm in sandbox that the CO accepts a form-dat
 field as its entire body; if the platform insists on `${transforms.x}` there, that is
 exception 2 above and the single stringify still holds.
 
+### No duplicate storage — one write, one name, verify before mirroring
+
+Don't write the same conceptual value under two names, and don't mirror a value into both
+form data and transforms "just in case" or out of habit. Every extra write costs a reader
+the job of figuring out which copy is current — and the two *will* drift the day one path
+updates one copy and not the other.
+
+(Found live in the VI Dynamic tree, Sep 2026: a node wrote `combined_pnr_record` to
+`transforms`, then wrote `current_pnr` right after it with the same value, then a *third*
+node wrote a `combined_pnr` transform and mirrored that into form data too — three names for
+one fact, only one of which anything downstream actually read. All retired to the single
+name that was genuinely consumed.)
+
+- One variable, one write site, one name, for the life of the tree. If a later node needs a
+  different *shape* of the same fact (say, the whole record vs. just its `pnr` string),
+  derive the derived value at the point that needs it — don't pre-compute and store both
+  copies "in case something needs it."
+- Before adding a second write of an existing value under a new name, grep the whole tree
+  for every read of the existing name first (`getVariableValue("name"`, `transforms.name`,
+  `${name}`, `${transforms.name...}`). If nothing downstream reads the old name, delete it
+  instead of adding a new one alongside it.
+- A value is only allowed to live in both namespaces (form data *and* transforms) when a
+  real, verified consumer needs it in each — e.g. a Connected Object body reads the
+  form-data copy while a content node dot-paths into the transform copy. "Might need it
+  later" is not a verified consumer. Mark a genuine mirror with a one-line comment naming
+  the specific consumer on each side, so the next person doesn't mistake it for the same
+  anti-pattern and either "fix" it or copy it elsewhere.
+- Same discipline applies to plain renaming: if `current_pnr` already holds a fact, nothing
+  else in the tree gets to also call it `combined_pnr_record`, `pnr_snapshot`, or any other
+  alias. This is the write-side twin of "One name per fact" above — that rule covers reads
+  colliding on inconsistent names; this one covers a single fact being written under more
+  than one name in the first place.
+
 ## Reading — always `ZT.getVariableValue`
 
 - One call, one default, the default in the type you want back (`""`, `0`, `false`, `"[]"`,
