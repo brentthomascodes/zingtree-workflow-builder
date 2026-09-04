@@ -2,6 +2,8 @@
 
 Source: https://help.zingtree.com/hc/en-us/articles/36421095549467-CX-Actions-Transformation-Functions-and-Script-Node
 
+**House note:** this is the platform article, kept for the function signatures and namespace access rules. Where its examples add existence checks (`if (actions && actions.orderInfo && ...)`, `actions?.orderInfo?.totalAmount`) or `ZT.log` calls, the house standard in `01-scripting-standards.md` overrides them: the Data node that filled `actions.<alias>` ran immediately before, so read it directly; and we don't log. Note also that "User Functions" (`ZT.myFunction`) are org-level and not available to us — there is no shared helper mechanism, which is why the standard forbids helpers that two nodes would share.
+
 CX Actions is a gated feature — access requires contacting a Zingtree Account Manager or Support.
 
 ## Transformation Functions

@@ -2,6 +2,8 @@
 
 Source: https://help.zingtree.com/hc/en-us/articles/46543705342619-Troubleshooting-and-Debugging-Best-Practices-and-Recommendations
 
+**House position (Brent, Sep 2026): no logging in trees.** The article below documents `ZT.log` and content-node printing; we don't ship either. Zingtree's logging is weak and nothing routes on it. Diagnose from three things instead: the **inputs** (the launch URL's query params and the form data on the failing screen — `##ALL DATA##` on a throwaway node while debugging), the **Connected Object request/response** in Execution Insights → Connected Objects (turn on the CO's logging toggle), and the **outputs** on the next screen. Reproduce offline first with `scripts/walk.mjs` and the tree's fixture (`03-testing-and-mock-data.md`); it runs the real script bodies and will show a thrown error with the node id. Delete any `ZT.log` you find in a tree you're editing.
+
 ## Purpose
 
 Helps Zingtree authors debug, validate, and troubleshoot workflows using built-in logging, execution insights, browser tools, and session tracking.

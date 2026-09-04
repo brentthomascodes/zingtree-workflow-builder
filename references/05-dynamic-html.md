@@ -2,6 +2,13 @@
 
 Source: https://help.zingtree.com/hc/en-us/articles/51590692872859-Dynamic-HTML
 
+**House rules on top of the article (Sep 2026):**
+
+- Write rendered HTML to **form data** — `ZT.setFormData("ticket_card_html", html)` — and render it with `${ticket_card_html}`. Form data has no TTL; `${transforms.custom_html}` in the article's examples is the older placement.
+- Dynamic HTML is for **display** and for **per-item datasets that need an input per row** (`zt-data` inputs with unique names). Standard inputs — including a select whose options come from data — are native form fields (`patterns.md` → "Native form fields"). `zt-data` selects render unstyled and cannot enforce `required`.
+- Build the string with template literals from the item objects; no `esc()` helper redefined per node, no `<style>`/`<script>` blocks (client-side JS is disabled org-wide; some sanitizers strip markup after a `<style>` block — inline styles only).
+- Stitch-back reads use the unquoted dynamic name: `ZT.getVariableValue("qty_" + item.id, 0)`.
+
 Dynamic HTML lets you turn live workflow data into polished, interactive interfaces — styled tables, product cards, custom forms — without leaving Zingtree. Instead of static content, agents and end users see exactly what's relevant to them, generated in real time from data already flowing through the workflow.
 
 ## Why Teams Love This Pattern

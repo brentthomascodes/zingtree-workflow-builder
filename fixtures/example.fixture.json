@@ -1,0 +1,45 @@
+{
+  "_comment": "Fixture shape for scripts/walk.mjs, scripts/preview_url.py and the in-tree mock node. Invented data. See references/03-testing-and-mock-data.md.",
+  "tree_id": "100000001",
+  "preview_host": "https://zingtree.com/preview/",
+  "query_params": {
+    "ticket_id": "555001",
+    "agent": "sam.rivera",
+    "channel": "Phone",
+    "mock": "1"
+  },
+  "connected_objects": {
+    "41": "orders__find_order",
+    "42": "helpdesk__create_child_ticket"
+  },
+  "views": {},
+  "view_inputs": {
+    "4": { "orders__find_order": [ { "id": "L1", "reference": "ORD-1001", "status": "open" } ] }
+  },
+  "actions": {
+    "orders__find_order": {
+      "_zt_meta": { "response": { "code": 200 } },
+      "orderReference": "ORD-1001",
+      "lines": [
+        { "id": "L1", "reference": "ORD-1001", "status": "open" },
+        { "id": "L2", "reference": "ORD-1001", "status": "shipped" }
+      ]
+    },
+    "helpdesk__create_child_ticket": {
+      "_zt_meta": { "response": { "code": 201 } },
+      "ticket": { "id": 900001 }
+    }
+  },
+  "form_inputs": {
+    "3": { "reason": "Cancellation", "notes": "customer changed plans" },
+    "7": { "action_L1": "cancel" }
+  },
+  "buttons": {
+    "12": "End Session"
+  },
+  "expect": {
+    "data_node_calls": { "orders__find_order": 1, "helpdesk__create_child_ticket": 1 },
+    "form_data": { "is_more_lines": false },
+    "terminal_node": "13"
+  }
+}

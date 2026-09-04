@@ -12,3 +12,7 @@ Thumbs.db
 # Claude Code machine-local config
 .claude/settings.local.json
 .claude/launch.json
+
+# Python
+__pycache__/
+*.pyc

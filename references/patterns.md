@@ -1,15 +1,15 @@
 # Brent's Zingtree Build Patterns
 
-Extracted from real production scripts (Quest/Delta, Experian, ETG, Corpay) and three **master reference implementations** (see `Zingtree Builder/Script Library/` when the workspace is connected): the ETG "Register Errand: Cancellations" single tree (loops, dynamic HTML, ticket automation); the Returns multi-tree family (hub-and-spoke, bucket-per-subtree across 5 trees); and the ETG "Rebooking" multi-tree family (large hub-and-spoke across 15 trees — one hub routing to many handling/outcome subtrees, with the richest complex-data handling: arrays of objects, array-of-arrays buckets via `reduce`, `Set`, nested cursor loops). There is no single dogma — these are the common themes every master shares. Follow them when writing or reviewing any Zingtree work.
+Structural rules and proven shapes, extracted from real production trees (Quest/Delta, Experian, ETG, Corpay, Penrose, Vermasoft) and three **master reference implementations** (see `Zingtree Builder/Script Library/` when the workspace is connected). Design principles are in `00-etl-design.md`, the script standard in `01-scripting-standards.md`, data placement in `02-data-and-namespaces.md` — this file holds the platform-shape rules those three rely on: the ETG "Register Errand: Cancellations" single tree (loops, dynamic HTML, ticket automation); the Returns multi-tree family (hub-and-spoke, bucket-per-subtree across 5 trees); and the ETG "Rebooking" multi-tree family (large hub-and-spoke across 15 trees — one hub routing to many handling/outcome subtrees, with the richest complex-data handling: arrays of objects, array-of-arrays buckets via `reduce`, `Set`, nested cursor loops). There is no single dogma — these are the common themes every master shares. Follow them when writing or reviewing any Zingtree work.
 
 ## Multi-tree orchestration (hub-and-spoke)
 
 When a workflow handles distinct data subsets that each need different business logic, split it: one **hub tree** organizes the data, single-responsibility **subtrees** perform each subset's logic.
 
-- The hub fetches once, then one script maps/filters everything downstream needs — e.g. bucket line items by policy (status checks, `ZT.isOlderThan30Days(...)`), `setTransformData` the buckets, and expose each bucket as a Dynamic View: `ZT.setResponseData("dynamic_view__alias", { records: array })` (selections read back via `views.dynamic_view__alias`).
+- The hub fetches once, then one script maps/filters everything downstream needs — e.g. bucket line items by policy (status checks, `ZT.isOlderThan30Days(...)`), store the buckets (a JSON string in form data; a transform only where a Dynamic View or merge field must read it) and expose each bucket as a Dynamic View: `ZT.setResponseData("dynamic_view__alias", { records: array })` (selections read back via `views.dynamic_view__alias`).
 - Tree nodes dispatch subtrees sequentially, each with `open_tree_id` + `return_tree_node_id` so control returns to the hub, which dispatches the next bucket.
 - Every subtree's root is a **guard logic node** — `len(views.dynamic_view__X) >= 1` → run, else → Tree node straight back to the hub. Subtrees are safe to call unconditionally; empty buckets cost nothing.
-- **Subroutine trees**: a small generic tree (e.g. "Add Order Line Items": cursor loop POSTing each item) takes input via an agreed transform (`transforms.current_items_group`) and is called from many places with different return nodes. Extract one when the same loop-and-POST shape appears in multiple subtrees.
+- **Subroutine trees**: a small generic tree (e.g. "Add Order Line Items": cursor loop POSTing each item) takes input via an agreed variable (`current_items_group`) and is called from many places with different return nodes. Extract one when the same loop-and-POST shape appears in multiple subtrees.
 - Logic-node expressions may use `len()` over transforms/views — still exactly one expression per button.
 - Group-then-loop: `Map` keyed by a field → `Array.from(map.values())` → cursor loop over groups; set the group's key (`vendor_key`) as form data so the next Connected Object auto-receives it by exact name match. One iteration script can advance the cursor, build the display HTML, and stage the next API payload's form data together.
 
@@ -17,7 +17,7 @@ When a workflow handles distinct data subsets that each need different business 
 
 - **Bucket-per-subtree (Returns master).** Buckets come from a *data attribute*; each subtree owns one bucket's logic; subtree roots guard on `len(views.dynamic_view__X) >= 1`.
 - **Routing-hub at scale (ETG Rebooking master, 15 trees).** The hub dispatches to many single-purpose handling/outcome subtrees and grouping is by an **agent-chosen handling type**, not a data attribute. Distinctive reusable pieces:
-  - **Agent-chosen grouping via keyed native reads.** A dynamic-HTML table renders one `<select>` per item named `customer_action_<key>`; a stitch script reads each with `ZT.getVariableValue("customer_action_"+key, null)` and `reduce()`s items into buckets keyed by the chosen handling (`proceed|<handling>` / `doNotProceed` / `changes`). Buckets are an **array of arrays of objects** (`grouped_pnrs`) — `setTransformData` them; the scalar route per bucket goes to `setFormData` (`groupedPNR_Route`).
+  - **Agent-chosen grouping via keyed native reads.** A dynamic-HTML table renders one `<select>` per item named `customer_action_<key>`; a stitch script reads each with `ZT.getVariableValue("customer_action_"+key, null)` and `reduce()`s items into buckets keyed by the chosen handling (`proceed|<handling>` / `doNotProceed` / `changes`). Buckets are an **array of arrays of objects** (`grouped_pnrs`) stored as one JSON string in form data; the scalar route per bucket is its own form variable (`groupedPNR_Route`).
   - **Nested re-runnable cursor loops.** Outer loop over items, inner loop over buckets; each counter resets to 0 when exhausted so the whole hub re-runs cleanly.
   - **Value-map router.** A Scoring node whose buttons' `button_text` each equal one value of a scalar the script staged (`groupedPNR_Route`), routing by matching a single scalar to button text. Use it when a script has reduced the decision to one enum-like string; use a boolean-expression router (`flag == true` / `flag == false`) when the decision is a computed boolean. Every button carries an explicit match/expression and `continuation_node_id` is the structural else — no blank fallback button (Brent's rule, Jul 2026).
   - **Shared outcome subtrees.** Tiny subtrees (a few native form fields + a Tree link home) reused by multiple parents — extract one when the same "capture reason + return" screen appears under several handlings.
@@ -99,7 +99,7 @@ versus what was delivered — 135 lines, of which ~45 were a prose account of v1
 
 ## Logic placement (core principle)
 
-Logic lives in scripts; logic nodes make simple routing decisions only. Every logic node evaluates exactly one boolean a script already computed — button with `logic_expression` like `is_more_child_tickets == true` (or `transforms.isMorePNR == true` when the flag lives in transforms) for the true branch, and an explicit complementary expression (`flag == false`) for the else branch, with `continuation_node_id` as the structural fallback. **Never a blank/empty-expression button — every logic button evaluates something explicit (Brent's rule, Jul 2026).** Never house complex logic (multi-condition chains, data comparisons) in logic nodes.
+Logic lives in scripts; logic nodes make simple routing decisions only. Every logic node evaluates exactly one boolean a script already computed — button with `logic_expression` like `is_more_tickets == true` for the true branch, and an explicit complementary expression (`flag == false`) for the else branch, with `continuation_node_id` as the structural fallback. **Never a blank/empty-expression button — every logic button evaluates something explicit (Brent's rule, Jul 2026).** Never house complex logic (multi-condition chains, data comparisons) in logic nodes.
 
 **A logic node's branches must never converge on the same node (Brent's rule, Jul 2026).** Two evaluated buttons routing to the same destination means the split is meaningless — the node isn't making a real decision and could be built better. Fix it one of two ways: (a) move the evaluation UPSTREAM into a script node (compute the boolean/route there, stage it, continue straight down), or (b) if the branching genuinely needs multi-condition/complex logic, rebuild it as an **advanced logic node** (`advanced_logic_node="1"`) with a proper complex expression instead of a simple logic node splitting on a trivial flag. Exception: `continuation_node_id` pointing at the same target as the `== false` button is the required structural fallback, not a duplicate evaluated path — the rule is about two evaluated `logic_expression` buttons sharing a destination. Lint on every build/review.
 
@@ -109,29 +109,6 @@ The root can be a **Script node**, not just a Content node — and often should 
 
 - Because a Script root does not render, per-node UI settings (`hide_back_restart`, etc.) take effect on the first *rendered* screen, not the invisible Script root.
 - Supersedes any earlier "root must be a Content node" guidance — that was wrong; a Script root imports and runs fine (Brent's correction, Jul 2026 — Adyen).
-
-## The canonical loop (cursor loop — master pattern)
-
-Shape: Script cursor node → loop body (Data/Content nodes) → Logic node with one boolean → back to cursor or exit.
-
-```javascript
-// cursor script
-let is_more_child_tickets = true;
-let child_tickets_count = ZT.getVariableValue("child_tickets_count", 0);
-let child_tickets = transforms.child_tickets || [];
-let current_child_ticket = child_tickets[child_tickets_count].child_ticket;
-
-child_tickets_count++;
-if (child_tickets_count >= child_tickets.length) {
-    is_more_child_tickets = false;
-    child_tickets_count = 0;          // reset so the loop is re-runnable
-}
-ZT.setFormData("child_tickets_count", child_tickets_count);
-ZT.setFormData("is_more_child_tickets", is_more_child_tickets);
-ZT.setTransformData("current_child_ticket", current_child_ticket);
-```
-
-Nesting (child → grandchild): the outer cursor sets an entry flag (`is_grandchild_tickets`), a logic node gates the inner loop, and the inner loop's exit returns to the outer loop's "is more?" logic node. Include a Clear Data script that resets all loop transforms to `[]` before restart — transforms persist for 1 hour and leak into the next run otherwise.
 
 ## The claude.md node (in-tree memory file)
 
@@ -174,70 +151,13 @@ Any data — string values or any standard query-param data — can be passed in
 
 **Sanitize inbound param values before deriving from them (Brent's rule, Jul 2026 — Adyen).** Query-param values can arrive wrapped in quotes or stray punctuation — a value can come through as `"brent.thomas@...` (leading double-quote), so a naive `split(".")[0]` yields `"brent`. In the Script-root seeder, strip and normalize before use: `raw.replace(/[^a-zA-Z0-9]/g, "")`, then capitalize for display (`Brent`). Treat any raw param as untrusted text, not a clean token.
 
-## Data-setting rules (canonical — never deviate)
-
-| Value being stored | Function |
-|---|---|
-| HTML built as a stringified value | `ZT.setTransformData("name_html", html)` |
-| Simple scalars: strings, booleans, numbers | `ZT.setFormData("name", value)` |
-| Objects, arrays, any other complex type | `ZT.setTransformData("name", value)` |
-
-Reading data:
-
-- Variables: `ZT.getVariableValue("name", "")` — always pass an explicit default. Bare variable references throw "not defined".
-- **The first arg is the variable NAME. A quoted literal reads that exact name; an unquoted identifier reads the name held in that JS variable.** When looping/iterating, the variable name is dynamic, so pass it UNQUOTED. `defaults.forEach(x => { let val = ZT.getVariableValue(x, ""); ... })` reads `sf_ContactId`, `sf_AccountId`, … in turn. Writing `ZT.getVariableValue("x", "")` reads a Zingtree variable literally named `x` (almost always empty) — a silent bug. Same for the write side: `ZT.setTransformData(x, val)` (dynamic name) vs `ZT.setTransformData("x", val)` (literal). Rule: string quotes = literal name; no quotes = dynamic name from the JS variable.
-- Transform data in a later script: `transforms.name || []` (always fall back).
-- API/Connected Object responses: `actions.<alias>.<field>`; check `actions.<alias>._zt_meta.response.code` for status. Array/primitive JSON roots are wrapped under `value` (`actions.get_list.value[0].id`).
-- Dynamic View selections: `views.<alias>.<field>` (single-select) or `views.<alias>.records[0].<field>` (multi-select).
-- Dual-write helper when a value feeds both a payload and printed output: `function set(k, v) { ZT.setFormData(k, v); ZT.setTransformData(k, v); }`
-
-TTLs: transforms expire after a fixed 1 hour; actions follow the Connected Object cache TTL; form data never expires.
-
-## Counter-loop pattern
-
-The standard way to handle N dynamic items across nodes:
-
-1. A script node renders N inputs with indexed names `option_0 … option_(n-1)`. Every input needs a unique `name` (and `class="zt-data"` for dynamic HTML inputs) because Zingtree captures form fields by name.
-2. Expose the count: `ZT.setFormData("item_count", n)`.
-3. A downstream script loops:
-   ```javascript
-   var count = parseInt(ZT.getVariableValue("item_count", "0"), 10);
-   for (var i = 0; i < count; i++) {
-     var v = ZT.getVariableValue("option_" + i, "");
-     if (v) { /* checked/filled — v is the value string */ }
-   }
-   ```
-4. Per-row keyed variant: names like `customer_action_<pnr>_<index>`, read back in a map loop.
-5. Cross-node accumulator:
-   ```javascript
-   var arr = transforms.my_list || [];
-   arr.push(item);
-   ZT.setTransformData("my_list", arr);
-   ```
-
-## HTML generation style
-
-String-concatenated HTML with inline styles — no template engines. Standard helper trio:
-
-- `g(k)` — `ZT.getVariableValue(k, "")` shorthand
-- `esc(s)` — HTML-escape
-- `box(tone, title, bodyHtml)` / `infoRow(label, value)` — card builders
-
-Tone palette: action red `#fef2f2` bg / `#fecaca` border; warning orange `#fff7ed`/`#fed7aa`; info indigo `#eef2ff`/`#c7d2fe`; neutral gray `#f9fafb`/`#e5e7eb`.
-
-Render in a content node via `${transforms.custom_html}` (or `#merge_field#` in authoring contexts). Emit summaries twice: `*_html` and `*_text`. Salesforce-bound fields: `sf_*__c` naming set alongside display variables.
-
-## Dynamic HTML display (master pattern)
-
-Script node builds ONE HTML string: `escapeHtml()` every data value; a `<style>` block with `:root` CSS variables and classes (card grid, pills, meta rows) rather than only inline styles; form inputs carry `class="zt-data"` and unique names (`customer_action_<safeKey>_<rowIndex>`, keys sanitized via `replace(/[^a-zA-Z0-9_-]/g, "_")`); include an empty-state message. Save with `ZT.setTransformData("custom_html", html)`. The content node contains only `<p>${transforms.custom_html}</p>`. A follow-up script stitches selections back by rebuilding each input name and calling `ZT.getVariableValue(name, "")`. Multiple would-be screens become different strings, not different nodes.
-
 ## Copy-to-clipboard area (content nodes)
 
 To give agents a one-click copy region in a content node, wrap the copyable content between `[[COPY-AREA]]` and `[[/COPY-AREA]]` markers (each marker in its own `<p>`), then add a button that calls Zingtree's built-in `copy_to_clipboard()`:
 
 ```html
 <p>[[COPY-AREA]]</p>
-<p>...the content agents will copy (merge fields like ${transforms.x} work here)...</p>
+<p>...the content agents will copy (merge fields like ${summary_text} work here)...</p>
 <p>[[/COPY-AREA]]</p>
 <p><a class="btn btn-success" style="cursor:pointer;" onclick="copy_to_clipboard();">Copy to Clipboard</a></p>
 ```
@@ -282,35 +202,14 @@ Fallback method (marker span + MutationObserver, use only if the ids above don't
 - A `MutationObserver` on `document.body` hides nav controls **only while the marker is present**, and restores them otherwise. Match controls by id pattern OR button text (`back` / `restart` / `start over`) — text-matching was needed under this approach because `#restart_button`/`#back_button` weren't being targeted directly — and exclude answer buttons (`el.closest("#qa-area") || el.closest(".answers")`).
 - Run `apply()` on load plus a couple of delayed retries to catch async Vue render.
 
-## Engine constraints
-
-- Modern JS is safe in this org — the master workflow uses `let`/`const`, arrow functions, template literals, spread, destructuring-rest, `Set`, optional chaining, `Object.entries`. Fall back to ES5/`var` only if a specific tree throws "let is undefined" (observed once on a Quest tree).
-- No `module.exports`, no test harness guards — plain single-pass scripts.
-- ASCII only — curly quotes and unicode break scripts.
-- Guard `JSON.parse`: nil input throws "Unexpected token at the end: <nil>". Try as-is first, bracket-wrap fallback.
-- `ZT.log()` takes exactly one string: `ZT.log("label: " + JSON.stringify(x))`.
-- Minimal defensive code otherwise — trust Zingtree's built-in null checks. Scripts should read like something a mid-level engineer wrote: small named functions, lookup-map constants over branching.
-
-## Write plain, minimal script code — Zingtree is already safe (Brent's rule, Jul 2026)
-
-**Zingtree is already a safe coding environment. Do not add defensive scaffolding.** The scripts produced so far are too verbose. Target readability for an **entry- to intermediate-level engineer**: a person should be able to read the script top to bottom and understand it without effort.
-
-- **`ZT.getVariableValue("name", default)` already returns the default when the variable is missing or empty.** Do NOT wrap it again (`ZT.getVariableValue("x","") || ""`), and do NOT null-check its result before using it. Pass the fallback you want as the second arg and move on.
-- **Don't normalize by default.** No reflexive `.trim().toLowerCase()`, no `norm()` helper, no re-casing/whitespace-scrubbing unless the comparison genuinely needs it. Compare against the option text as it is. (Native `select`/`radio` submit a fixed, known value — match on that value directly.)
-- **Don't "safely add" or over-guard.** Skip try/catch, `typeof x !== "undefined"` checks, defensive `Array.isArray` ladders, and belt-and-suspenders fallbacks unless a real, observed failure requires it. Trust the engine.
-- **Cut the ceremony.** Fewer intermediate variables, fewer one-off helpers, no comments restating what the code plainly says. Short and direct beats thorough-but-noisy.
-- **Still keep** the genuinely-required rules elsewhere in this file (the documented live-failure exceptions: checkbox tick evaluation via Scoring expressions, the blessed `(outcome=='Other')`, `JSON.parse` guard on external payloads). "Minimal" means removing defensive noise, not removing a fix that a real failure proved necessary.
-
-Litmus test before shipping a script: could a mid-level engineer read it once and explain what it does? If it looks like defensive boilerplate, delete the boilerplate.
-
 ## Ideal workflow shape: LINEAR top-to-bottom, minimize branching (Brent's rule, Jul 2026 — Vermasoft)
 
 **The best workflow is linear and reads top to bottom. Branching adds complexity and maintenance cost — use as few branch/logic nodes as possible.** Streamlined = `content → (API/script) → content → (minimal) logic → content → content → script → ...` flowing straight down, not a fan of parallel branches.
 
 House shape for capturing condition-dependent input on a linear path:
 
-1. **One script** computes what's needed and stages display/guidance HTML (`ZT.setTransformData("screen_html", ...)`) + the fields to ask.
-2. **One content node** renders `${transforms.screen_html}` and captures answers via **native conditional form fields** (`config.conditional.simple` shows only the fields we need). Dynamic HTML is for *display*; native conditional fields are for *input*.
+1. **One script** computes what's needed and stages display/guidance HTML (`ZT.setFormData("screen_html", ...)`) + the fields to ask.
+2. **One content node** renders `${screen_html}` and captures answers via **native conditional form fields** (`config.conditional.simple` shows only the fields we need). Dynamic HTML is for *display*; native conditional fields are for *input*.
 3. **One follow-up script** gathers the values, sets them as form data, continues down.
 4. Only insert a logic/router where a decision truly can't be avoided (e.g. Calendly "any times?").
 
@@ -328,7 +227,7 @@ Reserve real branching for genuinely divergent downstream processes (subtree cal
 
 ## Naming
 
-snake_case for Zingtree variables/transforms; camelCase for JS locals and functions. Lookup maps named for their content: `actionsArrayMap`, `cancellationTypeByArrayName`, `LABELS`.
+snake_case for Zingtree variables (`selected_pnrs`, `is_more_pnrs`, `ticket_card_html`); camelCase for JS-only locals, functions and lookup maps (`bucketByEdvinId`, `groupByErrandKey`). One name per fact across the tree. Connected Object aliases `system__verb_object`. Full rules: `02-data-and-namespaces.md` → "Naming".
 
 ### Node titles — the tree must read like a story (always)
 
@@ -347,9 +246,9 @@ Every node title (page_title / node_name), of every type, must be descriptive an
 
 Proven end-to-end on the Penrose MH Master Triage build (five source trees, 107 nodes → one tree, 44 nodes). Apply these in order; each is a distinct reduction lever.
 
-1. **Many trees → one; collapse the duplicated tail.** When several trees share the same ending (e.g. Outcome screen → other-outcome logic → other-outcome → safety netting repeated in every tree), merge the trees and replace the repeated tail with ONE shared tail. Store each variant's display content in a single **catalog script** as a keyed lookup (`OUTCOMES[outcome_key] = { display_html, ... }`), staged into ONE shared content node via `${transforms.*_html}`. Each decision just sets `outcome_key`. (Emoji/non-ASCII in catalog HTML: embed via `JSON.stringify(map)` with ASCII escaping so the script stays ASCII — `\uXXXX` renders correctly at runtime.) Set `merge_vars_not_fixed = "1"` whenever one shared content node renders values staged per-path.
+1. **Many trees → one; collapse the duplicated tail.** When several trees share the same ending (e.g. Outcome screen → other-outcome logic → other-outcome → safety netting repeated in every tree), merge the trees and replace the repeated tail with ONE shared tail. Store each variant's display content in a single **catalog script** as a keyed lookup (`outcomes[outcome_key] = { title, body }`), staged into ONE shared content node via `${*_html}`. Each decision just sets `outcome_key`. (Emoji/non-ASCII in catalog HTML: embed via `JSON.stringify(map)` with ASCII escaping so the script stays ASCII — `\uXXXX` renders correctly at runtime.) Set `merge_vars_not_fixed = "1"` whenever one shared content node renders values staged per-path.
 
-2. **Unified eval-route-setup script — group script nodes.** Never `init script → router → N per-branch setup scripts`. Collapse the whole cluster into ONE titled script that does init, evaluation, ALL per-branch variable/default setting, and builds the next screen's HTML — then set the routing boolean(s). A Zingtree **Script node has a single continuation and cannot branch**, so exactly ONE router (Scoring) follows it to perform the physical N-way branch. Group any adjacent script nodes on the same path into one.
+2. **Unified eval-route-setup script — group script nodes.** Never `init script → router → N per-branch setup scripts`. Collapse the whole cluster into ONE titled script that does init, evaluation, ALL per-branch variable/default setting, and builds the next screen's HTML (`ZT.setFormData("screen_html", ...)`) — then set the routing boolean(s). A Zingtree **Script node has a single continuation and cannot branch**, so exactly ONE router (Scoring) follows it to perform the physical N-way branch. Group any adjacent script nodes on the same path into one.
 
 3. **Combine adjacent `content → eval → router → {screenA→scriptA}|{screenB→scriptB}`** into `content → eval → ONE content (conditional fields) → ONE script (`if (driving_var==A){…}else{…}`)`. The router disappears — conditional fields + the `if` do the branching, sectioned by the variable that drove the old router.
 
@@ -359,7 +258,7 @@ Proven end-to-end on the Penrose MH Master Triage build (five source trees, 107 
    - *Other-outcome check*: no script — the router tests the org-proven verbatim `(outcome== 'Other')` directly.
    - Guard: this is for values read by a downstream script or the one blessed `(outcome=='Other')` router. Do NOT feed arbitrary hidden-field values into other router logic expressions (raw form-field comparisons in routers fail live).
 
-5. **Native inputs beat dynamic-HTML inputs — even on a merged screen.** Dynamic-HTML `zt-data` `<select>`s render un-styled (not "native Zingtree" looking) and **cannot enforce `required`**. To keep several conditions' questions on ONE screen, use NATIVE form fields with `config.conditional` keyed on a script-set driver variable (e.g. `condition`), and render only the per-condition **guidance text** via `${transforms.*_html}`. Reserve dynamic HTML for genuinely dynamic per-item datasets and for display content — never for standard inputs.
+5. **Native inputs beat dynamic-HTML inputs — even on a merged screen.** Dynamic-HTML `zt-data` `<select>`s render un-styled (not "native Zingtree" looking) and **cannot enforce `required`**. To keep several conditions' questions on ONE screen, use NATIVE form fields with `config.conditional` keyed on a script-set driver variable (e.g. `condition`), and render only the per-condition **guidance text** via `${*_html}`. Reserve dynamic HTML for genuinely dynamic per-item datasets and for display content — never for standard inputs.
 
 6. **Audit every inbound edge before rewiring a shared node.** Collapsing duplicated tails (lever 1) means a node can become a convergence point for structurally unrelated branches — not just the one you're actively fixing. Before rerouting any node's outbound button/continuation, grep for every OTHER node whose `button_link`/`continuation_node_id` already targets it; don't assume the branch in front of you is the only caller. When a shared producer script becomes reachable from a path where a sibling producer may already have run, make it idempotent — guard its entry with `if (g('result_var')) return;` before recomputing, so the consolidation can reuse one script safely across multiple entry points without breaking a caller that already has a valid result staged. (Learned live, Jul 2026 — Quest/Delta Post Accident: rerouting a shared DOT screen to fix one caller's missing determination would have made a second, already-correct caller silently overwrite its own valid result.)
 
@@ -375,7 +274,7 @@ Run these as a pre-delivery lint on any generated/edited tree JSON — each corr
 - **`predefined_vars` keys must be a contiguous `0..n-1` sequence, same as nodes.** Deleting an entry and leaving a gap makes the whole file fail to import with no usable error — the graph lint never sees it, because validators read `Object.values(predefined_vars)` and never the keys. Re-index after any delete, and keep each entry's `project_id` a **number**, not the string form of the top-level project id. (Learned live, Aug 2026 — ETG v38 failed to import over a single missing key `14`; v38.1 was the re-index.)
 - **Scoring routers** with `logic_expression` buttons need `advanced_logic_node="1"` + an empty-expression fallback button; op-based score calculators keep `"0"`.
 - **Import envelope:** a single tree imports as a bare project object (top-level `id`/`nodes`/`template`/`root_node_id`, no `projects` wrapper). The `{"projects":[…]}` wrapper is the multi-tree transfer format; if used, include exactly ONE project.
-- **Verify programmatically before delivering:** all button/continuation links resolve; button graph is a DAG (no cycles except a deliberate picker retry); every node reachable from root; single terminal (or Tree links); routers test only script-set booleans (or the blessed `(outcome=='Other')`). Syntax-check every script with `node --check` and run a runtime smoke test with a stubbed `ZT`.
+- **Verify programmatically before delivering:** `scripts/lint_tree.py` (all of the above plus the script standard), `scripts/walk.mjs` against the tree's fixture (every script body executes over the real graph; loops terminate; Data-node call counts match `expect`), and `scripts/tree_diff.py` against the baseline. Routers test only script-set booleans (or the blessed `(outcome=='Other')`).
 
 ## Proven consolidation examples (from the Script Library)
 
@@ -385,3 +284,43 @@ Run these as a pre-delivery lint on any generated/edited tree JSON — each corr
 - **Quest consent**: per-company content stored as one `var dictionary = {...}` keyed by exact strings, `dictionary[ZT.getVariableValue("company", "")] || ""` → `setFormData` for a content node — instead of one branch per company.
 - **Corpay ServiceNow**: field-registry loop pulling `ZT.getVariableValue(name, "")`, dropping blanks and unreplaced `#tokens#`, building capped `short_description` — one payload-builder script instead of a chain of logic nodes.
 - **Penrose MH Master Triage**: five review trees (SMI, Adult MH, Depression, CYP, MH Risk; 107 nodes) → one tree (44 nodes). Shared outcome tail → one catalog script + one Outcome screen; unified entry script (init + route eval + all per-condition setup + first-screen HTML) → one router; merged first screen using native conditional fields per `condition`; thin `outcome_key` setters replaced by conditional/plain hidden fields; CYP condition cluster collapsed to one conditional-field content + one `if(cyp_route)` script. See "Node-reduction playbook" above and `Workflow JSONs/Penrose Health/`.
+
+## Only create variables that are referenced elsewhere (Brent's rule, Jul 2026 — Vermasoft)
+
+Never write a variable nothing reads. Valid consumers: a router expression, a merge field in a content node, a later script's `ZT.getVariableValue`, or a Connected Object that auto-receives it by name. If none applies, don't write it — dead outputs make the tree read as if it has more behaviour than it does. Reporting-only fields are the one exception and Brent will say so explicitly ("this field is for reporting"). Deleting a consumer means deleting its producers in the same edit. `scripts/lint_tree.py` flags writes with no read in the export; a Connected Object body consuming a variable is invisible to it — record those in `claude.md`.
+
+## One screen, many values (Brent, Jul 2026 — Penrose)
+
+Consecutive content nodes are a smell. One content node captures several values with native fields, then one script evaluates and one router routes. Two sequential yes/no questions → one screen with two selects. Info screen → question screen → merge the info into the question screen. Chains with zero branching → one screen, no router. Legitimate exceptions: a real branching decision; a single-button hand-off into a *shared* node; a deliberate one-at-a-time clinical sequence where short-circuiting saves clicks. Lint: any single-button Content → Content edge whose target has one inbound edge.
+
+## Script-before-router — the house routing pattern (Brent's rule, Jul 2026 — Penrose)
+
+Every routing decision is EVAL SCRIPT → ROUTER. The script reads the native field values, applies the business logic, and writes booleans (`is_risk`, `go_postcard`, `outcome_is_other`); it may also stage the downstream data. The router (Scoring, `advanced_logic_node="1"`, `continuation_node_id` set) tests only those booleans with explicit `flag == true` / `flag == false` buttons. Routers never compare raw form-field strings (those failed live) — the one org-proven exception is the verbatim `(outcome== 'Other')`. Anti-patterns this kills: evaluating in a logic node; chaining logic nodes; a setter script hanging off each branch (fold it into the eval script or one shared consumer).
+
+## Native form fields — the full palette (Jul 2026 — Penrose, from Brent's sample node)
+
+`select` (newline-separated options; `config:{"filterable":true}` for type-ahead), `select` **dynamic from a transforms array** (`config.list_source_type:"dynamic"` + `list_dynamic_source:{type:"transforms",variable:"<name>_options",attributes:{label,value}}` — the one case that requires a transform), `radio`, `checkbox`, `text`, `multiline`, `number`, `date`, `email`, `hidden` (constant via `hidden_value`). Conditional fields: `config` = stringified `{"conditional":{"simple":[{"variable":"<driver>","op":"eq","value":"<x>"}]}}`. `config` is always a JSON *string*. Prefer a Yes/No `select` over a checkbox when a script must read the answer — an unticked checkbox does not read back reliably through `getVariableValue`; evaluate checkboxes only with Scoring expressions (`(flag == 1)`).
+
+**A required conditional field is safe** (Brent's correction, Aug 2026 — ETG VI): `required: 1` only enforces once the field renders; hidden-by-condition fields never block Continue. Do not "fix" a required conditional field by stripping `required`.
+
+## Shared node rendering per-path values → `merge_vars_not_fixed = "1"` (learned live, Jul 2026 — Penrose)
+
+Zingtree's default fixes a merge variable to the value it had the first time it rendered. Any shared content node that renders values staged per path (`${outcome_html}`, `${ticket_card_html}` inside a loop) needs the tree setting `merge_vars_not_fixed = "1"`, or every pass shows the first pass's text. Note it in `claude.md`.
+
+## Back / Restart controls (Jul 2026 — Adyen)
+
+Tree-wide `hide_back_button` / `show_restart_button` are the proven levers. Per-node `hide_back_restart="1"` does not work in the 2026 Vue theme. For one screen, use the `render:finish` + `#restart_button`/`#back_button` script in "Hiding Back/Restart on one screen" above. A Script root never renders, so first-screen settings belong on the first *rendered* node.
+
+## Client-side JS is disabled org-wide — style with CSS only (Brent's rule, Jul 2026 — ETG)
+
+An org-wide release disabled client-side JS in rendered content. Dynamic-HTML `<select>`s need `appearance: none` plus a wrapper `::after` arrow to look intentional; the open options list is OS chrome and cannot be restyled. Don't promise a JS widget.
+
+## Requirements docs bound the build (Brent's rules, Jul–Aug 2026 — ETG)
+
+- A CR's "not fixed here, deliberately / needs a live run" list is a boundary. Don't build past it; ask for the measurement instead.
+- When a crash traces to a requirement that is explicitly *blocked* and the doc already names an agreed interim behaviour, apply the interim (through the normal confirmation gate) rather than stopping at diagnosis.
+The doc's own status text is the discriminator: documented interim = build it; documented deferral = don't.
+
+## Temporary breakpoint nodes inside a loop (Brent's technique, Aug 2026 — ETG)
+
+To watch a loop run live, drop a throwaway Content node in the body printing the cursor (`<p>Ticket loop: ${queue_index}</p>`) and delete it before publishing. This is the one thing the offline walk cannot show. A Content node inside a loop is also the wait primitive (`escalate_after`) — see "ONE REQUEST, ONE NODE".

@@ -129,6 +129,39 @@ When your Action receives a response:
   ```
 - **Variable Access:** `actions.get_status.value` returns `"Success"`
 
+## House rules for Connected Objects
+
+### Alias naming: `system__verb_object`
+
+Aliases are immutable once created, so new ones follow one shape: `edvin__get_errand_configuration`, `edvin__register_errand`, `zendesk__create_child_ticket`, `zendesk__get_side_conversation`, `salesforce__update_case`. Scripts read `actions.<alias>.field` directly — no wrapper, no `typeof` guard. Existing aliases stay as they are (renaming means a new object); record them in the tree's `claude.md` data dictionary and in the fixture's `connected_objects` map.
+
+### Grading a call: the next script, one boolean
+
+No dedicated status-check node after each Data node. The script that consumes the response grades it in one line and the router after it routes on that boolean:
+
+```javascript
+let created = actions.zendesk__create_child_ticket._zt_meta.response.code === 201;
+let current_ticket = JSON.parse(ZT.getVariableValue("current_ticket", "{}"));
+current_ticket.zendesk_id = created ? actions.zendesk__create_child_ticket.ticket.id : "";
+ZT.setFormData("current_ticket", JSON.stringify(current_ticket));
+ZT.setFormData("ticket_created", created);
+ZT.setFormData("api_error_html", created ? "" : `<pre>${actions.zendesk__create_child_ticket._zt_meta.response.body}</pre>`);
+```
+
+Router: `ticket_created == true` → continue the loop · `ticket_created == false` → the tree's one failure screen (renders `${api_error_html}`, offers Retry → back to the single Data node, or End). One failure screen per tree, not one per call; no failure "engine" script, no retry bookkeeping, no execution log (ETG v46 spent 16 of 59 nodes on exactly this plumbing).
+
+### Request bodies: one object, stringified once
+
+Build the whole body in the script that stages the call and write it as one JSON string; the Connected Object's body is the single merge field. Never a hand-authored per-field template with `${...}` dropped into quoted and unquoted slots — that is what forced `JSON.stringify(x).slice(1, -1)` on ETG. See `02-data-and-namespaces.md` → "Payloads to Connected Objects".
+
+### Passing inputs by name
+
+A Connected Object auto-receives any form-data variable whose name matches its placeholder exactly. Name the tree's variables to match the CO's placeholders (or vice-versa when creating the CO) so no mapping script is needed. Variables consumed only by a CO body are invisible to the export — list them in `claude.md` so the "written but never read" lint has an answer.
+
+### Mocking for tests
+
+`ZT.setResponseData("<alias>", data)` writes the `actions` namespace; a mock Script node uses it to serve the fixture's responses when the launch URL carries `zv_mock=1`. Full pattern: `03-testing-and-mock-data.md`.
+
 ## One Connected Object, one Data node (house rule — Aug 2026, ETG)
 
 **A Connected Object belongs on exactly one Data node in a tree.** Never place the same `data_connected_object_id` on a second node so the tree can "check again" whether something exists yet. If a call has to run more than once, it is the same node re-entered by a cursor loop — not a copy.
