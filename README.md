@@ -13,10 +13,10 @@ without a correction pass.
 
 | Path | What it is |
 | :---- | :---- |
-| `SKILL.md` | Triggers, the six rules, the build/review/test workflow, delivery standard |
+| `SKILL.md` | Triggers, the seven rules, the build/review/test workflow, delivery standard |
 | `references/00-etl-design.md` | Design principles: the ETL spine, node adjacency, the loop, reuse, what earns a node |
 | `references/01-scripting-standards.md` | The script-node contract, with before/after from real slop, and the checklist |
-| `references/02-data-and-namespaces.md` | Platform namespaces; house rule: form data first, transforms for two cases only; naming; seed and reset |
+| `references/02-data-and-namespaces.md` | Platform namespaces; form data first for state, HTML as transforms, the Connected Object owns its request body, marketplace-app record fields; naming; seed and reset |
 | `references/03-testing-and-mock-data.md` | Fixture format, offline walk, preview URL (`zv_` params), in-tree mock node |
 | `references/04-cx-actions-api-requests.md` | CX Actions, `_zt_meta`, alias naming, grading calls, one-object payloads |
 | `references/05-dynamic-html.md` | Script → `*_html` → content node; per-item `zt-data` inputs |
@@ -24,9 +24,12 @@ without a correction pass.
 | `references/07-transformation-functions.md` | `ZT.*` function signatures and namespace access |
 | `references/08-troubleshooting.md` | Execution Insights, session ids, the invalid-loop guard |
 | `references/09-workflow-diff.md` | The before/after gate and the plain change summary |
+| `references/10-reference-builds.md` | The gold-standard builds (Corpay UK Email AI, ETG Register Errands): what to copy, what not to, verification status |
+| `references/11-environments-and-promotion.md` | What differs per environment, the three-places rule for org ids, moving a tree between environments |
 | `references/patterns.md` | Platform-shape rules: routers, roots, claude.md node, multi-tree, titles, import safety |
 | `scripts/lint_tree.py` | Import-safety + house-standard lint for a tree export |
-| `scripts/walk.mjs` | Runs the real script bodies over the real graph on fixture data |
+| `scripts/walk.mjs` | Runs the real script bodies over the real graph on fixture data (Data, AI Action, Email nodes) |
+| `scripts/response_contract.py` | Real-data gate: every response field the tree reads is confirmed in a real response |
 | `scripts/preview_url.py` | Builds the preview URL from a fixture |
 | `scripts/tree_diff.py` | Mechanical before/after change report |
 | `fixtures/example.fixture.json` | The fixture shape, invented data |
@@ -49,6 +52,7 @@ discoverable while keeping one clone.
 ```bash
 python3 scripts/lint_tree.py "<tree.json>"                       # before anything else
 node scripts/walk.mjs "<tree.json>" "<tree.fixture.json>" --verbose
+python3 scripts/response_contract.py "<tree.json>" "<account>.response-contract.json"
 python3 scripts/preview_url.py "<tree.fixture.json>"
 python3 scripts/tree_diff.py "<before.json>" "<after.json>" -o report.md
 ```
@@ -58,5 +62,6 @@ Node 18+ and Python 3.9+. No dependencies.
 ## Scope
 
 This repo holds the skill, its references and its scripts. It carries no customer tree
-exports, fixtures with real ids, credentials, or account payloads — those live in their own
-private workspaces and must never be committed here.
+exports, fixtures with real ids, response contracts, credentials, or account payloads — those
+live in their own private workspaces and must never be committed here. The reference builds are
+described in `references/10-reference-builds.md` and live in the workspace.

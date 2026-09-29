@@ -215,9 +215,38 @@ Two related notes:
 
 > Workflow execution paused — The last action triggered an invalid loop.
 
-Zingtree counts node revisits at runtime and halts the session when the same node set is revisited too many times. Array-cursor loops don't trip it (each pass advances a counter, the array bounds the count); a **wait/poll loop that revisits the same nodes without advancing any data does.** No offline validator can catch this — it appears only on a live run after import.
+Zingtree's loop detector halts a session after about 30 consecutive automatic node jumps
+(Script / Scoring / Data with no rendered screen between them), counting revisits rather than
+real iterations. ETG's ticket loop tripped it after three PNRs (Aug 2026) until a Content node
+sat in each pass; a wait/poll loop that revisits nodes without advancing data trips it every
+time. No offline validator can catch this — it appears only on a live run after import.
 
-The fix is never to unroll the loop into copies of the same nodes. See `patterns.md` → "ONE REQUEST, ONE NODE — never re-issue an API call to re-check something".
+The fix is a Content node in the loop body (the card the agent confirms, or an
+`escalate_after` status line), never unrolling the loop into copies of the same nodes. See
+`00-etl-design.md` → "The loop" and `patterns.md` → "ONE REQUEST, ONE NODE".
+
+## House diagnostics (Sep 2026 — Corpay UK, ETG)
+
+The house does not log (`01-scripting-standards.md` §5); the article's `ZT.log` advice below
+is platform documentation, not practice. What the reference builds use instead:
+
+- **The screen the agent stopped on names the branch.** Design terminal screens so each prints
+  its own reason — the raw routing value on "not in scope", the eligibility inputs on "not
+  eligible", the AI Action's `ai_exception_reason` on escalation / out of scope, the target
+  system's error message on a failed send. A support question then starts from "which screen
+  and what did it say".
+- **The API receipt** on the closing and failure screens (`04` → "The API receipt").
+- **Reproduce in Test Mode** with the closest scenario and the customer's own text pasted into
+  the editable example.
+- **Take Zingtree out of the loop** for a request that fails: send the rendered payload from
+  the target's own tool (Salesforce Workbench as the integration user, Postman for an HTTP API)
+  and add inputs back one at a time. A Corpay UK `UNKNOWN_EXCEPTION` turned out to be one case
+  id Salesforce could not log an email against.
+- **Right after a promote, suspect an alias first**: `actions.<alias>` undefined or a script
+  error in the node after a Data / AI node means an id or alias from the other environment was
+  left behind — search the export for the other environment's suffix.
+- **A symptom seen only live, never in Test Mode**, means the tree reads something the mocks
+  invented — run `scripts/response_contract.py`.
 
 ## Troubleshooting Checklist
 

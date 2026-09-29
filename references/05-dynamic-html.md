@@ -4,10 +4,15 @@ Source: https://help.zingtree.com/hc/en-us/articles/51590692872859-Dynamic-HTML
 
 **House rules on top of the article (Sep 2026):**
 
-- Write rendered HTML to **form data** — `ZT.setFormData("ticket_card_html", html)` — and render it with `${ticket_card_html}`. Form data has no TTL; `${transforms.custom_html}` in the article's examples is the older placement.
-- Dynamic HTML is for **display** and for **per-item datasets that need an input per row** (`zt-data` inputs with unique names). Standard inputs — including a select whose options come from data — are native form fields (`patterns.md` → "Native form fields"). `zt-data` selects render unstyled and cannot enforce `required`.
-- Build the string with template literals from the item objects; no `esc()` helper redefined per node, no `<style>`/`<script>` blocks (client-side JS is disabled org-wide; some sanitizers strip markup after a `<style>` block — inline styles only).
-- Stitch-back reads use the unquoted dynamic name: `ZT.getVariableValue("qty_" + item.id, 0)`.
+- Write rendered HTML to **transforms** — `ZT.setTransformData("ticket_card_html", html)` — and render it with `${transforms.ticket_card_html}`, as the article's own examples do. A form-data merge dropped `zt-data` checkbox inputs on a live Corpay UK screen and turns newlines into `<br>` (`02-data-and-namespaces.md` → "Rendered HTML goes to transforms"; supersedes the brief "HTML to form data" rule).
+- **Collapse the string to one line** before storing it: `html.replace(/\s*\n\s*/g, " ")`.
+- Dynamic HTML is for **display** and for **per-item datasets that need an input per row** (`zt-data` inputs with unique names). Standard inputs — including a select whose options come from data, and any Yes/No check the agent must answer — are native form fields (`patterns.md` → "Native form fields"). `zt-data` selects render unstyled, cannot enforce `required`, and `zt-data` checkboxes rendered without their tick boxes on about every other live case.
+- Build the string with template literals from the item objects. Escape only external free text shown as text (a customer's email, an API error body), with one small helper in the renderer that needs it. No `<style>`/`<script>` blocks in content (client-side JS is disabled in rendered content; some sanitizers strip markup after a `<style>` block) — inline styles, or classes from the managed stylesheet. Tree-level `script_code` is where UI behaviour lives (field hiding, a filtered second select).
+- **Never put a merge field inside an attribute** of content-node HTML: Zingtree wraps merge output in a `<span>`, so `href="${url}"` breaks. Build the whole tag in the script.
+- Interactive widgets on a screen (feedback thumbs) change state on the screen and write into a hidden **native** field from `script_code`; they never navigate (`do_button_click(<node id>)` restarted a journey once the screen was reachable from two paths).
+- Stitch-back reads use the unquoted dynamic name: `ZT.getVariableValue("qty_" + item.id, 0)` (snake_case; the article below uses `qty-`).
+
+*Below this line is the platform article, kept verbatim for its patterns. Where its examples use `<style>` blocks, `console.log`, `setFormData` for HTML or loop state in transforms, the house rules above win.*
 
 Dynamic HTML lets you turn live workflow data into polished, interactive interfaces — styled tables, product cards, custom forms — without leaving Zingtree. Instead of static content, agents and end users see exactly what's relevant to them, generated in real time from data already flowing through the workflow.
 
@@ -35,7 +40,7 @@ Use a Zingtree **Script Node** to generate dynamic HTML from workflow data, and 
 
 1. In a **Script Node**, build an HTML string, including custom HTML, styling, and form inputs.
 2. Save the HTML using `ZT.setTransformData("custom_html", html_variable_name)`.
-3. Render it in a **Content Node** using `${custom_html}`.
+3. Render it in a **Content Node** using `${transforms.custom_html}`.
 
 ### Example
 
@@ -72,8 +77,8 @@ ${transforms.custom_html}
 1. Retrieve array data from `transforms` or `actions`.
 2. Iterate over the array.
 3. In a **Script Node**, build an HTML string with custom HTML, styling, and form inputs.
-4. Save using `ZT.setFormData("custom_html", html_variable_name)`. *(Note: the article's steps say `ZT.setFormData` here, but the accompanying code example uses `ZT.setTransformData` and renders via `${transforms.custom_html}`.)*
-5. Render in a **Content Node** using `${custom_html}`.
+4. Save using `ZT.setTransformData("custom_html", html_variable_name)` (house rule: transforms, not form data). *(Note: the article's steps say `ZT.setFormData` here, but the accompanying code example uses `ZT.setTransformData` and renders via `${transforms.custom_html}`.)*
+5. Render in a **Content Node** using `${transforms.custom_html}`.
 
 ### Example
 
@@ -126,8 +131,8 @@ ZT.setTransformData("custom_html", html_string);
 3. In a **Script Node**, build HTML form inputs dynamically.
    - Ensure each input includes `class="zt-data"`.
    - Ensure each input includes `name="variable_name"`.
-4. Save using `ZT.setFormData("custom_html", html_variable_name)`.
-5. Render in a **Content Node** using `${custom_html}`.
+4. Save using `ZT.setTransformData("custom_html", html_variable_name)` (house rule: transforms, not form data).
+5. Render in a **Content Node** using `${transforms.custom_html}`.
 
 ### Script - Create HTML
 
@@ -307,4 +312,4 @@ Keep logic in the **Script Node** and presentation in the **Content Node**.
 
 - Dynamic form inputs must have `class="zt-data"` and a unique `name` attribute to be captured as workflow form data.
 - Read captured input values later with `ZT.getVariableValue(name, fallback)`.
-- Store generated HTML with `ZT.setTransformData(...)` (render via `${transforms.custom_html}`) or `ZT.setFormData(...)`.
+- Store generated HTML with `ZT.setTransformData(...)` and render via `${transforms.custom_html}` (house rule: never form data).

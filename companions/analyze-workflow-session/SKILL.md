@@ -25,9 +25,11 @@ cloned at `.claude/skills/zingtree-workflow-builder/`. Everything it writes goes
 | Design-shape rule (adjacency, loops, reuse, what earns a node) | `references/00-etl-design.md` |
 | Script-level rule or a new before/after example | `references/01-scripting-standards.md` |
 | Where a value lives, naming, seed/reset | `references/02-data-and-namespaces.md` |
-| Fixture / walk / preview / mock learning | `references/03-testing-and-mock-data.md` (+ `scripts/` if the harness needs a change) |
+| Fixture / walk / preview / mock / Test Mode learning | `references/03-testing-and-mock-data.md` (+ `scripts/` if the harness needs a change) |
 | Platform behaviour, router/root/import rule, proven consolidation | `references/patterns.md` |
-| Connected Object / API behaviour | `references/04-cx-actions-api-requests.md` |
+| Environment / promotion learning | `references/11-environments-and-promotion.md` |
+| A build Brent names as a new reference | `references/10-reference-builds.md` (what it teaches, what not to copy, verification row) |
+| Connected Object / AI Action / API behaviour | `references/04-cx-actions-api-requests.md` |
 | Reusable production script | the workspace `Zingtree Builder/Script Library/` (not the repo — the repo carries no customer payloads) |
 | Account fact (systems, aliases, contacts, env ids) | the account's `Account Management HQ/<Account>/MEMORY.md` or `etg-env-promote` maps |
 

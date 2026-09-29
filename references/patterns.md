@@ -1,6 +1,6 @@
 # Brent's Zingtree Build Patterns
 
-Structural rules and proven shapes, extracted from real production trees (Quest/Delta, Experian, ETG, Corpay, Penrose, Vermasoft) and three **master reference implementations** (see `Zingtree Builder/Script Library/` when the workspace is connected). Design principles are in `00-etl-design.md`, the script standard in `01-scripting-standards.md`, data placement in `02-data-and-namespaces.md` — this file holds the platform-shape rules those three rely on: the ETG "Register Errand: Cancellations" single tree (loops, dynamic HTML, ticket automation); the Returns multi-tree family (hub-and-spoke, bucket-per-subtree across 5 trees); and the ETG "Rebooking" multi-tree family (large hub-and-spoke across 15 trees — one hub routing to many handling/outcome subtrees, with the richest complex-data handling: arrays of objects, array-of-arrays buckets via `reduce`, `Set`, nested cursor loops). There is no single dogma — these are the common themes every master shares. Follow them when writing or reviewing any Zingtree work.
+Structural rules and proven shapes, extracted from real production trees (Quest/Delta, Experian, ETG, Corpay, Penrose, Vermasoft). The two current gold-standard builds — Corpay UK Email AI and ETG Register Errands — are described in `10-reference-builds.md`; read that first when a build resembles either. Older shapes come from three **master reference implementations** (see `Zingtree Builder/Script Library/` when the workspace is connected). Design principles are in `00-etl-design.md`, the script standard in `01-scripting-standards.md`, data placement in `02-data-and-namespaces.md` — this file holds the platform-shape rules those three rely on: the ETG "Register Errand: Cancellations" single tree (loops, dynamic HTML, ticket automation); the Returns multi-tree family (hub-and-spoke, bucket-per-subtree across 5 trees); and the ETG "Rebooking" multi-tree family (large hub-and-spoke across 15 trees — one hub routing to many handling/outcome subtrees, with the richest complex-data handling: arrays of objects, array-of-arrays buckets via `reduce`, `Set`, nested cursor loops). There is no single dogma — these are the common themes every master shares. Follow them when writing or reviewing any Zingtree work.
 
 ## Multi-tree orchestration (hub-and-spoke)
 
@@ -19,7 +19,7 @@ When a workflow handles distinct data subsets that each need different business 
 - **Routing-hub at scale (ETG Rebooking master, 15 trees).** The hub dispatches to many single-purpose handling/outcome subtrees and grouping is by an **agent-chosen handling type**, not a data attribute. Distinctive reusable pieces:
   - **Agent-chosen grouping via keyed native reads.** A dynamic-HTML table renders one `<select>` per item named `customer_action_<key>`; a stitch script reads each with `ZT.getVariableValue("customer_action_"+key, null)` and `reduce()`s items into buckets keyed by the chosen handling (`proceed|<handling>` / `doNotProceed` / `changes`). Buckets are an **array of arrays of objects** (`grouped_pnrs`) stored as one JSON string in form data; the scalar route per bucket is its own form variable (`groupedPNR_Route`).
   - **Nested re-runnable cursor loops.** Outer loop over items, inner loop over buckets; each counter resets to 0 when exhausted so the whole hub re-runs cleanly.
-  - **Value-map router.** A Scoring node whose buttons' `button_text` each equal one value of a scalar the script staged (`groupedPNR_Route`), routing by matching a single scalar to button text. Use it when a script has reduced the decision to one enum-like string; use a boolean-expression router (`flag == true` / `flag == false`) when the decision is a computed boolean. Every button carries an explicit match/expression and `continuation_node_id` is the structural else — no blank fallback button (Brent's rule, Jul 2026).
+  - **Value-map router.** A Scoring node with one button per value of a scalar the script staged, each testing it explicitly (`queue_route == "fast_admin"`, `last_api_alias == "findorder"`). Use it when a script has reduced the decision to one enum-like string; use a boolean router (`flag == true`) when the decision is a computed boolean. The else branch is the router shape below.
   - **Shared outcome subtrees.** Tiny subtrees (a few native form fields + a Tree link home) reused by multiple parents — extract one when the same "capture reason + return" screen appears under several handlings.
   - **Persistent-button subtree, wired once.** Set `show_subtree_persistent_buttons = "1"` on the hub and keep global actions (Escalate, Supervisor Callback, Channel Disconnected) in one `Persistent Buttons` tree instead of on every node.
   - **Project-level predefined vars.** Declare cross-tree flags/scalars (`proceedHandling`, `isMorePNR`, `groupedPNR_Route`, inbound ZD custom fields) as `predefined` vars on the hub so they resolve from the first render.
@@ -53,8 +53,8 @@ A Content node with `escalate_after: "<n>"` + `escalate_after_unit: "SEC"` rende
 
 Zingtree counts node revisits at runtime and halts a session that revisits the same node set too many times. Two consequences:
 
-- **Array-cursor loops are safe** — each pass advances a counter and the array bounds the revisit count (ETG nodes 32/36/44 have always been fine).
-- **A wait/poll loop is not** — the same nodes, revisited with no data advancing, is exactly the shape the guard exists to kill.
+- **An array-cursor loop is only safe with a Content node in each pass.** The guard trips after about 30 consecutive automatic node jumps, revisits included — ETG's ticket loop tripped after three PNRs until a Content node sat at each loop's entry (`00-etl-design.md` → "The loop").
+- **A wait/poll loop never is** — the same nodes, revisited with no data advancing, is exactly the shape the guard exists to kill.
 - **No static validator can see this.** It surfaces only on a real import + live run, so "the lint passed" proves nothing about it.
 
 ### When the engine rejects your shape, stop — do not escalate machinery
@@ -94,18 +94,32 @@ versus what was delivered — 135 lines, of which ~45 were a prose account of v1
 
 - Comments explain *why this code is shaped this way*, in the present tense. No version tokens, no dates, no "previously this did X".
 - **Stale comments outlive the code they describe.** Production node 39 still carries a v37 comment mapping a resolve chain (`41/40/18 -> 20/26/28 -> 31/54/55`) whose nodes no longer exist — actively misleading to the next reader.
-- Reinforces "Write plain, minimal script code" below. That rule was already in this file when the 135-line version was written; the failure was not knowing the rule, it was not applying it under pressure to look thorough.
+- Reinforces `01-scripting-standards.md` §6–7. That rule was already in this file when the 135-line version was written; the failure was not knowing the rule, it was not applying it under pressure to look thorough.
 - **Lint:** flag any script comment containing a version token (`v12`, `v37 (2026-…)`), a date, or a node ID that does not exist in the tree.
 
 ## Logic placement (core principle)
 
-Logic lives in scripts; logic nodes make simple routing decisions only. Every logic node evaluates exactly one boolean a script already computed — button with `logic_expression` like `is_more_tickets == true` for the true branch, and an explicit complementary expression (`flag == false`) for the else branch, with `continuation_node_id` as the structural fallback. **Never a blank/empty-expression button — every logic button evaluates something explicit (Brent's rule, Jul 2026).** Never house complex logic (multi-condition chains, data comparisons) in logic nodes.
+Logic lives in scripts; logic nodes make simple routing decisions only. Every logic node evaluates what a script already computed. Never house complex logic (multi-condition chains, data comparisons) in logic nodes.
 
-**A logic node's branches must never converge on the same node (Brent's rule, Jul 2026).** Two evaluated buttons routing to the same destination means the split is meaningless — the node isn't making a real decision and could be built better. Fix it one of two ways: (a) move the evaluation UPSTREAM into a script node (compute the boolean/route there, stage it, continue straight down), or (b) if the branching genuinely needs multi-condition/complex logic, rebuild it as an **advanced logic node** (`advanced_logic_node="1"`) with a proper complex expression instead of a simple logic node splitting on a trivial flag. Exception: `continuation_node_id` pointing at the same target as the `== false` button is the required structural fallback, not a duplicate evaluated path — the rule is about two evaluated `logic_expression` buttons sharing a destination. Lint on every build/review.
+### The router shape (proven in both reference builds, Sep 2026 — supersedes "no blank fallback button")
 
-## Root node — Content OR Script (Script root for seeding)
+```json
+{ "type": "Scoring", "advanced_logic_node": "1", "continuation_node_id": "42",
+  "buttons": {
+    "0": { "button_text": "emailSent == 'true'", "logic_expression": "emailSent == 'true'", "button_link": "41", "op": "" },
+    "1": { "button_text": "", "logic_expression": "", "button_link": "42", "op": "def" } } }
+```
 
-The root can be a **Script node**, not just a Content node — and often should be. Zingtree runs the Script root, then continues to the first content screen. The canonical use is seeding initial data before anything renders: pull query params into form/transform data (`agent` → `agent_first_name`, Zendesk/SFDC/Genesys record IDs, channel, customer identifiers), normalize them, or stage the first screen's HTML. Exactly one node has `is_root="1"` and it equals `root_node_id`.
+- **`advanced_logic_node = "1"`, always.** With `"0"` the editor opens the node in Simple mode with empty Variable / Operator / Value fields and ignores `logic_expression` (Corpay UK, Sep 2026). `lint_tree.py` makes this an error.
+- **Each evaluated button**: `logic_expression` set, `button_text` the same expression (that is how a genuine export has it).
+- **The else branch is the last button: empty expression, `op: "def"`.** That is Zingtree's default branch, not a "blank button"; the Jul 2026 rule against blank buttons is about an empty expression *without* `op: "def"`. `continuation_node_id` may point at the same target as the structural fallback.
+- **One flag type per variable**: booleans tested `== true`, string flags `== "true"` (`01-scripting-standards.md` §8).
+
+**A logic node's branches must never converge on the same node (Brent's rule, Jul 2026).** Two evaluated buttons routing to the same destination means the split is meaningless — the node isn't making a real decision and could be built better. Fix it one of two ways: (a) move the evaluation UPSTREAM into a script node (compute the boolean/route there, stage it, continue straight down), or (b) if the branching genuinely needs multi-condition/complex logic, rebuild it as an **advanced logic node** (`advanced_logic_node="1"`) with a proper complex expression instead of a simple logic node splitting on a trivial flag. Exception: `continuation_node_id` pointing at the same target as the `op: "def"` else button is the structural fallback, not a duplicate evaluated path — the rule is about two evaluated `logic_expression` buttons sharing a destination. Lint on every build/review.
+
+## Root node — Content, Script or Data
+
+The root can be any node type — a **Script** or **Data** node, not just a Content node (a Scoring root guards a subtree, below). Corpay UK's customer-org tree roots on its case fetch (Data), with the Start / Test Mode screen left unlinked after promote; ETG roots on a one-second `escalate_after` splash (Content, persistent buttons hidden) that continues into the seed script. The Script root is still the canonical seeding shape: Zingtree runs the Script root, then continues to the first content screen. The canonical use is seeding initial data before anything renders: pull query params into form data (`agent` → `agent_first_name`, Zendesk/SFDC/Genesys record IDs, channel, customer identifiers), normalize them, or stage the first screen's HTML. Exactly one node has `is_root="1"` and it equals `root_node_id`.
 
 - Because a Script root does not render, per-node UI settings (`hide_back_restart`, etc.) take effect on the first *rendered* screen, not the invisible Script root.
 - Supersedes any earlier "root must be a Content node" guidance — that was wrong; a Script root imports and runs fine (Brent's correction, Jul 2026 — Adyen).
@@ -143,7 +157,7 @@ Tree-specific rules, known constraints, things that broke before and why.
 - YYYY-MM-DD · <author or prompt gist> · what changed · nodes touched
 ```
 
-Maintenance rules: keep it accurate over exhaustive — stale instructions are worse than short ones. When an edit changes routing, variables, or node behavior, update the affected sections, then append the changelog entry. When creating the node in a tree that lacks one, derive content from the full inventory (step 1) and confirm intent with the user where the JSON alone is ambiguous. Preserve the node (and its ID) verbatim in every improved JSON you deliver.
+Maintenance rules: keep it accurate over exhaustive — stale instructions are worse than short ones. **Architecture and Data dictionary describe the tree as it is now; anything dated goes in the Changelog.** Corpay UK's claude.md is the model (a node map a reader can walk, one line per variable with producer → consumer, conventions as short CAPS-headed rules, one changelog line per session). ETG's shows the failure mode: release notes stacked above the map ("## v47", "## 2026-09-29 (b)") until a reader has to work out which half to believe — fold a release section into the map and the changelog when the release ships. Record every consumer the export cannot show (a CO template reading a variable, an AI Action's context, a predefined record field) so the unread-variable lint has an answer. When an edit changes routing, variables, or node behavior, update the affected sections, then append the changelog entry. When creating the node in a tree that lacks one, derive content from the full inventory (step 1) and confirm intent with the user where the JSON alone is ambiguous. Preserve the node (and its ID) verbatim in every improved JSON you deliver.
 
 ## Inbound data — passing data INTO a workflow
 
@@ -162,7 +176,7 @@ To give agents a one-click copy region in a content node, wrap the copyable cont
 <p><a class="btn btn-success" style="cursor:pointer;" onclick="copy_to_clipboard();">Copy to Clipboard</a></p>
 ```
 
-Use this whenever a workflow produces text the agent pastes elsewhere (case notes, customer replies, ticket summaries) — pair it with a script-generated `*_text` transform rendered inside the copy area.
+Use this whenever a workflow produces text the agent pastes elsewhere (case notes, customer replies, ticket summaries) — pair it with a script-generated `*_text` form-data value rendered inside the copy area.
 
 ## Hiding Back/Restart on one screen (front-end JS, 2026 Vue theme)
 
@@ -208,8 +222,8 @@ Fallback method (marker span + MutationObserver, use only if the ids above don't
 
 House shape for capturing condition-dependent input on a linear path:
 
-1. **One script** computes what's needed and stages display/guidance HTML (`ZT.setFormData("screen_html", ...)`) + the fields to ask.
-2. **One content node** renders `${screen_html}` and captures answers via **native conditional form fields** (`config.conditional.simple` shows only the fields we need). Dynamic HTML is for *display*; native conditional fields are for *input*.
+1. **One script** computes what's needed and stages display/guidance HTML (`ZT.setTransformData("screen_html", ...)`) + the fields to ask.
+2. **One content node** renders `${transforms.screen_html}` and captures answers via **native conditional form fields** (`config.conditional.simple` shows only the fields we need). Dynamic HTML is for *display*; native conditional fields are for *input*.
 3. **One follow-up script** gathers the values, sets them as form data, continues down.
 4. Only insert a logic/router where a decision truly can't be avoided (e.g. Calendly "any times?").
 
@@ -221,7 +235,7 @@ Reserve real branching for genuinely divergent downstream processes (subtree cal
 
 **When adding a node, always give it the lowest unused integer ID.** Node IDs stay sequential and compact — no gaps, no jumping to `100`/`1000`. This includes the unlinked `claude.md` node: it takes the next sequential number like any other node.
 
-- `project_node_id` and `display_order` must both equal the node's dict key, so the "lowest available number" is the key you file it under.
+- `project_node_id` must equal the node's dict key (new nodes also take `display_order` = key), so the "lowest available number" is the key you file it under.
 - When renumbering, every reference moves with the node: `root_node_id`, the single `is_root`, every `button_link` and `continuation_node_id`, and cross-tree `open_tree_node_id` / `return_tree_node_id` (a hub references a subtree's root/return IDs by number — renumbering a subtree can silently break the caller). Renumber the whole tree family together, then re-lint links across all trees.
 - Lint: flag any gap in the ID sequence, and offer to compact.
 
@@ -246,9 +260,9 @@ Every node title (page_title / node_name), of every type, must be descriptive an
 
 Proven end-to-end on the Penrose MH Master Triage build (five source trees, 107 nodes → one tree, 44 nodes). Apply these in order; each is a distinct reduction lever.
 
-1. **Many trees → one; collapse the duplicated tail.** When several trees share the same ending (e.g. Outcome screen → other-outcome logic → other-outcome → safety netting repeated in every tree), merge the trees and replace the repeated tail with ONE shared tail. Store each variant's display content in a single **catalog script** as a keyed lookup (`outcomes[outcome_key] = { title, body }`), staged into ONE shared content node via `${*_html}`. Each decision just sets `outcome_key`. (Emoji/non-ASCII in catalog HTML: embed via `JSON.stringify(map)` with ASCII escaping so the script stays ASCII — `\uXXXX` renders correctly at runtime.) Set `merge_vars_not_fixed = "1"` whenever one shared content node renders values staged per-path.
+1. **Many trees → one; collapse the duplicated tail.** When several trees share the same ending (e.g. Outcome screen → other-outcome logic → other-outcome → safety netting repeated in every tree), merge the trees and replace the repeated tail with ONE shared tail. Store each variant's display content in a single **catalog script** as a keyed lookup (`outcomes[outcome_key] = { title, body }`), staged into ONE shared content node via `${transforms.*_html}`. Each decision just sets `outcome_key`. (Emoji/non-ASCII in catalog HTML: embed via `JSON.stringify(map)` with ASCII escaping so the script stays ASCII — `\uXXXX` renders correctly at runtime.) Set `merge_vars_not_fixed = "1"` whenever one shared content node renders values staged per-path.
 
-2. **Unified eval-route-setup script — group script nodes.** Never `init script → router → N per-branch setup scripts`. Collapse the whole cluster into ONE titled script that does init, evaluation, ALL per-branch variable/default setting, and builds the next screen's HTML (`ZT.setFormData("screen_html", ...)`) — then set the routing boolean(s). A Zingtree **Script node has a single continuation and cannot branch**, so exactly ONE router (Scoring) follows it to perform the physical N-way branch. Group any adjacent script nodes on the same path into one.
+2. **Unified eval-route-setup script — group script nodes.** Never `init script → router → N per-branch setup scripts`. Collapse the whole cluster into ONE titled script that does init, evaluation, ALL per-branch variable/default setting, and builds the next screen's HTML (`ZT.setTransformData("screen_html", ...)`) — then set the routing boolean(s). A Zingtree **Script node has a single continuation and cannot branch**, so exactly ONE router (Scoring) follows it to perform the physical N-way branch. Group any adjacent script nodes on the same path into one.
 
 3. **Combine adjacent `content → eval → router → {screenA→scriptA}|{screenB→scriptB}`** into `content → eval → ONE content (conditional fields) → ONE script (`if (driving_var==A){…}else{…}`)`. The router disappears — conditional fields + the `if` do the branching, sectioned by the variable that drove the old router.
 
@@ -258,9 +272,9 @@ Proven end-to-end on the Penrose MH Master Triage build (five source trees, 107 
    - *Other-outcome check*: no script — the router tests the org-proven verbatim `(outcome== 'Other')` directly.
    - Guard: this is for values read by a downstream script or the one blessed `(outcome=='Other')` router. Do NOT feed arbitrary hidden-field values into other router logic expressions (raw form-field comparisons in routers fail live).
 
-5. **Native inputs beat dynamic-HTML inputs — even on a merged screen.** Dynamic-HTML `zt-data` `<select>`s render un-styled (not "native Zingtree" looking) and **cannot enforce `required`**. To keep several conditions' questions on ONE screen, use NATIVE form fields with `config.conditional` keyed on a script-set driver variable (e.g. `condition`), and render only the per-condition **guidance text** via `${*_html}`. Reserve dynamic HTML for genuinely dynamic per-item datasets and for display content — never for standard inputs.
+5. **Native inputs beat dynamic-HTML inputs — even on a merged screen.** Dynamic-HTML `zt-data` `<select>`s render un-styled (not "native Zingtree" looking) and **cannot enforce `required`**. To keep several conditions' questions on ONE screen, use NATIVE form fields with `config.conditional` keyed on a script-set driver variable (e.g. `condition`), and render only the per-condition **guidance text** via `${transforms.*_html}`. Reserve dynamic HTML for genuinely dynamic per-item datasets and for display content — never for standard inputs.
 
-6. **Audit every inbound edge before rewiring a shared node.** Collapsing duplicated tails (lever 1) means a node can become a convergence point for structurally unrelated branches — not just the one you're actively fixing. Before rerouting any node's outbound button/continuation, grep for every OTHER node whose `button_link`/`continuation_node_id` already targets it; don't assume the branch in front of you is the only caller. When a shared producer script becomes reachable from a path where a sibling producer may already have run, make it idempotent — guard its entry with `if (g('result_var')) return;` before recomputing, so the consolidation can reuse one script safely across multiple entry points without breaking a caller that already has a valid result staged. (Learned live, Jul 2026 — Quest/Delta Post Accident: rerouting a shared DOT screen to fix one caller's missing determination would have made a second, already-correct caller silently overwrite its own valid result.)
+6. **Audit every inbound edge before rewiring a shared node.** Collapsing duplicated tails (lever 1) means a node can become a convergence point for structurally unrelated branches — not just the one you're actively fixing. Before rerouting any node's outbound button/continuation, grep for every OTHER node whose `button_link`/`continuation_node_id` already targets it; don't assume the branch in front of you is the only caller. When a shared producer script becomes reachable from a path where a sibling producer may already have run, make it idempotent — wrap its work in `if (ZT.getVariableValue("result_var", "") === "") { ... }` so it does not recompute, so the consolidation can reuse one script safely across multiple entry points without breaking a caller that already has a valid result staged. (Learned live, Jul 2026 — Quest/Delta Post Accident: rerouting a shared DOT screen to fix one caller's missing determination would have made a second, already-correct caller silently overwrite its own valid result.)
 
 7. **A downstream classification script must test the SAME trigger set as the router that sent it there.** When a router ORs several conditions to reach a branch, any downstream script re-deriving "why was I routed here" must test the identical condition set, not a subset — otherwise the case that only matched the untested condition gets silently misclassified once it arrives. Lint: whenever a router ORs N conditions to reach a branch, confirm every downstream script re-evaluating that same question tests all N.
 
@@ -268,26 +282,33 @@ Proven end-to-end on the Penrose MH Master Triage build (five source trees, 107 
 
 Run these as a pre-delivery lint on any generated/edited tree JSON — each corresponds to a real failure:
 
-- **Exactly one node has `is_root="1"` and it equals `root_node_id`.** A Content root or a **Script root** both import and run fine — see "Root node — Content OR Script" above, which supersedes the older "root must be Content" claim that used to live here.
+- **Exactly one node has `is_root="1"` and it equals `root_node_id`.** A Content, Script or Data root all import and run — see "Root node" above.
 - **Form fields carry ONLY proven schema keys:** `type, name, label, label_type, options, hidden_value, custom_regex, inline, required, score_var, checkbox_score, scores, rank, config`. No `value` key (use `hidden_value`). An unknown key breaks import.
-- **`project_node_id` AND `display_order` equal the node's dict key; every scalar field is a string** (`"0"` not `0`, `"1"`/`"0"` not booleans).
+- **`project_node_id` equals the node's dict key; every scalar field is a string** (`"0"` not `0`, `"1"`/`"0"` not booleans), top-level scalars included (`id`, `live`, `active`, `save_lock`). `display_order` is canvas order in a genuine export and may differ from the key (Corpay UK imports with it differing on 44 nodes — supersedes "display_order must equal the key"); new nodes still take `display_order` = key.
 - **`predefined_vars` keys must be a contiguous `0..n-1` sequence, same as nodes.** Deleting an entry and leaving a gap makes the whole file fail to import with no usable error — the graph lint never sees it, because validators read `Object.values(predefined_vars)` and never the keys. Re-index after any delete, and keep each entry's `project_id` a **number**, not the string form of the top-level project id. (Learned live, Aug 2026 — ETG v38 failed to import over a single missing key `14`; v38.1 was the re-index.)
-- **Scoring routers** with `logic_expression` buttons need `advanced_logic_node="1"` + an empty-expression fallback button; op-based score calculators keep `"0"`.
+- **Scoring routers** with `logic_expression` buttons need `advanced_logic_node="1"` and end with the `op: "def"` else button (router shape above); op-based score calculators keep `"0"`.
+- **Node shapes that only come from a genuine export** — copy them, don't hand-author:
+  - Data node: `"data_connected_objects": {"0": {"org_id": "<tree org>", "data_connected_object_id": "<id>", "data_connected_object_type": "salesforce" | "http"}}` — `org_id` equal to the tree's.
+  - AI_Action node: `"ai_action_id": "<id>"`, `"config": "{\"mode\":\"api\",\"instruction\":\"\"}"` (a string; `04` → "AI Actions").
+  - Email node: `email`, `email_subject`, `email_body` (merge fields work), `email_send_now: "1"`, `email_include_session_data: "1"`, then `continuation_node_id`.
+  - `formfields`, `buttons`, `data_connected_objects` may be arrays or `"0"`-keyed objects; normalise both when walking.
 - **Import envelope:** a single tree imports as a bare project object (top-level `id`/`nodes`/`template`/`root_node_id`, no `projects` wrapper). The `{"projects":[…]}` wrapper is the multi-tree transfer format; if used, include exactly ONE project.
-- **Verify programmatically before delivering:** `scripts/lint_tree.py` (all of the above plus the script standard), `scripts/walk.mjs` against the tree's fixture (every script body executes over the real graph; loops terminate; Data-node call counts match `expect`), and `scripts/tree_diff.py` against the baseline. Routers test only script-set booleans (or the blessed `(outcome=='Other')`).
+- **Verify programmatically before delivering:** `scripts/lint_tree.py` (all of the above plus the script standard), `scripts/walk.mjs` against the tree's fixture (every script body executes over the real graph; loops terminate; Data-node call counts match `expect`), and `scripts/tree_diff.py` against the baseline. Routers test only script-set values (or the blessed `(outcome=='Other')`).
 
 ## Proven consolidation examples (from the Script Library)
 
 - **Delta post-accident/reasonable-suspicion**: a large DOT/NON-DOT/exemption decision tree (would have been dozens of logic nodes and buttons) collapsed into one determination script emitting a boxed HTML summary for a single content node. Later unified further (CR-001, Jul 2026): the accident branch's and the suspicion branch's separate determination-then-payload script pairs merged into ONE shared finalize engine consumed by both branches — surfacing the inbound-edge-audit and trigger-set-mirroring lessons above (levers 6–7).
 - **Experian joint accounts**: webhook JSON → filter active joint accounts → stringified HTML checkbox multi-select (`option_N` + count), replacing per-account button screens.
-- **ETG cancellation**: 17 hardcoded static arrays replaced by one transform reading `actions.edvin__errand_configuration` (CX Actions), then a bucket-routing script (`proceed` / `no_action` / `escalate` / `different_request`, normalized with `.trim().toLowerCase()`) building child/silent Zendesk tickets.
-- **Quest consent**: per-company content stored as one `var dictionary = {...}` keyed by exact strings, `dictionary[ZT.getVariableValue("company", "")] || ""` → `setFormData` for a content node — instead of one branch per company.
+- **ETG cancellation**: 17 hardcoded static arrays replaced by one transform reading `actions.edvin__errand_configuration` (CX Actions), then a bucket-routing script (`proceed` / `no_action` / `different_request`, matched on Edvin's bucket **id** — the label normalisation it once used is retired, see `01` §4) building child/silent Zendesk tickets.
+- **Quest consent**: per-company content stored as one lookup map keyed by exact strings, `consentByCompany[ZT.getVariableValue("company", "")]` → one transform for a content node — instead of one branch per company. (The shipped script predates the standard: `var`, a `||` default, form-data HTML — rewrite on next touch.)
 - **Corpay ServiceNow**: field-registry loop pulling `ZT.getVariableValue(name, "")`, dropping blanks and unreplaced `#tokens#`, building capped `short_description` — one payload-builder script instead of a chain of logic nodes.
+- **Corpay UK Email AI**: router tree + two child trees (86 nodes) → one tree with two lanes (48), later 58 with three releases of use cases added as catalogue rows. See `10-reference-builds.md`.
+- **ETG unified ticket loop**: the grand-child body (a verbatim clone of the child body — same three Connected Objects, different target id) deleted; child, silent and grand-child tickets walk one depth-first queue through one loop body.
 - **Penrose MH Master Triage**: five review trees (SMI, Adult MH, Depression, CYP, MH Risk; 107 nodes) → one tree (44 nodes). Shared outcome tail → one catalog script + one Outcome screen; unified entry script (init + route eval + all per-condition setup + first-screen HTML) → one router; merged first screen using native conditional fields per `condition`; thin `outcome_key` setters replaced by conditional/plain hidden fields; CYP condition cluster collapsed to one conditional-field content + one `if(cyp_route)` script. See "Node-reduction playbook" above and `Workflow JSONs/Penrose Health/`.
 
 ## Only create variables that are referenced elsewhere (Brent's rule, Jul 2026 — Vermasoft)
 
-Never write a variable nothing reads. Valid consumers: a router expression, a merge field in a content node, a later script's `ZT.getVariableValue`, or a Connected Object that auto-receives it by name. If none applies, don't write it — dead outputs make the tree read as if it has more behaviour than it does. Reporting-only fields are the one exception and Brent will say so explicitly ("this field is for reporting"). Deleting a consumer means deleting its producers in the same edit. `scripts/lint_tree.py` flags writes with no read in the export; a Connected Object body consuming a variable is invisible to it — record those in `claude.md`.
+Never write a variable nothing reads. Valid consumers: a router expression, a merge field in a content node, a later script's `ZT.getVariableValue`, a Connected Object that auto-receives it by name or merges it in its template, an AI Action's context, a `score_var` report, or the marketplace app writing a predefined record field back. If none applies, don't write it — dead outputs make the tree read as if it has more behaviour than it does. Reporting-only fields are the one exception and Brent will say so explicitly ("this field is for reporting"). Deleting a consumer means deleting its producers in the same edit. `scripts/lint_tree.py` flags writes with no read in the export; a Connected Object body consuming a variable is invisible to it — record those in `claude.md`.
 
 ## One screen, many values (Brent, Jul 2026 — Penrose)
 
@@ -295,7 +316,7 @@ Consecutive content nodes are a smell. One content node captures several values 
 
 ## Script-before-router — the house routing pattern (Brent's rule, Jul 2026 — Penrose)
 
-Every routing decision is EVAL SCRIPT → ROUTER. The script reads the native field values, applies the business logic, and writes booleans (`is_risk`, `go_postcard`, `outcome_is_other`); it may also stage the downstream data. The router (Scoring, `advanced_logic_node="1"`, `continuation_node_id` set) tests only those booleans with explicit `flag == true` / `flag == false` buttons. Routers never compare raw form-field strings (those failed live) — the one org-proven exception is the verbatim `(outcome== 'Other')`. Anti-patterns this kills: evaluating in a logic node; chaining logic nodes; a setter script hanging off each branch (fold it into the eval script or one shared consumer).
+Every routing decision is EVAL SCRIPT → ROUTER. The script reads the native field values, applies the business logic, and writes booleans or one route string (`is_risk`, `email_analysis_route`); it may also stage the downstream data. The router tests only those script-set values (router shape above). Comparing a *script-set* string is proven (`queue_route == "homecharge"`, `last_api_alias == "findorder"`, both reference builds); comparing a raw agent-entered form-field value straight in a router failed live and stays out — the one org-proven exception is the verbatim `(outcome== 'Other')`. Anti-patterns this kills: evaluating in a logic node; chaining logic nodes; a setter script hanging off each branch (fold it into the eval script or one shared consumer).
 
 ## Native form fields — the full palette (Jul 2026 — Penrose, from Brent's sample node)
 
@@ -305,15 +326,17 @@ Every routing decision is EVAL SCRIPT → ROUTER. The script reads the native fi
 
 ## Shared node rendering per-path values → `merge_vars_not_fixed = "1"` (learned live, Jul 2026 — Penrose)
 
-Zingtree's default fixes a merge variable to the value it had the first time it rendered. Any shared content node that renders values staged per path (`${outcome_html}`, `${ticket_card_html}` inside a loop) needs the tree setting `merge_vars_not_fixed = "1"`, or every pass shows the first pass's text. Note it in `claude.md`.
+Zingtree's default fixes a merge variable to the value it had the first time it rendered. Any shared content node that renders values staged per path (`${transforms.outcome_html}`, `${ticket_kind}` inside a loop) needs the tree setting `merge_vars_not_fixed = "1"`, or every pass shows the first pass's text. Note it in `claude.md`.
 
 ## Back / Restart controls (Jul 2026 — Adyen)
 
 Tree-wide `hide_back_button` / `show_restart_button` are the proven levers. Per-node `hide_back_restart="1"` does not work in the 2026 Vue theme. For one screen, use the `render:finish` + `#restart_button`/`#back_button` script in "Hiding Back/Restart on one screen" above. A Script root never renders, so first-screen settings belong on the first *rendered* node.
 
-## Client-side JS is disabled org-wide — style with CSS only (Brent's rule, Jul 2026 — ETG)
+## Client-side JS: not in content, yes in the tree's `script_code` (Brent's rule, Jul 2026 — ETG; refined Sep 2026 — Corpay UK)
 
-An org-wide release disabled client-side JS in rendered content. Dynamic-HTML `<select>`s need `appearance: none` plus a wrapper `::after` arrow to look intentional; the open options list is OS chrome and cannot be restyled. Don't promise a JS widget.
+An org-wide release disabled client-side JS *inside rendered content* — a `<script>` in a content node or an `onclick` handler in dynamic HTML does nothing. Dynamic-HTML `<select>`s need `appearance: none` plus a wrapper `::after` arrow to look intentional; the open options list is OS chrome and cannot be restyled. Don't promise a JS widget inside content.
+
+The tree-level `script_code` still runs on every render (`whenEvent('render:finish', ...)`, `this_tree_id` / `this_node_id`). That is where screen behaviour lives in both reference builds: hiding Back/Restart on chosen nodes (ETG), filtering one native select by another and writing a thumbs click into a hidden native field (Corpay UK). Keep it keyed by node id through a map at the top, re-run on every render so unlisted nodes are restored, and never navigate from it.
 
 ## Requirements docs bound the build (Brent's rules, Jul–Aug 2026 — ETG)
 

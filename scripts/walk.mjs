@@ -4,7 +4,7 @@
 //   node scripts/walk.mjs <tree.json> <tree.fixture.json> [--start <nodeId>] [--verbose]
 //
 // Executes the REAL Script node bodies over the REAL continuation graph with a stubbed ZT,
-// serves Connected Object responses from the fixture, submits the fixture's form inputs on
+// serves Connected Object and AI Action responses from the fixture, records Email nodes, submits the fixture's form inputs on
 // Content nodes, evaluates Scoring buttons, and checks the fixture's `expect` block.
 // See references/03-testing-and-mock-data.md for the fixture shape.
 
@@ -64,7 +64,8 @@ function runScript(nodeId) {
     actions: session.actions,
     views: session.views,
     console: { log() {} },
-    JSON, Math, Object, Array, String, Number, Boolean, Set, Map, Date, RegExp,
+    // No Date: the Zingtree script sandbox does not expose it (new Date() throws live).
+    JSON, Math, Object, Array, String, Number, Boolean, Set, Map, RegExp, Date: undefined,
     parseInt, parseFloat, isNaN, encodeURIComponent, decodeURIComponent
   };
   try {
@@ -160,6 +161,23 @@ function walk(startId) {
       }
       id = String(node.continuation_node_id); continue;
     }
+    if (node.type === "AI_Action") {
+      // An AI Action writes actions.<its alias>, like a Data node. The export carries only the
+      // numeric ai_action_id, so the fixture maps node id -> alias in `ai_action_aliases`.
+      // Live AI Action responses have been seen WITHOUT _zt_meta: fixtures should not add one.
+      if (node.config && typeof node.config !== "string") warnings.push(`AI_Action node ${id}: config is an object - it must be the JSON string {"mode":"api",...} or the node opens a chat panel`);
+      else if (node.config && JSON.parse(node.config).mode !== "api") warnings.push(`AI_Action node ${id}: config mode is not "api" - the node renders an interactive panel instead of running once`);
+      const alias = (fixture.ai_action_aliases || {})[id] || `ai_action_${node.ai_action_id}`;
+      const response = (fixture.actions || {})[alias];
+      if (!response) warnings.push(`AI_Action node ${id} calls "${alias}" but the fixture has no actions["${alias}"]`);
+      session.actions[alias] = response || {};
+      calls.push({ node: id, alias, form: { ...session.form } });
+      id = String(node.continuation_node_id); continue;
+    }
+    if (node.type === "Email") {
+      calls.push({ node: id, alias: `email:${node.email}`, form: { ...session.form } });
+      id = String(node.continuation_node_id); continue;
+    }
     if (node.type === "Content") {
       const next = submitContent(id);
       if (!next || next === "0") return { end: id, reason: asList(node.buttons).length > 1 ? "needs a button choice" : "terminal" };
@@ -199,7 +217,7 @@ if (verbose) {
   console.log(`\nfinal form data:`);
   for (const [k, v] of Object.entries(session.form)) console.log(`  ${k} = ${typeof v === "string" && v.length > 120 ? v.slice(0, 117) + "..." : JSON.stringify(v)}`);
   const stillTransforms = Object.keys(session.transforms);
-  if (stillTransforms.length) console.log(`\ntransforms in use (each must be one of the two allowed cases): ${stillTransforms.join(", ")}`);
+  if (stillTransforms.length) console.log(`\ntransforms in use (each must be one of the allowed cases in 02-data-and-namespaces.md): ${stillTransforms.join(", ")}`);
 }
 
 let failures = 0;

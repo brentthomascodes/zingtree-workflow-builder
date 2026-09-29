@@ -28,7 +28,7 @@ if (!is_more_pnrs) pnr_index = 0;
 ZT.setFormData("current_pnr", JSON.stringify(current_pnr));
 ZT.setFormData("pnr_index", pnr_index);
 ZT.setFormData("is_more_pnrs", is_more_pnrs);
-ZT.setFormData("pnr_banner_html", `<h3>PNR ${pnr_index} of ${selected_pnrs.length}</h3>`);
+ZT.setTransformData("pnr_banner_html", `<h3>PNR ${pnr_index} of ${selected_pnrs.length}</h3>`);
 ```
 
 That is the whole cursor node. Sixteen lines. If a script needs more than one screen of
@@ -46,7 +46,12 @@ code, it is doing two nodes' work or carrying scaffolding — split it or delete
 - **Numbers**: `Number(ZT.getVariableValue("pnr_index", 0))`. Not `parseInt(..., 10)`.
 - **API responses**: `actions.<alias>.field` and `actions.<alias>._zt_meta.response.code`
   directly. The Data node that filled it is the immediately preceding node; if it ran, the
-  object exists. Array/primitive roots are under `.value`.
+  object exists. Array/primitive roots are under `.value`. Read only fields confirmed in a
+  real response — never one only a mock seed has (`03-testing-and-mock-data.md` →
+  "Real-data contract"). A Salesforce Connected Object response is `records` + `_zt_meta`;
+  there is no `totalSize`.
+- **AI Action responses**: `actions.<ai action alias>.<output field>` — the fields the Action's
+  JSON output declares.
 - **Dynamic View selections**: `views.<alias>` (single) / `views.<alias>.records` (multi).
 
 Banned, with what replaced them on ETG:
@@ -89,11 +94,12 @@ The namespace rules live in `02-data-and-namespaces.md`; the script-level conseq
 
 - Scalars: `ZT.setFormData("is_more_pnrs", is_more_pnrs)`.
 - Objects/arrays: `ZT.setFormData("work_queue", JSON.stringify(work_queue))`.
-- HTML for a content node: `ZT.setFormData("ticket_card_html", html)`, rendered as
-  `${ticket_card_html}`.
-- `ZT.setTransformData` only for the two things form data cannot do (a native dynamic
-  `select` list source; an object a merge field must dot-path into). Say which one in a
-  one-line comment when you use it.
+- HTML for a content node: `ZT.setTransformData("ticket_card_html", html.replace(/\s*\n\s*/g, " "))`,
+  rendered as `${transforms.ticket_card_html}` — one line, always a transform
+  (`02-data-and-namespaces.md` → "Rendered HTML goes to transforms").
+- `ZT.setTransformData` otherwise only for a native dynamic `select` source, an object a merge
+  field must dot-path into, or a value a Connected Object template merges pre-shaped. Say
+  which in a one-line comment.
 - **Write each value once, to one place.** Never mirror a value into two namespaces "so it's
   reachable either way" (v46 node 44 wrote `errand_message` to both). Never write a variable
   nothing downstream reads. Never write the same fact under two names (`orderReference` and
@@ -164,8 +170,17 @@ There are no org-level shared functions available to us. Therefore:
   execution log, do not call `ZT.log`, do not arm/flush/grade calls. Diagnose from the inputs
   (query params, form data), the Connected Object's request/response in Execution Insights,
   and the outputs on the next screen. `08-troubleshooting.md` covers what to look at.
-- **`esc()` / `escapeHtml()` is not redefined per node.** Rendered data comes from our own
-  APIs and forms; build HTML with template literals and move on. (v46 defined `esc` in four nodes.)
+  **One sanctioned exception: the API receipt** — one append-only form variable, one line at
+  each call site, one renderer (`04-cx-actions-api-requests.md` → "The API receipt"). Where an
+  AI Action made a decision, the Action returns its own reason field; the tree never builds a
+  diagnostics string explaining why a path stopped.
+- **Escaping is for external free text, in the one node that renders it.** Values from our
+  own APIs and forms go into template literals as they are (v46 defined `esc` in four nodes
+  for no reason). A customer's email body, an API error body or anything a person typed that
+  is shown *as text* gets escaped — by a small `escapeHtml` defined in the renderer that needs
+  it, not pasted into every script. Escaping a value for a quoted slot in a Connected Object
+  template is a different job: `JSON.stringify(value).slice(1, -1)`, staged once
+  (`02-data-and-namespaces.md`).
 - **Small named functions are fine when they hide a real step** (`groupByErrandKey`,
   `buildTicketCard`). They are defined once, right above their use, take the data they
   need as arguments, and return a value. They do not read or write ZT state — that happens
@@ -200,16 +215,23 @@ node 7 "Set Selected PNR's", `etg-errand-transform-api.js`).
 - snake_case for every Zingtree variable name (`selected_pnrs`, `is_more_pnrs`,
   `ticket_card_html`). camelCase for JS-only locals, functions and lookup maps
   (`bucketByEdvinId`, `groupByErrandKey`). The name tells you which world it belongs to.
-- Destructuring and spreads over field-by-field copies: `const { channel, category } = config;`
-  `{ ...pnr, bucket, actionId }`.
-- Data-driven over branchy: a lookup map or an array of row definitions instead of a
-  switch; `.map` / `.filter` / `.find` / `reduce` over hand-rolled loops with pushes.
+- **Simple loops, direct object traversal, plain variable references** (Brent, Sep 2026 —
+  Corpay UK; supersedes "`.map`/`.filter`/`reduce` over hand-rolled loops"). Code is written
+  at the level of an intermediate engineer who will review and maintain it themselves. A
+  `for` loop with a push, `.map` / `.filter` / `.find` / `.includes` where they read as plainly
+  as the loop. `Object.keys`, `reduce`, `Set`, spreads, destructuring and arrays of arrays are
+  the exception, used only when the plain version is genuinely harder to read.
+- Data-driven over branchy: a lookup map or an array of row definitions instead of a switch.
+  A map is declared once, named for its content, right above its one use (`routeByQueue`,
+  `senderByRoute`); if a second node needs it, it moves to the seed script as form data.
 - Template literals for strings and HTML. String concatenation with `+` only when a
   template literal would be less readable.
 - No try/catch (the only external parse we do is our own stringify; a Connected Object
   response is already parsed). No `typeof`, no `Array.isArray` ladders, no
   `String(x).trim() === ""`, no `x !== null && x !== undefined`.
 - ASCII only. Curly quotes and non-ASCII break the script.
+- **No `Date`.** The Zingtree script sandbox does not expose it (`new Date()` throws live).
+  Order rows by append order and number them at render time instead of timestamping them.
 - Trust the engine: a missing variable returns your default; a Data node that ran left
   `actions.<alias>` populated. Code for the path the tree guarantees.
 
@@ -219,13 +241,53 @@ A script sets booleans and data; a Scoring node routes. When a script follows a 
 grades the call in one line and moves on:
 
 ```javascript
-let registered = actions.edvin__register_errand._zt_meta.response.code === 200;
-ZT.setFormData("errand_registered", registered);
+let send = actions.send_email_simple_int;
+let responseCode = send._zt_meta.response.code;
+let emailSent = false;
+let errorEmailMessage = "Salesforce returned status " + responseCode + ". " + send._zt_meta.response.body;
+if (responseCode >= 200 && responseCode < 300) {
+  let result = send.value[0];
+  emailSent = result.isSuccess === true;
+  errorEmailMessage = emailSent ? "" : result.errors[0].message;
+}
+ZT.setFormData("emailSent", emailSent ? "true" : "false");
+ZT.setFormData("errorEmailMessage", errorEmailMessage);
 ```
 
-No dedicated status-check node, no shared failure engine, no retry bookkeeping. The router
-after the script tests `errand_registered == true` / `== false`; the false branch shows one
-failure screen that renders the response body. Details in `04-cx-actions-api-requests.md`.
+(Corpay UK's send grade, verbatim. `emailSent` / `errorEmailMessage` are legacy camelCase
+names carried from the source tree; a new variable is snake_case — `email_sent`.)
+
+- **A Connected Object call is graded on its status code, 2xx, before anything in it is read**
+  (`>= 200 && < 300`, not `=== 200` — creates answer 201). Only a 2xx carries data to read; a
+  non-2xx carries `_zt_meta.response.body`.
+- **An AI Action is graded on its output field** (`intent.email_intent !== undefined`). Live AI
+  Action responses have arrived without `_zt_meta`, and reading it threw. A response that never
+  arrived must route to the agent with a reason ("the check did not return a result"), never
+  read as "nothing matched".
+- **No shape-sniffing as a stand-in for the status code** — no `[].concat(x || [])`, no
+  `Array.isArray` on a response. The code is the test.
+- **Pick one flag type per variable and route on it.** A boolean is tested `flag == true`; a
+  string flag (`"true"` / `"false"` — conditional-field drivers compare text) is tested
+  `flag == "true"`. Mixing the two on one variable is how a router silently takes its default.
+
+No dedicated status-check node, no shared failure engine, no retry bookkeeping in a new build
+(ETG keeps its per-call status routers as a production baseline — `10-reference-builds.md`).
+The router after the script tests the flag; the false branch shows the tree's failure screen
+with the reason. Details in `04-cx-actions-api-requests.md`.
+
+## 8b. Never in a tree
+
+- **Credentials.** No token, API key, password or `Basic` header value in a script, a content
+  node or `script_code` — auth belongs to the Data Source. A Zendesk token was found in an ETG
+  seed script (Sep 2026); an export carries it to everyone who opens the file. Rotate it.
+- **A hardcoded node id in navigation.** `do_button_click(8, ...)` in a dashboard widget jumped
+  to whatever node 8 was after a merge and restarted the journey (Corpay UK, Sep 2026). Screens
+  reached from two paths make any single id wrong for one of them; UI state changes stay on the
+  screen.
+- **A merge field inside an HTML attribute** of a content node. Zingtree wraps merge output in a
+  `<span>`, so `href="${manager_share_url}"` rendered as `href="<span class=...`. Build the whole
+  tag in the script and merge it once (ETG, Sep 2026). (Inside a script's template literal,
+  `${x}` is JavaScript and fine.)
 
 ## 9. Pre-delivery checklist for every script
 
@@ -233,13 +295,17 @@ Run this against each Script node before it reaches Brent:
 
 - [ ] Reads: every workflow variable via `ZT.getVariableValue("name", default)`; JSON-string
       variables parsed at the read with `"[]"` / `"{}"` defaults; no `||` chains of sources.
-- [ ] Writes: form data only (JSON strings for objects); each value written once; every
-      output read somewhere downstream; `setTransformData` only for the two allowed cases.
+- [ ] Writes: state to form data (JSON strings for objects); rendered HTML to transforms, one
+      line; each value written once; every output read somewhere downstream;
+      `setTransformData` otherwise only for the allowed cases in `02`.
+- [ ] Grading: CO calls on `_zt_meta.response.code` 2xx before any read; AI Actions on their
+      output field; no field read that only a mock has; no `totalSize`.
 - [ ] No `const` config block, no literal ids/UUIDs/endpoints, no delimiter/cap constants.
 - [ ] No block that also appears in another node. No `esc`, `g`, `set`, `firstOf`, `logX`.
 - [ ] No `ZT.log`, no execution log, no arm/flush.
-- [ ] No `var`, `typeof`, `try`, `parseInt`, `Array.isArray`, `.trim().toLowerCase()`
-      unless a documented live failure requires it.
+- [ ] No `var`, `typeof`, `try`, `parseInt`, `Array.isArray`, `.trim().toLowerCase()`, `Date`
+      unless a documented live failure requires it (`Date` never).
+- [ ] No credential, no hardcoded node id in navigation, no merge field inside an attribute.
 - [ ] Comments: section markers + why-only; zero dates, versions, node ids, names.
 - [ ] `node --check` passes; a stubbed-ZT run over the mock fixture produces the expected
       outputs (`03-testing-and-mock-data.md`).

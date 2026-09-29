@@ -30,7 +30,7 @@ Loop  ┌ Cursor (Script)     next item → current_*; is_more_*
       │ Show (Content)      one shared card screen; agent confirms
       │ Load (Data)         zendesk__create_child_ticket
       │ Grade (Script)      one boolean from _zt_meta; record the id on the item
-      └ More? (Scoring)     is_more_* == true → cursor · == false → exit
+      └ More? (Scoring)     is_more_* == true → cursor · else (op "def") → exit
   ↓
 Summary (Script → Content)   what happened, rendered once
 ```
@@ -55,13 +55,17 @@ Design questions, in order, for any new build or redesign:
 
 **Never two of the same node type back to back.** Script → Script means one script;
 Content → Content means one screen with more fields (or a catalog screen); Scoring → Scoring
-means the first script should have computed one boolean. Two exceptions: a Data node that
+means the first script should have computed one boolean. Exceptions: a Data node that
 needs time between two calls to the same system (put a Content node with `escalate_after`
-between them — that is a different type anyway), and a script immediately before a loop plus
-a script immediately after it (they bracket the loop; they are not adjacent in the walk).
+between them — that is a different type anyway); a script immediately before a loop plus
+a script immediately after it (they bracket the loop; they are not adjacent in the walk); a
+re-prompt screen that sends the agent back to the one input screen it guards (only needed for
+a Dynamic View or `zt-data` selection — a native field uses `required` instead); and a QA-only
+Test Mode seed script that joins the live graph at a script (Corpay UK).
 
-**Dynamic content is always Script → Content.** The script builds the string and writes it
-to form data (`*_html`); the content node renders `${*_html}` and nothing else. Never hand-write
+**Dynamic content is always Script → Content.** The script builds the string, collapses it to
+one line and writes it as a transform (`ZT.setTransformData("x_html", html)`); the content
+node renders `${transforms.x_html}` and nothing else (`02-data-and-namespaces.md`). Never hand-write
 per-case text into N content nodes when a script can build it from data. N terminal screens
 that differ only in words are a catalog: one script with a `key → {title, body}` map, one
 shared content node.
@@ -69,9 +73,10 @@ shared content node.
 **Linear spine, minimal branching.** The best tree reads straight down. A menu of N answers is
 one native field on one screen feeding one script — not N buttons to N nodes. Real branching
 is reserved for genuinely divergent downstream *processes* (a subtree call; a booking path vs
-a no-availability path). Every router is a Scoring node testing one script-set boolean with
-explicit `== true` / `== false` buttons and `continuation_node_id` as the structural
-fallback. Never chain routers; never hang a setter script off each branch.
+a no-availability path). Every router is a Scoring node testing one script-set flag or route
+value: `advanced_logic_node = "1"`, one explicit expression per button, and an empty-expression
+`op: "def"` button as the else branch (`patterns.md` → "The router shape"). Never chain
+routers; never hang a setter script off each branch.
 
 **Native inputs, dynamic display.** Standard inputs (select, radio, text, date, number,
 checkbox) are native form fields — they inherit the theme, enforce `required`, and become
@@ -113,7 +118,7 @@ if (!is_more_tickets) queue_index = 0;                 // re-runnable
 ZT.setFormData("current_ticket", JSON.stringify(current_ticket));
 ZT.setFormData("queue_index", queue_index);
 ZT.setFormData("is_more_tickets", is_more_tickets);
-ZT.setFormData("ticket_card_html", `<h3>${current_ticket.title}</h3><p>${current_ticket.pnr}</p>`);
+ZT.setTransformData("ticket_card_html", `<h3>${current_ticket.title}</h3><p>${current_ticket.pnr}</p>`);
 ```
 
 Nested work (a parent with children) is one flattened queue built by the Transform script
@@ -125,12 +130,105 @@ Writing results back onto the structure: the grade script after the Data node re
 writes it back into `work_queue[queue_index - 1]`, and stores the queue again. The structure
 is the record; there are no side arrays.
 
+A loop that creates parents and their children walks **depth-first** — the parent, then each
+of its children, then the next parent — and that order is the contract: a child reads its
+parent's id from a map keyed by queue position, which only exists because the parent was
+created and resolved first (ETG's unified ticket loop: child, silent and grand-child tickets
+through one body). Display counters per kind ("Grand Child Ticket 1 of 2") come from the same
+walk, not from a second counter.
+
+**Zingtree's loop detector** halts a session after about **30 consecutive automatic node jumps**
+— Script, Scoring and Data nodes with no rendered screen between them — counting revisits, not
+real iterations (ETG tripped it after three PNRs, Aug 2026; a higher ceiling and a proper
+loop-start/loop-end concept were requested as ZT-9107 — design so the number doesn't matter).
+An array-cursor loop that never
+renders will trip it on a long enough array. Put a Content node in every loop pass — the card
+the agent confirms, or an `escalate_after` status line (`Updating ticket...`, 3 s) that doubles
+as the settle time before a fetch. A wait/poll loop that revisits nodes without advancing data
+is the shape it exists to kill. No offline check sees it; `walk.mjs` only catches a pass that
+advances nothing.
+
+## Lanes — one tree, a router, a shared tail (Brent, Sep 2026 — Corpay UK)
+
+When two journeys share their front end and their ending and differ only in the middle
+(different AI Action prompts, a different intent map), build **one tree**: shared front end →
+one routing script (the only place the routing map lives) → one Scoring node → a lane per
+journey → the lanes converge on one shared tail. Corpay UK merged a router tree and two child
+trees this way (86 nodes → 48): the router's Tree nodes became one Scoring node pointing
+straight at each lane's first node, the child tree's duplicated front end and its case
+re-fetch disappeared, and one escalation script, one Test Mode and one seed served both. Lanes
+share variable names (`email_intent`, `escalate_reason`) because only one lane runs per
+session — one writer per session is not duplicate storage. A lane keeps its own script only
+where it reads a different alias; do not merge those into one script with a dynamic alias
+lookup.
+
+Use subtrees (below) when the middle is a genuinely separate process called from several
+places, or when a subset needs its own tree lifecycle.
+
+## Catalog maps are the scope gate
+
+A use-case catalogue — intent → Salesforce Topic / Sub Topic, contact reason → Edvin category,
+queue → journey — is declared **once**, as a plain object or array of rows, in the one script
+that owns it (or in the seed script as form data when more than one node reads it). Every
+screen and every option list reads the catalogue. That makes it the scope gate: a value with no
+row is out of scope and routes to the out-of-scope screen instead of throwing, so a use case cut
+from a release (or one the AI still returns after its prompt changes) fails safely, and adding a
+use case is one row plus its Test Mode scenario — nothing else in the tree changes. Corpay UK's
+Homecharge Phase 1 went from seven intents to three and back to five this way without touching
+routing.
+
+## Agent-filled gaps come before the draft (Brent, Sep 2026 — Corpay UK)
+
+When an approved reply has a value only the agent can supply (a unit rate, authorised contact
+names), ask for it **before** generation: one screen, one native conditional field per gap, each
+shown by its own driver; the script after generation writes each answer over its token. A
+safety-net boolean forces the manual-edit screen when a token is still in the draft (the model
+reworded it, or a template gained a gap no row maps), and the send-path router tests it first. A
+new gap is one row (field, driver, token) plus one field. Ask no question before a draft except
+the ones the reply genuinely needs — every extra gate is a click agents answer the same way
+every time.
+
+## Read-only share tree (Brent, Sep 2026 — ETG)
+
+Zingtree has no session lock or read-only mode, and a Zendesk-bound session is shared by
+everyone who opens the ticket, so a second person in it duplicates API calls. To let a manager
+(or anyone) see a session without entering it: a snapshot script in the working tree builds
+every value the viewer needs and a link to a **separate tree with no Data nodes** — a Script
+root that renders one page from `zv_` params, one Content node, `claude.md` — opened on a new
+session id. Its safety is structural: nothing in it can write anywhere. Keep the link under
+~8,000 characters (truncate free text per item). Adding a field is one param in the snapshot
+plus one line in the viewer.
+
+## Persistent buttons and resume (Brent, Sep 2026 — ETG)
+
+Global actions that must be available on every screen (Restart, Share, Transfer) are
+`persistent_buttons` on the tree (`show_subtree_persistent_buttons = "1"` to carry them into
+subtrees), each pointing at one node. Hide them where a click would interrupt a write chain
+(`hide_persistent_buttons = "1"` on an auto-advancing status screen or a splash).
+
+A hand-off to another agent ends the sender's session on a screen that is also the receiver's
+entry: the Zendesk app reopens a ticket's session at its last node, so that screen's one button
+("Pick up this ticket") goes to a resume script and one router on a `workflow_stage` marker
+written as the run progresses (`intake → tickets → errands → complete`). Resume targets are the
+"about to fire" screens of each stage, never the middle of a write chain. State that lives in
+transforms may have expired by pick-up (1-hour TTL) — give that its own branch, or keep the
+state in form data. Button `button_data` tags like `::zt_transferred` make these sessions
+countable in Zendesk triggers and views.
+
+## Re-entry through Back
+
+With `keep_vars_on_back = "1"`, Back + Continue re-runs every script after the screen the agent
+backed into — including the grouping script and the write loops after it. A tree accepts that a
+replay shows up as a visible duplicate rather than suppressing it with key lists inside the loop
+(`patterns.md` → "Machinery must earn its node count"); if duplicates become a real problem, the
+fix is upstream — hide Back where it would replay writes.
+
 ## Multi-tree (hub-and-spoke)
 
 When distinct data subsets each need different business logic, the hub fetches once and builds
 the structure; single-purpose subtrees handle one subset each and return
 (`open_tree_id` + `return_tree_node_id`). Each subtree's root is a guard router on
-`len(...) >= 1` so empty buckets cost nothing. Reusable subroutine trees take their input via
+`len(...) >= 1` (a Scoring root is fine) so empty buckets cost nothing. Reusable subroutine trees take their input via
 an agreed variable and are called from many places. Cross-tree flags are declared as
 `predefined_vars` on the hub. Full shapes: `patterns.md` → "Multi-tree orchestration".
 

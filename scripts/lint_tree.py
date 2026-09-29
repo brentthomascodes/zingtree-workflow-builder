@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """Lint a Zingtree tree export before delivery.
 
-    python3 scripts/lint_tree.py <tree.json> [--strict]
+    python3 scripts/lint_tree.py <tree.json> [--strict] [--entry <nodeId> ...]
+
+--entry adds a second way into the tree for the reachability check - e.g. the Test Mode
+screen that a promote leaves unlinked on purpose (reached with a #<node> URL fragment).
+Persistent-button targets are entry points automatically.
 
 Two groups of checks, each traced to a real failure or a house rule:
 
@@ -34,17 +38,28 @@ BANNED_TOKENS = [
     (r"\bparseInt\s*\(", "parseInt - use Number()"),
     (r"\bArray\.isArray\s*\(", "Array.isArray ladder"),
     (r"\.trim\(\)\.toLowerCase\(\)", "reflexive normalization"),
-    (r"\bfunction\s+(g|set|esc|escapeHtml|firstOf|logWrite|logArm|logFlush|logClean)\s*\(", "retired helper redefined per node"),
+    (r"\bfunction\s+(g|set|firstOf|logWrite|logArm|logFlush|logClean)\s*\(", "retired helper redefined per node"),
     (r"getVariableValue\([^)]*\)\s*\|\|", "fallback chain on getVariableValue - one call, one default"),
     (r"\bthis\.(transforms|actions|views)\b", "reading through `this`"),
-    (r"JSON\.stringify\([^)]*\)\.slice\(1,\s*-1\)", "quote-strip hack - build the whole payload and stringify once"),
+    (r"JSON\.stringify\([^)]*\)\.slice\(1,\s*-1\)", "JSON.stringify(x).slice(1,-1) - legitimate ONLY to escape one free-text value for a quoted slot in a Connected Object template; say so in a comment"),
+    (r"\btotalSize\b", "totalSize - Salesforce Connected Object responses carry only records + _zt_meta; grade on the code and records"),
+    (r"do_button_click\(\s*\d+", "do_button_click(<node id>) - a hardcoded node id breaks the moment the screen is reached from a second path"),
 ]
+NO_DATE = re.compile(r"\bnew\s+Date\b|\bDate\.(now|parse|UTC)\b")
+CREDENTIAL = [
+    re.compile(r"/token:[A-Za-z0-9]{16,}"),
+    re.compile(r"\bBearer\s+[A-Za-z0-9._\-]{24,}"),
+    re.compile(r"(api[_-]?key|client[_-]?secret|password|passwd|secret)[\"']?\s*[:=]\s*[\"'][^\"'\s$]{8,}[\"']", re.I),
+]
+ATTR_MERGE = re.compile(r"\b(href|src|action|value|onclick)\s*=\s*[\"']?\s*\$\{", re.I)
 CONST_BLOCK = re.compile(r"^\s*const\s+[A-Z][A-Z0-9_]{2,}\s*=", re.M)
 UUID = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", re.I)
 FIELD_ID = re.compile(r"custom_field_\d+")
 COMMENT_HISTORY = re.compile(r"(//|/\*|\*).*(\b20\d\d-\d\d-\d\d\b|\bv\d{1,3}(\.\d)?\b|\bFIX\b|\bSIMPLIFIED\b|previously|used to)", re.I)
 WRITE = re.compile(r"ZT\.set(Form|Transform)Data\(\s*[\"']([A-Za-z0-9_]+)[\"']")
 READ_GV = re.compile(r"getVariableValue\(\s*[\"']([A-Za-z0-9_]+)[\"']")
+WRITE_TF = re.compile(r"ZT\.setTransformData\(\s*[\"']([A-Za-z0-9_]+)[\"']")
+WRITE_FD_HTML = re.compile(r"ZT\.setFormData\(\s*[\"']([A-Za-z0-9_]*_html)[\"']")
 DUP_WINDOW = 8
 
 
@@ -80,7 +95,7 @@ def script_reads_everywhere(tree):
     reads.update(re.findall(r"\$\{\s*(?:transforms\.)?([A-Za-z0-9_]+)", blob))
     reads.update(re.findall(r"#([A-Za-z0-9_]+)#", blob))
     reads.update(re.findall(r"transforms\.([A-Za-z0-9_]+)", blob))
-    reads.update(re.findall(r'\\?"variable\\?":\s*\\?"([A-Za-z0-9_]+)\\?"', blob))   # conditional / dynamic-select config
+    reads.update(re.findall(r'\\?"variable\\?":\s*\\?"([A-Za-z0-9_]+)(?:\\?"|\.)', blob))   # conditional / dynamic-select config
     reads.update(re.findall(r"\b([A-Za-z_][A-Za-z0-9_]*)\s*==", blob))             # logic expressions
     for n in tree.get("nodes", {}).values():                                        # bare / complex router expressions
         for b in as_list(n.get("buttons")):
@@ -88,7 +103,7 @@ def script_reads_everywhere(tree):
     return reads
 
 
-def lint(tree, strict=False):
+def lint(tree, strict=False, entries=()):
     L = Lint()
     nodes = tree.get("nodes", {})
     if not isinstance(nodes, dict) or not nodes:
@@ -105,8 +120,9 @@ def lint(tree, strict=False):
 
     for k in ids:
         n = nodes[k]
-        if str(n.get("project_node_id")) != k or str(n.get("display_order")) != k:
-            L.err(f"node {k}: project_node_id/display_order must equal the key (got {n.get('project_node_id')}/{n.get('display_order')})")
+        # display_order is canvas order in a genuine export and may differ from the key.
+        if str(n.get("project_node_id")) != k:
+            L.err(f"node {k}: project_node_id must equal the key (got {n.get('project_node_id')})")
         bad = scalars_are_strings(n)
         if bad:
             L.err(f"node {k}: non-string scalars {bad} - every scalar field must be a string")
@@ -124,7 +140,23 @@ def lint(tree, strict=False):
         if n.get("type") == "Scoring":
             has_logic = any(b.get("logic_expression") for b in as_list(n.get("buttons")))
             if has_logic and str(n.get("advanced_logic_node")) != "1":
-                L.err(f"node {k}: Scoring node with logic_expression buttons needs advanced_logic_node='1'")
+                L.err(f"node {k}: Scoring node with logic_expression buttons needs advanced_logic_node='1' "
+                      f"(with '0' the editor opens it in Simple mode and ignores logic_expression)")
+        if n.get("type") == "AI_Action":
+            cfg = n.get("config")
+            if str(n.get("ai_action_id", "0")) in ("", "0"):
+                L.err(f"node {k}: AI_Action node has no ai_action_id")
+            if isinstance(cfg, dict):
+                L.err(f"node {k}: AI_Action config is an object - it must be the JSON string '{{\"mode\":\"api\",\"instruction\":\"\"}}' or the node opens a chat panel")
+            elif cfg:
+                try:
+                    if json.loads(cfg).get("mode") != "api":
+                        L.warn(f"node {k}: AI_Action config mode is not 'api' - the node renders an interactive panel and waits for the agent")
+                except ValueError:
+                    L.err(f"node {k}: AI_Action config is not valid JSON")
+        for co in as_list(n.get("data_connected_objects")):
+            if tree.get("org_id") and str(co.get("org_id")) != str(tree.get("org_id")):
+                L.err(f"node {k}: Connected Object {co.get('data_connected_object_id')} carries org_id {co.get('org_id')} but the tree is org {tree.get('org_id')} - a half-done promote/demote")
 
     pv = tree.get("predefined_vars")
     if isinstance(pv, dict) and pv:
@@ -137,7 +169,8 @@ def lint(tree, strict=False):
 
     # --- graph ---------------------------------------------------------------------
     root = roots[0] if roots else ids[0]
-    reachable, stack = set(), [root]
+    persistent = [str(b.get("nodeId")) for b in as_list(tree.get("persistent_buttons")) if isinstance(b, dict)]
+    reachable, stack = set(), [root, *persistent, *[str(e) for e in entries]]
     while stack:
         cur = stack.pop()
         if cur in reachable or cur not in nodes:
@@ -171,7 +204,8 @@ def lint(tree, strict=False):
             co_nodes[str(co.get("data_connected_object_id"))].append(k)
     for co, where in co_nodes.items():
         if len(where) > 1:
-            L.err(f"Connected Object {co} sits on nodes {where} - one request, one node")
+            L.warn(f"Connected Object {co} sits on nodes {where} - one request, one node; legitimate only when the calls "
+                   f"differ in purpose and inputs (two different notes), never as a retry or re-check - say which in claude.md")
 
     # same type back to back. Scoring->Scoring and Script->Script always; Content->Content only
     # when it is the node's single way out (a multi-button menu to screens is a branch, not a chain).
@@ -204,8 +238,9 @@ def lint(tree, strict=False):
         for d, c in dests.items():
             if c > 1:
                 L.warn(f"Scoring {k}: {c} evaluated buttons route to the same node {d} - the split is not a real decision")
-        if str(n.get("continuation_node_id", "0")) in ("", "0"):
-            L.warn(f"Scoring {k}: no continuation_node_id fallback")
+        has_def = any(b.get("op") == "def" for b in as_list(n.get("buttons")))
+        if not has_def and str(n.get("continuation_node_id", "0")) in ("", "0"):
+            L.warn(f"Scoring {k}: no else branch - end the buttons with an empty-expression op 'def' button (or set continuation_node_id)")
 
     css = tree.get("css_include") or ""
     if not css:
@@ -215,8 +250,33 @@ def lint(tree, strict=False):
 
     # --- script standard -------------------------------------------------------------
     scripts = {k: nodes[k].get("content") or "" for k in ids if nodes[k].get("type") == "Script"}
+    # the seed script: the root, or the first Script the root continues into (a splash /
+    # Loading screen or a case-fetch Data node can sit in front of it)
+    seed, cur = None, root
+    for _ in range(4):
+        if cur not in nodes:
+            break
+        if nodes[cur].get("type") == "Script":
+            seed = cur
+            break
+        cur = str(nodes[cur].get("continuation_node_id", "0"))
     reads = script_reads_everywhere(tree)
+    predefined = {str(e.get("name")) for e in as_list(tree.get("predefined_vars")) if isinstance(e, dict)}
+
+    # --- whole-tree text checks (scripts, content HTML, tree script_code) --------------
+    texts = [(f"Script {k}", c) for k, c in scripts.items()]
+    texts += [(f"Content {k}", nodes[k].get("content") or "") for k in ids if nodes[k].get("type") == "Content"]
+    texts.append(("tree script_code", tree.get("script_code") or ""))
+    for where, text in texts:
+        for pat in CREDENTIAL:
+            m = pat.search(text)
+            if m:
+                L.err(f"{where}: what looks like a credential in the tree ({m.group(0)[:6]}<redacted>) - rotate it; auth lives in the Data Source, never in a script or export")
+                break
+        if not where.startswith("Script") and where != "tree script_code" and ATTR_MERGE.search(text):
+            L.warn(f"{where}: merge field inside an HTML attribute - Zingtree wraps merge output in a <span>, so href=\"${{x}}\" breaks; build the whole tag in a script and merge it once")
     writes = defaultdict(set)
+    tf_writes = defaultdict(set)
     node_check = shutil.which("node")
 
     for k, code in scripts.items():
@@ -235,16 +295,20 @@ def lint(tree, strict=False):
             L.warn(f"Script {k} ('{title}'): {len(consts)} UPPER_CASE const(s) - no config/env constants in scripts")
         if UUID.search(code):
             L.warn(f"Script {k} ('{title}'): literal UUID - belongs in the Connected Object body or predefined_vars")
-        if k != root and FIELD_ID.search(code):
-            L.warn(f"Script {k} ('{title}'): reads raw custom_field_* ids - only the seed (root) script reads inbound names; everything else reads the tree's canonical variable")
+        if NO_DATE.search(code):
+            L.err(f"Script {k} ('{title}'): Date - the Zingtree script sandbox does not expose it (new Date() throws live); number rows by order instead")
+        raw_reads = re.findall(r"getVariableValue\(\s*[\"'](custom_field_\d+)", code)
+        if k != seed and raw_reads:
+            L.warn(f"Script {k} ('{title}'): reads raw custom_field_* ids {sorted(set(raw_reads))[:3]} - only the seed (root) script reads inbound names; the write-back node writes them, nothing else touches them")
         hist = [ln.strip()[:80] for ln in lines if COMMENT_HISTORY.search(ln)]
         if hist:
             L.warn(f"Script {k} ('{title}'): {len(hist)} history-style comment(s), e.g. `{hist[0]}` - comments describe the code now; history lives in claude.md")
-        n_tf = len(re.findall(r"ZT\.setTransformData\(", code))
-        if n_tf:
-            L.warn(f"Script {k} ('{title}'): {n_tf} setTransformData call(s) - allowed only for a dynamic-select source or a dot-path merge field; say which")
+        for name in WRITE_FD_HTML.findall(code):
+            L.warn(f"Script {k} ('{title}'): '{name}' written to form data - rendered HTML goes to ZT.setTransformData and ${{transforms.{name}}} (form-data merges drop inputs and turn newlines into <br>)")
         for kind, name in WRITE.findall(code):
             writes[name].add(k)
+            if kind == "Transform":
+                tf_writes[name].add(k)
         if node_check:
             with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as tf:
                 tf.write(code)
@@ -265,9 +329,19 @@ def lint(tree, strict=False):
     for where, count in sorted(dup_pairs.items(), key=lambda x: -x[1])[:10]:
         L.warn(f"Scripts {list(where)} share {count} identical {DUP_WINDOW}-line window(s) - shared code means the design is wrong (one node, or drop the helper)")
 
-    # writes never read
+    # transforms: the allowed uses all have a reader that names transforms.<name>
+    blob = json.dumps(tree)
+    for name, where in sorted(tf_writes.items()):
+        dyn_source = re.search(r'\\"variable\\":\s*\\"' + re.escape(name) + r'(\\"|\.)', blob)
+        if f"transforms.{name}" not in blob and not dyn_source:
+            L.warn(f"transform '{name}' (Script {sorted(where, key=int)}) is never read as transforms.{name} in this export - "
+                   f"form data is the default; keep a transform only for rendered HTML, a dynamic-select source, a dot-path merge "
+                   f"or a Connected Object template value (record that one in claude.md)")
+
+    # writes never read (predefined variables are read by the integration: the Salesforce /
+    # Zendesk marketplace app writes a predefined sf_* / ticket field back to the record)
     for name, where in sorted(writes.items()):
-        if name not in reads:
+        if name not in reads and name not in predefined:
             L.warn(f"variable '{name}' is written in Script {sorted(where, key=int)} but never read in this export - "
                    f"remove it, or if a Connected Object body consumes it by name, record that in claude.md")
 
@@ -279,8 +353,12 @@ def main(argv):
         print(__doc__)
         return 2
     strict = "--strict" in argv
+    entries = [argv[i + 1] for i, a in enumerate(argv) if a == "--entry" and i + 1 < len(argv)]
     tree = json.load(open(argv[1]))
-    L = lint(tree, strict)
+    if "projects" in tree and "nodes" not in tree:
+        print("ERROR  {projects:[...]} wrapper - a standalone import is the bare project object")
+        return 1
+    L = lint(tree, strict, entries)
     print(f"lint: {tree.get('name')} ({tree.get('id')}) - {len(tree.get('nodes', {}))} nodes")
     for e in L.errors:
         print(f"ERROR  {e}")
