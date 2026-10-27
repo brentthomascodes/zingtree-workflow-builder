@@ -24,6 +24,9 @@ Platform source: https://help.zingtree.com/hc/en-us/articles/41014766094491-CX-A
   arrives in the tree as `zd_ticket_id` and `channel` (EU orgs; US orgs use `zingtree.com`).
 - Connected Objects auto-receive any form-data variable whose name exactly matches a
   placeholder in their request config.
+- A Connected Object's **Log Activity** toggle decides whether its request and response data
+  is persisted for Execution Insights; without it the `actions` namespace still works in the
+  session but nothing is kept to inspect afterwards.
 - `_zt_meta.response.code` is injected into every `actions.<alias>`; `_zt_meta.response.body`
   only on a non-2xx. Array/primitive JSON roots are wrapped under `value`.
 
@@ -179,7 +182,10 @@ invisible to anyone grepping for `getVariableValue`.
   `let picked = ZT.getVariableValue("customer_action_" + pnr.pnr, "")`.
 - Checkbox fields do not read back reliably through `getVariableValue` (an unticked box can
   read as ticked). Use a `select` for anything a script must read; evaluate checkboxes only
-  with Scoring-node expressions (`(flag == 1)`), which Zingtree resolves correctly.
+  with Scoring-node expressions (`(flag == 1)`), which Zingtree resolves correctly — unticked
+  is `0`, ticked is `1`, so `(feelsUnsafe == 0) && (suicidal == 0)` is the proven shape. When
+  consolidating trees, copy the source tree's checkbox Scoring nodes verbatim (buttons,
+  expressions, flags) and remap only the targets. (Learned live, Jul 2026 — Penrose; restored Oct 2026 from the retired zingtree-builder repo)
 
 ## Naming
 

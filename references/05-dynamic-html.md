@@ -299,6 +299,28 @@ ZT.setTransformData("items", items)
 
 The workflow can then reconstruct the final dataset using the selected values from each dynamically generated HTML element.
 
+## Per-item inputs — the render / read-back contract (Brent's rule, Jul 2026 — Experian, ETG Rebooking; restored Oct 2026 from the retired zingtree-builder repo)
+
+Dynamic HTML inputs exist for one case: a dataset that needs an input per row. Everything
+else is a native field (`patterns.md` → "Native form fields"). When it is that case, the two
+scripts around the screen share one contract:
+
+- **The render script owns the names, the staged array and the count.** Index the names
+  `option_0 … option_(n-1)` (keyed variant: `customer_action_<safeKey>_<rowIndex>`, keys
+  sanitised with `replace(/[^a-zA-Z0-9_-]/g, "_")`). Stage the source array and write the real
+  item count to form data (`<thing>_count`); the read-back script rebuilds the names from both.
+- **Multi-select is checkboxes with unique names; single-select is radios sharing one name**,
+  read once. A `zt-data` checkbox submits its value **only when ticked**, so read-back compares
+  to the row's own value (`val === String(arr[i].value)`), never `val !== ""`.
+- **A fixed option ("None of these apply") goes last**, appended after the loop at
+  `option_<count>` with a literal value such as `"na"`, and reads back as one boolean
+  (`none_<thing>_apply`). Give `id`/`name`/`value` a defined string — a bare identifier like
+  `na` is the undefined-variable bug.
+- **The read-back script stitches; the router routes.** The script collects ticked values,
+  sets the booleans, and nothing else; a Scoring node tests the booleans.
+- **Action buttons only navigate.** Never render a "Continue" radio or any input that
+  pretends to be navigation; nothing inside transform-rendered HTML can move node to node.
+
 ## Mental Model
 
 Think of the **Script Node** as the renderer.

@@ -247,6 +247,13 @@ is platform documentation, not practice. What the reference builds use instead:
   left behind — search the export for the other environment's suffix.
 - **A symptom seen only live, never in Test Mode**, means the tree reads something the mocks
   invented — run `scripts/response_contract.py`.
+- **`Unexpected token at the end: <nil>`** is `JSON.parse` on a value that never arrived — an
+  inbound `zv_` param or a response field missing on this path. The fix is upstream (seed the
+  default, grade the call), not a `try` around the parse (`01-scripting-standards.md` §2).
+  (restored Oct 2026 from the retired zingtree-builder repo)
+- **`let is undefined`** was seen once on a Quest tree in Jul 2026 and not since. If it appears,
+  stop and bring it to Brent with the tree id; do not silently rewrite the script with `var`.
+  (restored Oct 2026 from the retired zingtree-builder repo)
 
 ## Troubleshooting Checklist
 

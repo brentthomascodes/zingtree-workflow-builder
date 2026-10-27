@@ -97,6 +97,19 @@ and each one shipped on ETG was deleted by hand. The safeguards are: API error h
 delivery. When the engine rejects a shape (*"The last action triggered an invalid loop"*) that
 is a design verdict — bring it back, don't unroll it.
 
+**Question flows route on buttons, never on script-managed state.** A shared question screen
+re-rendered by a script "engine" (question text in a transform, one shared answer variable, the
+script deciding what comes next) looped endlessly live, twice. A questionnaire is ordinary
+content nodes wired button to button, or conditional fields on one screen; scripts stage data
+for a screen, they never drive which screen comes next. (Learned live, Jul 2026 — Penrose; restored Oct 2026 from the retired zingtree-builder repo)
+
+**No silent re-prompt loops.** `required` on a native field is how the engine blocks Continue.
+For a problem the tree detects itself, use the notice pattern: the seed script sets
+`ZT.setTransformData("notice_html", "")`, every screen renders `${transforms.notice_html}`
+(invisible when empty), and a script sets it only when there is a real message. A dead end gets
+a screen that says why and routes somewhere useful; never send the agent back blind. (Brent's
+rule, Jul 2026 — Penrose; restored Oct 2026 from the retired zingtree-builder repo)
+
 **One reset node.** State lives in form data and survives the session, so every re-entry path
 (Restart, "another request", a re-run loop) goes through one Script node that sets every state
 variable back to its empty shape. One, reached from everywhere — not a copy per entry point.

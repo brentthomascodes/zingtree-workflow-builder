@@ -167,6 +167,22 @@ sender's snapshot script plus one render line here.
 
 Re-run these after every edit to either tree and update this table when a finding closes.
 
+## Older masters (Jul 2026) — still worth opening for their shapes
+
+Three earlier reference trees predate the two gold standards. The rules were rewritten against
+the gold standards, so where an older master disagrees, the newer rule wins; open these for the
+shapes they show, not for their scripts. All live in Brent's workspace. (restored Oct 2026 from the retired zingtree-builder repo)
+
+| Older master | Where | What it shows | Caveats |
+|---|---|---|---|
+| ETG Cancellation Errand (tree 139367450) | `Zingtree Builder/Workflow JSONs/ETG/`, scripts in `Script Library/Master - ETG Cancellation Errand/` | The single-tree loop before Register Errands: cursor loops, dynamic-HTML screens, bucket → map → loop ticket creation | Superseded by Register Errands for every rule |
+| Returns Multi-Tree (SFDC, 5 trees) | `Workflow JSONs/Returns Redesign (SFDC)/`, scripts in `Script Library/Master - Returns Multi-Tree (SFDC)/` | Hub-and-spoke by *data attribute*: the hub fetches once and buckets, Tree nodes dispatch one subtree per bucket, `return_tree_node_id` hands back; subtree roots are guards | Pre-dates the lanes pattern; read `00-etl-design.md` → "Lanes" first |
+| ETG Rebooking Multi-Tree (15 trees, hub 359750132) | `Workflow JSONs/ETG/Rebooking Multi-Tree (master).json`, README in `Script Library/Master - ETG Rebooking Multi-Tree/` | Hub-and-spoke by *agent-chosen handling type*; a globally attached Persistent Buttons subtree; the richest data structures | No `claude.md` node, dev versions, generic titles — a reference, not gospel |
+
+The Experian joint-accounts set (`Script Library/experian-joint-accounts-build-options.js`,
+`-native-select-field.json`, `-readback-native.js`) is the proven native dynamic select,
+start to finish.
+
 ## Registering a new reference build
 
 When Brent names another build as a reference (usually through `analyze-workflow-session`):

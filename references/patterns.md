@@ -101,6 +101,8 @@ versus what was delivered — 135 lines, of which ~45 were a prose account of v1
 
 Logic lives in scripts; logic nodes make simple routing decisions only. Every logic node evaluates what a script already computed. Never house complex logic (multi-condition chains, data comparisons) in logic nodes.
 
+A router expression can address a transform directly (`transforms.isMorePNR == true`). You will meet this in older trees whose flags live in transforms; it works, and it is not a defect to fix on sight. New builds keep flags in form data (`02-data-and-namespaces.md`). (restored Oct 2026 from the retired zingtree-builder repo)
+
 ### The router shape (proven in both reference builds, Sep 2026 — supersedes "no blank fallback button")
 
 ```json
@@ -110,7 +112,7 @@ Logic lives in scripts; logic nodes make simple routing decisions only. Every lo
     "1": { "button_text": "", "logic_expression": "", "button_link": "42", "op": "def" } } }
 ```
 
-- **`advanced_logic_node = "1"`, always.** With `"0"` the editor opens the node in Simple mode with empty Variable / Operator / Value fields and ignores `logic_expression` (Corpay UK, Sep 2026). `lint_tree.py` makes this an error.
+- **`advanced_logic_node = "1"`, always.** With `"0"` the editor opens the node in Simple mode with empty Variable / Operator / Value fields and ignores `logic_expression` (Corpay UK, Sep 2026). `lint_tree.py` makes this an error for any Scoring node with `logic_expression` buttons. The one other Scoring mode — a score calculator with `op: gte/eq` and `button_data` against a `button_text` score var — keeps `"0"`; it is not a router and the lint leaves it alone.
 - **Each evaluated button**: `logic_expression` set, `button_text` the same expression (that is how a genuine export has it).
 - **The else branch is the last button: empty expression, `op: "def"`.** That is Zingtree's default branch, not a "blank button"; the Jul 2026 rule against blank buttons is about an empty expression *without* `op: "def"`. `continuation_node_id` may point at the same target as the structural fallback.
 - **One flag type per variable**: booleans tested `== true`, string flags `== "true"` (`01-scripting-standards.md` §8).
@@ -286,6 +288,15 @@ Run these as a pre-delivery lint on any generated/edited tree JSON — each corr
 - **Form fields carry ONLY proven schema keys:** `type, name, label, label_type, options, hidden_value, custom_regex, inline, required, score_var, checkbox_score, scores, rank, config`. No `value` key (use `hidden_value`). An unknown key breaks import.
 - **`project_node_id` equals the node's dict key; every scalar field is a string** (`"0"` not `0`, `"1"`/`"0"` not booleans), top-level scalars included (`id`, `live`, `active`, `save_lock`). `display_order` is canvas order in a genuine export and may differ from the key (Corpay UK imports with it differing on 44 nodes — supersedes "display_order must equal the key"); new nodes still take `display_order` = key.
 - **`predefined_vars` keys must be a contiguous `0..n-1` sequence, same as nodes.** Deleting an entry and leaving a gap makes the whole file fail to import with no usable error — the graph lint never sees it, because validators read `Object.values(predefined_vars)` and never the keys. Re-index after any delete, and keep each entry's `project_id` a **number**, not the string form of the top-level project id. (Learned live, Aug 2026 — ETG v38 failed to import over a single missing key `14`; v38.1 was the re-index.)
+- **The button graph is a DAG and every path terminates.** Only a deliberate picker retry is a
+  back-edge; every path from every entry (root, persistent-button targets, Test Mode) ends at a
+  terminal node or a Tree link. `lint_tree.py` reports unreachable nodes and broken links but
+  not cycles; the walk catches a cycle only if it fails to advance — check this one by hand on
+  a button-routed tree. (Brent's rule, Jul 2026 — Penrose; restored Oct 2026 from the retired zingtree-builder repo)
+- **Cloning a node as a prototype carries its `project_node_id`.** The duplicate makes the whole
+  file fail to import with no error; the lint's `project_node_id == key` check is what catches it.
+  Set the id, `display_order` and every int back to a string on the clone. (Learned live, Jul
+  2026 — Penrose v4; restored Oct 2026 from the retired zingtree-builder repo)
 - **Scoring routers** with `logic_expression` buttons need `advanced_logic_node="1"` and end with the `op: "def"` else button (router shape above); op-based score calculators keep `"0"`.
 - **Node shapes that only come from a genuine export** — copy them, don't hand-author:
   - Data node: `"data_connected_objects": {"0": {"org_id": "<tree org>", "data_connected_object_id": "<id>", "data_connected_object_type": "salesforce" | "http"}}` — `org_id` equal to the tree's.
@@ -322,6 +333,19 @@ Every routing decision is EVAL SCRIPT → ROUTER. The script reads the native fi
 
 `select` (newline-separated options; `config:{"filterable":true}` for type-ahead), `select` **dynamic from a transforms array** (`config.list_source_type:"dynamic"` + `list_dynamic_source:{type:"transforms",variable:"<name>_options",attributes:{label,value}}` — the one case that requires a transform), `radio`, `checkbox`, `text`, `multiline`, `number`, `date`, `email`, `hidden` (constant via `hidden_value`). Conditional fields: `config` = stringified `{"conditional":{"simple":[{"variable":"<driver>","op":"eq","value":"<x>"}]}}`. `config` is always a JSON *string*. Prefer a Yes/No `select` over a checkbox when a script must read the answer — an unticked checkbox does not read back reliably through `getVariableValue`; evaluate checkboxes only with Scoring expressions (`(flag == 1)`).
 
+Three facts about native fields that only show up live (restored Oct 2026 from the retired zingtree-builder repo):
+
+- **A static `select` submits the option TEXT as its value.** Match on the text in the eval
+  script, or use a dynamic list-source select when label and value must differ (Penrose v8).
+- **The full proven dynamic-select field** (Experian joint accounts): top-level `type:"select"`,
+  `name`, `label`, `label_type:"L"`, `required:"1"`, and `config` as a *string*:
+  `{"filterable":true,"list_source_type":"dynamic","list_dynamic_source":{"type":"transforms","variable":"<name>_options","attributes":{"label":"label","value":"value"}}}`.
+  `attributes` may also carry `score`. Because the field is required, the "nothing chosen"
+  branch cannot fire; the router's else is `continuation_node_id`.
+- **The same field name on mutually exclusive conditional hidden fields** (several `outcome_key`
+  fields on one screen, each conditioned on that screen's own select) works — Zingtree submits
+  the active one. Dev-test it once per tree before relying on it.
+
 **A required conditional field is safe** (Brent's correction, Aug 2026 — ETG VI): `required: 1` only enforces once the field renders; hidden-by-condition fields never block Continue. Do not "fix" a required conditional field by stripping `required`.
 
 ## Shared node rendering per-path values → `merge_vars_not_fixed = "1"` (learned live, Jul 2026 — Penrose)
@@ -330,7 +354,7 @@ Zingtree's default fixes a merge variable to the value it had the first time it 
 
 ## Back / Restart controls (Jul 2026 — Adyen)
 
-Tree-wide `hide_back_button` / `show_restart_button` are the proven levers. Per-node `hide_back_restart="1"` does not work in the 2026 Vue theme. For one screen, use the `render:finish` + `#restart_button`/`#back_button` script in "Hiding Back/Restart on one screen" above. A Script root never renders, so first-screen settings belong on the first *rendered* node.
+Tree-wide `hide_back_button` / `show_restart_button` are the proven levers (defaults `"0"` / `"1"`; set `hide_back_button="1"` or `show_restart_button="0"` to hide one everywhere). Zingtree hides Back on the very first rendered screen anyway, so a first-screen concern is usually only Restart. Per-node `hide_back_restart="1"` does not work in the 2026 Vue theme. For one screen, use the `render:finish` + `#restart_button`/`#back_button` script in "Hiding Back/Restart on one screen" above. A Script root never renders, so first-screen settings belong on the first *rendered* node.
 
 ## Client-side JS: not in content, yes in the tree's `script_code` (Brent's rule, Jul 2026 — ETG; refined Sep 2026 — Corpay UK)
 

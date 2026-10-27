@@ -34,6 +34,9 @@ without a correction pass.
 | `scripts/tree_diff.py` | Mechanical before/after change report |
 | `fixtures/example.fixture.json` | The fixture shape, invented data |
 | `companions/analyze-workflow-session/` | Companion skill that writes learnings back into this repo |
+| `CONTRIBUTING.md` | How a change gets in: pull before building, the PR template, who approves what |
+| `CHANGELOG.md` | Rule changes by date, each with the build that proved it |
+| `HANDOVER.md` | Orientation for teammates joining the repo (Debbie McCormick, Charchit Rajput) |
 
 ## Install
 
@@ -58,6 +61,17 @@ python3 scripts/tree_diff.py "<before.json>" "<after.json>" -o report.md
 ```
 
 Node 18+ and Python 3.9+. No dependencies.
+
+## A living repo
+
+The rules are maintained, not finished. Pull before every build, run `analyze-workflow-session`
+after a build Brent was happy with, open a PR with the template in `CONTRIBUTING.md` for
+anything else. Brent approves every change to `SKILL.md` and `references/`; every rule names
+the tree that proved it; every change gets a line in `CHANGELOG.md`.
+
+**Retired:** `github.com/brentthomascodes/zingtree-builder` (July 2026) was the previous home of
+the skill plus Brent's customer exports. Merged here on 2026-10-27 — see `CHANGELOG.md`. Do not
+install from it.
 
 ## Scope
 
