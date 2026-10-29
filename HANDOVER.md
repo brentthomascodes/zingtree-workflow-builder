@@ -1,126 +1,99 @@
-# Handover — the Zingtree workflow builder, one repo, three of us
+# Handover — Brent's builder, ready to merge with Charchit's
 
-**For:** Debbie McCormick, Charchit Rajput
+**For:** Charchit Rajput (co-builder) · cc Debbie McCormick (facilitator)
 **From:** Brent Thomas
-**Date:** 2026-10-27
+**Date:** 2026-10-29
 **Repo:** `github.com/brentthomascodes/zingtree-workflow-builder`
+**Source:** the 2026-10-26 builder sync (Brent, Charchit, Debbie; Dana suggested it)
 
-## What this is
+## Why this exists
 
-This repo is the builder. It is a Claude skill: the rules for how a Zingtree tree is designed,
-scripted, tested and reviewed, plus the scripts that check a tree against those rules. Claude
-reads it at the start of every build session and the output goes straight into production
-trees, so the rules are a contract, not suggestions.
+Zingtree has had three internal flow builders: Brent's, Charchit's, and an older one of GT's.
+On the 2026-10-26 call we agreed to merge Brent's and Charchit's into **one approved Zingtree
+internal flow builder**. GT's is older and is not part of the merge. Debbie facilitates; Brent
+and Charchit do the build.
 
-Until today the builder's knowledge lived in two GitHub repos and several copies on disk. As of
-2026-10-27 there is one: this one. The older `zingtree-builder` repo is retired, its skill
-content is folded in here, and its customer exports stay in Brent's local workspace where they
-belong. Everything below assumes that single copy.
+This doc is Brent's side of the deal from that call: his repo, cleaned up into one place, with
+what it does well, what it's missing, and the open questions the merge has to answer.
 
-## What is in it
+## The plan we agreed
 
-| Path | What it is |
+1. **Each of us cleans up our own repo.** Brent's was in two places and is now one (this repo,
+   2026-10-27). Charchit pushes his to GitHub and sends Brent the link.
+2. **Each of us builds our own combined version.** Brent combines his + Charchit's; Charchit
+   combines his + Brent's. Two independent merges, on purpose, so neither one's defaults win by
+   accident.
+3. **AI merges the two combined versions** into one final builder.
+4. **We evaluate the final version together.** Debbie is booking a Thursday and a Friday call:
+   the first to confirm we're each looking at the right repos, the second to review the
+   combined versions.
+
+## What Brent's builder brings
+
+| Strength | Where |
 | :---- | :---- |
-| `SKILL.md` | When the skill triggers, the seven rules, the build/review/test workflow |
-| `references/00` to `03` | The always-read set: ETL design, the script standard, where data lives, how to test |
-| `references/04` to `11`, `patterns.md` | Topic references: CX Actions, Dynamic HTML, Connected Objects, transforms, troubleshooting, diffs, the two reference builds, environments, platform shapes |
-| `scripts/` | `lint_tree.py` (import safety + house standard), `walk.mjs` (runs the real scripts on fixture data), `response_contract.py`, `preview_url.py`, `tree_diff.py` |
-| `fixtures/example.fixture.json` | The fixture shape, invented data |
-| `companions/analyze-workflow-session/` | The skill that writes learnings back here after a good session |
-| `CONTRIBUTING.md` | How a change gets in, who approves what |
-| `CHANGELOG.md` | What changed in the rules, and which build proved it |
+| A written design standard: every tree is an ETL pipeline (seed, fetch, shape, loop, load) | `references/00-etl-design.md` |
+| A script-node standard with before/after examples from real trees | `references/01-scripting-standards.md` |
+| Where every value lives (form data, transforms, actions, views), naming, reset | `references/02-data-and-namespaces.md` |
+| Platform shapes learned from live import failures: router shape, roots, import safety, the native field palette incl. dynamic selects and conditional fields | `references/patterns.md` |
+| CX Actions, Connected Objects, AI Actions, Dynamic HTML, transforms, troubleshooting, environment promotion | `references/04` to `08`, `11` |
+| Two gold-standard production builds to copy from (Corpay UK Email AI, ETG Register Errands) | `references/10-reference-builds.md` |
+| Offline tooling: a lint, a walk that runs the tree's real scripts on fixture data, a response-contract check, preview URLs, a tree diff | `scripts/` |
+| A companion skill that writes learnings back after a good build | `companions/analyze-workflow-session/` |
 
-What is **not** in it, on purpose: customer tree exports, fixtures with real ids, response
-contracts, credentials, org ids. Each of us keeps those in our own workspace. The two gold
-standard builds (Corpay UK Email AI, ETG Register Errands) are described in
-`references/10-reference-builds.md` and live in Brent's workspace as exports.
+It runs as a Claude Code skill. No API key, no UI: the scripts are plain Node 18+ and
+Python 3.9+.
 
-## Getting set up
+## What Charchit's builder brings (from the call)
 
-1. Get access to the repo from Brent (it should be private before anyone else is added, see
-   "Decisions we still owe" below).
-2. Clone it into your Claude Code or Cowork skills folder and link the companion:
+- **A sandbox simulator.** After a build, the flow runs in a browser. `zt.log` output appears in
+  a console panel and every transform variable appears in a variables panel. You can troubleshoot
+  before deploying to Zingtree instead of digging through Execution Insights. Brent's builder has
+  nothing like this; `walk.mjs` is the closest thing, and it's command-line only.
+- **A knowledge-source angle.** Charchit's original scope was troubleshooting, debugging and
+  documentation: an all-round Zingtree expert, not only a builder.
+- **A UI-first build style** (see the first open question).
+- Runs with an Anthropic API key.
+
+## Open questions the merge has to answer
+
+1. **One dynamic screen or several plain ones.** Brent builds one content node rendered by a
+   script, because Zingtree builds and maintains these trees, not the customer. Charchit keeps
+   separate content nodes when there are only a few, because it's simpler and keeps the UI/UX
+   clear. We agreed neither is the right answer in general. Brent's suggestion on the call was
+   that the merged builder should know both and pick by customer: a non-technical customer gets
+   separate content nodes; a technical customer gets script-built screens. Today this repo's
+   rules mandate Brent's style (`00-etl-design.md` → "Dynamic content is always Script →
+   Content"), so this is the first rule the merge would rewrite.
+2. **Logging.** This repo bans `ZT.log` in delivered trees. Charchit's simulator is built around
+   `zt.log`. The likely answer is that logging is fine in the sandbox and stripped before
+   delivery, but we should decide it explicitly.
+3. **Where the final builder lives.** It could be one of our two repos, a new repo, or something
+   inside Zingtree itself. Debbie mentioned that "auto flows" may land in the product. It also
+   affects who approves rule changes; today that's Brent alone (`CONTRIBUTING.md`).
+4. **Delivery shape.** This repo is a Claude Code skill with no key. Charchit's is an app with a
+   key. The final version could be either or both.
+
+## Known gaps in Brent's builder
+
+- **Logic-node comparison operators.** Charchit's builder initially didn't know logic nodes have
+  operators beyond equals / not equals. This repo documents `eq`, `>=` in expressions, and the
+  `op: "def"` else branch, but not the full operator list. A real export using each one would
+  close it.
+- **No interactive preview.** Testing is lint + offline walk + preview URL. A visual sandbox is
+  Charchit's strength.
+- **Six unresolved contradictions** between the old and current rules, listed in
+  `CHANGELOG.md` → "Needs Brent's call".
+
+## Getting it
 
 ```bash
-git clone https://github.com/brentthomascodes/zingtree-workflow-builder.git .claude/skills/zingtree-workflow-builder
-ln -s zingtree-workflow-builder/companions/analyze-workflow-session .claude/skills/analyze-workflow-session
+git clone https://github.com/brentthomascodes/zingtree-workflow-builder.git
+python3 zingtree-workflow-builder/scripts/lint_tree.py "<any tree export>.json"
 ```
 
-3. Node 18+ and Python 3.9+, no dependencies.
-4. Prove it works: export any tree you own and run the lint.
+If the lint prints findings, it works. To use it as a skill, clone it into a Claude Code
+`.claude/skills/` folder. The README covers the companion-skill symlink.
 
-```bash
-python3 .claude/skills/zingtree-workflow-builder/scripts/lint_tree.py "<tree.json>"
-```
-
-If it prints findings, the skill is installed. Read them; they are the review's first draft.
-
-## How a build session goes
-
-The skill triggers on its own when a tree JSON or a Zingtree concept comes up. The shape of a
-session is in `SKILL.md`, and it is the same for all of us:
-
-- **Baseline first.** Save the untouched export, read the tree's `claude.md` node (its own
-  memory), run the lint.
-- **Ask the CX Actions question once.** Does this account want an API request? If yes, get a
-  real captured response before writing a line of script.
-- **Design as an ETL spine**, draw it, and price the change in nodes.
-- **Build to the standard.** State in form data once, screens as transforms, one request per
-  node graded before it is read, never two of the same node type back to back.
-- **Test offline, then live.** Fixture, walk, response contract, preview URL. One unmocked run
-  per lane before "done".
-- **Deliver the diff**, the new JSON with its `claude.md` node updated, the fixture, the preview
-  URL. Importing into a live tree is always a human step.
-
-Nothing gets built without a requirements doc. That rule holds for all three of us.
-
-## How we keep it alive
-
-The repo only stays the source of truth if the learning from each build lands here within the
-week. `CONTRIBUTING.md` has the full process. The short version:
-
-- **Pull before every build.** `git pull --ff-only` in the clone.
-- **After a build you are happy with**, run `analyze-workflow-session`. It proposes the exact
-  edits and, once approved, commits and pushes.
-- **A rule needs a build that proved it.** The PR template asks which tree, which account,
-  which date. No proof, no merge.
-- **Brent approves every change to the rules.** Script library additions and account facts are
-  not repo changes and need no approval; they go in your workspace.
-- **One line in `CHANGELOG.md`** per rule change.
-
-## Roles
-
-| Who | Owns |
-| :---- | :---- |
-| Brent | Maintainer. Approves rule changes, rolls the changelog, keeps the repo private and clean |
-| Debbie | Managed Services lead. Brings the builds her team ships as proof for new rules, and the cases where the rules got in the way |
-| Charchit | Builder. Runs the skill on managed-services builds, files the first PRs, and tells us where the rules are unclear in practice |
-
-Adjust these if the call agreed something different; the table is a starting point, not a
-decision record.
-
-## Decisions we still owe
-
-These came out of the two-repo cleanup and the direction we set on the 2026-10-26 call. Brent to
-confirm the call outcomes in this section; nothing here is recorded from the call itself.
-
-1. **Repo visibility.** Both builder repos are public on GitHub today. This one carries no
-   customer exports but it does name accounts and quote Zendesk field ids. Make it private, then
-   add collaborators. The retired `zingtree-builder` repo carries full customer exports and
-   should be deleted, not just hidden.
-2. **Branch model.** Today Brent commits straight to `main`. With three contributors the
-   proposal is: Brent still commits to `main`, everyone else goes through a PR with the
-   template. Say if you want it stricter.
-3. **Account-specific skills.** `etg-env-promote`, `etg-errand-regression` and the Corpay UK
-   promote skills live outside this repo because they hold environment ids. Decide whether
-   Managed Services needs them, and if so where they live.
-4. **Review turnaround.** The proposal is two business days on a PR. Say if that is too slow
-   for a managed-services queue.
-5. **The longer game.** There is a draft architecture for exposing the builder to the wider
-   internal team as an app (Brent's workspace, `Zingtree Builder/Platform/`). It depends on this
-   repo being the one copy, which is done as of today. Worth a separate conversation once the
-   three of us have shipped a few builds from the same rules.
-
-## Where to ask
-
-Slack, Brent directly. If a rule is wrong, say which tree showed it; that is the start of a PR.
+What's deliberately **not** in the repo: customer tree exports, fixtures with real ids,
+response contracts, credentials. The merged builder should keep that rule.

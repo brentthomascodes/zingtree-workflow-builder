@@ -36,7 +36,7 @@ without a correction pass.
 | `companions/analyze-workflow-session/` | Companion skill that writes learnings back into this repo |
 | `CONTRIBUTING.md` | How a change gets in: pull before building, the PR template, who approves what |
 | `CHANGELOG.md` | Rule changes by date, each with the build that proved it |
-| `HANDOVER.md` | Orientation for teammates joining the repo (Debbie McCormick, Charchit Rajput) |
+| `HANDOVER.md` | Brent's side of the builder merge with Charchit Rajput (agreed 2026-10-26): what this repo brings, gaps, open questions |
 
 ## Install
 

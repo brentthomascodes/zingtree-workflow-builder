@@ -42,7 +42,7 @@ Restored rules:
   Multi-Tree, ETG Rebooking) and the Experian native-select script set.
 
 Repo additions: `CONTRIBUTING.md` (the change process, PR template, approval table),
-`HANDOVER.md` (for Debbie McCormick and Charchit Rajput), this file. `README.md` updated.
+`HANDOVER.md` (Brent's side of the merge with Charchit Rajput's builder, agreed on the 2026-10-26 call), this file. `README.md` updated.
 
 ### Needs Brent's call — contradictions the merge surfaced, left unresolved
 

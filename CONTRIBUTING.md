@@ -7,6 +7,10 @@ same week. Nothing lives in a second place.
 **Maintainer:** Brent Thomas (owner, approves every rule change).
 **Contributors:** anyone on the Zingtree team with access to this repo.
 
+> **Interim.** This process holds until the merge with Charchit Rajput's builder lands
+> (`HANDOVER.md`). Where the merged builder lives, and who approves rule changes in it, is one
+> of that merge's open questions.
+
 ## The three principles
 
 1. **A rule is proven by a build, not by an opinion.** Every change to `SKILL.md` or
