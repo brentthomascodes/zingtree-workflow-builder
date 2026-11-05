@@ -1,0 +1,77 @@
+%% 1st Central Digital T&Cs DEMO - two trees, cloned 1:1 from the consent-form demo pair
+%% Green = new node · Grey dashed = unlinked claude.md memory · Red = not live
+flowchart TB
+
+    subgraph AGENT["AGENT-FACING  ·  1st Central - Digital T&Cs - Agent Workflow (DEMO)"]
+        direction TB
+        N1["<b>1 · Intake Form</b><br/><i>Content</i><br/>full_name · policy_number<br/>terms_document (5 opts → terms_score)<br/>delivery channel · email / phone"]
+        N17["<b>17 · Resolve Terms Document</b><br/><i>Script</i><br/>termsData[terms_score] → terms_html<br/>document_name · product · version"]
+        N6["<b>6 · Format Terms Link</b><br/><i>Script</i><br/>session_id + terms_score + policy_number<br/>⚠ set CUSTOMER_TREE_ID after import"]
+        N7{"<b>7 · Route Delivery Channel</b><br/><i>Logic</i>"}
+        N8["<b>8 · Twilio - Text</b><br/><i>Data</i><br/>⛔ not live"]
+        N9["<b>9 · Email Terms Link</b><br/><i>Email</i>"]
+        N10["<b>10 · Voice - Deflect</b><br/><i>Content</i> — 10-15 min to read aloud"]
+        N11["<b>11 · Voice Script - Read Terms</b><br/><i>Content</i><br/>verbatim terms + required attestation"]
+        N13["<b>13 · Terms Link Sent</b><br/><i>Content</i> — agent waits on the line"]
+        N16["<b>16 · Verify Customer Acceptance</b><br/><i>Data</i> · CO 1197 get_session_data"]
+        N14{"<b>14 · is_terms_accepted == 1?</b><br/><i>Logic</i>"}
+        N18{"<b>18 · terms_score contains 'addons'?</b><br/><i>Logic</i>"}
+        N19{"<b>19 · Optional extras answered?</b><br/><i>Logic</i>"}
+        N15["<b>15 · Acceptance Not Received</b><br/><i>Content</i> — retry · resend"]
+        N12["<b>12 · Terms Accepted</b><br/><i>Content</i> — terminal<br/>signed name · timestamp · extras"]
+        N2["2 · claude.md<br/><i>unlinked</i>"]
+
+        N1 --> N17
+        N17 -.continuation.-> N6
+        N6 -.continuation.-> N7
+        N7 -->|Text Message| N8
+        N7 -->|Email| N9
+        N7 -->|Voice| N10
+        N8 -.continuation.-> N13
+        N9 -.continuation.-> N13
+        N10 -->|Continue| N11
+        N10 -->|Text Message| N8
+        N10 -->|Email| N9
+        N11 -->|Complete - Accepted Verbally| N12
+        N13 -->|Verify Customer Acceptance| N16
+        N16 -.continuation.-> N14
+        N14 -->|accepted| N18
+        N14 -->|not yet| N15
+        N18 -->|addons| N19
+        N18 -->|default| N12
+        N19 -->|answered| N12
+        N19 -->|not yet| N15
+        N15 -->|Retry Verification| N16
+        N15 -->|Resend Terms Link| N7
+    end
+
+    subgraph CUST["CUSTOMER-FACING  ·  1st Central - Digital T&Cs - Customer Review (DEMO)"]
+        direction TB
+        C4["<b>4 · Get Terms</b> — <i>root, Script</i><br/>termsData[terms_score] → terms_html"]
+        C1["<b>1 · Policy Terms</b><br/><i>Content</i><br/>☑ I have read and understood<br/>terms_signature"]
+        C7["<b>7 · Stamp Acceptance</b><br/><i>Script</i> — NEW<br/>terms_accepted_at · version · status"]
+        C5{"<b>5 · terms_score contains 'addons'?</b><br/><i>Logic</i>"}
+        C3["<b>3 · Optional Extras</b><br/><i>Content</i><br/>Legal Protection · Breakdown<br/>+ signature"]
+        C2["<b>2 · Confirmation Received</b><br/><i>Content</i> — terminal"]
+        C6["6 · claude.md<br/><i>unlinked</i>"]
+        C4 -.continuation.-> C1
+        C1 -->|Continue| C7
+        C7 -.continuation.-> C5
+        C5 -->|addons| C3
+        C5 -->|default| C2
+        C3 -->|Next| C2
+    end
+
+    N9 -. "emails terms_form_link<br/>with unique session_id" .-> C4
+    C7 -. "acceptance read back<br/>via CO 1197" .-> N16
+
+    classDef new fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
+    classDef memory fill:#f9fafb,stroke:#9ca3af,stroke-dasharray:4 3,color:#4b5563
+    classDef blocked fill:#fef2f2,stroke:#dc2626,color:#7f1d1d
+    classDef logic fill:#eef2ff,stroke:#6366f1,color:#312e81
+    classDef script fill:#f5f3ff,stroke:#8b5cf6,color:#4c1d95
+    class C7 new
+    class N2,C6 memory
+    class N8 blocked
+    class N7,N14,N18,N19,C5 logic
+    class N17,N6,C4 script

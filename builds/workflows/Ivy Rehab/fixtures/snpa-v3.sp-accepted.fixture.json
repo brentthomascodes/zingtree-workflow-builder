@@ -1,0 +1,50 @@
+{
+  "tree_id": "227319134",
+  "preview_host": "https://zingtree.com/preview/",
+  "connected_objects": {
+    "35": "alias_35"
+  },
+  "buttons": {
+    "184": "Neither",
+    "199": "Continue"
+  },
+  "_note": "SharePoint rows, non-rollout clinic (Parowan-style), accepted w/ code",
+  "query_params": {
+    "clinic_raintree_code": "UT901",
+    "clinic_cost_code": "UT901",
+    "name": "Ivy Rehab Parowan"
+  },
+  "actions": {
+    "alias_35": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "insurance_list": [
+        "Aetna - Commercial; 10001; Accepted;",
+        "UHC/United Healthcare/Choice Plus; 10012; accepted;",
+        "Fidelis/Ambetter from Fidelis/Medicaid; ; Not Accepted - Medicaid;",
+        "Wellcare; ; Not Accepted - All Other;",
+        "Cigna - Medicare Advantage/Healthspring; ; Managed;",
+        "Other; 10005; Accepted;",
+        "AARP Medicare Supplement (Secondary Only)"
+      ]
+    }
+  },
+  "form_inputs": {
+    "199": {
+      "is_using_insurance": "Yes",
+      "insurance_selection": "UHC/United Healthcare/Choice Plus"
+    }
+  },
+  "expect": {
+    "form_data": {
+      "is_display_insurance_dropdown": "true",
+      "insurance_route": "accepted",
+      "patient_insurance_rt_code": "10012",
+      "patient_insurance_other": "UHC/United Healthcare/Choice Plus"
+    },
+    "terminal_node": "149"
+  }
+}

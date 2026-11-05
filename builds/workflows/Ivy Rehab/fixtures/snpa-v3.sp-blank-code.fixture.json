@@ -1,0 +1,45 @@
+{
+  "tree_id": "227319134",
+  "preview_host": "https://zingtree.com/preview/",
+  "connected_objects": {
+    "35": "alias_35"
+  },
+  "buttons": {
+    "184": "Neither",
+    "199": "Continue"
+  },
+  "_note": "Clinic keeps insurance in comments: empty code slot, no Raintree code",
+  "query_params": {
+    "clinic_raintree_code": "UT901",
+    "clinic_cost_code": "UT901",
+    "name": "Ivy Rehab Parowan"
+  },
+  "actions": {
+    "alias_35": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "insurance_list": [
+        "Aetna - Commercial; ; Accepted;",
+        "Wellcare; ; Not Accepted - All Other;"
+      ]
+    }
+  },
+  "form_inputs": {
+    "199": {
+      "is_using_insurance": "Yes",
+      "insurance_selection": "Aetna - Commercial"
+    }
+  },
+  "expect": {
+    "form_data": {
+      "is_display_insurance_dropdown": "true",
+      "insurance_route": "accepted",
+      "patient_insurance_rt_code": "",
+      "patient_insurance_other": "Aetna - Commercial"
+    },
+    "terminal_node": "149"
+  }
+}

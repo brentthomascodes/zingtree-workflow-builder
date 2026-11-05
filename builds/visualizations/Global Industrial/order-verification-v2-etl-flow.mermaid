@@ -1,0 +1,66 @@
+%% Global Industrial — Order Verification Workflow rebuild (2026-09-09)
+%% ETL architecture, top to bottom. Loop-fix nodes marked with the checkpoint diamond.
+flowchart TD
+    seed[Seed: reset session state] --> gate{Session / case valid?}
+    gate -->|closed case| closedEnd([Case already closed])
+    gate -->|no agent session| noSessionEnd([Agent session not detected])
+    gate -->|ok| fetchCtx[Fetch user + case details]
+    fetchCtx --> classify[Classify case context]
+    classify --> intake[/Intake: reason, division,\ncaller, order/case #s/]
+    intake --> resolveKey[Resolve order key + division]
+    resolveKey --> knownKey{Order key known?}
+    knownKey -->|yes| searchByKey[Search order by key]
+    knownKey -->|no| searchScreen[/Search for the order/]
+    searchScreen --> criteriaSearch[Search order by criteria]
+    searchByKey --> gradeSearch[Grade the order search]
+    criteriaSearch --> gradeSearch
+    gradeSearch --> countRoute{How many orders?}
+    countRoute -->|0| noOrders([No orders found]) --> searchScreen
+    countRoute -->|many| selectOrder[/Select the order/] --> resolveOrder[Resolve selection]
+    countRoute -->|1| fetchCases
+    resolveOrder --> fetchCases[Get cases for this order]
+    fetchCases --> countCases[Count cases]
+    countCases --> caseRoute{Cases already open?}
+    caseRoute -->|no| getProducts
+    caseRoute -->|yes| pickAction[/Merge · Update · Create new/]
+
+    pickAction -->|merge| mergeSummary[/Resolution summary/] --> stageMerge[Stage merge payload] --> doMerge[Merge case - DCO 619] --> mergeDone[/Merged - link to parent/] --> refetchTypeMerge[Re-read case type] --> routing
+    pickAction -->|update| updateRoute{Case selected?}
+    updateRoute -->|yes| updateComments[/Comments for update/] --> stageUpdate[Stage update payload] --> doUpdate[Update case - DCO 620] --> updatedScreen[/Case updated/] --> refetchTypeUpdate[Re-read case type] --> routing
+    updateRoute -->|no, fallback| mergeSummary
+    pickAction -->|create new anyway| getProducts
+
+    getProducts[Get products, contacts, account] --> checkReady[Check products/contacts]
+    checkReady --> readyRoute{Ready?}
+    readyRoute -->|no products| noProducts([No products]) --> searchScreen
+    readyRoute -->|no contacts| noContacts([No contacts]) --> selectItems
+    readyRoute -->|contact unknown| selectContact[/Select contact + call source/] --> resolveContact[Resolve contact] --> selectItems
+    readyRoute -->|known contact| selectItems
+
+    selectItems[/Select line items + reason/] --> stageCase[Stage new-case fields] --> doCreate[Create case - DCO 609] --> gradeCreate{Created OK?}
+    gradeCreate -->|no| createFailed([Case create failed - NEW])
+    gradeCreate -->|yes| waitGtk[/Waiting for case #/] --> refetchGtk[Re-read for GTK key] --> gtkRoute{GTK key ready?}
+    gtkRoute -->|no| gtkMissing([Heads-up: not yet ready - NEW]) --> getCaseProducts
+    gtkRoute -->|yes| getCaseProducts[Get products already on case]
+
+    getCaseProducts --> buildQueue[Build line-item queue]
+    buildQueue --> renderTable[Render table HTML]
+    renderTable --> reviewScreen[/Review line items + qty/]
+    reviewScreen --> applyQty[Apply edited quantities]
+    applyQty --> cursor{{cursor: next line item}}
+    cursor --> addItem[Add item to case - DCO 228]
+    addItem --> gradeItem[Grade + advance]
+    gradeItem --> moreRoute{More items?}
+    moreRoute -->|no| summarize[Summarize items added]
+    moreRoute -->|checkpoint every 10| checkpointScreen([Real agent click - LOOP FIX]) --> cursor
+    moreRoute -->|yes, under 10 since checkpoint| cursor
+
+    summarize --> commentScreen[/Add verification comments/]
+    commentScreen --> stageComment[Stage comment]
+    stageComment --> addComment[Add comment - DCO 606]
+    addComment --> routing([Hand off to Case Type Routing\ntree id 1 - CONFIRM])
+
+    classDef fixed fill:#d4f4dd,stroke:#2e7d32,color:#1b1b1b;
+    classDef open fill:#fff3cd,stroke:#c69500,color:#1b1b1b;
+    class checkpointScreen,createFailed,gtkMissing fixed;
+    class routing open;

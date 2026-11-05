@@ -1,0 +1,100 @@
+```mermaid
+flowchart TD
+  %% Main Intake (id 142849578) — current
+  N2["2: Empathy and Permission"]
+  N3["3: Case Type"]
+  N10["10: Auto — When Did It Happen"]
+  N11["11: Auto — Were You Injured"]
+  N12["12: Auto — Medical Treatment"]
+  N13["13: Auto — Fault and Liability"]
+  N14["14: Auto — Insurance"]
+  N20["20: Slip and Fall — When"]
+  N21["21: Slip and Fall — Location"]
+  N22["22: Slip and Fall — Injured"]
+  N23["23: Slip and Fall — Medical Treatment"]
+  N30["30: Med Mal — When"]
+  N31["31: Med Mal — Provider"]
+  N32["32: Med Mal — Harm"]
+  N40["40: Workers Comp — Location"]
+  N41["41: Workers Comp — When"]
+  N42["42: Workers Comp — Reported to Employer"]
+  N50["50: Other Case Type"]
+  N90["90: Collect Caller Information"]
+  N91["91: Schedule Consultation"]
+  N92["92: Appointment Confirmed"]
+  N93["93: Callback Scheduled"]
+  N95["95: Possible Statute of Limitations"]
+  N96["96: No Physical Injury"]
+  N97["97: Liability Unclear"]
+  N99["99: End of Call"]
+  N2 -->|Yes — please proceed| N3
+  N2 -->|Caller wants attorney | N90
+  N2 -->|Caller is in a hurry —| N90
+  N3 -->|Auto or vehicle accide| N10
+  N3 -->|Slip trip or fall| N20
+  N3 -->|Medical malpractice or| N30
+  N3 -->|Work injury or workers| N40
+  N3 -->|Other type of injury o| N50
+  N10 -->|Within the past 12 mon| N11
+  N10 -->|1 to 2 years ago| N11
+  N10 -->|More than 2 years ago| N95
+  N10 -->|Not sure| N11
+  N11 -->|Yes — I was injured| N12
+  N11 -->|Others in my vehicle w| N12
+  N11 -->|No injuries — property| N96
+  N12 -->|Yes — I sought treatme| N13
+  N12 -->|Not yet but I plan to| N13
+  N12 -->|No — I have not| N13
+  N13 -->|Yes — other party was | N14
+  N13 -->|Possibly — still being| N14
+  N13 -->|I may have been at fau| N97
+  N14 -->|Other driver was insur| N90
+  N14 -->|Other driver was unins| N90
+  N14 -->|Not sure| N90
+  N14 -->|I have uninsured motor| N90
+  N20 -->|Within the past 12 mon| N21
+  N20 -->|1 to 2 years ago| N21
+  N20 -->|More than 2 years ago| N95
+  N20 -->|Not sure| N21
+  N21 -->|Business or store| N22
+  N21 -->|Restaurant bar or venu| N22
+  N21 -->|Someones private home | N22
+  N21 -->|Government or public p| N22
+  N22 -->|Yes — I was injured| N23
+  N22 -->|No — I am okay| N96
+  N23 -->|Yes| N90
+  N23 -->|Not yet| N90
+  N23 -->|No| N90
+  N30 -->|Within the past year| N31
+  N30 -->|1 to 2 years ago| N31
+  N30 -->|More than 2 years ago| N95
+  N30 -->|Not sure| N31
+  N31 -->|Yes| N32
+  N31 -->|No| N32
+  N31 -->|Not sure| N32
+  N32 -->|Yes — I believe so| N90
+  N32 -->|Possibly — I am not su| N90
+  N32 -->|No| N97
+  N40 -->|Yes — at my workplace| N41
+  N40 -->|Yes — during a work-re| N41
+  N40 -->|No — not work related| N50
+  N41 -->|Within the past year| N42
+  N41 -->|1 to 2 years ago| N42
+  N41 -->|More than 2 years ago| N95
+  N41 -->|Not sure| N42
+  N42 -->|Yes — already reported| N90
+  N42 -->|Not yet| N90
+  N42 -->|No / I am afraid to re| N90
+  N50 -->|Yes — please take my i| N90
+  N50 -->|Caller wants to descri| N90
+  N90 -->|Information collected | N91
+  N90 -->|Caller declines to pro| N99
+  N91 -->|Appointment scheduled | N92
+  N91 -->|Caller cannot schedule| N93
+  N95 -->|Yes — take my informat| N90
+  N95 -->|Caller just wants gene| N99
+  N96 -->|Yes — take my informat| N90
+  N96 -->|No — I just wanted inf| N99
+  N97 -->|Yes — please take my i| N90
+  N97 -->|No — I was just callin| N99
+```

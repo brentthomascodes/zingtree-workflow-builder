@@ -1,0 +1,43 @@
+{
+  "tree_id": "227319134",
+  "preview_host": "https://zingtree.com/preview/",
+  "_note": "Insurance path, dropdown clinic. Static catalogue, no Connected Object on this path.",
+  "query_params": {
+    "clinic_raintree_code": "ny181",
+    "name": "Ivy Rehab Brooklyn Heights"
+  },
+  "connected_objects": {
+    "35": "alias_35"
+  },
+  "actions": {
+    "alias_35": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "insurance_list": [
+        "Aetna - Commercial"
+      ]
+    }
+  },
+  "form_inputs": {
+    "199": {
+      "is_using_insurance": "Yes",
+      "insurance_selection": "Other",
+      "patient_insurance_other": "Oscar Health"
+    }
+  },
+  "buttons": {
+    "184": "Neither",
+    "199": "Continue"
+  },
+  "expect": {
+    "form_data": {
+      "insurance_route": "accepted",
+      "patient_insurance_rt_code": "10005",
+      "patient_insurance_other": "Oscar Health"
+    },
+    "terminal_node": "149"
+  }
+}

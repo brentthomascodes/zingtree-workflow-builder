@@ -1,0 +1,16 @@
+%% Child-ticket section AFTER node 32 crash fix (tree 139367450)
+%% NEW guard node 3 prevents entering the cursor loop (and the unconditional 33 API create) when child_tickets is empty.
+flowchart TD
+  n31["31 · Update Tags (API)"] --> n3{"3 · Any child tickets to create? (NEW guard)"}
+  n3 -- "len(transforms.child_tickets) >= 1" --> n32["32 · Loop Child Tickets (counter clamped)"]
+  n3 -- "== 0 (empty / expired)" --> n21["21 · Format Internal Note"]
+  n32 --> n33["33 · Create Child Ticket (API)"]
+  n33 --> n35{"35 · Grand children?"}
+  n35 -- yes --> n39["39→41→40→36→37 grandchild loop"]
+  n39 --> n38{"38 · More grandchildren?"}
+  n38 -- yes --> n39
+  n38 -- no --> n34
+  n35 -- no --> n34{"34 · More child tickets?"}
+  n34 -- yes --> n32
+  n34 -- no --> n21
+  n21 --> n22["22 · Add Internal Note (API)"]

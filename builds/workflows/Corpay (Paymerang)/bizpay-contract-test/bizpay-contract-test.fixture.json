@@ -1,0 +1,50 @@
+{
+  "_comment": "Happy path. Body captured live from CO 1299 data preview (payment 2639209, 2026-10-19); identical to Mayur Palankar's 10/16 sample.",
+  "tree_id": "0",
+  "preview_host": "https://zingtree.com/preview/",
+  "query_params": {},
+  "connected_objects": {
+    "1299": "bizpay__get_payment_by_id"
+  },
+  "views": {},
+  "view_inputs": {},
+  "actions": {
+    "bizpay__get_payment_by_id": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "payment_id": 2639209,
+      "client_id": 1398,
+      "client_name": "IPay Technologies",
+      "vendor_id": 282831,
+      "client_vendor_id": 41389,
+      "payment_amount": 537.49,
+      "service_fee": 0.0,
+      "funding_amount": 0.0,
+      "manual_value_load_amount": 0.0,
+      "remaining_balance": 0.0,
+      "card_status": "Completed",
+      "card_status_date": "2014-12-04",
+      "cancel_card_request_exists": false,
+      "cancel_card_request_approved": false,
+      "pega_case_id": ""
+    }
+  },
+  "form_inputs": {
+    "1": {
+      "payment_id": "2639209"
+    }
+  },
+  "buttons": {
+    "1": "Run test"
+  },
+  "expect": {
+    "data_node_calls": {
+      "bizpay__get_payment_by_id": 1
+    },
+    "terminal_node": "4"
+  },
+  "ai_action_aliases": {}
+}

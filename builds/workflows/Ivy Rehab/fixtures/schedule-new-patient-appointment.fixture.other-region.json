@@ -1,0 +1,85 @@
+{
+  "tree_id": "227319134",
+  "preview_host": "https://zingtree.com/preview/",
+  "_note": "Fallback path - a clinic outside the Brooklyn/Charlotte rollout, and an Azure call that failed. The dropdown must fall back to the Raintree master list, never to an empty picker. This is also the shape production sees today, because nothing writes clinic_region yet (OI-4).",
+  "query_params": {
+    "clinic_cost_code": "B0222",
+    "clinic_region": "",
+    "name": "Ivy Rehab Fenton",
+    "clinic_raintree_code": "02"
+  },
+  "connected_objects": {
+    "1021": "get_token",
+    "1214": "raintree__find_master_insurances",
+    "35": "alias_35"
+  },
+  "actions": {
+    "raintree__find_master_insurances": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "records": [
+        {
+          "code": "10001",
+          "name": "Aetna"
+        },
+        {
+          "code": "10002",
+          "name": "Blue Cross Blue Shield"
+        },
+        {
+          "code": "10003",
+          "name": "Cigna"
+        },
+        {
+          "code": "10004",
+          "name": "Medicare"
+        },
+        {
+          "code": "10005",
+          "name": "United Healthcare"
+        }
+      ]
+    },
+    "alias_35": {
+      "_zt_meta": {
+        "response": {
+          "code": 500,
+          "body": "{\"error\":\"upstream unavailable\"}"
+        }
+      }
+    },
+    "get_token": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "access_token": "MOCK_TOKEN",
+      "token_type": "bearer",
+      "expires_in": 600
+    }
+  },
+  "form_inputs": {
+    "119": {},
+    "149": {
+      "insurance_select": "Cigna",
+      "patient_insurance_card": "No"
+    }
+  },
+  "expect": {
+    "data_node_calls": {
+      "alias_35": 1,
+      "raintree__find_master_insurances": 1
+    },
+    "form_data": {
+      "new_cost_code": "B0222"
+    }
+  },
+  "buttons": {
+    "119": "Insurance Accepted",
+    "149": "Thank you"
+  }
+}

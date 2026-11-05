@@ -1,0 +1,30 @@
+flowchart TD
+    S["Start: ?condition= or picker"]:::entry
+    S --> C{Condition}
+    C -->|smi| L1["Severe Mental Illness"]:::lane
+    C -->|adult_mh| L2["Adult Mental Health"]:::lane
+    C -->|depression| L3["Depression"]:::lane
+    C -->|cyp| L4["Children & Young People"]:::lane
+    C -->|risk| L5["MH Risk Assessment (shared)"]:::shared
+
+    L1 --> P
+    L2 --> P
+    L3 --> P
+    L4 --> P
+    subgraph P["House pattern (every lane)"]
+      direction LR
+      ASK["Ask: native question screen"] --> EVAL["Evaluate: script sets flags + outcome_key"]:::script --> ROUTE{"Route: reads flags only"}:::route
+    end
+    ROUTE -. high-risk .-> L5
+    ROUTE --> CAT
+    L5 --> CAT
+
+    CAT["Outcome catalog — 21 outcomes, one script (node 88)"]:::catalog --> OUT["Outcome screen (+ Other free text)"] --> SN["Safety netting"]:::endn
+
+    classDef entry fill:#f3f1ec,stroke:#d9d5cc;
+    classDef lane fill:#eaf6ef,stroke:#3a8a5f;
+    classDef shared fill:#e7f1f8,stroke:#2f7db8;
+    classDef script fill:#f1ecfa,stroke:#8a63d2;
+    classDef route fill:#e7f1f8,stroke:#2f7db8;
+    classDef catalog fill:#fbf0e8,stroke:#b8531f;
+    classDef endn fill:#f3f1ec,stroke:#d9d5cc;

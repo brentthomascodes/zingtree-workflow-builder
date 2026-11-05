@@ -1,0 +1,85 @@
+%% ETG Rebooking - consolidated single tree (52 nodes). Was 15 trees / 256 nodes.
+%% Node 8 "engine" holds the entire GDS/LCC/Portals decision table as data.
+flowchart TD
+  subgraph A["Phase A - select PNRs"]
+    n1["1 Script: Start session / clear last run"]
+    n2["2 Content: Verify + pick PNRs (findorder grid)"]
+    n3["3 Script: Store selection, flag linked PNR"]
+    n4{"4 Linked PNR?"}
+    n5["5 Content: Linked - handle outside Zingtree"]
+  end
+  subgraph B["Phase B - determine each PNR (loop)"]
+    n6["6 Script: Next PNR (cursor)"]
+    n7["7 Content: Select passengers"]
+    n8[["8 Script: THE ENGINE - decide next step<br/>(GDS / LCC / Portals rules as data)"]]
+    n9{"9 PNR decided?"}
+    n10["10 Content: Answer what's needed<br/>(one screen, conditional native fields)"]
+    n11["11 Content: Outcome for this PNR"]
+    n12["12 Data: Update flow tags (CO 54)"]
+    n13["13 Script: Save this PNR's answers"]
+    n14{"14 More PNRs?"}
+  end
+  subgraph C["Phase C - customer decision + grouped handling"]
+    n15["15 Script: Build decision table (dynamic HTML)"]
+    n16["16 Content: Confirm decision per PNR"]
+    n17["17 Script: Group PNRs by decision"]
+    n18[["18 Script: Next group + HANDLINGS catalog<br/>(Take Payment / Escalate / GDPR / Refund / No action)"]]
+    n19{"19 Different request?"}
+    n20["20 Content: Handle this group (one screen)"]
+    n21["21 Script: Finalisation steps"]
+    n22["22 Content: Finalise in Edvin"]
+    n23["23 Script: Record PNR + stage child ticket"]
+    n24{"24 Child ticket?"}
+    n25["25 Data: Create child ticket (CO 20)"]
+    n26{"26 More PNRs in group?"}
+    n41{"41 More groups?"}
+    n42["42 Script: Format internal note"]
+    n43["43 Data: Create internal note (CO 57)"]
+    n44["44 Content: All PNRs resolved (end)"]
+  end
+  subgraph D["Different-request branch (loop)"]
+    n27["27 Script: Next different-request PNR"]
+    n28["28 Content: Pick the request"]
+    n29{"29 Which request?"}
+    n30(["30-38 Tree: 9 request subtrees"])
+    n39["39 Script: Record different request"]
+    n40{"40 More in group?"}
+  end
+  subgraph G["Global actions (persistent buttons, unlinked)"]
+    n45["45 Escalate to Support"]
+    n46["46 Supervisor Callback"]
+    n47["47 Interaction Disconnected"]
+    n48["48 Disconnect next steps"]
+    n49["49 Data: Add tags (CO 54)"]
+    n50["50 Script: Save PNR in progress"]
+    n51{"51 More PNRs?"}
+  end
+
+  n1-->n2-->n3-->n4
+  n4-- yes -->n5
+  n4-- no -->n6
+  n6-->n7-->n8-->n9
+  n9-- "not final" -->n10
+  n10-- Continue -->n8
+  n9-- final -->n11-->n12-->n13-->n14
+  n14-- more -->n6
+  n14-- done -->n15
+  n15-->n16-->n17-->n18-->n19
+  n19-- yes -->n27
+  n19-- no -->n20-->n21-->n22-->n23-->n24
+  n24-- yes -->n25-->n26
+  n24-- no -->n26
+  n26-- more -->n23
+  n26-- done -->n41
+  n27-->n28-->n29
+  n29-->n30-->n39-->n40
+  n40-- more -->n27
+  n40-- done -->n41
+  n41-- more -->n18
+  n41-- done -->n42-->n43-->n44
+  n45-->n49
+  n46-->n49
+  n47-->n48-->n49
+  n49-->n50-->n51
+  n51-- more -->n6
+  n51-- done -->n15

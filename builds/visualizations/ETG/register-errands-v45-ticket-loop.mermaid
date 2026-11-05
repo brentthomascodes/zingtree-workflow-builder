@@ -1,0 +1,34 @@
+flowchart TD
+  subgraph BEFORE["v44 - two loops, 78 nodes"]
+    B32["32 Loop Child Tickets"] --> B84["84 Validate"] --> B33["33 Create (CO 20)"] --> B17{"17 status"}
+    B17 --> B62["62 -> 64 -> 63 Get (CO 158)"] --> B39{"39 status"} --> B65["65 Format"] --> B66["66 Update (CO 207)"] --> B41{"41 status"}
+    B41 --> B35{"35 Is Grand Children?"}
+    B35 -->|yes| B36["36 Loop Grand Child"] --> B85["85 Validate"] --> B37["37 Create (CO 20)"] --> B19{"19 status"}
+    B19 --> B68["68 -> 69 -> 70 Get (CO 158)"] --> B49{"49 status"} --> B71["71 Format"] --> B72["72 Update (CO 207)"] --> B51{"51 status"} --> B38{"38 More GC?"}
+    B38 -->|yes| B36
+    B38 -->|no| B34{"34 More Child?"}
+    B35 -->|no| B34
+    B34 -->|yes| B32
+  end
+
+  subgraph AFTER["v45 - one loop, 61 nodes"]
+    A27["27 Stitch & Group<br/>builds work_queue"] --> A3{"3 Any tickets?"}
+    A3 -->|yes| A32["32 Loop Tickets<br/>cursor: queue_index + grandchild_index"]
+    A32 --> A90{"90 Already created?"}
+    A90 -->|"yes - SKIP logged"| A34
+    A90 -->|no| A84["84 Validate Ticket Data"] --> A33["33 Create (CO 20)"] --> A17{"17 status"}
+    A17 -->|ok| A62["62 -> 64 -> 63 Get (CO 158)"] --> A39{"39 status"}
+    A39 -->|ok| A65["65 Resolve Ticket Id"] --> A66["66 Update (CO 207)"] --> A41{"41 status"}
+    A41 -->|ok| A34{"34 More Tickets?"}
+    A34 -->|yes| A32
+    A34 -->|no| A21["21 Format Internal Note"]
+    A17 -->|fail| A86
+    A39 -->|fail| A86
+    A41 -->|fail| A86
+    A86["86 Log & Render Failure"] --> A87["87 Request Failed"]
+    A87 -->|Retry| A88{"88 Retry Router<br/>by last_api_alias"} --> A33
+    A87 -->|End| A53["53 Session Ended"]
+  end
+
+  DEL["DELETED: 19 20 35 36 37 38 49 50 51 52<br/>68 69 70 71 72 85 - the grandchild body<br/>called the SAME COs 20 / 158 / 207"]
+  BEFORE -.-> DEL

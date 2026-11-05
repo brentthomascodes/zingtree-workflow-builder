@@ -1,0 +1,40 @@
+{
+  "tree_id": "227319134",
+  "preview_host": "https://zingtree.com/preview/",
+  "connected_objects": {
+    "35": "alias_35"
+  },
+  "buttons": {
+    "184": "Neither",
+    "199": "Continue",
+    "119": "Insurance Accepted"
+  },
+  "_note": "Non-rollout clinic, name-only SharePoint: 119 status quo, Insurance Accepted -> 149",
+  "query_params": {
+    "clinic_raintree_code": "PA101",
+    "clinic_cost_code": "PA101",
+    "name": "Ivy Rehab Other"
+  },
+  "actions": {
+    "alias_35": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "insurance_list": [
+        "Aetna - Commercial",
+        "Wellcare"
+      ]
+    }
+  },
+  "form_inputs": {
+    "199": {}
+  },
+  "expect": {
+    "form_data": {
+      "is_display_insurance_dropdown": "false"
+    },
+    "terminal_node": "149"
+  }
+}

@@ -34,6 +34,11 @@ without a correction pass.
 | `scripts/tree_diff.py` | Mechanical before/after change report |
 | `fixtures/example.fixture.json` | The fixture shape, invented data |
 | `companions/analyze-workflow-session/` | Companion skill that writes learnings back into this repo |
+| `builds/workflows/<Account>/` | Tree exports, fixtures, response contracts, diffs |
+| `builds/scripts/` | Reusable production script bodies |
+| `builds/requirements/<Account>/` | Requirements docs and change requests |
+| `builds/visualizations/` | `.mermaid` / `.html` flow diagrams |
+| `builds/platform/` | Builder Studio architecture notes |
 | `CONTRIBUTING.md` | How a change gets in: pull before building, the PR template, who approves what |
 | `CHANGELOG.md` | Rule changes by date, each with the build that proved it |
 | `HANDOVER.md` | Brent's side of the builder merge with Charchit Rajput (agreed 2026-10-26): what this repo brings, gaps, open questions |
@@ -75,7 +80,7 @@ install from it.
 
 ## Scope
 
-This repo holds the skill, its references and its scripts. It carries no customer tree
-exports, fixtures with real ids, response contracts, credentials, or account payloads — those
-live in their own private workspaces and must never be committed here. The reference builds are
-described in `references/10-reference-builds.md` and live in the workspace.
+This repo holds the skill, its references, its scripts, and (since Nov 2026) the builds under
+`builds/`: tree exports, fixtures, scripts, requirements and diagrams by account. It never
+holds credentials; keys are replaced with `REDACTED_*` placeholders, so restore the real value
+before importing a tree. The reference builds are described in `references/10-reference-builds.md`.

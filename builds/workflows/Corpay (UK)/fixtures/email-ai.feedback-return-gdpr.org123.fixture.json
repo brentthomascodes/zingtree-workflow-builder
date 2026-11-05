@@ -1,0 +1,27 @@
+{
+ "tree_id": "109029630",
+ "preview_host": "https://eu.zingtree.com/preview/",
+ "connected_objects": {
+  "10": "sfdc_int__case_email_ai",
+  "20": "get_account_details__int",
+  "23": "get_incoming_email_addresses_int",
+  "187": "send_email_simple_int"
+ },
+ "ai_action_aliases": {
+  "12": "automate_email_intent_int",
+  "16": "automate_email_generation_int",
+  "18": "automate_hc_email_intent_int",
+  "25": "automate_hc_email_generation_int",
+  "60": "format_gdpr_names_int"
+ },
+ "query_params": {
+  "queue_route": "fast_admin",
+  "ai_reply_is_gdpr": true,
+  "sf_Id": "500Ad00000c1OgmIAE"
+ },
+ "actions": {},
+ "expect": {
+  "terminal_node": "55"
+ },
+ "note": "Feedback Submit (hidden native button on the dashboard) -> router 52 -> back to dashboard 55. Start at 52 (--start 52)."
+}

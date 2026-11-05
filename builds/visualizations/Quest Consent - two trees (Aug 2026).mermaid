@@ -1,0 +1,90 @@
+%% Quest Consent Form — two workflows, current vs. delivered (2026-08-05)
+%% Agent tree 208427015 · Customer tree 973795360
+%% Green = new (verbal fallback CR) · Amber = modified · Grey dashed = unlinked memory
+flowchart TB
+
+    subgraph AGENT["AGENT-FACING  ·  Consent Form - Agent Workflow (208427015)"]
+        direction TB
+
+        N1["<b>1 · Intake Form</b><br/><i>Content</i><br/>full_name · company (19 opts → company_score)<br/>consent_preference · email / phone"]
+        N17["<b>17 · Continue</b><br/><i>Script</i><br/>dictionary[company_score] → consent_instruction<br/>+ consent_instruction_html ⟵ NEW"]
+        N3["<b>3 · Consent Details</b><br/><i>Content</i> — review before send"]
+        N6["<b>6 · Format Consent Message</b><br/><i>Script</i><br/>builds URL-encoded consent_form_link<br/>+ client_name / client_id"]
+        N7{"<b>7 · Route Consent Preference</b><br/><i>Logic</i>"}
+        N8["<b>8 · Twilio API</b><br/><i>Data</i> — SMS<br/>⛔ not live: API blocked"]
+        N9["<b>9 · Email Consent Preference</b><br/><i>Email</i> — sends the link"]
+        N13["<b>13 · Consent Form Sent</b><br/><i>Content</i> — agent waits"]
+        N16["<b>16 · Verify Caller Consent</b><br/><i>Data</i> · CO 1197 get_session_data"]
+        N14{"<b>14 · Verify Caller Consent</b><br/><i>Logic</i><br/>is_caller_consent_received == 1"}
+        N18{"<b>18 · Optional Consent Verification</b><br/><i>Logic</i> — healthyquest research consent"}
+        N15["<b>15 · Consent Not Received</b><br/><i>Content</i><br/>retry · resend"]
+        N12["<b>12 · Complete Consent</b><br/><i>Content</i> — terminal<br/>DIGITAL path only"]
+
+        N10["<b>10 · Voice - Deflect</b><br/><i>Content</i> — 'approx 30 minutes'"]
+        N19["<b>19 · Unable to Respond</b><br/><i>Content</i> — NEW<br/>reason code + notes"]
+        N11["<b>11 · Verbal Consent Script</b><br/><i>Content</i> — REBUILT<br/>was 'Lorem Ipsum....'<br/>real consent text · copy area<br/>attestation + stated name"]
+        N20["<b>20 · Stamp Verbal Consent</b><br/><i>Script</i> — NEW<br/>consent_method · timestamp · agent<br/>reason · audit_complete + summary"]
+        N22["<b>22 · Verbal Consent Confirmed</b><br/><i>Content</i> — NEW, terminal<br/>audit card + copy-to-clipboard"]
+        N21["<b>21 · Verbal Consent Declined</b><br/><i>Content</i> — NEW, terminal<br/>⚠ copy pending Emily"]
+        N23["23 · claude.md<br/><i>unlinked in-tree memory</i>"]
+
+        N1 --> N17
+        N17 -.continuation.-> N3
+        N3 --> N6
+        N6 -.continuation.-> N7
+        N7 -->|Text Message| N8
+        N7 -->|Email| N9
+        N7 -->|Voice| N10
+        N8 -.continuation.-> N13
+        N9 -.continuation.-> N13
+        N13 -->|Verify Caller Consent| N16
+        N16 -.continuation.-> N14
+        N14 -->|received| N18
+        N14 -->|not yet| N15
+        N18 -->|complete| N12
+        N15 -->|Retry Consent Verification| N16
+        N15 -->|Resend Consent Form Link| N7
+
+        N13 ==>|"Customer is unable<br/>to respond now"| N19
+        N15 ==>|"Customer is unable<br/>to respond now"| N19
+        N19 -->|Read consent verbally| N11
+        N19 -->|Back - retry the link| N15
+        N10 -->|Continue| N11
+        N10 -->|switch to Text / Email| N9
+        N11 ==>|Complete Verbal Consent| N20
+        N11 -->|Participant declined| N21
+        N20 -.continuation.-> N22
+    end
+
+    subgraph CUST["CUSTOMER-FACING  ·  Consent Form - User Consent (973795360)"]
+        direction TB
+        C4["<b>4 · Get Consent</b> — <i>root, Script</i><br/>inverseClientData[company_score] →<br/>consent text · company · client name / ID"]
+        C1["<b>1 · Consent</b><br/><i>Content</i><br/>is_caller_consent_received ☑<br/>signature (conditional)"]
+        C5{"<b>5 · Is Research Informed Consent?</b><br/><i>Logic</i> — company_score contains 'healthyquest'"}
+        C3["<b>3 · Research Informed Consent</b><br/><i>Content</i> — optional<br/>optional_consent ☑ + signature"]
+        C2["<b>2 · Response received</b><br/><i>Content</i> — terminal"]
+        C6["6 · claude.md<br/><i>unlinked in-tree memory</i>"]
+
+        C4 -.continuation.-> C1
+        C1 --> C5
+        C5 -->|healthyquest| C3
+        C5 -->|default| C2
+        C3 --> C2
+    end
+
+    N9 -. "emails consent_form_link<br/>carrying a unique session_id" .-> C4
+    C1 -. "form data read back<br/>via Connected Object 1197" .-> N16
+
+    classDef new fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
+    classDef mod fill:#fff7ed,stroke:#ea580c,stroke-width:2px,color:#7c2d12
+    classDef memory fill:#f9fafb,stroke:#9ca3af,stroke-dasharray:4 3,color:#4b5563
+    classDef blocked fill:#fef2f2,stroke:#dc2626,color:#7f1d1d
+    classDef logic fill:#eef2ff,stroke:#6366f1,color:#312e81
+    classDef script fill:#f5f3ff,stroke:#8b5cf6,color:#4c1d95
+
+    class N19,N20,N21,N22 new
+    class N11,N13,N15,N17 mod
+    class N23,C6 memory
+    class N8 blocked
+    class N7,N14,N18,C5 logic
+    class N6,C4 script

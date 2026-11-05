@@ -1,0 +1,30 @@
+CALL SUMMARY
+Caller Info
+First Name: PEC
+Last Name: Test128
+Phone Number: 8015555555
+Patient Info
+First Name: PEC
+Last Name: Test128
+Relationship to Patient: self
+DOB: 01-01-1999
+Birth Sex: Female
+Phone Number: 8015555555
+Email: kelsie.brimhall@ivyrehab.com
+Mailing Address:
+1311 Mamaroneck Ave White Plains, NY 10605
+Medical Information
+What are you here for? PT
+How did you hear about us? Online
+Body Part: Knee
+Additional Treatment Notes: Patient fell and hurt knee. Recommended for "therapy" & rest
+Specialty Needed: None
+Referring Physician: Tester
+Referred to Ivy: Specifically referred to Ivy
+Private Pay Patient (Quoted $125 for IE and $100 for follow-ups)
+Appointment Information
+Clinic: Ivy Rehab Physical Therapy - Parowan (ZZZ)
+Date: 11/06/2026
+Time: 8:00 AM
+Provider: Test
+Reason for Schedule on Date: Patient unable to come in prior Friday in the morning. Prefers AM appointments

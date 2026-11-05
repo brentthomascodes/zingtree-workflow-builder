@@ -1,0 +1,35 @@
+{
+  "_comment": "actions.webscraper content is abridged (CSS trimmed) from the real model output in the Engineering sanitization ticket (FSBPT session W_3jvnc9zybxzywf5kgnp0b6q5sh2056), wrapped in the OpenAI chat-completions response shape.",
+  "tree_id": "293908919",
+  "preview_host": "https://zingtree.com/preview/",
+  "query_params": {},
+  "connected_objects": {
+    "800": "webscraper"
+  },
+  "views": {},
+  "view_inputs": {},
+  "actions": {
+    "webscraper": {
+      "_zt_meta": {
+        "response": {
+          "code": 500,
+          "body": "upstream error"
+        }
+      }
+    }
+  },
+  "form_inputs": {
+    "106": {
+      "question": "How do I change my email address?"
+    }
+  },
+  "buttons": {
+    "108": "Not Able to Assist"
+  },
+  "expect": {
+    "data_node_calls": {
+      "webscraper": 1
+    }
+  },
+  "ai_action_aliases": {}
+}

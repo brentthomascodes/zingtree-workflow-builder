@@ -1,0 +1,14 @@
+{
+  "_comment": "Refund request, no settled credit, Galileo shows full funding, RPPS not offered, reason and fee match -> approve; approval fails on an expired card -> Settled Credit Spreadsheet. The walk then loops back to node 1 for the next request.",
+  "connected_objects": {"1299": "bizpay__get_payment_by_id"},
+  "actions": {"bizpay__get_payment_by_id": {"_zt_meta": {"response": {"code": 200}}, "payment_id": 36216797, "client_id": 1398, "client_name": "iPay Technologies", "vendor_id": 1, "client_vendor_id": 1, "payment_amount": 100, "service_fee": 3, "funding_amount": 103, "manual_value_load_amount": 0, "remaining_balance": 103, "card_status": "Created", "card_status_date": "2026-10-01", "cancel_card_request_exists": true, "cancel_card_request_approved": false, "pega_case_id": ""}},
+  "form_inputs": {
+    "1": {"payment_id": "36216797", "cancel_amount": "100", "dashboard_fee": "3", "requested_action": "Refund", "requested_cancel_reason": "Vendor does not accept card payments"},
+    "6": {"has_settled_credit": "No", "has_comdata": "No"},
+    "9": {"avail_to_spend": "103", "has_payment_activity": "No", "decline_auth": "No"},
+    "14": {"rpps_available": "No"},
+    "15": {"resubmit_reason": "Vendor does not accept card payments", "reason_confirmed": "Yes"}
+  },
+  "buttons": {"17": "No", "18": "Yes, expired"},
+  "expect": {"path_includes": ["2", "9", "14", "15", "17", "18", "19"], "form_data": {"decision": "approve", "funds_remaining": "103.00"}}
+}

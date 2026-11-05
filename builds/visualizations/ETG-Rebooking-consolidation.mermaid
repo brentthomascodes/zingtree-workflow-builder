@@ -1,0 +1,47 @@
+%% ETG Rebooking — BEFORE (15 trees, 256 nodes) vs AFTER (1 tree)
+%% Source: Selected_from_ETraveli Group_2026-07-27.json
+
+flowchart TB
+  subgraph BEFORE["BEFORE — 15 trees / 256 nodes (cross-tree Tree+Return hops)"]
+    direction TB
+    H1["1. Rebooking (hub, 35)"]
+    G1["2. GDS (45)"]:::big
+    L1["3. LCC (24)"]
+    P1["4. Portals (67)"]:::big
+    TP1["5. Take Payment (11)"]
+    E1["6. Escalate (6)"]
+    GD1["7. GDPR (6)"]
+    NA1["8. No Action (3)"]
+    RF1["10. Refund Flex (6)"]
+    DR1["9. Different Request (16)"]
+    O1["2a/2b/4a/4b Outcomes (26)"]:::dup
+    PB1["Persistent Buttons (10)"]
+    H1 --> G1 & L1 & P1 & TP1 & E1 & GD1 & NA1 & RF1 & DR1
+    G1 --> O1
+    P1 --> O1 & L1
+    H1 -. global .-> PB1
+    PB1 -. "BUG: returns to 301173830 (old hub)" .-> X((?)):::bug
+    DR1 --> EXT9["9 external handlers\n(Cancellation/Refund/…)"]:::ext
+  end
+
+  subgraph AFTER["AFTER v1 — 1 tree / 220 nodes (direct links, static returns)"]
+    direction TB
+    R2["Display PNR (root)"] --> SEL["Set + iterate selected PNRs"]
+    SEL --> ROUTE{"postSaleHandleType"}
+    ROUTE -->|GDS| GDS2["GDS policy + pricing (inline)"]
+    ROUTE -->|LCC| LCC2["LCC policy + pricing (inline)"]
+    ROUTE -->|Portal| POR2["Portals policy + pricing (inline)"]
+    GDS2 & LCC2 & POR2 --> CA["Customer Action table → group PNRs"]
+    CA --> BUCK{"groupedPNR_Route"}
+    BUCK --> TP2["Take Payment"] & E2["Escalate"] & GD2["GDPR"] & NA2["No Action"] & RF2["Refund Flex"] & DR2["Different Request"]
+    TP2 & E2 & GD2 & NA2 & RF2 --> TAIL["child-ticket loop → internal note"]
+    DR2 --> EXT9b["9 external handlers (kept as Tree calls)"]:::ext
+    PB2["Persistent actions (merged; re-attach in UI)"]:::note
+    CMD["claude.md memory node"]:::note
+  end
+
+  classDef big fill:#fee2e2,stroke:#ef4444;
+  classDef dup fill:#fef9c3,stroke:#eab308;
+  classDef ext fill:#e0e7ff,stroke:#6366f1;
+  classDef bug fill:#fecaca,stroke:#b91c1c,color:#7f1d1d;
+  classDef note fill:#f1f5f9,stroke:#94a3b8,stroke-dasharray:4 3;

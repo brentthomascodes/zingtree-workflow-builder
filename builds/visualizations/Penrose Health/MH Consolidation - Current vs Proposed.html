@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Penrose MH Consolidation - Current vs Proposed</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, sans-serif; background: #fff; margin: 24px; }
+  svg { max-width: 900px; width: 100%; }
+  .th { font-size: 16px; font-weight: 700; fill: #1f2937; }
+  .t  { font-size: 13px; font-weight: 600; fill: #1f2937; }
+  .ts { font-size: 11px; fill: #6b7280; }
+  .c-blue rect, .c-blue circle   { fill: #E6F1FB; stroke: #378ADD; stroke-width: 1.5; }
+  .c-purple rect, .c-purple circle { fill: #F0EAFB; stroke: #7C5CD6; stroke-width: 1.5; }
+  .c-amber rect, .c-amber circle { fill: #FBF0DC; stroke: #EF9F27; stroke-width: 1.5; }
+  .c-teal rect, .c-teal circle   { fill: #E0F2F1; stroke: #2A9D8F; stroke-width: 1.5; }
+  .c-gray rect, .c-gray circle   { fill: #F3F4F6; stroke: #9CA3AF; stroke-width: 1.5; }
+  .c-red circle                  { fill: #DC2626; stroke: none; }
+</style>
+</head>
+<body>
+<h2>Penrose Health - MH workflow consolidation (5 trees &rarr; 1)</h2>
+<svg viewBox="0 0 680 745" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pt pd">
+  <title id="pt">Penrose MH workflow consolidation: current 5 trees vs proposed single engine tree</title>
+  <desc id="pd">Top panel shows the five current mental-health trees (107 nodes) with cross-tree jumps into a shared risk assessment. Bottom panel shows the proposed single 16-node tree driven by a condition query parameter.</desc>
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#9A9A9A"/>
+    </marker>
+  </defs>
+  <text class="th" x="40" y="34">Today: 5 trees, 107 nodes</text>
+  <path d="M262,64 L262,46 L572,46 L572,58" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text class="ts" x="417" y="40" text-anchor="middle">child caller</text>
+  <g class="c-blue">
+    <rect x="40" y="64" width="135" height="56" rx="8"/>
+    <text class="t" x="107" y="88" text-anchor="middle">Severe MI Review</text>
+    <text class="ts" x="107" y="106" text-anchor="middle">11 nodes</text>
+  </g>
+  <g class="c-blue">
+    <rect x="195" y="64" width="135" height="56" rx="8"/>
+    <text class="t" x="262" y="88" text-anchor="middle">Adult Mental Health</text>
+    <text class="ts" x="262" y="106" text-anchor="middle">21 nodes</text>
+  </g>
+  <g class="c-blue">
+    <rect x="350" y="64" width="135" height="56" rx="8"/>
+    <text class="t" x="417" y="88" text-anchor="middle">Depression Review</text>
+    <text class="ts" x="417" y="106" text-anchor="middle">9 nodes</text>
+  </g>
+  <g class="c-blue">
+    <rect x="505" y="64" width="135" height="56" rx="8"/>
+    <text class="t" x="572" y="88" text-anchor="middle">CYP MH &amp; LD</text>
+    <text class="ts" x="572" y="106" text-anchor="middle">46 nodes</text>
+  </g>
+  <path d="M107,120 L107,218 L174,218" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <path d="M262,120 L262,184" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <path d="M572,120 L572,155 L305,155 L305,184" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <path d="M417,120 L417,240 L464,240" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <g class="c-amber">
+    <rect x="180" y="190" width="150" height="56" rx="8"/>
+    <text class="t" x="255" y="214" text-anchor="middle">MH Risk Assessment</text>
+    <text class="ts" x="255" y="232" text-anchor="middle">20 nodes, shared</text>
+  </g>
+  <g class="c-teal">
+    <rect x="470" y="190" width="170" height="56" rx="8"/>
+    <text class="t" x="555" y="214" text-anchor="middle">4 external trees</text>
+    <text class="ts" x="555" y="232" text-anchor="middle">nav, panic, meds, referral</text>
+  </g>
+  <g class="c-red">
+    <circle cx="46" cy="280" r="3"/>
+    <circle cx="46" cy="302" r="3"/>
+    <circle cx="46" cy="324" r="3"/>
+  </g>
+  <text class="ts" x="58" y="284">Final-outcome select list has drifted into 5 variants (44 to 68 options)</text>
+  <text class="ts" x="58" y="306">Outcome, Other and Safety Netting tail duplicated 21 times across trees</text>
+  <text class="ts" x="58" y="328">14 unreachable legacy nodes in CYP; 2 live outcomes show wrong (animal bite) safety netting</text>
+  <line x1="40" y1="350" x2="640" y2="350" stroke="#9A9A9A" stroke-width="1" stroke-dasharray="4 4"/>
+  <text class="th" x="40" y="382">Proposed (v3.3): 1 tree, 80 nodes - merged screens + full validation</text>
+  <g class="c-gray">
+    <rect x="40" y="400" width="130" height="56" rx="8"/>
+    <text class="t" x="105" y="424" text-anchor="middle">Session URL</text>
+    <text class="ts" x="105" y="442" text-anchor="middle">?condition=smi</text>
+  </g>
+  <path d="M170,428 L214,428" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <g class="c-purple">
+    <rect x="220" y="400" width="130" height="56" rx="8"/>
+    <text class="t" x="285" y="424" text-anchor="middle">Init + 5 entries</text>
+    <text class="ts" x="285" y="442" text-anchor="middle">param + netting</text>
+  </g>
+  <path d="M350,428 L404,428" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text class="ts" x="377" y="420" text-anchor="middle">no param</text>
+  <g class="c-blue">
+    <rect x="410" y="400" width="150" height="56" rx="8"/>
+    <text class="t" x="485" y="424" text-anchor="middle">3 Picker (select)</text>
+    <text class="ts" x="485" y="442" text-anchor="middle">select use case</text>
+  </g>
+  <path d="M485,456 L485,476 L305,476 L305,462" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <path d="M250,456 L250,504" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <g class="c-purple">
+    <rect x="185" y="510" width="130" height="56" rx="8"/>
+    <text class="t" x="250" y="534" text-anchor="middle">Merged question screens</text>
+    <text class="ts" x="250" y="552" text-anchor="middle">multi-value + logic routing</text>
+  </g>
+  <path d="M315,528 L404,528" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <path d="M410,548 L321,548" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text class="ts" x="362" y="580" text-anchor="middle">to shared tail</text>
+  <g class="c-blue">
+    <rect x="410" y="510" width="150" height="56" rx="8"/>
+    <text class="t" x="485" y="534" text-anchor="middle">21 outcome setters</text>
+    <text class="ts" x="485" y="552" text-anchor="middle">3-line scripts</text>
+  </g>
+  <path d="M215,566 L215,600 L92,600 L92,624" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text class="ts" x="148" y="594" text-anchor="middle">external</text>
+  <g class="c-teal">
+    <rect x="40" y="630" width="105" height="56" rx="8"/>
+    <text class="t" x="92" y="654" text-anchor="middle">13-17 Trees</text>
+    <text class="ts" x="92" y="672" text-anchor="middle">4 linked trees</text>
+  </g>
+  <path d="M250,566 L250,624" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text class="ts" x="258" y="600">outcome ready</text>
+  <g class="c-blue">
+    <rect x="185" y="630" width="150" height="56" rx="8"/>
+    <text class="t" x="260" y="654" text-anchor="middle">8-9 Outcome</text>
+    <text class="ts" x="260" y="672" text-anchor="middle">one canonical list</text>
+  </g>
+  <path d="M335,658 L384,658" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <g class="c-amber">
+    <rect x="390" y="630" width="105" height="56" rx="8"/>
+    <text class="t" x="442" y="654" text-anchor="middle">10-11 Other?</text>
+    <text class="ts" x="442" y="672" text-anchor="middle">free-text if Other</text>
+  </g>
+  <path d="M495,658 L519,658" fill="none" stroke="#9A9A9A" stroke-width="1.5" marker-end="url(#ah)"/>
+  <g class="c-blue">
+    <rect x="525" y="630" width="115" height="56" rx="8"/>
+    <text class="t" x="582" y="654" text-anchor="middle">12 Safety Net</text>
+    <text class="ts" x="582" y="672" text-anchor="middle">per condition</text>
+  </g>
+  <g class="c-purple"><rect x="40" y="708" width="14" height="14" rx="3"/></g>
+  <text class="ts" x="60" y="719">Script</text>
+  <g class="c-blue"><rect x="115" y="708" width="14" height="14" rx="3"/></g>
+  <text class="ts" x="135" y="719">Content</text>
+  <g class="c-amber"><rect x="200" y="708" width="14" height="14" rx="3"/></g>
+  <text class="ts" x="220" y="719">Logic</text>
+  <g class="c-teal"><rect x="275" y="708" width="14" height="14" rx="3"/></g>
+  <text class="ts" x="295" y="719">Tree link</text>
+  <g class="c-gray"><rect x="360" y="708" width="14" height="14" rx="3"/></g>
+  <text class="ts" x="380" y="719">Input</text>
+</svg>
+</body>
+</html>

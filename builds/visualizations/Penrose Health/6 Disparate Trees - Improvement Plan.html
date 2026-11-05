@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Penrose — 6 Disparate Triage Trees: Improvement Plan</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#1e293b; --ink:#e2e8f0; --muted:#94a3b8;
+    --line:#334155; --cur:#f87171; --new:#34d399; --accent:#818cf8;
+    --warn:#fbbf24;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.5}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 24px 64px}
+  h1{font-size:24px;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 28px;font-size:14px}
+  h2{font-size:16px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);
+    margin:36px 0 14px;border-bottom:1px solid var(--line);padding-bottom:8px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:16px}
+  /* bars */
+  .row{display:grid;grid-template-columns:210px 1fr 96px;align-items:center;gap:14px;margin:10px 0}
+  .name{font-size:13px;color:var(--ink)}
+  .track{position:relative;background:#0b1220;border-radius:7px;height:26px;overflow:hidden;border:1px solid var(--line)}
+  .cur{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#7f1d1d,#f87171);opacity:.55}
+  .new{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#065f46,#34d399)}
+  .barnums{font-size:12px;color:var(--muted);text-align:right}
+  .barnums b{color:var(--new)}
+  .legend{display:flex;gap:20px;font-size:12px;color:var(--muted);margin:6px 0 4px}
+  .chip{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+  /* flow */
+  .flowgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:820px){.flowgrid{grid-template-columns:1fr}}
+  .flowcol h3{margin:0 0 12px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  .node{border-radius:9px;padding:9px 12px;margin:7px 0;font-size:13px;border:1px solid var(--line);background:#0b1220;position:relative}
+  .node small{color:var(--muted);display:block;font-size:11px;margin-top:2px}
+  .n-content{border-left:3px solid var(--accent)}
+  .n-script{border-left:3px solid var(--warn)}
+  .n-logic{border-left:3px solid #f472b6}
+  .n-out{border-left:3px solid var(--cur)}
+  .n-shared{border-left:3px solid var(--new)}
+  .stack{position:relative}
+  .stack .ghost{position:absolute;left:6px;right:-6px;top:6px;bottom:-6px;background:#0b1220;border:1px solid var(--line);border-radius:9px;z-index:-1;opacity:.6}
+  .stack .ghost2{top:12px;bottom:-12px;left:12px;right:-12px;opacity:.35}
+  .arrow{text-align:center;color:var(--muted);font-size:15px;margin:-2px 0}
+  .callout{background:#0b1220;border:1px solid var(--line);border-left:3px solid var(--new);
+    border-radius:9px;padding:14px 16px;font-size:13.5px;margin-top:8px}
+  .callout b{color:var(--new)}
+  .kpi{display:flex;gap:14px;flex-wrap:wrap;margin:4px 0 8px}
+  .kpi div{flex:1;min-width:150px;background:#0b1220;border:1px solid var(--line);border-radius:10px;padding:14px 16px;text-align:center}
+  .kpi .big{font-size:26px;font-weight:700}
+  .kpi .big.red{color:var(--cur)} .kpi .big.grn{color:var(--new)} .kpi .big.acc{color:var(--accent)}
+  .kpi .lbl{font-size:11.5px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.04em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Penrose — 6 Disparate Triage Trees</h1>
+  <p class="sub">Improvement plan · they stay separate · the shared plumbing gets fixed · 2026-07-16</p>
+
+  <div class="kpi">
+    <div><div class="big red">542</div><div class="lbl">nodes today</div></div>
+    <div><div class="big red">201</div><div class="lbl">duplicate Outcome screens</div></div>
+    <div><div class="big grn">~339</div><div class="lbl">nodes after fix</div></div>
+    <div><div class="big acc">1</div><div class="lbl">place to edit a disposition</div></div>
+  </div>
+
+  <h2>Node count — current vs. after Outcome collapse</h2>
+  <div class="panel">
+    <div class="legend">
+      <span><span class="chip" style="background:#f87171"></span>Current nodes</span>
+      <span><span class="chip" style="background:#34d399"></span>After shared-Outcome + info merges</span>
+    </div>
+    <!-- scale: max 330 -> 100% -->
+    <div class="row"><div class="name">Rash</div><div class="track"><div class="cur" style="width:100%"></div><div class="new" style="width:60.6%"></div></div><div class="barnums">330 → <b>~200</b></div></div>
+    <div class="row"><div class="name">Women's Health</div><div class="track"><div class="cur" style="width:30.6%"></div><div class="new" style="width:20%"></div></div><div class="barnums">101 → <b>~66</b></div></div>
+    <div class="row"><div class="name">Contraception</div><div class="track"><div class="cur" style="width:11.2%"></div><div class="new" style="width:6.4%"></div></div><div class="barnums">37 → <b>~21</b></div></div>
+    <div class="row"><div class="name">Paediatric Cough/Cold/Fever</div><div class="track"><div class="cur" style="width:12.1%"></div><div class="new" style="width:8.5%"></div></div><div class="barnums">40 → <b>~28</b></div></div>
+    <div class="row"><div class="name">Pharmacy First</div><div class="track"><div class="cur" style="width:7.3%"></div><div class="new" style="width:5.2%"></div></div><div class="barnums">24 → <b>~17</b></div></div>
+    <div class="row"><div class="name">NHS Health Check</div><div class="track"><div class="cur" style="width:3%"></div><div class="new" style="width:2.1%"></div></div><div class="barnums">10 → <b>~7</b></div></div>
+  </div>
+
+  <h2>The universal fix: 1 tree's Outcome tail</h2>
+  <div class="flowgrid">
+    <div class="flowcol panel">
+      <h3>Today — every path builds its own Outcome screen</h3>
+      <div class="node n-content">Red-flag / symptom questions <small>Content + Scoring (per tree)</small></div>
+      <div class="arrow">┈ many paths ┈</div>
+      <div class="stack">
+        <div class="ghost2"></div><div class="ghost"></div>
+        <div class="node n-out">Outcome: A&amp;E / 999 <small>outcome select + suggested_outcome + advice HTML</small></div>
+      </div>
+      <div class="stack">
+        <div class="ghost2"></div><div class="ghost"></div>
+        <div class="node n-out">Outcome: Pharmacy First <small>same 60-option list, copy #2</small></div>
+      </div>
+      <div class="node n-out">Outcome: GP routine … <small>… up to 129 copies (Rash)</small></div>
+      <p style="font-size:12.5px;color:var(--muted);margin:12px 2px 0">201 near-identical screens across the 6 trees. Change one disposition = edit up to 201 nodes.</p>
+    </div>
+
+    <div class="flowcol panel">
+      <h3>Proposed — one catalog, one shared screen</h3>
+      <div class="node n-content">Red-flag / symptom questions <small>Content + Scoring — unchanged, verbatim</small></div>
+      <div class="arrow">↓ sets <code>outcome_key</code></div>
+      <div class="node n-script">Outcome catalog script <small>OUTCOMES[key] → code + title + advice_html</small></div>
+      <div class="arrow">↓</div>
+      <div class="node n-shared">Shared Outcome screen <small>native outcome select + suggested_outcome + ${advice_html}</small></div>
+      <div class="arrow">↓ (outcome == 'Other')</div>
+      <div class="node n-shared">Other / Safety-netting tail <small>one screen · merge_vars_not_fixed = "1"</small></div>
+      <div class="callout"><b>Authoring win:</b> the disposition list + every advice snippet live in <b>one table</b>. Add/rename a disposition once, not 201 times.</div>
+    </div>
+  </div>
+
+  <h2>Grouping — share the tail, keep the flows separate</h2>
+  <div class="panel" style="font-size:13.5px">
+    These six are clinically disparate, so they should <b>not</b> merge into one flow (unlike the 5 Mental-Health trees). The only thing identical across all of them — and across Penrose's wider ~150-workflow estate — is the <b>Outcome + disposition list + safety-netting tail</b>.
+    <div style="margin-top:12px">
+      <div class="node n-shared">Best: canonical disposition list from a <b>Notion CX Action</b> — one edit updates every triage tree <small>answers the "manage 150 workflows" goal</small></div>
+      <div class="node n-shared">Good: a shared <b>"Outcome &amp; Disposition" subtree</b> called via Tree node + return_tree_node_id, passing outcome_key</div>
+      <div class="node n-content">Minimum: standardise each tree to one canonical outcome list + one catalog script (copy-maintained)</div>
+    </div>
+  </div>
+
+  <h2>Also, every tree</h2>
+  <div class="panel" style="font-size:13.5px">
+    <div class="node n-script">Add a <b>claude.md</b> memory node — none of the 6 has one (biggest pure authoring win)</div>
+    <div class="node n-logic">Keep red-flag Scoring nodes <b>verbatim</b> — already correct (checkbox==0/==1, advanced_logic=1). Clinical logic → clinician review.</div>
+    <div class="node n-content">Merge pure-info → question screens ("one screen, many values")</div>
+    <p style="color:var(--muted);font-size:12px;margin:12px 2px 0">Suggested order: pilot on Pharmacy First (8 clean outcomes) → NHS Check → Contraception → Paediatric → Women's Health → Rash.</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+flowchart TD
+    classDef bug fill:#fef2f2,stroke:#dc2626,color:#7f1d1d
+    classDef fix fill:#dce8df,stroke:#15803d,color:#14532d
+    classDef node fill:#ffffff,stroke:#94a3b8,color:#0f172a
+    classDef state fill:#eef2ff,stroke:#6366f1,color:#312e81
+
+    subgraph V29["v29 - the failure (reproduced on the offline harness)"]
+        direction TB
+        A2["node 2<br/>writes PNR record<br/>WITH actions_array"]:::node
+        A12["node 12<br/>renders selects from<br/>item.actions_array"]:::node
+        A25["node 25<br/>agent picks actions"]:::node
+        A27["node 27<br/>resolves picks OK<br/>then REWRITES the records<br/>with actions_array STRIPPED"]:::bug
+        A50["node 50<br/>guard passes"]:::node
+        A3["node 3 -> tickets + Edvin<br/>run completes"]:::node
+        RE{"node 27 executes AGAIN<br/>Back-nav / session resume at 25 /<br/>double submit / 51 re-select"}:::bug
+        A27b["node 27 pass 2<br/>options = [] for every PNR<br/>raw form value still present<br/>=> lookup_failed"]:::bug
+        A51["node 51<br/>'The customer action<br/>did not come through'"]:::bug
+        A12b["node 12<br/>dropdown renders<br/>ZERO options"]:::bug
+        A2 --> A12 --> A25 --> A27 --> A50 --> A3
+        A3 -.-> RE
+        A50 -.-> RE
+        RE --> A27b --> A51 --> A12b --> A25
+        A12b -. "no pickable option -<br/>escalate is the only exit" .-> A51
+    end
+
+    subgraph V30["v30 - the fix"]
+        direction TB
+        B46["node 46<br/>builds transforms.actions_by_type<br/>+ actions_by_type_name<br/>(per session, never overwritten)"]:::state
+        B12["node 12<br/>optionsFor(item):<br/>record -> actions_by_type -><br/>actions_by_type_name"]:::fix
+        B25["node 25<br/>agent picks actions"]:::node
+        B27["node 27<br/>same optionsFor()<br/>+ stored actionId fallback<br/>+ persists actions_array<br/>on EVERY pass"]:::fix
+        B50["node 50<br/>guard only fires on a<br/>genuinely unresolvable pick"]:::fix
+        B3["node 3 -> tickets + Edvin"]:::node
+        B46 --> B12 --> B25 --> B27 --> B50 --> B3
+        B27 -. "re-entry resolves from state<br/>and carries the run forward" .-> B27
+    end

@@ -1,0 +1,39 @@
+{
+  "_comment": "Not found. HTTP 404 confirmed live on tree 240421244 (2026-10-19); body arrives as a parsed object. Message/error text from Mayur's 10/16 email.",
+  "tree_id": "0",
+  "preview_host": "https://zingtree.com/preview/",
+  "query_params": {},
+  "connected_objects": {
+    "1299": "bizpay__get_payment_by_id"
+  },
+  "views": {},
+  "view_inputs": {},
+  "actions": {
+    "bizpay__get_payment_by_id": {
+      "_zt_meta": {
+        "response": {
+          "code": 404,
+          "body": {
+            "message": "Payment not found",
+            "error": "No payment found with Id 263920999"
+          }
+        }
+      }
+    }
+  },
+  "form_inputs": {
+    "1": {
+      "payment_id": "263920999"
+    }
+  },
+  "buttons": {
+    "1": "Run test"
+  },
+  "expect": {
+    "data_node_calls": {
+      "bizpay__get_payment_by_id": 1
+    },
+    "terminal_node": "4"
+  },
+  "ai_action_aliases": {}
+}

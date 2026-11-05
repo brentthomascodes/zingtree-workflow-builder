@@ -1,0 +1,40 @@
+{
+  "tree_id": "227319134",
+  "preview_host": "https://zingtree.com/preview/",
+  "connected_objects": {
+    "35": "alias_35"
+  },
+  "buttons": {
+    "184": "Neither",
+    "199": "Continue"
+  },
+  "_note": "alias_35 500, rollout clinic: static list",
+  "query_params": {
+    "clinic_raintree_code": "ny181",
+    "clinic_cost_code": "NY181",
+    "name": "Ivy Rehab Brooklyn Heights"
+  },
+  "actions": {
+    "alias_35": {
+      "_zt_meta": {
+        "response": {
+          "code": 500,
+          "body": "Internal Server Error"
+        }
+      }
+    }
+  },
+  "form_inputs": {
+    "199": {
+      "is_using_insurance": "Yes",
+      "insurance_selection": "other_not_listed"
+    }
+  },
+  "expect": {
+    "form_data": {
+      "is_display_insurance_dropdown": "true",
+      "insurance_route": "not_accepted_other"
+    },
+    "terminal_node": "3"
+  }
+}

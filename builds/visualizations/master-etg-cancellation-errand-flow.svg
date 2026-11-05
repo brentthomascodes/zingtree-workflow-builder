@@ -1,0 +1,76 @@
+<svg viewBox="0 0 760 1450" xmlns="http://www.w3.org/2000/svg" role="img" font-family="system-ui, sans-serif">
+  <title>ETG Register Errand — Cancellations master workflow</title>
+  <desc>Vertical flowchart of the 32-node master Zingtree tree: intake with a per-PNR loop, dynamic HTML action table, automated child and grandchild ticket loops, then errand registration loop and closing call.</desc>
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="7" refX="5.5" refY="3.5" orient="auto"><path d="M0,0 L6,3.5 L0,7 Z" fill="#a8a29e"/></marker>
+    <marker id="arrA" markerWidth="7" markerHeight="7" refX="5.5" refY="3.5" orient="auto"><path d="M0,0 L6,3.5 L0,7 Z" fill="#b45309"/></marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="1450" fill="#ffffff"/>
+  <text x="110" y="26" font-size="16" font-weight="700" fill="#1c1917">Master: Register Errand — Cancellations</text>
+  <g font-size="10.5" fill="#57534e">
+    <rect x="110" y="40" width="14" height="14" rx="4" fill="#fff" stroke="#b45309" stroke-width="1.5"/><text x="129" y="51">Script</text>
+    <rect x="175" y="40" width="14" height="14" rx="4" fill="#fff" stroke="#d6d3d1"/><text x="194" y="51">Agent screen</text>
+    <rect x="275" y="40" width="14" height="14" rx="4" fill="#fff" stroke="#a8a29e" stroke-dasharray="3 2"/><text x="294" y="51">API / Data node</text>
+    <rect x="392" y="40" width="14" height="14" rx="7" fill="#e7e5e4" stroke="#a8a29e"/><text x="411" y="51">Logic (one boolean)</text>
+    <path d="M530 47 h18" stroke="#b45309" stroke-width="1.5" marker-end="url(#arrA)"/><text x="556" y="51">loop back</text>
+  </g>
+  <text x="110" y="78" font-size="10.5" letter-spacing="1.5" fill="#78716c" font-weight="700">PHASE 1 · LOAD &amp; PER-PNR INTAKE</text>
+  <g stroke="#a8a29e" fill="none" marker-end="url(#arr)">
+    <path d="M260 120 v8"/><path d="M260 166 v8"/><path d="M260 212 v8"/><path d="M260 258 v8"/><path d="M260 304 v8"/><path d="M260 350 v8"/><path d="M260 396 v8"/>
+    <path d="M260 442 v36"/>
+    <path d="M260 512 v8"/><path d="M260 558 v8"/>
+    <path d="M260 604 v44"/>
+    <path d="M260 682 v8"/><path d="M260 728 v8"/><path d="M260 774 v8"/><path d="M260 820 v8"/><path d="M260 866 v8"/><path d="M260 912 v8"/><path d="M260 958 v8"/><path d="M260 1004 v8"/><path d="M260 1050 v8"/>
+    <path d="M260 1096 v40"/>
+    <path d="M260 1170 v8"/><path d="M260 1216 v8"/><path d="M260 1262 v8"/><path d="M260 1308 v8"/><path d="M260 1354 v8"/>
+  </g>
+  <g font-size="12.5">
+    <g><rect x="110" y="86" width="300" height="34" rx="8" fill="#fff" stroke="#a8a29e" stroke-dasharray="3 2"/><text x="124" y="107" fill="#1c1917">Edvin — Find Order</text><text x="398" y="107" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#4 API</text></g>
+    <g><rect x="110" y="132" width="300" height="34" rx="8" fill="#fff" stroke="#d6d3d1"/><text x="124" y="153" fill="#1c1917">Agent — Select PNRs</text><text x="398" y="153" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#6+24 AGENT</text></g>
+    <g><rect x="110" y="178" width="300" height="34" rx="8" fill="#fff" stroke="#b45309" stroke-width="1.5"/><text x="124" y="199" fill="#1c1917">PNR loop cursor</text><text x="398" y="199" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#7 SCRIPT</text></g>
+    <g><rect x="110" y="224" width="300" height="34" rx="8" fill="#fff" stroke="#d6d3d1"/><text x="124" y="245" fill="#1c1917">Agent — Select passengers</text><text x="398" y="245" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#8+9 AGENT</text></g>
+    <g><rect x="110" y="270" width="300" height="34" rx="8" fill="#fff" stroke="#d6d3d1"/><text x="124" y="291" fill="#1c1917">Agent — Type &amp; notes</text><text x="398" y="291" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#1 AGENT</text></g>
+    <g><rect x="110" y="316" width="300" height="34" rx="8" fill="#fff" stroke="#a8a29e" stroke-dasharray="3 2"/><text x="124" y="337" fill="#1c1917">Edvin — Get errand actions</text><text x="398" y="337" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#42 API</text></g>
+    <g><rect x="110" y="362" width="300" height="34" rx="8" fill="#fff" stroke="#b45309" stroke-width="1.5"/><text x="124" y="383" fill="#1c1917">Build actions list per PNR</text><text x="398" y="383" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#2 SCRIPT</text></g>
+    <g><rect x="150" y="408" width="220" height="34" rx="17" fill="#e7e5e4" stroke="#a8a29e"/><text x="260" y="429" text-anchor="middle" fill="#1c1917">More PNRs?</text><text x="378" y="429" font-size="9" font-family="monospace" fill="#78716c">#11</text></g>
+    <text x="268" y="466" font-size="10" fill="#78716c">NO — all PNRs done</text>
+    <text x="110" y="506" font-size="10.5" letter-spacing="1.5" fill="#78716c" font-weight="700">PHASE 2 · CUSTOMER ACTIONS</text>
+    <g><rect x="110" y="514" width="300" height="34" rx="8" fill="#fff" stroke="#b45309" stroke-width="1.5"/><text x="124" y="535" fill="#1c1917">Build action table HTML</text><text x="398" y="535" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#12 SCRIPT</text></g>
+    <g><rect x="110" y="560" width="300" height="34" rx="8" fill="#fff" stroke="#d6d3d1"/><text x="124" y="581" fill="#1c1917">Agent — Pick action per PNR</text><text x="398" y="581" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#25 AGENT</text></g>
+    <g><rect x="110" y="606" width="300" height="34" rx="8" fill="#fff" stroke="#b45309" stroke-width="1.5"/><text x="124" y="627" fill="#1c1917">Stitch · bucket · map tickets</text><text x="398" y="627" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#27 SCRIPT</text></g>
+    <text x="110" y="676" font-size="10.5" letter-spacing="1.5" fill="#78716c" font-weight="700">PHASE 3 · AUTOMATED TICKET CREATION</text>
+    <g><rect x="110" y="684" width="300" height="34" rx="8" fill="#fff" stroke="#a8a29e" stroke-dasharray="3 2"/><text x="124" y="705" fill="#1c1917">Zendesk — Update tags</text><text x="398" y="705" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#31 API</text></g>
+    <g><rect x="110" y="730" width="300" height="34" rx="8" fill="#fff" stroke="#b45309" stroke-width="1.5"/><text x="124" y="751" fill="#1c1917">Child-ticket loop cursor</text><text x="398" y="751" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#32 SCRIPT</text></g>
+    <g><rect x="110" y="776" width="300" height="34" rx="8" fill="#fff" stroke="#a8a29e" stroke-dasharray="3 2"/><text x="124" y="797" fill="#1c1917">Zendesk — Create child ticket</text><text x="398" y="797" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#33 API</text></g>
+    <g><rect x="150" y="822" width="220" height="34" rx="17" fill="#e7e5e4" stroke="#a8a29e"/><text x="260" y="843" text-anchor="middle" fill="#1c1917">Grandchildren?</text><text x="378" y="843" font-size="9" font-family="monospace" fill="#78716c">#35</text></g>
+    <text x="268" y="874" font-size="10" fill="#78716c">YES</text>
+    <g><rect x="110" y="868" width="300" height="34" rx="8" fill="#fff" stroke="#a8a29e" stroke-dasharray="3 2"/><text x="124" y="889" fill="#1c1917">Side conversation lookup</text><text x="398" y="889" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#39–40 SCRIPT+API</text></g>
+    <g><rect x="110" y="914" width="300" height="34" rx="8" fill="#fff" stroke="#b45309" stroke-width="1.5"/><text x="124" y="935" fill="#1c1917">Grandchild loop cursor</text><text x="398" y="935" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#36 SCRIPT</text></g>
+    <g><rect x="110" y="960" width="300" height="34" rx="8" fill="#fff" stroke="#a8a29e" stroke-dasharray="3 2"/><text x="124" y="981" fill="#1c1917">Zendesk — Create grandchild</text><text x="398" y="981" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#37 API</text></g>
+    <g><rect x="150" y="1006" width="220" height="34" rx="17" fill="#e7e5e4" stroke="#a8a29e"/><text x="260" y="1027" text-anchor="middle" fill="#1c1917">More grandchildren?</text><text x="378" y="1027" font-size="9" font-family="monospace" fill="#78716c">#38</text></g>
+    <g><rect x="150" y="1052" width="220" height="34" rx="17" fill="#e7e5e4" stroke="#a8a29e"/><text x="260" y="1073" text-anchor="middle" fill="#1c1917">More child tickets?</text><text x="378" y="1073" font-size="9" font-family="monospace" fill="#78716c">#34</text></g>
+    <text x="268" y="1122" font-size="10" fill="#78716c">NO — all tickets created</text>
+    <text x="110" y="1164" font-size="10.5" letter-spacing="1.5" fill="#78716c" font-weight="700">PHASE 4 · CLOSE &amp; REGISTER</text>
+    <g><rect x="110" y="1172" width="300" height="34" rx="8" fill="#fff" stroke="#b45309" stroke-width="1.5"/><text x="124" y="1193" fill="#1c1917">Build internal note</text><text x="398" y="1193" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#21 SCRIPT</text></g>
+    <g><rect x="110" y="1218" width="300" height="34" rx="8" fill="#fff" stroke="#a8a29e" stroke-dasharray="3 2"/><text x="124" y="1239" fill="#1c1917">Zendesk — Post internal note</text><text x="398" y="1239" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#22 API</text></g>
+    <g><rect x="110" y="1264" width="300" height="34" rx="8" fill="#fff" stroke="#b45309" stroke-width="1.5"/><text x="124" y="1285" fill="#1c1917">Errand loop cursor</text><text x="398" y="1285" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#44 SCRIPT</text></g>
+    <g><rect x="110" y="1310" width="300" height="34" rx="8" fill="#fff" stroke="#a8a29e" stroke-dasharray="3 2"/><text x="124" y="1331" fill="#1c1917">Edvin — Register errand</text><text x="398" y="1331" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#43 API</text></g>
+    <g><rect x="150" y="1356" width="220" height="34" rx="17" fill="#e7e5e4" stroke="#a8a29e"/><text x="260" y="1377" text-anchor="middle" fill="#1c1917">More errands?</text><text x="378" y="1377" font-size="9" font-family="monospace" fill="#78716c">#45</text></g>
+    <g><rect x="110" y="1408" width="300" height="34" rx="8" fill="#fff" stroke="#d6d3d1"/><text x="124" y="1429" fill="#1c1917">Agent — Closing call ✓</text><text x="398" y="1429" text-anchor="end" font-size="9" font-family="monospace" fill="#78716c">#23 AGENT</text></g>
+  </g>
+  <path d="M260 1390 v10" stroke="#a8a29e" fill="none" marker-end="url(#arr)"/>
+  <g stroke="#b45309" stroke-width="1.5" fill="none">
+    <path d="M370 425 h60 q14 0 14 -14 V209 q0 -14 -14 -14 h-6" marker-end="url(#arrA)"/>
+    <path d="M370 1069 h60 q14 0 14 -14 V761 q0 -14 -14 -14 h-6" marker-end="url(#arrA)"/>
+    <path d="M370 1023 h30 q14 0 14 -14 V945 q0 -14 -14 -14 h-6" marker-end="url(#arrA)"/>
+    <path d="M370 1373 h60 q14 0 14 -14 V1295 q0 -14 -14 -14 h-6" marker-end="url(#arrA)"/>
+    <path d="M150 839 h-56 q-14 0 -14 14 v202 q0 14 14 14 h50" stroke="#a8a29e" marker-end="url(#arr)"/>
+  </g>
+  <g font-size="9.5" fill="#b45309" font-weight="600">
+    <text x="452" y="310" transform="rotate(-90 452 310)" text-anchor="middle">YES · NEXT PNR</text>
+    <text x="452" y="910" transform="rotate(-90 452 910)" text-anchor="middle">YES · NEXT CHILD</text>
+    <text x="422" y="988" transform="rotate(-90 422 988)" text-anchor="middle">NEXT GC</text>
+    <text x="452" y="1334" transform="rotate(-90 452 1334)" text-anchor="middle">YES · NEXT ERRAND</text>
+  </g>
+  <text x="86" y="950" transform="rotate(-90 86 950)" text-anchor="middle" font-size="9.5" fill="#78716c" font-weight="600">NO GRANDCHILDREN</text>
+</svg>

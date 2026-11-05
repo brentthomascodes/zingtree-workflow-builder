@@ -1,0 +1,71 @@
+%% Basic Receptionist — consolidation (44 -> 26 nodes)
+%% BEFORE: one node per single form field behind each menu button
+%% AFTER:  one screen per cluster with NATIVE conditional form fields
+
+flowchart TD
+  subgraph AFTER["AFTER — 26 nodes"]
+    A2["2 Caller intake\n(name/phone/mail)"] --> A3["3 New client (subtree)"]
+    A2 --> A4["4 Existing client: case number"]
+    A2 --> A5["5 Returning client"]
+    A2 --> A6["6 Other caller<br/>SELECT other_type + conditional fields"]
+    A4 --> A7["7 Call reason menu"]
+    A4 --> A45["45 Not a client"]
+    A5 --> A26["26 New matter (subtree)"]
+    A5 --> A27["27 Past case"]
+    A7 --> A8["8 Consultation reason & details<br/>SELECT consult_reason + conditional fields"]
+    A7 --> A14["14 Can't fill forms"]
+    A7 --> A15["15 Cancelling"]
+    A7 --> A16["16 Change contact"]
+    A7 --> A23["23 Courtroom"]
+    A7 --> A18["18 Complaint"]
+    A7 --> A19["19 Billing<br/>SELECT billing_issue + conditional fields"]
+    A8 --> A20["20 Pull times from Calendly (Data)"]
+    A27 --> A20
+    A27 --> A45
+    A14 --> A20
+    A15 --> A20
+    A20 --> A89["89 Map Calendly response (script)"]
+    A89 --> A92{"92 Any times?"}
+    A92 -->|yes| A91["91 Book time (native dynamic select)"]
+    A92 -->|no| A93["93 No times - follow-up"]
+    A91 --> A90
+    A93 --> A90
+    A15 --> A22["22 Reschedule"]
+    A23 --> A24["24 Attorney unreachable"]
+    A23 --> A25["25 Attorney reachable"]
+    A45 --> A46["46 Refer to firm"]
+    A45 --> A47["47 Prospect shopping"]
+    A47 --> A48["48 Upsell"]
+    A16 --> A7
+    A6 --> A90
+    A18 --> A90
+    A19 --> A90
+    A20 --> A90
+    A22 --> A90
+    A24 --> A90
+    A25 --> A90
+    A46 --> A90
+    A48 --> A90
+    A90["90 Build call summary (script)<br/>stages summary_html/text"] --> A21["21 End call + copy summary (TERMINAL)"]
+  end
+
+  subgraph BEFORE["BEFORE — 44 nodes"]
+    B7["7 Call reason (12 buttons)"] --> B8["8 Follow-up"] --> B20["20 Schedule (API, broken ->89)"]
+    B7 --> B9["9 Deadline (date)"] --> B20
+    B7 --> B10["10 Questions"] --> B20
+    B7 --> B11["11 Docs (select)"] --> B20
+    B7 --> B12["12 Discuss"] --> B20
+    B7 --> B13["13 Interpreter"] --> B20
+    B19["19 Billing (5 buttons)"] --> B28["28 Reimbursement (notes)"]
+    B19 --> B29["29 Failed pmt (notes)"]
+    B19 --> B30["30 Payment plan (notes)"]
+    B19 --> B31["31 Update pmt"] --> B33["33 Update pmt"]
+    B19 --> B32["32 Discounts (notes)"]
+    B6["6 Other (7 buttons)"] --> B34["34 New vendor"]
+    B6 --> B35["35 Existing vendor"]
+    B6 --> B36["36 Acquaintance"] --> B40["40 Take message"]
+    B6 --> B37["37 Unknown"]
+    B6 --> B38["38 Press/media"]
+    B6 --> B43["43 SPAM"]
+    B6 --> B44["44 Unrealistic"]
+  end

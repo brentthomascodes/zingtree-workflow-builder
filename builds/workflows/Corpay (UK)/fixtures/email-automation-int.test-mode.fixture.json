@@ -1,0 +1,59 @@
+{
+ "tree_id": "783808640",
+ "preview_host": "https://zingtree.com/preview/",
+ "query_params": {},
+ "connected_objects": {
+  "1263": "sfdc_int__case_email_ai",
+  "1264": "get_account_details__int",
+  "1265": "get_incoming_email_addresses_int",
+  "1266": "send_email_simple_int"
+ },
+ "ai_action_aliases": {
+  "9": "automate_email_intent_int",
+  "16": "automate_email_generation_int"
+ },
+ "actions": {
+  "automate_email_intent_int": {
+   "email_intent": [
+    "copy_invoice"
+   ],
+   "unlock_subtype": "",
+   "sentiment": "neutral",
+   "escalate_to_agent": false,
+   "escalate_reason": "",
+   "confidence_score": 96,
+   "confidence_score_extracts": "send my invoice for August"
+  },
+  "automate_email_generation_int": {
+   "email": "<p>Hello,</p><p>Thank you for contacting us. I can see that you would like a copy of your invoice(s). Simply <a href=\"http://www.allstaronline.co.uk/\">log in</a> and navigate to the Billing tab.</p><p>Kind regards,<br>Allstar Customer Support</p>"
+  }
+ },
+ "buttons": {
+  "1": "Test Mode (QA)",
+  "18": "Yes - send email response"
+ },
+ "form_inputs": {
+  "32": {
+   "test_intent": "copy_invoice"
+  },
+  "34": {
+   "test_email": "Hi, please send my August invoice. Thanks, Helen"
+  }
+ },
+ "expect": {
+  "data_node_calls": {
+   "sfdc_int__case_email_ai": 0,
+   "get_account_details__int": 0,
+   "get_incoming_email_addresses_int": 0,
+   "send_email_simple_int": 0,
+   "automate_email_intent_int": 1,
+   "automate_email_generation_int": 1
+  },
+  "form_data": {
+   "emailSent": "true",
+   "sf_Sub_Topic__c": "Copy Invoice",
+   "is_mock_run": true
+  },
+  "terminal_node": "29"
+ }
+}

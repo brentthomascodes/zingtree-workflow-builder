@@ -1,0 +1,128 @@
+```mermaid
+flowchart TD
+  %% Basic Receptionist (id 862603108) — current
+  N2["2: Basic Info"]
+  N3[["3: PNC"]]
+  N4["4: EC"]
+  N5["5: RC"]
+  N6["6: Other"]
+  N7["7: Call Reason"]
+  N8["8: Follow-up Call"]
+  N9["9: Deadline"]
+  N10["10: Questions / Concerns"]
+  N11["11: Docs / Records"]
+  N12["12: To discuss something relevant to case"]
+  N13["13: Requesting/Confirming a court interprete"]
+  N14["14: Help filling legal forms"]
+  N15["15: Cancelling Consultation"]
+  N16["16: Changing contact info"]
+  N18["18: File Complaint"]
+  N19["19: Billing"]
+  N20[("20: API Calendly: Pull Available Times")]
+  N21["21: End Call Script"]
+  N22["22: Reschedule Attempt"]
+  N23["23: In courtroom, unable to find attorney"]
+  N24["24: No"]
+  N25["25: Yes"]
+  N26[["26: New Matter"]]
+  N27["27: Past Case"]
+  N28["28: Reimbursement"]
+  N29["29: Failed Payment"]
+  N30["30: Payment Plan"]
+  N31["31: Update Payment Info"]
+  N32["32: Discounts"]
+  N33["33: Update Payment Info"]
+  N34["34: New Vendor"]
+  N35["35: Existing Vendor"]
+  N36["36: Attoneys acquaintance"]
+  N37["37: Unknown"]
+  N38["38: Press / Media"]
+  N40["40: Take Message"]
+  N42["42: Case Doesnt Exist"]
+  N43["43: SPAM"]
+  N44["44: Unrealistic Case"]
+  N45["45: Not a Client"]
+  N46["46: Different Law Firm"]
+  N47["47: Law Firm Shopping"]
+  N48["48: Upsell"]
+  N2 -->|Possible New Client| N3
+  N2 -->|Existing Client| N4
+  N2 -->|Returning Client| N5
+  N2 -->|Other| N6
+  N3 -.open tree 142849578.-> EXT3[[Main Intake tree]]
+  N4 -->|Case Exists| N7
+  N4 -->|Case Doesnt Exist| N42
+  N5 -->|New Matter| N26
+  N5 -->|Past Case| N27
+  N6 -->|New Vendor| N34
+  N6 -->|Existing Vendor| N35
+  N6 -->|Attoneys acquaintance| N36
+  N6 -->|Unknown| N37
+  N6 -->|Press / Media| N38
+  N6 -->|SPAM| N43
+  N6 -->|Unrealistic Case| N44
+  N7 -->|Calling for a follow-u| N8
+  N7 -->|Calling because they h| N9
+  N7 -->|Questions/Concerns abo| N10
+  N7 -->|New info/docs that may| N11
+  N7 -->|To discuss something r| N12
+  N7 -->|Requesting/Confirming | N13
+  N7 -->|Help filling legal for| N14
+  N7 -->|Cancelling Consultatio| N15
+  N7 -->|Changing contact info| N16
+  N7 -->|In courtroom, unable t| N23
+  N7 -->|File Complaint| N18
+  N7 -->|Billing| N19
+  N8 -->|Schedule consultation| N20
+  N9 -->|Schedule consultation| N20
+  N10 -->|Schedule consultation| N20
+  N11 -->|Schedule consultation| N20
+  N12 -->|Schedule consultation| N20
+  N13 -->|Schedule consultation| N20
+  N14 -->|Yes| N20
+  N14 -->|No| N21
+  N15 -->|Yes| N20
+  N15 -->|No| N22
+  N16 -->|Yes| N7
+  N16 -->|End Call| N21
+  N18 -->|End Call| N21
+  N19 -->|Update Payment Info| N31
+  N19 -->|Failed Payment| N29
+  N19 -->|Payment Plan| N30
+  N19 -->|Discounts| N32
+  N19 -->|Reimbursement| N28
+  N20 --> BROKEN89(("MISSING 89"))
+  N22 -->|End Call| N21
+  N23 -->|Yes| N25
+  N23 -->|No| N24
+  N24 -->|End Call| N21
+  N25 -->|End Call| N21
+  N26 -.open tree 142849578.-> EXT26[[Main Intake tree]]
+  N27 -->|Schedule consultation| N20
+  N27 -->|Case Doesnt Exist| N42
+  N28 -->|End Call| N21
+  N29 -->|End Call| N21
+  N30 -->|End Call| N21
+  N31 -->|Update Payment Info| N33
+  N31 -->|End Call| N21
+  N32 -->|End Call| N21
+  N33 -->|End Call| N21
+  N34 -->|End Call| N21
+  N35 -->|End Call| N21
+  N36 -->|Transfer & End Call| N21
+  N36 -->|Take Message| N40
+  N37 -->|End Call| N21
+  N38 -->|End Call| N21
+  N40 -->|End Call| N21
+  N42 -->|Case Exists| N7
+  N42 -->|Case Doesnt Exist| N45
+  N43 -->|End Call| N21
+  N44 -->|End Call| N21
+  N45 -->|Different Law Firm| N46
+  N45 -->|Looking to Hire| N47
+  N46 -->|End Call| N21
+  N47 -->|Schedule consultation| N3
+  N47 -->|Not Interested| N48
+  N48 -->|Interested| N3
+  N48 -->|Not Interested| N21
+```

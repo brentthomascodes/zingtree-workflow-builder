@@ -1,0 +1,53 @@
+%% ETG Register Errands - VI Dynamic (756760393) v6 - dropdowns + combined-PNR hand-off
+%% Red = added/changed in v6. Grey = untouched. 2026-08-21
+flowchart TB
+
+subgraph DYN["Register Errands - Dynamic (595124299) - UNMODIFIED"]
+  direction TB
+  d6["6 Agent - Select PNR's<br/><i>views.findorder (multi-select)</i>"] --> d24["24 Set order context &amp; channel<br/><i>transforms.selected_pnrs</i>"]
+  d24 --> d75{"75 Is VI Selection?<br/><i>custom_field_29559177650834</i>"}
+  d75 -->|"not VI"| d7["7 Set Selected PNR's<br/><i>per-PNR cursor</i>"]
+  d75 -->|"VI contact reason"| d76[["76 Tree -&gt; VI tree root<br/>return_tree_node_id = 3"]]
+  d3{"3 Any child tickets?"} --> d32["32-38 child / silent /<br/>grandchild loops"]
+  d32 --> d21["21 Format Internal Note<br/><i>reads customer_action_pnrs</i>"]
+  d3 -->|none| d21
+  d21 --> d22["22 Add Internal Note"] --> d44["44 Loop Errands to Register<br/><i>cursor over final_pnrs</i>"]
+  d44 --> d43["43 Edvin - Register Errand"] --> d45{"45 Is More Errands?"} --> d23["23 Closing Call"]
+end
+
+subgraph VI["Register Errands - VI Dynamic (756760393) - v6"]
+  direction TB
+  v80["<b>80 Set VI Combined PNR</b> (NEW ROOT)<br/>joins every selected PNR into ONE record<br/>current_pnr / combined_pnr / pnr_banner<br/>clears VI answers + accumulators"]
+  v80 --> v48["48 partner selection<br/><i>dropdown: partner</i>"]
+  v48 --> v49{"49 Partner logic"}
+  v49 -->|Booking| v50["50 Bcom &amp; ETG prior 21May26<br/><i>dropdowns: disruption_type,<br/>delay_reason, flight_affected</i>"]
+  v49 -->|ETG| v66["66 ETG post 22may2026<br/><i>same three dropdowns</i>"]
+  v50 --> v52{"52 route on<br/>disruption + flight"}
+  v66 --> v67{"67 route on<br/>disruption + flight"}
+  v52 --> vLadderB["53/59/61 &nbsp;+&nbsp; 62/64<br/>STG offer ladder (Booking)<br/><i>dropdowns: stg_*</i>"]
+  v67 --> vLadderE["69/71/61 &nbsp;+&nbsp; 73/75<br/>STG offer ladder (ETG)<br/><i>dropdowns: stg_*</i>"]
+  vLadderB --> v1["1 Select Channel &amp; Type<br/><i>type select + agent notes</i>"]
+  vLadderE --> v1
+  v52 -->|"Accom / Meal"| v1
+  v67 -->|"Accom / Meal"| v1
+  v1 --> v2["<b>2 Dynamic Actions List Options</b> (CHANGED)<br/>bucket by Edvin ID (3/4/5) not label<br/>captures VI answers -&gt; vi_details + notes<br/>upserts the combined PNR row"]
+  v2 --> v12["12 Create PNR Action Table<br/><i>markup unchanged</i>"]
+  v12 --> v25["25 Display PNR Action Table<br/><i>agent picks the customer action</i>"]
+  v25 --> v27["<b>27 Stitch &amp; Group</b> (CHANGED)<br/>resolve by actionId / id / name<br/>bucket + bucketId onto the record<br/>logs every raw selection read"]
+  v27 --> v81["<b>81 Set VI Finals</b> (NEW)<br/>final_pnrs = [combined record]<br/>current_pnr = same record<br/>form data: bucket, bucket_id,<br/>customer_action, combined_pnr"]
+  v81 --> v79[["79 Tree -&gt; back to Dynamic node 3"]]
+end
+
+d76 ==> v80
+v79 ==>|"final_pnrs + current_pnr<br/>carry the combined PNR,<br/>action, bucket and bucket_id"| d3
+
+classDef newnode fill:#fef2f2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d
+classDef script fill:#eef2ff,stroke:#c7d2fe,color:#1e1b4b
+classDef logic fill:#fff7ed,stroke:#fed7aa,color:#7c2d12
+classDef screen fill:#f0fdf4,stroke:#bbf7d0,color:#14532d
+classDef hop fill:#f5f3ff,stroke:#ddd6fe,color:#4c1d95
+class v80,v81,v2,v27 newnode
+class d7,d21,d32,d44,d24,v12 script
+class v49,v52,v67,d75,d3,d45 logic
+class v48,v50,v66,vLadderB,vLadderE,v1,v25,d6,d23,d22,d43 screen
+class v79,d76 hop

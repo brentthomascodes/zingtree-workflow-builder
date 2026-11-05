@@ -1,0 +1,1204 @@
+{
+ "channel": "Phone",
+ "category": "Cancellation",
+ "types": [
+  {
+   "id": 1318,
+   "name": "Before ticket issuance",
+   "actions": [
+    {
+     "id": 1971,
+     "name": "Sent Payment Link - fee due to CC2C",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1846,
+     "name": "Cancellation completed - Sent for refund",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1869,
+     "name": "Do not proceed",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1913,
+     "name": "Interaction disconnected - no response",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1862,
+     "name": "Customer language issue - transferred",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1863,
+     "name": "Customer requested Supervisor - Escalated",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1868,
+     "name": "Different request",
+     "bucket": {
+      "id": 5,
+      "name": "Different request"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1327,
+   "name": "Against Xcover (Cover Genius)",
+   "actions": [
+    {
+     "id": 1848,
+     "name": "Cancellation processed",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1869,
+     "name": "Do not proceed",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1913,
+     "name": "Interaction disconnected - no response",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1862,
+     "name": "Customer language issue - transferred",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1863,
+     "name": "Customer requested Supervisor - Escalated",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1868,
+     "name": "Different request",
+     "bucket": {
+      "id": 5,
+      "name": "Different request"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1326,
+   "name": "Against CFAR",
+   "actions": [
+    {
+     "id": 1921,
+     "name": "Not eligible for the product",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1848,
+     "name": "Cancellation processed",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1973,
+     "name": "Sent to support",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1882,
+     "name": "Follow up - Information provided",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1869,
+     "name": "Do not proceed",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1913,
+     "name": "Interaction disconnected - no response",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1862,
+     "name": "Customer language issue - transferred",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1863,
+     "name": "Customer requested Supervisor - Escalated",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1868,
+     "name": "Different request",
+     "bucket": {
+      "id": 5,
+      "name": "Different request"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1313,
+   "name": "GDPR",
+   "actions": [
+    {
+     "id": 1922,
+     "name": "Not permitted",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1961,
+     "name": "Requested docs",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1934,
+     "name": "Referred to airline",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1882,
+     "name": "Follow up - Information provided",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1869,
+     "name": "Do not proceed",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1913,
+     "name": "Interaction disconnected - no response",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1862,
+     "name": "Customer language issue - transferred",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1863,
+     "name": "Customer requested Supervisor - Escalated",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1868,
+     "name": "Different request",
+     "bucket": {
+      "id": 5,
+      "name": "Different request"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1319,
+   "name": "Void",
+   "actions": [
+    {
+     "id": 1988,
+     "name": "Void not permitted",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1987,
+     "name": "Void completed",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1971,
+     "name": "Sent Payment Link - fee due to CC2C",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1934,
+     "name": "Referred to airline",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1973,
+     "name": "Sent to support",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1882,
+     "name": "Follow up - Information provided",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1869,
+     "name": "Do not proceed",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1913,
+     "name": "Interaction disconnected - no response",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1862,
+     "name": "Customer language issue - transferred",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1863,
+     "name": "Customer requested Supervisor - Escalated",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1868,
+     "name": "Different request",
+     "bucket": {
+      "id": 5,
+      "name": "Different request"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1325,
+   "name": "Against Cancellation Guarantee",
+   "actions": [
+    {
+     "id": 1921,
+     "name": "Not eligible for the product",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1848,
+     "name": "Cancellation processed",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1852,
+     "name": "Claim done",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1973,
+     "name": "Sent to support",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1882,
+     "name": "Follow up - Information provided",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1869,
+     "name": "Do not proceed",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1913,
+     "name": "Interaction disconnected - no response",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1862,
+     "name": "Customer language issue - transferred",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1863,
+     "name": "Customer requested Supervisor - Escalated",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1868,
+     "name": "Different request",
+     "bucket": {
+      "id": 5,
+      "name": "Different request"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1322,
+   "name": "Voluntary - Voucher/Credit refund",
+   "actions": [
+    {
+     "id": 1971,
+     "name": "Sent Payment Link - fee due to CC2C",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1848,
+     "name": "Cancellation processed",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1977,
+     "name": "Ticket is non-refundable",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1989,
+     "name": "Voucher/credit not permitted - No refund",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1934,
+     "name": "Referred to airline",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1973,
+     "name": "Sent to support",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1882,
+     "name": "Follow up - Information provided",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1869,
+     "name": "Do not proceed",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1913,
+     "name": "Interaction disconnected - no response",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1862,
+     "name": "Customer language issue - transferred",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1863,
+     "name": "Customer requested Supervisor - Escalated",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1868,
+     "name": "Different request",
+     "bucket": {
+      "id": 5,
+      "name": "Different request"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1324,
+   "name": "Against Cancellation Protection",
+   "actions": [
+    {
+     "id": 1921,
+     "name": "Not eligible for the product",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1849,
+     "name": "Cancellation processed - Requested docs",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1852,
+     "name": "Claim done",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1973,
+     "name": "Sent to support",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1882,
+     "name": "Follow up - Information provided",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1869,
+     "name": "Do not proceed",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1913,
+     "name": "Interaction disconnected - no response",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1862,
+     "name": "Customer language issue - transferred",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1863,
+     "name": "Customer requested Supervisor - Escalated",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1868,
+     "name": "Different request",
+     "bucket": {
+      "id": 5,
+      "name": "Different request"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1320,
+   "name": "24 hour rule",
+   "actions": [
+    {
+     "id": 1971,
+     "name": "Sent Payment Link - fee due to CC2C",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1846,
+     "name": "Cancellation completed - Sent for refund",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1836,
+     "name": "24 hour rule not permitted",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1852,
+     "name": "Claim done",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1934,
+     "name": "Referred to airline",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1973,
+     "name": "Sent to support",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1882,
+     "name": "Follow up - Information provided",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1869,
+     "name": "Do not proceed",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1913,
+     "name": "Interaction disconnected - no response",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1862,
+     "name": "Customer language issue - transferred",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1863,
+     "name": "Customer requested Supervisor - Escalated",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1868,
+     "name": "Different request",
+     "bucket": {
+      "id": 5,
+      "name": "Different request"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1311,
+   "name": "Force Majeure",
+   "actions": [
+    {
+     "id": 1848,
+     "name": "Cancellation processed",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1847,
+     "name": "Cancellation is not permitted",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1852,
+     "name": "Claim done",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1934,
+     "name": "Referred to airline",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1973,
+     "name": "Sent to support",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1882,
+     "name": "Follow up - Information provided",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1869,
+     "name": "Do not proceed",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1913,
+     "name": "Interaction disconnected - no response",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1862,
+     "name": "Customer language issue - transferred",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1863,
+     "name": "Customer requested Supervisor - Escalated",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1868,
+     "name": "Different request",
+     "bucket": {
+      "id": 5,
+      "name": "Different request"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1312,
+   "name": "Confirmed Crisis",
+   "actions": [
+    {
+     "id": 1848,
+     "name": "Cancellation processed",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1847,
+     "name": "Cancellation is not permitted",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1852,
+     "name": "Claim done",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1934,
+     "name": "Referred to airline",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1973,
+     "name": "Sent to support",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1882,
+     "name": "Follow up - Information provided",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1869,
+     "name": "Do not proceed",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1913,
+     "name": "Interaction disconnected - no response",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1862,
+     "name": "Customer language issue - transferred",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1863,
+     "name": "Customer requested Supervisor - Escalated",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1868,
+     "name": "Different request",
+     "bucket": {
+      "id": 5,
+      "name": "Different request"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1323,
+   "name": "Dupe",
+   "actions": [
+    {
+     "id": 1971,
+     "name": "Sent Payment Link - fee due to CC2C",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1848,
+     "name": "Cancellation processed",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1847,
+     "name": "Cancellation is not permitted",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1852,
+     "name": "Claim done",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1934,
+     "name": "Referred to airline",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1973,
+     "name": "Sent to support",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1882,
+     "name": "Follow up - Information provided",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1869,
+     "name": "Do not proceed",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1913,
+     "name": "Interaction disconnected - no response",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1862,
+     "name": "Customer language issue - transferred",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1863,
+     "name": "Customer requested Supervisor - Escalated",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1868,
+     "name": "Different request",
+     "bucket": {
+      "id": 5,
+      "name": "Different request"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1321,
+   "name": "Voluntary - Fare rules",
+   "actions": [
+    {
+     "id": 1971,
+     "name": "Sent Payment Link - fee due to CC2C",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1848,
+     "name": "Cancellation processed",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1977,
+     "name": "Ticket is non-refundable",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1852,
+     "name": "Claim done",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1934,
+     "name": "Referred to airline",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1973,
+     "name": "Sent to support",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1882,
+     "name": "Follow up - Information provided",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1869,
+     "name": "Do not proceed",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1913,
+     "name": "Interaction disconnected - no response",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1862,
+     "name": "Customer language issue - transferred",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1863,
+     "name": "Customer requested Supervisor - Escalated",
+     "bucket": {
+      "id": 4,
+      "name": "Proceed"
+     }
+    },
+    {
+     "id": 1868,
+     "name": "Different request",
+     "bucket": {
+      "id": 5,
+      "name": "Different request"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1314,
+   "name": "Schedule Change",
+   "actions": [
+    {
+     "id": 1979,
+     "name": "Transferred to SC",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1315,
+   "name": "Against Self Transfer Guarantee",
+   "actions": [
+    {
+     "id": 1979,
+     "name": "Transferred to SC",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1316,
+   "name": "Chargeback/BR lawsuit in progress/lost",
+   "actions": [
+    {
+     "id": 1850,
+     "name": "Chargeback info provided - Referred to Bank",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    },
+    {
+     "id": 1845,
+     "name": "BR lawsuit informed to wait for outcome",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    }
+   ]
+  },
+  {
+   "id": 1317,
+   "name": "Redirect to CR",
+   "actions": [
+    {
+     "id": 1853,
+     "name": "Claim form sent",
+     "bucket": {
+      "id": 3,
+      "name": "No action"
+     }
+    }
+   ]
+  }
+ ]
+}

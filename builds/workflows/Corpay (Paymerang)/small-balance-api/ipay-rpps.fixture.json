@@ -1,0 +1,81 @@
+{
+  "_comment": "Variant: iPay client, funding equals remaining -> RPPS check; agent says RPPS listed -> reissue_rpps.",
+  "tree_id": "563559070",
+  "preview_host": "https://zingtree.com/preview/",
+  "query_params": {},
+  "connected_objects": {
+    "1299": "bizpay__get_payment_by_id",
+    "1300": "bizpay__post_payment_action"
+  },
+  "views": {},
+  "view_inputs": {},
+  "actions": {
+    "bizpay__get_payment_by_id": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "payment_id": 36216797,
+      "client_id": 1398,
+      "client_name": "IPay Technologies",
+      "vendor_id": 5310609,
+      "client_vendor_id": 831532,
+      "payment_amount": 565.53,
+      "service_fee": 0,
+      "funding_amount": 565.53,
+      "manual_value_load_amount": 0,
+      "remaining_balance": 565.53,
+      "card_status": "Created",
+      "card_status_date": "2024-11-06",
+      "cancel_card_request_exists": false,
+      "cancel_card_request_approved": false,
+      "pega_case_id": ""
+    },
+    "bizpay__post_payment_action": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "success": true,
+      "message": "Cancelled Card Payment with Id 36216797",
+      "request_id": 4817
+    }
+  },
+  "form_inputs": {
+    "1": {
+      "payment_id": "36216797"
+    },
+    "31": {
+      "rpps_available": "Yes"
+    },
+    "5": {
+      "resolution": "reissue_rpps",
+      "cancel_card_reason": "Card expired",
+      "amount": "565.53",
+      "fee": "0",
+      "payment_note": "10/20/26 Pmt never processed, CANCEL/ISSUE CHECK $565.53 - BT",
+      "agent_email": "brent@zingtree.com"
+    }
+  },
+  "buttons": {
+    "1": "Continue",
+    "29": "Yes, they match",
+    "31": "Continue",
+    "5": "Submit Cancel Card to BizPay",
+    "18": "Finish Tree"
+  },
+  "expect": {
+    "data_node_calls": {
+      "bizpay__get_payment_by_id": 1,
+      "bizpay__post_payment_action": 1
+    },
+    "form_data": {
+      "resolution_route": "ipay_rpps_check",
+      "resolution": "reissue_rpps"
+    },
+    "terminal_node": "19"
+  },
+  "ai_action_aliases": {}
+}

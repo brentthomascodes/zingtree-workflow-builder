@@ -1,0 +1,116 @@
+/* ==========================================================================
+   Back / Restart navigation buttons - legibility fix
+   Quest consent - customer tree 973795360 (also safe to paste into 208427015)
+   Added 2026-08-06
+
+   THE BUG
+   Zingtree's zingtree_2025.css contains:
+
+       .persistent-buttons .btn,
+       .btn-default {
+         color: var(--color-body) !important;
+         background-color: transparent;
+         ...
+       }
+
+   Back and Restart render as .btn.btn-default. The tree's own rule
+   (`button, ..., .btn, ... { background: var(--qcf-primary) !important;
+   color: #ffffff !important; }`) wins on BACKGROUND, because Zingtree's
+   background-color is not !important - but LOSES on COLOR, because both
+   declarations are !important at equal specificity (0,1,0) and the external
+   stylesheet is applied later. Result: near-black body text on solid blue,
+   measured at 2.51:1 contrast. WCAG AA needs 4.5:1.
+
+   THE FIX
+   Treat Back / Restart as what they are - secondary navigation, not calls to
+   action. White surface, slate text, visible border: 16.27:1. This also stops
+   them competing with the real CTA, which matters on the completion screen
+   where "Restart" sitting in primary blue invites a participant to re-run a
+   consent they just submitted.
+
+   Selectors are compound (.btn.btn-default, a.btn.btn-default) so they beat
+   Zingtree's single-class .btn-default on specificity, not on source order -
+   the fix therefore holds regardless of stylesheet load order.
+   ========================================================================== */
+
+.btn.btn-default,
+a.btn.btn-default,
+button.btn.btn-default,
+input.btn.btn-default,
+.persistent-buttons .btn,
+.persistent-buttons a.btn {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #172033 !important;              /* 16.27:1 on white */
+  border: 1.5px solid #c3cfe2 !important;
+  border-radius: 14px !important;
+  min-height: 50px;
+  padding: 13px 20px !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.01em;
+  line-height: 1.25 !important;
+  text-decoration: none !important;
+  box-shadow: 0 2px 6px rgba(20, 37, 63, 0.07) !important;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* Icons are FontAwesome glyphs (.fa) or inline SVG inside the button. They
+   inherit colour, but Zingtree's !important rule was setting the parent - pin
+   every descendant to the button's own colour so no nested span, <i> or <svg>
+   can fall back to a theme default. */
+.btn.btn-default *,
+a.btn.btn-default *,
+.persistent-buttons .btn * {
+  color: inherit !important;
+  fill: currentColor !important;
+}
+
+.btn.btn-default > .fa,
+.btn.btn-default > .fe,
+.persistent-buttons .btn > .fa,
+.persistent-buttons .btn > .fe {
+  margin-right: 7px;
+  font-size: 15px !important;
+  opacity: 0.75;
+}
+
+.btn.btn-default:hover,
+a.btn.btn-default:hover,
+button.btn.btn-default:hover,
+.persistent-buttons .btn:hover {
+  background: #f4f7fc !important;
+  background-color: #f4f7fc !important;
+  color: #14213d !important;
+  border-color: #94a9c9 !important;
+  box-shadow: 0 6px 16px rgba(20, 37, 63, 0.12) !important;
+  transform: none;                        /* no lift - these are not CTAs */
+}
+
+/* Keyboard users need to see focus. Zingtree's theme does not provide a ring. */
+.btn.btn-default:focus-visible,
+a.btn.btn-default:focus-visible,
+button.btn.btn-default:focus-visible,
+.persistent-buttons .btn:focus-visible {
+  outline: 3px solid #2457c5 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 5px rgba(36, 87, 197, 0.18) !important;
+}
+
+/* Safety net: if a future change ever puts a dark fill back on these buttons,
+   force legible text rather than silently regressing to 2.5:1. */
+.btn.btn-default[style*="background: #2457c5"],
+.btn.btn-default[style*="background-color: #2457c5"] {
+  color: #ffffff !important;
+}
+
+@media (max-width: 720px) {
+  .btn.btn-default,
+  a.btn.btn-default,
+  button.btn.btn-default,
+  .persistent-buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "_comment": "GET captured live from CO 1299 (payment 2639209). POST success body is the sample in Mayur Palankar's 10/16 email; replace with a live capture. POST HTTP code assumed 200 until confirmed.",
+  "tree_id": "0",
+  "preview_host": "https://zingtree.com/preview/",
+  "query_params": {},
+  "connected_objects": {
+    "1299": "bizpay__get_payment_by_id",
+    "1300": "bizpay__post_payment_action"
+  },
+  "views": {},
+  "view_inputs": {},
+  "actions": {
+    "bizpay__get_payment_by_id": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "payment_id": 2639209,
+      "client_id": 1398,
+      "client_name": "IPay Technologies",
+      "vendor_id": 282831,
+      "client_vendor_id": 41389,
+      "payment_amount": 537.49,
+      "service_fee": 0,
+      "funding_amount": 0,
+      "manual_value_load_amount": 0,
+      "remaining_balance": 0,
+      "card_status": "Completed",
+      "card_status_date": "2014-12-04",
+      "cancel_card_request_exists": false,
+      "cancel_card_request_approved": false,
+      "pega_case_id": ""
+    },
+    "bizpay__post_payment_action": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "success": true,
+      "message": "Cancelled Card Payment with Id 2639209",
+      "request_id": 4817
+    }
+  },
+  "form_inputs": {
+    "1": {
+      "payment_id": "2639209"
+    },
+    "4": {
+      "resolution": "reissue_rpps",
+      "cancel_card_reason": "Vendor does not accept card payments",
+      "amount": "199.00",
+      "fee": "0",
+      "payment_note": "Zingtree connection test",
+      "agent_email": "brent@zingtree.com",
+      "confirm_post": "1"
+    }
+  },
+  "buttons": {
+    "1": "Run test",
+    "4": "Send POST test"
+  },
+  "expect": {
+    "data_node_calls": {
+      "bizpay__get_payment_by_id": 1,
+      "bizpay__post_payment_action": 1
+    },
+    "terminal_node": "7"
+  },
+  "ai_action_aliases": {}
+}

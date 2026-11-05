@@ -1,0 +1,23 @@
+flowchart TD
+    N7["<b>7 · Edvin – Find Order</b><br/>(Data · root, auto-fires)<br/>Connected Object #23 <i>findorder</i>"]
+    N8["<b>8 · Map Edvin Data</b><br/>(Script)<br/>customer_phone, order_number,<br/>billing_country, agent_country,<br/>agent_first_name, agent_city, brand"]
+    N4["<b>4 · Italy – EU Agent Region<br/>Disclosure</b><br/>(AI Action #14 · italy_region_compliance)<br/>isItalian / applies / isBcom /<br/>agentInEU / orderSource"]
+    N5["<b>5 · Handle response</b><br/>(Script)<br/>builds italy_note HTML card:<br/>4 bilingual scripts (EU/non-EU × ETG/Booking)"]
+    N1["<b>1 · Start Node</b><br/>(Content)<br/>renders ${transforms.italy_note}"]
+    N9["<b>9 · claude.md</b><br/>(Content, unlinked)<br/>tree memory / changelog"]
+
+    N7 --> N8 --> N4 --> N5 --> N1
+    N9 -.not in execution path.- N1
+
+    classDef changed fill:#fff8e6,stroke:#e0a92a,stroke-width:2px,color:#1a1c1e;
+    classDef unlinked fill:#f0f1f3,stroke:#c8cdd2,stroke-dasharray: 4 3,color:#585f66;
+    class N8,N5 changed
+    class N9 unlinked
+
+    subgraph Legend["What changed 2026-08-25"]
+        direction TB
+        L1["Node 8: agent_country hardcode 'Greece' → blank<br/>(was silently marking every agent as EU-based)"]
+        L2["Node 8: billing_country else-branch 'Greece' → market value / 'Unknown'"]
+        L3["Node 5: re-wired the 4 bilingual Giorgos scripts<br/>(EN + IT, EU/non-EU × ETG/Booking) — had reverted<br/>to a single generic English line"]
+        L4["Node 9: claude.md re-added with full changelog"]
+    end

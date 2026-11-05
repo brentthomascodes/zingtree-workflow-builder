@@ -30,7 +30,7 @@ cloned at `.claude/skills/zingtree-workflow-builder/`. Everything it writes goes
 | Environment / promotion learning | `references/11-environments-and-promotion.md` |
 | A build Brent names as a new reference | `references/10-reference-builds.md` (what it teaches, what not to copy, verification row) |
 | Connected Object / AI Action / API behaviour | `references/04-cx-actions-api-requests.md` |
-| Reusable production script | the workspace `Zingtree Builder/Script Library/` (not the repo — the repo carries no customer payloads) |
+| Reusable production script | `builds/scripts/` in this repo |
 | Account fact (systems, aliases, contacts, env ids) | the account's `Account Management HQ/<Account>/MEMORY.md` or `etg-env-promote` maps |
 
 There is no `Zingtree Builder/MEMORY.md` and no `Skill Source/` — both are retired. Never write

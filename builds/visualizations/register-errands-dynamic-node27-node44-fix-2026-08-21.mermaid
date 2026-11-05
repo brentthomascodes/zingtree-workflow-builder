@@ -1,0 +1,48 @@
+%%{init: {'theme': 'neutral'}}%%
+flowchart TB
+
+  subgraph FLOW["Register Errands - Dynamic — node 27 → node 44 boundary"]
+    direction TB
+
+    N25["Node 25\nAgent picks Customer Action\nper PNR"] --> N27
+
+    subgraph N27BOX["Node 27 — Stitch & Group PNR Action Selections\n(runs ONCE per session)"]
+      direction TB
+      RESOLVE["resolve each PNR's pick\n(actionId/id/name match)"] --> GROUP["groupByErrand()\nkey = type + customer_action\n(SAME key used for tickets AND errands)"]
+      GROUP --> TICKETS["buildChildTickets()\n→ transforms.child_tickets\n(child / grandchild / silent)"]
+      GROUP --> COMBINE["buildFinalErrandRecord()  ⭐ FIXED 2026-08-21\ncombines the WHOLE group:\n• pnr → joinPnrs(group)\n• passengers → de-duped union\n• formatted_passengers → de-duped join\n• orderReference → de-duped join\n(was: spread group[0] only → lost every\nPNR after the first, ZD 337619)"]
+      COMBINE --> FINAL["transforms.final_pnrs\none combined record per\ndistinct (type+action) pair"]
+    end
+
+    N27 --> N3{"Node 3\nany child tickets?"}
+    N3 -->|no unresolved-selection guard\nin this export, see note below| N32["ticket-create loop\n(32/33 → 36/37)"]
+    N32 --> N21["Node 21\nformat internal note"]
+    N21 --> N44BOX
+
+    subgraph N44BOX["Node 44 — Loop Errands to Register\n(runs ONCE PER final_pnrs entry — cursor loop)"]
+      direction TB
+      CURSOR["final_pnrs_count cursor\nread current_pnr = final_pnrs[cursor]"] --> FORMAT["buildErrandMessage(current_pnr)\nType / Customer Action / PNR /\nPassengers / Order Reference / ...\n⭐ now sees the COMBINED record"]
+      FORMAT --> CARD["buildEdvinErrandCardHtml()\nagent-facing card"]
+    end
+
+    N44BOX --> N43["Node 43\nRegister Errand (Edvin API)\nfires once per loop iteration"]
+  end
+
+  RESULT["Example (ZD 337619):\nIFVLYF + PN6WPN, both Void / Void completed\n\nBEFORE: 1 errand, message says \"PNR: IFVLYF\" only\nAFTER:  1 errand, message says \"PNR: IFVLYF, PN6WPN\"\n         Passengers de-duped to one line"]
+
+  N27BOX -.-> RESULT
+
+  classDef fixed fill:#dcfce7,stroke:#16a34a,color:#14532d,font-weight:bold;
+  classDef decision fill:#e0e7ff,stroke:#4338ca,color:#312e81;
+  classDef risk fill:#fef2f2,stroke:#dc2626,color:#7f1d1d;
+  class COMBINE fixed;
+  class N27BOX,N44BOX decision;
+  class N3 risk;
+
+  NOTE1["ARCHITECTURE DECISION: grouping stays in node 27, not node 44.\nNode 44 is a cursor loop — grouping must run exactly ONCE, upstream.\nMoving it into node 44 would duplicate groupByErrand()/errandKey()\nacross two nodes (the same drift risk already seen with BUCKET_BY_ID\nin nodes 2 & 46). Node 44 stays pure formatting + registration."]
+  N44BOX -.-> NOTE1
+  class NOTE1 decision
+
+  NOTE2["⚠ SEPARATE FINDING (not fixed here): this export has NO node 50/51\nunresolved-selection guard, even though claude.md documents it.\nAn unresolved PNR is silently dropped, not blocked-and-re-picked.\nFlag for Brent before go-live."]
+  N3 -.-> NOTE2
+  class NOTE2 risk

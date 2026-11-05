@@ -1,0 +1,134 @@
+{
+  "_note": "What exists per environment in Zingtree org 605565 (Brent Thomas - Sandbox) for the Corpay UK / Allstar Email Automation trees. Update when an object is created or replaced live. alias_order pairs INT and PROD twins position by position.",
+  "int": {
+    "org_id": "605565",
+    "data_source": {
+      "Corpay UK API - INT": 752
+    },
+    "connected_objects": {
+      "sfdc_int__case_email_ai": 1263,
+      "get_account_details__int": 1264,
+      "get_incoming_email_addresses_int": 1265,
+      "send_email_simple_int": 1266
+    },
+    "ai_actions": {
+      "automate_email_intent_int": 93,
+      "automate_email_generation_int": 94,
+      "automate_hc_email_intent_int": 98,
+      "automate_hc_email_generation_int": 99
+    },
+    "alias_order": [
+      "sfdc_int__case_email_ai",
+      "get_account_details__int",
+      "get_incoming_email_addresses_int",
+      "send_email_simple_int",
+      "automate_email_intent_int",
+      "automate_email_generation_int",
+      "automate_hc_email_intent_int",
+      "automate_hc_email_generation_int"
+    ]
+  },
+  "prod": {
+    "org_id": "605565",
+    "data_source": {
+      "Corpay UK API - PROD": 753
+    },
+    "connected_objects": {
+      "sfdc_prod__case_email_ai": 1267,
+      "get_account_details__prod": 1268,
+      "get_incoming_email_addresses_prod": 1269,
+      "send_email_simple_prod": 1270
+    },
+    "ai_actions": {},
+    "alias_order": [
+      "sfdc_prod__case_email_ai",
+      "get_account_details__prod",
+      "get_incoming_email_addresses_prod",
+      "send_email_simple_prod",
+      "automate_email_intent_prod",
+      "automate_email_generation_prod",
+      "automate_hc_email_intent_prod",
+      "automate_hc_email_generation_prod"
+    ]
+  },
+  "eu": {
+    "_note": "Corpay UK EU org (org 123) - GT's original objects. Same aliases as the sandbox INT set. Both AI Action pairs are in reversed (generation-before-intent) id order: FAST Admin intent 16 / generation 15, Homecharge intent 19 / generation 18.",
+    "org_id": "123",
+    "connected_objects": {
+      "sfdc_int__case_email_ai": 10,
+      "get_account_details__int": 20,
+      "get_incoming_email_addresses_int": 23,
+      "send_email_simple_int": 187
+    },
+    "ai_actions": {
+      "automate_email_intent_int": 16,
+      "automate_email_generation_int": 15,
+      "automate_hc_email_intent_int": 19,
+      "automate_hc_email_generation_int": 18,
+      "format_gdpr_names_int": 22,
+      "automate_networks_email_intent_int": 23
+    },
+    "alias_order": [
+      "sfdc_int__case_email_ai",
+      "get_account_details__int",
+      "get_incoming_email_addresses_int",
+      "send_email_simple_int",
+      "automate_email_intent_int",
+      "automate_email_generation_int",
+      "automate_hc_email_intent_int",
+      "automate_hc_email_generation_int",
+      "format_gdpr_names_int",
+      "automate_networks_email_intent_int"
+    ],
+    "connected_object_types": {
+      "10": "salesforce",
+      "20": "salesforce",
+      "23": "salesforce",
+      "187": "http"
+    },
+    "tree_id": "109029630",
+    "tree_name": "Email Automation - AI Actions INT"
+  },
+  "eu_prod": {
+    "_note": "Corpay UK EU org (org 123) PRODUCTION assets - GT's live prod objects, read off the live prod tree 417189428 export (2026-09-17). Aliases do NOT follow the sandbox int->prod convention: the case object is get_case_details__prod (not sfdc_prod__case_email_ai) and the two AI Actions carry no _prod suffix at all. Homecharge AI Actions created 2026-09-24 from INT 19/18: automate_hc_email_intent_prod 20, automate_hc_email_generation_prod 21. format_gdpr_names_prod (GDPR names formatting, twin of INT 22) not created yet: create it in org 123 and add its id here before promoting a tree that has node 60. 2026-11-04: automate_networks_email_intent_prod 24 created (copy of INT 23); Networks PROD branch tree 124295894.",
+    "org_id": "123",
+    "tree_id": "417189428",
+    "tree_name": "Email Automation - AI Actions Prod",
+    "connected_objects": {
+      "get_case_details__prod": 22,
+      "get_account_details__prod": 21,
+      "get_incoming_email_addresses_prod": 24,
+      "send_email_simple_prod": 203
+    },
+    "ai_actions": {
+      "automate_email_responses": 13,
+      "automate_email_generation": 12,
+      "automate_hc_email_intent_prod": 20,
+      "automate_hc_email_generation_prod": 21,
+      "automate_networks_email_intent_prod": 24
+    },
+    "alias_order": [
+      "get_case_details__prod",
+      "get_account_details__prod",
+      "get_incoming_email_addresses_prod",
+      "send_email_simple_prod",
+      "automate_email_responses",
+      "automate_email_generation",
+      "automate_hc_email_intent_prod",
+      "automate_hc_email_generation_prod",
+      "format_gdpr_names_prod",
+      "automate_networks_email_intent_prod"
+    ],
+    "connected_object_types": {
+      "22": "salesforce",
+      "21": "salesforce",
+      "24": "salesforce",
+      "203": "http"
+    },
+    "branch_trees": {
+      "networks": "124295894",
+      "fast_admin": "450053608",
+      "homecharge": "496283193"
+    }
+  }
+}

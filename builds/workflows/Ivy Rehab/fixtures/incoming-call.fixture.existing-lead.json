@@ -1,0 +1,151 @@
+{
+  "tree_id": "632727963",
+  "preview_host": "https://zingtree.com/preview/",
+  "_note": "Duplicate path: Raintree already holds a lead, so the create call must NOT fire. The agent picks a record on node 9 and its pn flows into Get Patient Details.",
+  "query_params": {
+    "patient_first_name": "Ted",
+    "patient_last_name": "Lasso",
+    "patient_dob": "01/20/1990",
+    "patient_email_address": "ted@lasso.com",
+    "therapy_type": "Physical Therapy",
+    "body_part": "Hip",
+    "is_emergency_contact_authorized_representative": "No",
+    "parent_guardian_first_name": "",
+    "parent_guardian_last_name": "",
+    "parent_guardian_phone_number": "",
+    "patient_number": "0000001"
+  },
+  "connected_objects": {
+    "1021": "get_token",
+    "1288": "raintree__find_leads",
+    "1289": "raintree__get_disciplines",
+    "1290": "raintree__get_case_types",
+    "1067": "raintree__create_lead",
+    "1138": "raintree__get_patient_by_patient_number"
+  },
+  "actions": {
+    "raintree__find_leads": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "count": 1,
+      "records": [
+        {
+          "id": "1XS42SF3O34",
+          "pn": "0000001",
+          "firstName": "Ted",
+          "lastName": "Lasso",
+          "dob": "01-20-1990",
+          "location": "01",
+          "primaryReason": "HIP",
+          "disciplines": [
+            "PT"
+          ]
+        }
+      ],
+      "page": 1,
+      "isMore": false
+    },
+    "raintree__get_disciplines": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "count": 1,
+      "tables": [
+        {
+          "code": "PT",
+          "description": "Physical Therapy",
+          "desc2": "",
+          "desc3": "",
+          "desc4": "",
+          "filter": ""
+        }
+      ]
+    },
+    "raintree__get_case_types": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "count": 1,
+      "tables": [
+        {
+          "code": "HIP",
+          "description": "Hip",
+          "desc2": "",
+          "desc3": "",
+          "desc4": "",
+          "filter": ""
+        }
+      ]
+    },
+    "get_token": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "access_token": "MOCK_TOKEN",
+      "token_type": "bearer",
+      "expires_in": 600
+    },
+    "raintree__get_patient_by_patient_number": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "resourceType": "Patient",
+      "id": "0000001",
+      "name": {
+        "given": [
+          "Ted"
+        ],
+        "family": "Lasso"
+      },
+      "birthDate": "1990-01-20"
+    }
+  },
+  "form_inputs": {
+    "129": {
+      "patient_number": "0000001"
+    },
+    "130": {
+      "patient_number": "0000001"
+    }
+  },
+  "expect": {
+    "data_node_calls": {
+      "raintree__find_leads": 1,
+      "raintree__create_lead": 0
+    },
+    "form_data": {
+      "is_existing_lead": true,
+      "patient_number": "0000001"
+    }
+  },
+  "view_inputs": {
+    "9": {
+      "raintree__find_leads": {
+        "id": "1XS42SF3O34",
+        "pn": "0000001",
+        "firstName": "Ted",
+        "lastName": "Lasso",
+        "dob": "01-20-1990",
+        "location": "01",
+        "primaryReason": "HIP",
+        "disciplines": [
+          "PT"
+        ]
+      }
+    }
+  },
+  "buttons": {
+    "9": "Use selected lead"
+  }
+}

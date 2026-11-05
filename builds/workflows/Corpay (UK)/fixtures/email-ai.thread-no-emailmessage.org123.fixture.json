@@ -1,0 +1,130 @@
+{
+ "tree_id": "109029630",
+ "preview_host": "https://eu.zingtree.com/preview/",
+ "query_params": {
+  "sf_Id": "500Ad00000c1OgmIAE",
+  "sf_Subject": "Invoices for our account",
+  "sf_CaseNumber": "02716246"
+ },
+ "connected_objects": {
+  "10": "sfdc_int__case_email_ai",
+  "20": "get_account_details__int",
+  "23": "get_incoming_email_addresses_int",
+  "187": "send_email_simple_int"
+ },
+ "ai_action_aliases": {
+  "12": "automate_email_intent_int",
+  "16": "automate_email_generation_int",
+  "18": "automate_hc_email_intent_int",
+  "25": "automate_hc_email_generation_int"
+ },
+ "actions": {
+  "sfdc_int__case_email_ai": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "Id": "500Ad00000c1OgmIAE",
+     "CaseNumber": "02716246",
+     "Subject": "Invoices for our account",
+     "Description": "Why is there a 99 pound fee added to my account? Please explain my returned direct debit fee.",
+     "SuppliedEmail": "gt@zingtree.com",
+     "AccountId": "001Ad000010Va2fIAC",
+     "Origin": "Email",
+     "Status": "New",
+     "Topic__c": "Please select one",
+     "Sub_Topic__c": "Please select one",
+     "RecordTypeId": "0124J000000Cv1rQAA",
+     "OwnerId": "00G4J000000jcvjUAA",
+     "Initial_Case_Queue_Name__c": "FAST_Admin",
+     "Queue_Email__c": null,
+     "CreatedDate": "2026-08-21T15:25:32.000+0000",
+     "Last_Email_Date__c": "2026-08-21T15:25:18.000+0000",
+     "Last_Owner_Queue_Name__c": "FAST_Admin",
+     "Business_process__c": "Operations"
+    }
+   ]
+  },
+  "get_account_details__int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "Framework__c": null,
+     "Account_Segment__c": "SME",
+     "AS_Account_Administrator__c": "SME Unmanaged"
+    }
+   ]
+  },
+  "get_incoming_email_addresses_int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "CcAddress": "fleet.admin@example.co.uk; accounts@example.co.uk",
+     "TextBody": null,
+     "MessageDate": "2026-10-20T09:15:18.000+0000"
+    }
+   ]
+  },
+  "send_email_simple_int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "value": [
+    {
+     "actionName": "emailSimple",
+     "isSuccess": true,
+     "errors": [],
+     "outputValues": {}
+    }
+   ]
+  },
+  "automate_email_intent_int": {
+   "email_intent": [
+    "returned_direct_debit"
+   ],
+   "sentiment": "neutral",
+   "escalate_to_agent": false,
+   "escalate_reason": "",
+   "confidence_score": 95,
+   "confidence_score_extracts": "send me copies of the last three invoices",
+   "ai_exception_reason": ""
+  },
+  "automate_email_generation_int": {
+   "email": "<p>Hello,</p><p>Thank you for your email.</p><p>The Returned Direct Debit Charge (RDD) for &pound;99 is applicable to any Allstar accounts which bounce a direct debit against their account.</p><p>Kind regards,<br>Allstar Customer Support</p>"
+  }
+ },
+ "buttons": {
+  "1": "Process this case",
+  "54": "Yes - send email response"
+ },
+ "form_inputs": {},
+ "expect": {
+  "form_data": {
+   "sf_Topic__c": "Fee",
+   "sf_Sub_Topic__c": "Returned direct debit",
+   "unrecognised_review_needed": "false",
+   "ai_feedback_submitted": "No",
+   "latest_customer_email": "Why is there a 99 pound fee added to my account? Please explain my returned direct debit fee.",
+   "thread_email_count": "0",
+   "thread_context_emails": ""
+  },
+  "data_node_calls": {
+   "send_email_simple_int": 1
+  },
+  "terminal_node": "41"
+ },
+ "note": "Email threading: inbound EmailMessage has no TextBody -> latest_customer_email falls back to Case.Description, no thread context. Journey unchanged."
+}

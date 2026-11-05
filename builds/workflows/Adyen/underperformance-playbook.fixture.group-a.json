@@ -1,0 +1,34 @@
+{
+ "_comment": "Adyen Underperformance Playbook - CR-1 feedback A/B test. Invented agent; no Connected Objects. Start the walk at node 30 (group A) or 31 (group B): the A/B node is random, the walk cannot pick a row.",
+ "tree_id": "629304572",
+ "preview_host": "https://eu.zingtree.com/preview/",
+ "query_params": {
+  "agent": "sam.rivera@adyen.com"
+ },
+ "connected_objects": {},
+ "views": {},
+ "view_inputs": {},
+ "actions": {},
+ "ai_action_aliases": {},
+ "form_inputs": {
+  "18": {
+   "protect_premium": "Yes",
+   "fraud_ml": "Yes",
+   "fraud_main_provider": "Yes",
+   "fraud_recs": "Yes",
+   "fraud_diff": "No"
+  },
+  "23": {
+   "agent": "sam.rivera@adyen.com"
+  }
+ },
+ "buttons": {
+  "2": "Adyen Uplift - Fraud rate underperformance"
+ },
+ "expect": {
+  "form_data": {
+   "ab_group": "buttons"
+  },
+  "terminal_node": "25"
+ }
+}

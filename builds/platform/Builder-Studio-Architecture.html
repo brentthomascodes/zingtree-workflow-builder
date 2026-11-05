@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Builder Studio — Architecture Plan</title>
+<style>
+:root {
+  --bg:#fbfbfa; --panel:#ffffff; --ink:#1a1a19; --ink-2:#55554f; --ink-3:#8a8a80;
+  --line:#e6e5e0; --line-2:#efeeea; --accent:#3d5a80; --accent-soft:#eef2f7;
+  --warn-bg:#fdf6ec; --warn-line:#e0b872; --code-bg:#f5f4f1;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:#16171a; --panel:#1c1e22; --ink:#e8e8e6; --ink-2:#a8a8a2; --ink-3:#75756e;
+    --line:#2c2f34; --line-2:#24262a; --accent:#8fb0d4; --accent-soft:#22303d;
+    --warn-bg:#2a2318; --warn-line:#8a6d3b; --code-bg:#202226;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin:0; background:var(--bg); color:var(--ink);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { display:flex; gap:0; max-width:1240px; margin:0 auto; }
+nav {
+  position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto;
+  width:262px; flex:0 0 262px; padding:34px 20px 40px 24px;
+  border-right:1px solid var(--line); font-size:13.5px;
+}
+nav .navtitle { font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3); margin-bottom:14px; font-weight:600; }
+nav ol { list-style:none; margin:0; padding:0; counter-reset:n; }
+nav li { margin:0; }
+nav a { display:block; padding:5px 8px; border-radius:5px; color:var(--ink-2); text-decoration:none; border-left:2px solid transparent; }
+nav a:hover { background:var(--accent-soft); color:var(--ink); }
+main { flex:1 1 auto; min-width:0; padding:44px 46px 120px; max-width:900px; }
+h1 { font-size:31px; line-height:1.2; letter-spacing:-.02em; margin:0 0 6px; font-weight:680; }
+h1 + p { color:var(--ink-2); font-size:17px; margin-top:0; }
+h1 + p + p { color:var(--ink-3); font-size:13px; border-bottom:1px solid var(--line); padding-bottom:22px; }
+h2 {
+  font-size:21px; letter-spacing:-.01em; margin:52px 0 14px; font-weight:660;
+  padding-top:14px; border-top:1px solid var(--line);
+}
+h3 { font-size:16.5px; margin:30px 0 10px; font-weight:640; color:var(--ink); }
+p, ul, ol { margin:0 0 15px; }
+li { margin:0 0 6px; }
+ul, ol { padding-left:22px; }
+a { color:var(--accent); text-decoration:none; border-bottom:1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+a:hover { border-bottom-color:var(--accent); }
+strong { font-weight:640; color:var(--ink); }
+em { color:var(--ink-2); }
+code {
+  font-family:var(--mono); font-size:.865em; background:var(--code-bg);
+  padding:1.5px 5px; border-radius:4px; border:1px solid var(--line-2);
+}
+pre {
+  background:var(--code-bg); border:1px solid var(--line); border-radius:8px;
+  padding:15px 17px; overflow-x:auto; font-size:12.5px; line-height:1.55; margin:0 0 18px;
+}
+pre code { background:none; border:none; padding:0; font-size:inherit; }
+table {
+  width:100%; border-collapse:collapse; margin:0 0 20px; font-size:14px;
+  background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden;
+}
+th {
+  text-align:left; font-weight:640; font-size:11.5px; letter-spacing:.05em; text-transform:uppercase;
+  color:var(--ink-3); padding:10px 13px; border-bottom:1px solid var(--line); background:var(--bg);
+  vertical-align:bottom;
+}
+td { padding:11px 13px; border-bottom:1px solid var(--line-2); vertical-align:top; }
+tr:last-child td { border-bottom:none; }
+td code { font-size:.83em; }
+blockquote { margin:0 0 18px; padding:2px 0 2px 18px; border-left:3px solid var(--line); color:var(--ink-2); }
+.warn {
+  background:var(--warn-bg); border:1px solid var(--warn-line); border-left-width:3px;
+  border-radius:6px; padding:11px 14px;
+}
+hr { display:none; }
+h2:first-of-type { border-top:none; padding-top:0; margin-top:34px; }
+@media (max-width: 940px) {
+  nav { display:none; }
+  main { padding:30px 22px 90px; }
+  h1 { font-size:26px; }
+  table { font-size:13px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <div class="navtitle">Contents</div>
+  <ol><li><a href="#1-the-recommendation-in-one-box">1. The recommendation in one box</a></li>
+<li><a href="#2-what-you-actually-asked-for-restated-as-four-separate-problems">2. What you actually asked for, restated as four separate problems</a></li>
+<li><a href="#3-the-finding-that-changes-the-plan">3. The finding that changes the plan</a></li>
+<li><a href="#4-track-a-distribution-shippable-this-week">4. Track A — Distribution, shippable this week</a></li>
+<li><a href="#5-track-b-builder-studio-the-application">5. Track B — Builder Studio, the application</a></li>
+<li><a href="#6-where-this-lives">6. Where this lives</a></li>
+<li><a href="#7-governance-the-suggestion-queue-done-so-it-doesnt-rot">7. Governance — the suggestion queue, done so it doesn&#x27;t rot</a></li>
+<li><a href="#8-testing-the-build-what-test-it-in-the-ui-actually-means">8. Testing the build — what &quot;test it in the UI&quot; actually means</a></li>
+<li><a href="#9-security-data-and-what-needs-a-second-pair-of-eyes">9. Security, data, and what needs a second pair of eyes</a></li>
+<li><a href="#10-cost">10. Cost</a></li>
+<li><a href="#11-phasing">11. Phasing</a></li>
+<li><a href="#12-how-this-fails">12. How this fails</a></li>
+<li><a href="#13-decisions-resolved-and-whats-left">13. Decisions — resolved, and what&#x27;s left</a></li>
+<li><a href="#14-appendix-verified-vs-assumed">14. Appendix — verified vs. assumed</a></li></ol>
+</nav>
+<main>
+<h1 id="builder-studio-architecture-plan">Builder Studio — Architecture Plan</h1>
+<p><strong>Exposing the Zingtree Workflow Builder to the internal team, with Brent as the single source of truth.</strong></p>
+<p>Author: Dudley (chief of staff) for Brent Thomas · 2026-08-03 · <strong>Draft 2</strong> · Internal / Confidential</p>
+<p><em>Draft 2 changes: no Zingtree authoring API is coming — Tier 3 live testing is cut and the simulation tier is promoted to the answer (§8). Audience fixed at seven named people, which shrinks the infrastructure and the governance machinery (§5.1, §7.2, §10). Front door is greenfield — no existing internal app to mount inside (§6). Data sign-off is Brent's (§9). And the biggest correction: </em><em>the validator and regression harness already exist</em><em>, in <code>etg-errand-regression</code> — Phase 0 is generalizing working code, not writing it (§3, §8, §11).</em></p>
+<hr />
+<h2 id="1-the-recommendation-in-one-box">1. The recommendation in one box</h2>
+<p>Build <strong>Builder Studio</strong>: a standalone Next.js app on Vercel with Google Workspace SSO, backed by Supabase (Postgres + Storage + Realtime), where every build runs as a queued job inside an <strong>ephemeral Modal container running the Claude Agent SDK headlessly</strong>. Scale it for what it actually is — <strong>seven people</strong> (you, Guillaume, Vebhav, Debby, Charchit, Monica, Adib), on the order of tens of builds a month, all of them trusted internal colleagues. That's small enough that the interesting risk isn't load or abuse; it's whether anyone uses it instead of Slacking you. The container image bakes in a <em>versioned corpus</em> — the builder skill plus the knowledge it actually depends on — so the image tag <strong>is</strong> the version of "how the builder operates." Teammates upload tree JSONs and a prompt, watch a live trace, and download a versioned, statically-verified JSON. Change proposals go into an in-app queue where Claude turns each one into a concrete diff against the corpus plus a regression case; Brent approves in the UI; the merge triggers a new corpus version and a regression run.</p>
+<p>Ship the core in four phases (0 through 3) over roughly seven focused weeks; the clickable preview and the session-replay loop (Phase 4) are open-ended and start after. And ship a <strong>zero-infrastructure private plugin marketplace in week one</strong> so the team has the builder in their hands while the app is still being written.</p>
+<p>Four things to internalize before reading further:</p>
+<ol>
+<li><strong>The skill is not the asset. The corpus is.</strong> Handing out <code>zingtree-workflow-builder.skill</code> gets people maybe 40% of your quality. (§3)</li>
+<li><strong>You have already built the hard part of the testing story.</strong> <code>etg-errand-regression</code> is a working static validator, a Zingtree script-node engine, a generated case matrix, and — the part most people never build — an oracle written from business rules and deliberately kept separate from the code being graded. It's ETG-specific and it lives outside the workspace. Generalizing it is Phase 0's centerpiece. (§8)</li>
+<li><strong>The regression suite is the load-bearing piece of the governance model</strong>, not the approval queue. Without it, <code>patterns.md</code> accretes into 200KB of contradictory rules and quality decays invisibly. (§7)</li>
+<li><strong>There is no Zingtree authoring API and there won't be one.</strong> So "test the actual build in the UI" means simulation — permanently, by design, not as a stopgap. The good news is that your harness already runs <em>the tree's own node bodies</em> rather than a reimplementation, which is what makes simulation trustworthy. (§8)</li>
+</ol>
+<hr />
+<h2 id="2-what-you-actually-asked-for-restated-as-four-separate-problems">2. What you actually asked for, restated as four separate problems</h2>
+<p>You described one product. It's four problems, and conflating them is the most common way this kind of project stalls.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problem</th>
+<th>Hardest part</th>
+<th>Can it ship alone?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. Distribution</strong></td>
+<td>Get the builder's knowledge into teammates' hands</td>
+<td>The knowledge is scattered across your workspace, not inside the skill</td>
+<td><strong>Yes — days, not weeks</strong></td>
+</tr>
+<tr>
+<td><strong>B. Governance</strong></td>
+<td>One source of truth; proposals flow to you; you approve</td>
+<td>Preventing knowledge rot as N people contribute</td>
+<td>Yes, but only meaningful once A exists</td>
+</tr>
+<tr>
+<td><strong>C. Execution</strong></td>
+<td>A hosted runtime that builds on demand for people without your workspace</td>
+<td>Long-running jobs, corpus versioning, cost control</td>
+<td>Needs A first</td>
+</tr>
+<tr>
+<td><strong>D. Verification</strong></td>
+<td>Prove the build is good before someone imports it</td>
+<td>No authoring/preview API, ever — so simulation is the ceiling</td>
+<td><strong>Yes, and it's furthest along</strong> — working code exists</td>
+</tr>
+</tbody>
+</table>
+<p>Sequencing: <strong>A → D → C → B.</strong> Distribution first because it's nearly free and it validates demand. <strong>Verification second, not last</strong> — that's a change from Draft 1, because the code mostly exists and because a validator improves your own sessions the day it lands, with or without an app. Execution third, since it's the biggest build. Governance last: a suggestion queue with no users is theater, and with seven users you can run governance out of a shared doc for a while.</p>
+<hr />
+<h2 id="3-the-finding-that-changes-the-plan">3. The finding that changes the plan</h2>
+<p>I inventoried what the builder skill actually reaches for at runtime:</p>
+<table>
+<thead>
+<tr>
+<th>Dependency</th>
+<th>Size</th>
+<th>In the <code>.skill</code> package?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.claude/skills/zingtree-workflow-builder/SKILL.md</code></td>
+<td>11 KB</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>references/</code> (7 files, incl. <code>patterns.md</code> at 36 KB)</td>
+<td>77 KB</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>Zingtree Builder/MEMORY.md</code> — house patterns, gotchas, prior decisions</td>
+<td><strong>59 KB</strong></td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>Zingtree Builder/Script Library/</code> — ~50 proven production scripts</td>
+<td>~large</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>Account Management HQ/{Account}/CLAUDE.md</code> + <code>MEMORY.md</code></td>
+<td>1–80 KB each</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>Zingtree Builder/Requirements/{Account}/…</code> — the spec a build is judged against</td>
+<td>up to 56 KB</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>Zingtree Builder/Workflow JSONs/{Account}/</code> — 75+ versioned exports as precedent</td>
+<td>~MBs</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><code>cos-workflow-factory</code>, <code>cos-build-verification</code>, Wes's and Mira's agent definitions</td>
+<td>~25 KB</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong><code>etg-errand-regression</code></strong> — validator, engine, oracle, case runner, defect ledger</td>
+<td><strong>50 KB of working code</strong></td>
+<td>❌ — <em>and it isn't even in the workspace</em></td>
+</tr>
+</tbody>
+</table>
+<p>Your own SKILL.md tells the model to read <code>Zingtree Builder/MEMORY.md</code> before building, and to check the Script Library for reusable production scripts before writing anything from scratch. Neither travels with the packaged skill. There's also a mirrored copy at <code>Zingtree Builder/Skill Source/</code> kept in sync <strong>by hand</strong> — your MEMORY.md notes that a <code>patterns.md</code> change requires re-packaging the skill to take effect. That's a drift generator, and it will bite worse with an audience.</p>
+<p>And note the third location the corpus is scattered across: <code>etg-errand-regression</code> lives in your <strong>claude.ai account skills</strong>, not in the workspace and not in the builder skill. It's the most operationally valuable code you have — a real validator plus a real engine — and right now it's reachable only from sessions where your account skills are synced, versioned by nothing, and invisible to anyone else. Bringing it into the repo is not tidying; it's the difference between the app having a testing story and not having one.</p>
+<p><strong>So Phase 0 is not "set up hosting." Phase 0 is closing the skill</strong> — turning a workspace-shaped body of knowledge into a self-contained, versioned artifact, with the harness pulled in alongside it. Call it two weeks of mostly unglamorous consolidation, and everything else depends on it. If you only do one thing from this plan, do this one; it improves your <em>own</em> sessions immediately, independent of any app.</p>
+<h3 id="phase-0-deliverable-the-zingtree-builder-corpus-repo">Phase 0 deliverable: the <code>zingtree-builder-corpus</code> repo</h3>
+<p>A single private GitHub repo, Brent as sole <code>CODEOWNER</code>:</p>
+<pre><code>zingtree-builder-corpus/
+├── .claude-plugin/plugin.json          # so it installs as a plugin
+├── skills/
+│   ├── zingtree-workflow-builder/      # SKILL.md + references/ (the one true copy)
+│   ├── cos-workflow-factory/
+│   ├── cos-build-verification/
+│   └── cos-requirements/
+├── knowledge/
+│   ├── house-patterns.md               # from Zingtree Builder/MEMORY.md, de-personalized
+│   ├── script-library/                 # the ~50 proven scripts, indexed
+│   └── precedents/                     # a curated ~15 exemplar tree JSONs, NOT all 75
+├── harness/                            # §8 — generalized out of etg-errand-regression
+│   ├── validate/                       #   ← validate_tree.js, made tree-agnostic
+│   ├── engine/                         #   ← engine.js: ZT shims, &lt;select&gt; parser
+│   ├── run.mjs                         #   ← run_full.js, config-driven
+│   └── trees/{tree-slug}/              #   per-tree: oracle.js + config.json + cases
+├── regression/                         # §7 — corpus-level, distinct from per-tree
+│   ├── cases/{case-id}/{input, prompt, expectations.yaml}
+│   └── run.mjs
+├── agents/                             # wes.md, mira.md — behavior, model tiering
+├── CHANGELOG.md                        # every approved change, dated, with rationale
+└── VERSION                             # semver; the app pins this
+</code></pre>
+<p>Three rules that make this durable:</p>
+<ul>
+<li><strong>One copy.</strong> Delete <code>Zingtree Builder/Skill Source/</code> and the packaged <code>.skill</code> from the workspace; symlink or git-submodule the repo into your local <code>.claude/skills/</code> so your sessions and the app read literally the same bytes. No more manual re-packaging.</li>
+<li><strong>De-personalize on the way in.</strong> Strip anything keyed to <code>brent@zingtree.com</code>, <code>America/Denver</code>, your Chrome profile, your Gmail. Account-specific context becomes a <em>parameter</em> the app supplies, not a hardcoded path.</li>
+<li><strong>Sanitize precedents.</strong> Those 75 tree exports include customer configuration and, in places, realistic test data. Curate ~15 exemplars, scrub them, and ship only those. The rest stay in your workspace. (See §9 — this is the confidentiality boundary of the whole project.)</li>
+<li><strong>Pull the harness in and split it.</strong> <code>etg-errand-regression</code> currently fuses three things: generic Zingtree machinery (the validator, the ZT shims, the <code>&lt;select&gt;</code> parser), ETG-specific truth (<code>oracle.js</code>, <code>config.assumed.json</code>, the tracker layout), and an attended browser procedure. Separate them. The generic half becomes <code>harness/</code> and serves every tree; the ETG half becomes <code>harness/trees/etg-register-errands/</code>; the browser procedure stays a skill and stays yours. Keep the discipline the skill already states — <em>"the whole value of the harness is that the answer key was not written by the code being graded"</em> — as a written rule in the repo, because it's the thing a well-meaning contributor will break first.</li>
+</ul>
+<hr />
+<h2 id="4-track-a-distribution-shippable-this-week">4. Track A — Distribution, shippable this week</h2>
+<p>The corpus repo doubles as a <strong>Claude Code / Cowork plugin</strong> distributed through a private marketplace. Add a <code>marketplace.json</code>, and teammates run:</p>
+<pre><code>/plugin marketplace add https://github.com/zingtree/zingtree-builder-corpus
+/plugin install zingtree-builder@zingtree
+/plugin marketplace update      # pulls your latest approved version
+</code></pre>
+<p>Cost: zero. Infrastructure: zero. Governance: GitHub's, with you as sole CODEOWNER. And critically, <strong>it's the same artifact the app consumes</strong>, so the work isn't throwaway.</p>
+<p>Two caveats, both honest:</p>
+<ul>
+<li>The docs are <strong>silent</strong> on how private-repo plugin installation behaves specifically for Cowork/desktop users. Test with one teammate — Guillaume — before you announce it. If it doesn't work for desktop users, the app path becomes the only path and Phase 1 gets more urgent.</li>
+<li>Anyone who installs the plugin can also read and locally edit it. The plugin gives you a <em>source of truth</em>, not enforcement. Enforcement — "the only sanctioned way to produce a build is the app" — arrives with Track B. Frame Track A internally as "the current build kit," not "the governed system."</li>
+</ul>
+<hr />
+<h2 id="5-track-b-builder-studio-the-application">5. Track B — Builder Studio, the application</h2>
+<h3 id="51-stack">5.1 Stack</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Choice</th>
+<th>Why this and not the obvious alternative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frontend + BFF</td>
+<td><strong>Next.js on Vercel</strong>, standalone</td>
+<td>Greenfield — there's no existing internal tools app to mount inside. But you already have a Next.js 15 app in the workspace: <code>Zing - BT/</code> ("zing-studio"), with skills, knowledge, guardrails and connections pages scaffolded and vitest/eslint/tsc wired up. Start there; it saves a week of shell-building.</td>
+</tr>
+<tr>
+<td>Auth</td>
+<td><strong>Google Workspace SSO, <code>@zingtree.com</code> only</strong> (Auth.js or Clerk)</td>
+<td>Seven known people. You need identity for attribution and per-user budgets, not a permission matrix — resist building roles you don't need yet. Hosted-domain restriction is one config line. ⚠️ <em>Auth code gets a second pair of eyes before it ships — see §9.</em></td>
+</tr>
+<tr>
+<td>Data + files + realtime</td>
+<td><strong>Supabase</strong> (Postgres, Storage, Realtime)</td>
+<td>One vendor for three needs. Row-level security gives you per-account tenancy cheaply. Neon + S3 + Pusher is three bills and three failure modes.</td>
+</tr>
+<tr>
+<td>Job queue</td>
+<td><strong>Postgres <code>jobs</code> table + worker poll</strong></td>
+<td>Don't reach for SQS/Temporal at this scale. A table with <code>status</code>, <code>attempts</code>, <code>locked_at</code> handles tens of builds a month with room to spare, and you can read it with SQL when something breaks.</td>
+</tr>
+<tr>
+<td>Account assignment</td>
+<td><strong>A <code>user_accounts</code> table you maintain</strong></td>
+<td>With seven trusted colleagues this is for <em>attribution and context selection</em> — which account's CLAUDE.md and MEMORY.md a job loads — not for keeping people out. It also scopes RLS. One admin-maintained table; no roles hierarchy, no Salesforce sync.</td>
+</tr>
+<tr>
+<td>Build runtime</td>
+<td><strong>Claude Agent SDK, headless, in an ephemeral Modal container</strong></td>
+<td>⚠️ Builds run 5–20+ minutes. That's fatal to Vercel serverless functions. Modal (or Fly Machines) gives per-job containers, sub-second cold starts, and pay-per-second. This is the one place you must not cut corners.</td>
+</tr>
+<tr>
+<td>Model access</td>
+<td><strong>Anthropic API key</strong> (Claude Platform), not subscription OAuth</td>
+<td>Anthropic's own guidance: subscription credits are sized for individual experimentation; shared production automation should use an API key for predictable pay-as-you-go billing.</td>
+</tr>
+<tr>
+<td>Testing</td>
+<td><strong>Your existing harness, generalized</strong> — validator + real-node-body simulation</td>
+<td>No live import path exists, so this <em>is</em> the testing story, not a placeholder for one. See §8.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="52-request-lifecycle">5.2 Request lifecycle</h3>
+<pre><code>Teammate                Next.js / Vercel          Supabase              Modal container
+   │                          │                      │                        │
+   ├─ upload JSONs + prompt ─▶│                      │                        │
+   │                          ├─ files → Storage ───▶│                        │
+   │                          ├─ INSERT job(queued) ─▶│                        │
+   │                          │                      │◀── worker claims ──────┤
+   │◀── job page, subscribed ─┤                      │                        │
+   │      to Realtime         │                      │   ┌────────────────────┴────┐
+   │                          │                      │   │ /work/{jobId}           │
+   │◀═══ live trace ══════════╪══════════════════════╪═══│  + /corpus @ v1.4.2 (ro)│
+   │     (phase labels)       │                      │   │  Agent SDK, maxTurns    │
+   │                          │                      │   └────────────────────┬────┘
+   │                          │                      │                        │
+   │◀── EDIT LIST: confirm? ──┤◀─── job(awaiting) ───┤◀─── pause at the gate ─┤
+   ├─ confirm ───────────────▶│──── job(resumed) ────▶│─── resume(sessionId) ─▶│
+   │                          │                      │                        │
+   │                          │                      │◀─ artifact + Stage A ──┤
+   │◀── diff view + download ─┤                      │                        │
+   │      (signed URL)        │                      │                        │
+</code></pre>
+<p>Notes that matter:</p>
+<ul>
+<li><strong>Stream phase labels, not raw tool output.</strong> A teammate watching <code>Read(patterns.md)</code> learns nothing and may see internals you'd rather keep tidy. Map SDK messages to five or six human phases: <em>reading your tree → checking house patterns → drafting the edit list → building → verifying → done.</em> This is a small mapping layer and it's the difference between the app feeling professional and feeling like a debug console.</li>
+<li><strong>Resume, don't restart.</strong> The SDK's <code>resume: sessionId</code> with a session store (Supabase or S3) is what makes the human confirmation gate cheap — the container can die while waiting and rehydrate on confirm. Note the documented limit: <strong>transcripts</strong> are mirrored; working-directory artifacts are not. Snapshot <code>/work/{jobId}</code> to Storage at the pause.</li>
+<li><strong>Bound every job.</strong> No top-level timeout exists in the SDK, so set <code>maxTurns</code>, a wall-clock kill, and a token ceiling per job. A runaway build with a 3MB tree JSON (you have one — Penrose at 3.0MB) is a real bill.</li>
+</ul>
+<h3 id="53-agent-sdk-worker-configuration-the-specifics">5.3 Agent SDK worker configuration — the specifics</h3>
+<pre><code class="language-js">// worker/build.mjs — the shape, not final code
+const result = query({
+  prompt: renderJobPrompt(job),          // §5.4
+  options: {
+    cwd: `/work/${job.id}`,              // per-job isolation
+    settingSources: [],                  // ← no ambient user/project settings leak in
+    plugins: [{ type: &quot;local&quot;, path: &quot;/corpus&quot; }],   // pinned, read-only mount
+    skills: [&quot;zingtree-workflow-builder&quot;, &quot;cos-workflow-factory&quot;,
+             &quot;cos-build-verification&quot;],  // explicit allowlist
+    allowedTools: [&quot;Read&quot;, &quot;Write&quot;, &quot;Edit&quot;, &quot;Glob&quot;, &quot;Grep&quot;, &quot;Bash&quot;],
+    model: &quot;claude-sonnet-4-5&quot;,          // matches your tiering: Wes = sonnet/high
+    permissionMode: &quot;default&quot;,           // the allowlist above is what denies; see note
+    maxTurns: 120,
+    resume: job.session_id ?? undefined,
+  },
+});
+</code></pre>
+<p>Confirm exact <code>permissionMode</code> enum values against current SDK docs at implementation time — the denial behavior you want comes from <code>allowedTools</code> being an explicit allowlist, not from a special mode, and you do <em>not</em> want a permissive mode here.</p>
+<p>Plus, at the container level:</p>
+<ul>
+<li><code>CLAUDE_CODE_DISABLE_AUTO_MEMORY=1</code> and a per-job <code>CLAUDE_CONFIG_DIR</code> — the documented pattern for preventing cross-tenant leakage. You have 13 customer accounts in one workspace; job A must not be able to read job B's tree.</li>
+<li>Corpus mounted <strong>read-only</strong> (<code>/corpus:ro</code>). Writable space is <code>/work/{jobId}</code> on a tmpfs with <code>noexec,nosuid</code>.</li>
+<li><code>--cap-drop ALL</code>, <code>--security-opt no-new-privileges</code>. Egress restricted to <code>api.anthropic.com</code> only — the builder skill makes no outbound calls of its own, so a locked-down network costs you nothing and removes an exfiltration path for customer tree JSONs.</li>
+<li><code>Bash</code> is on the allowlist because your own tooling needs it (<code>build_master_tree.py</code>, <code>verify_master_tree.js</code>, <code>remap-fields.js</code>). With no network and no egress, that's an acceptable trade. Revisit if you ever loosen egress.</li>
+</ul>
+<h3 id="54-corpus-versioning-the-idea-that-makes-this-reproducible">5.4 Corpus versioning — the idea that makes this reproducible</h3>
+<p><strong>The container image tag is the corpus version.</strong></p>
+<pre><code>zingtree-builder-corpus @ git tag v1.4.2
+        │  (GitHub Action on tag)
+        ▼
+ghcr.io/zingtree/builder-worker:v1.4.2      ← immutable
+        │
+        ▼
+every job row stores corpus_version = &quot;v1.4.2&quot;
+</code></pre>
+<p>Which buys you, nearly for free:</p>
+<ul>
+<li><strong>Reproducibility.</strong> "This build came out wrong" → you know exactly which corpus produced it and can re-run it against a newer one.</li>
+<li><strong>Rollback in one revert.</strong> A bad <code>patterns.md</code> change is <code>git revert</code> + retag, not archaeology.</li>
+<li><strong>A real changelog.</strong> Every approved change is a commit with your rationale attached. That <em>is</em> the audit trail Guillaume will eventually ask for.</li>
+<li><strong>Honest A/B.</strong> Run the regression suite against v1.4.2 and v1.5.0 and see what moved.</li>
+</ul>
+<h3 id="55-the-four-job-types">5.5 The four job types</h3>
+<table>
+<thead>
+<tr>
+<th>Job</th>
+<th>Input</th>
+<th>What runs</th>
+<th>Output</th>
+<th>Gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>build</code></strong></td>
+<td>0–n reference JSONs + prompt</td>
+<td><strong>requirements doc (written first, Mira's lane)</strong> → edit list → builder → Stage A</td>
+<td>requirements doc + new tree JSON + verification report</td>
+<td>doc reaches <code>Ready for build</code> with zero blocking questions; then edit list confirmed</td>
+</tr>
+<tr>
+<td><strong><code>edit</code></strong></td>
+<td>base tree JSON + prompt</td>
+<td><strong>numbered CR appended to the tree's existing doc</strong> → edit list → builder → Stage A</td>
+<td>CR + new JSON + <strong>node-level diff vs. base</strong></td>
+<td>same</td>
+</tr>
+<tr>
+<td><strong><code>intake</code></strong></td>
+<td>transcript / Spiky meeting ID / pasted notes</td>
+<td><code>cos-call-review</code> + <code>cos-requirements</code> lanes</td>
+<td>a requirements doc <strong>and a pre-filled build request</strong> — <em>never</em> an automatic build</td>
+<td>none needed; it writes no tree</td>
+</tr>
+<tr>
+<td><strong><code>verify</code></strong></td>
+<td>any artifact (+ optional requirements doc)</td>
+<td>Stage A only</td>
+<td>pass/fail report with path table</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No build without a requirements doc — including from the app.</strong> Your CLAUDE.md is categorical: <em>"A build with no written requirement has nothing to be judged against,"</em> requirements live in exactly one doc per workflow at <code>Requirements/{Account}/{tree-slug}-requirements.md</code>, and only Mira writes them. Don't let the app invent a lighter-weight path. A <code>build</code> job's <em>first</em> step is producing a real doc under that path (tagged <code>[app-generated]</code>, attributed to Mira's lane); an <code>edit</code> job appends a numbered CR to the existing doc rather than creating a second file. If the doc can't reach <code>Ready for build</code> because the prompt left blocking questions, the job stops there and hands the requester the questions — which is a genuinely useful outcome, not a failure.</p>
+<p>Making <code>intake</code> produce a <em>build request</em> rather than a build is the same principle from the other direction. Transcript-derived requirements are the highest-ambiguity input in the system; your offline pipeline already refuses to build from them without a <code>Ready for build</code> doc and zero blocking questions. Preserve that.</p>
+<h3 id="56-preserve-the-gate-this-is-the-part-people-will-want-to-cut">5.6 Preserve the gate. This is the part people will want to cut.</h3>
+<p>Your offline system is trustworthy because of a hard gate: requirements marked <em>Ready for build</em>, zero blocking questions, one tree in scope, local JSON present, nothing touching auth / payments / PII. Wes does not build unconfirmed edit lists. That gate is not bureaucracy — it's the reason the output can be trusted by someone who wasn't in the room.</p>
+<p>In the app it becomes:</p>
+<ol>
+<li>Job pauses and renders the <strong>numbered edit list</strong> to the requester, who confirms it.</li>
+</ol>
+<p>Be clear-eyed about what that swap costs. Today it isn't you confirming routine edit lists — it's <em>Dudley</em>, on your behalf, holding the result to house standards before it reaches you. A teammate confirming their own edit list is not equivalent to either of those; it's a lower trust bar, because the confirming human is the one who wrote the ask rather than the one who knows the house patterns. Two ways to close some of that gap, and you want at least one: run the edit list through the Layer 1 validator's rule set <em>before</em> the requester ever sees it (mechanical house-pattern lint, cheap), and have the finished build's verification report include an explicit "deviations from house patterns" section that the requester has to acknowledge. Neither replaces Dudley. Don't describe them as if they do.
+2. <strong>Auto-park to Brent's queue, never auto-build</strong>, if the job trips any carve-out: anything touching <strong>auth, payments, or PII handling</strong>; more than one tree in scope; requirements with unresolved blocking questions; or — the one worth adding now — <strong>a tree that has a per-tree oracle whose regression run fails.</strong> For a tree like ETG's register-errands, where a wrong outcome writes a false fact against a customer's order, a failing oracle should stop the job dead rather than hand someone a downloadable JSON with a red badge next to it. An account mismatch is worth <em>flagging</em> on the job, but with seven trusted colleagues it shouldn't block.
+3. <strong>Nothing publishes.</strong> The app's terminal state is <em>a file you download</em>. No live import, no send, no push to a running tree. With no authoring API that's also the only option available — but it would be the right design even if an import endpoint existed, and it's the same boundary your scheduled pipeline already respects.</p>
+<p>A parked job shows the requester <em>why</em> it parked, which teaches the constraint instead of just blocking them.</p>
+<hr />
+<h2 id="6-where-this-lives">6. Where this lives</h2>
+<p>Greenfield — there's no internal tools app to mount inside, so Builder Studio is its own deployment with its own SSO. That costs you a few days of auth work you'd otherwise have inherited, and buys you clean ownership and an app that stays independently deployable. Fine trade at this size.</p>
+<p>Two consequences worth planning around:</p>
+<p><strong>You are now the internal-tools precedent.</strong> The first internal app at a company tends to become the template for the next three. Spend a little more than feels necessary on the boring parts — SSO, a <code>users</code> table, structured logs, a health endpoint, a README someone else could deploy from. Not because Builder Studio needs it, but because "the thing Brent built" will get pointed at as the pattern, and it's cheaper to do that once than to retrofit it.</p>
+<p><strong>Build it so it could be extracted.</strong> The strategic read is that this is a prototype of a Zingtree product feature — self-serve workflow generation is something customers would plausibly pay for, and the dormant <code>Zing - BT/zing-studio</code> prototype in your workspace suggests that thought has already occurred to someone. Keep the corpus, the harness, and the job runner as libraries with clean boundaries rather than app internals, so the product conversation is a lift-and-shift rather than a rewrite. You're a solutions architect showing what the product could do for customers, using yourself as customer zero — that's a stronger internal story than "I built a tool," and it costs nothing extra if the seams are in the right places from the start.</p>
+<hr />
+<h2 id="7-governance-the-suggestion-queue-done-so-it-doesnt-rot">7. Governance — the suggestion queue, done so it doesn't rot</h2>
+<p>You chose: an in-app queue that summarizes asks to you and turns them into proper prompts your builder understands. I'd extend that in one specific way, and the extension is the whole ballgame.</p>
+<h3 id="71-the-flow">7.1 The flow</h3>
+<pre><code>Teammate hits &quot;Propose a change&quot;
+    │  free text + optionally: the job that went wrong, the tree, the expected vs. actual
+    ▼
+`curator` job — Claude, against the current corpus, produces a structured Change Proposal:
+    • Intent, in one sentence
+    • Classification: pattern rule │ script library addition │ reference doc fix │
+                      agent behavior │ new skill │ out of scope
+    • Is this already covered? ← kills most duplicates before they reach you
+    • The exact unified diff against corpus files
+    • ⭐ A REGRESSION CASE: input tree + prompt + expected behavior
+    • Blast radius: which existing regression cases could this change
+    ▼
+Brent's review queue — side-by-side diff, approve / edit-then-approve / reject-with-reason
+    ▼
+Approve → commit to the corpus repo → CI runs the FULL regression suite
+    ▼
+Green → tag vNEXT, build image, new jobs pick it up. Red → back to the queue with the failures.
+</code></pre>
+<p><strong>Who owns the curator.</strong> Give it to <strong>Mira's lane at <code>sonnet</code>/high</strong> and add a row for it to the tiering table in CLAUDE.md. Rule-change judgment is requirements work, and every other judgment job in your system has a named owner and a pinned model — an unowned job that can propose edits to Wes's own operating rules is exactly the ownership gap your exclusivity rule exists to prevent. Note the one thing the curator may never do: propose a change and merge it. It drafts; you approve; CI merges.</p>
+<p>Three design choices worth defending:</p>
+<p><strong>Every proposal must ship a regression case.</strong> No case, no merge. This is the difference between a knowledge base and a landfill. Your <code>patterns.md</code> is already 36KB and it's had one careful author; at ten contributors it becomes internally contradictory within a quarter, and you will not notice, because the failure mode is <em>builds get subtly worse</em>, not <em>builds error</em>. A suite of stored cases — each an input tree, a prompt, and assertions about the output — is the only thing that makes "Brent is the source of truth" survive volume. Seed <strong>5 cases in Phase 0</strong> (enough to prove the harness runs), grow to <strong>15–20 by the end of Phase 2</strong>, then let the queue feed it from there. Your existing requirements docs and their known-good builds are the source: the ETG register-errands lineage alone (18 versions, 56KB of requirements) is a goldmine of "this specific thing must keep working."</p>
+<p><strong>Rejections are data, not deletions.</strong> Keep them with your reasoning. They become the curator's few-shot examples for "here's what Brent turns down and why," and the accept rate climbs on its own.</p>
+<p><strong>Auto-approve exactly one lane.</strong> A <em>new script added to the Script Library</em> that nothing else references can't break an existing build — let those through with notification-only, and spot-check monthly. Everything that changes a <em>rule</em> (SKILL.md, patterns.md, references/) is yours. This keeps you from becoming the bottleneck on the highest-volume, lowest-risk contribution type.</p>
+<h3 id="72-the-bottleneck-problem-named-out-loud">7.2 The bottleneck problem, named out loud</h3>
+<p>You are deliberately designing yourself into the critical path. That's correct for correctness and wrong for throughput, so put guardrails on it now rather than after the first complaint:</p>
+<ul>
+<li><strong>A stated SLA</strong> — 48 business hours to a decision. Publish it. Reviewing in batch twice a week beats reviewing continuously.</li>
+<li><strong>A second reviewer eventually.</strong> Guillaume for non-semantic changes (doc clarity, script library, reference fixes); semantic rules stay yours. Six contributors won't overwhelm you, so this genuinely isn't a v1 problem — but leave a <code>reviewer</code> column on the users table so it's a config change rather than a refactor when it becomes one.</li>
+<li><strong>A visible queue depth metric.</strong> If it trends up for three weeks, the model is failing and you need the second reviewer, not more discipline.</li>
+<li><strong>A bus-factor note.</strong> Right now this knowledge lives with you and in your workspace. The corpus repo is the first time it's institutional. That's worth saying to Guillaume plainly — it's the strongest business case for spending the eight weeks.</li>
+</ul>
+<hr />
+<h2 id="8-testing-the-build-what-test-it-in-the-ui-actually-means">8. Testing the build — what "test it in the UI" actually means</h2>
+<p>Two facts frame this section, and together they're better news than Draft 1 assumed.</p>
+<p><strong>Fact one: there is no Zingtree authoring API, and there won't be.</strong> The public API is read-oriented — <code>get_trees</code>, <code>get_tree_structure</code>, <code>get_tree_variables</code>, plus a solid set of session/form/event endpoints — and offers webhooks. No create, import, update, or export; two help articles describe JSON import/export as manual UI actions. You've confirmed internally that this isn't a gap that's going to close. So live import into a scratch tree is off the table permanently, and the app's terminal state is a file a human imports through the Zingtree UI — the same last mile as today.</p>
+<p><strong>Fact two: you already built the thing that makes that acceptable.</strong> <code>etg-errand-regression</code> is not a sketch. It is:</p>
+<table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>What it does</th>
+<th>Why it matters here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>validate_tree.js</code> (7.4 KB)</td>
+<td>Every Script body parses, ASCII-only, <code>ZT.log</code> arity, every button and continuation target exists, no unreachable nodes, logic nodes carry one expression plus a default, generated HTML isn't <code>&lt;p&gt;</code>-wrapped, guard-node placement, reset symmetry between nodes 10 and 29. Non-zero exit means don't import.</td>
+<td>This is a real static validator. Most of it is already tree-agnostic.</td>
+</tr>
+<tr>
+<td><code>engine.js</code> (3.1 KB)</td>
+<td>Zingtree script-node shims plus a <code>&lt;select&gt;</code> parser, faithful on the two details that bite: <code>ZT.getVariableValue</code> sees form/session variables only, and <code>transforms</code> is a snapshot taken when the script starts.</td>
+<td>This is the semantics layer — the part I wrongly assumed would need writing.</td>
+</tr>
+<tr>
+<td><code>run_full.js</code> (19.7 KB)</td>
+<td>Generates the case matrix, <strong>executes the real node bodies out of the export</strong>, parses the <code>&lt;select&gt;</code>s node 12 rendered and posts values back the way a browser would, writes <code>results-full.csv</code> and <code>summary-full.md</code>.</td>
+<td>Tests the field-naming contract between nodes rather than assuming it.</td>
+</tr>
+<tr>
+<td><code>oracle.js</code> (3.0 KB)</td>
+<td>Expected outcomes, written from the business rules — R1 through R5, sourced from the <code>claude.md</code> grouping contract, the tracker matrix, and Olga's call notes.</td>
+<td>The answer key, deliberately not written by the code being graded.</td>
+</tr>
+<tr>
+<td><code>references/known-defects.md</code></td>
+<td>A defect ledger.</td>
+<td>Institutional memory about failure modes.</td>
+</tr>
+</tbody>
+</table>
+<p>The design choice that makes all of this trustworthy is worth stating plainly, because it's the opposite of what most people build: <strong>you don't reimplement Zingtree's logic, you run the tree's own JavaScript in a shimmed sandbox.</strong> That collapses the usual "my simulator drifts from the real engine" risk down to a much smaller surface — <em>are the shims faithful?</em> — which is a handful of well-understood behaviors rather than an ever-growing reimplementation. With no live-import oracle available, this is the single most important property the testing story has, and you already have it.</p>
+<p>So the plan isn't "build a validator." It's <strong>generalize a working one</strong>, in three layers.</p>
+<h3 id="layer-1-universal-static-validation-every-job-every-tree-free">Layer 1 — Universal static validation. Every job, every tree, free.</h3>
+<p>Lift <code>validate_tree.js</code> into <code>harness/validate/</code>, tree-agnostic, no ETG assumptions. It runs on every job's output, takes seconds, costs nothing, and is deterministic. Add to what's already there:</p>
+<ul>
+<li>Variable and namespace resolution — every <code>getVariableValue</code> / <code>setTransformData</code> reference resolves to something set on at least one path that reaches it</li>
+<li>CX Action config sanity — endpoint present, auth type set, response mapping targets exist</li>
+<li>Full path enumeration → a table of path × outcome × variables-set, combinatorial explosion capped and the cap <em>reported</em></li>
+<li>Node-level diff against the input tree</li>
+</ul>
+<p>In the UI this is a pass/fail panel plus the path table, and it gates the download button — with an override that records who overrode and why. Ship this in Phase 1, not Phase 2: it's the cheapest quality win available and it works in your own local sessions the day it exists, app or no app.</p>
+<h3 id="layer-2-behavioral-simulation-against-a-per-tree-oracle-the-real-answer-to-test-the-build">Layer 2 — Behavioral simulation against a per-tree oracle. The real answer to "test the build."</h3>
+<p>This is <code>run_full.js</code> generalized: shared engine, shared runner, per-tree oracle and config under <code>harness/trees/{tree-slug}/</code>. A tree with an oracle gets its whole case matrix re-run on every build, with a FAIL table in the UI and — as the ETG skill already prescribes — <em>invalid-run</em> failures surfaced above count mismatches, because recording a wrong fact against a customer's order is a different severity than getting a number wrong.</p>
+<p>The constraint to be honest about: <strong>an oracle can't be generated, only written.</strong> It encodes what the business rules say <em>should</em> happen, independently of the code. That's precisely why it catches things. Which produces the most important structural insight in this plan:</p>
+<blockquote>
+<p><strong>The requirements doc is the oracle spec.</strong> §5.5 requires every build to have a requirements doc because a build needs something to be judged against. That same document is what a human reads to write <code>oracle.js</code>. So "no build without a requirements doc" and "no behavioral testing without an oracle" are the same rule, seen from two ends — and the app should make that visible: when a tree has a requirements doc but no oracle, say so, and offer to scaffold one from the doc for a human to complete.</p>
+</blockquote>
+<p>Practically, for seven users: expect two or three trees to earn an oracle in the first year — ETG's register-errands already has one, and the highest-traffic Quest and Corpay flows are the likely next. Everything else gets Layer 1 only, and that's a legitimate answer, provided the UI says which layer ran rather than showing a generic green check.</p>
+<h3 id="layer-3-clickable-preview-nice-and-now-much-cheaper-than-i-thought">Layer 3 — Clickable preview. Nice, and now much cheaper than I thought.</h3>
+<p>Because <code>engine.js</code> already executes node bodies and parses rendered HTML, a click-through preview is largely a <em>rendering and state-inspection shell</em> around machinery you have: walk the tree, render the agent-facing screen, evaluate logic nodes, run script nodes through the existing shims, show variables mutating in a side panel. Label it "Simulated" without apology. It's how someone who didn't author a flow builds confidence in it before importing, and for non-technical teammates it's probably the single most persuasive feature in the app.</p>
+<p>Do it after Layers 1 and 2 are earning their keep. And keep treating shim divergences as the highest-priority bug class — they're the one thing that can turn simulation into false confidence.</p>
+<h3 id="the-one-true-oracle-still-available-to-you-production-sessions">The one true oracle still available to you: production sessions</h3>
+<p>You can't test <em>before</em> import, but Zingtree's read APIs are well documented for what happens <em>after</em>: <code>get_session_data</code>, <code>get_session_data_pure</code>, <code>tree_sessions</code>, <code>agent_sessions</code>, <code>event_log</code>, <code>get_form_data</code> — with the docs explicitly framing them for post-session batch use, which is exactly this. Per-org admin-issued API key, 6,000 calls/day.</p>
+<p>That gives you a genuinely valuable loop, and it's the best available substitute for the sandbox import you can't have:</p>
+<pre><code>real agent sessions on a live tree
+        │  (get_session_data / event_log, nightly batch)
+        ▼
+replay each recorded session's inputs through harness/engine
+        ▼
+does the harness reproduce the path and outcomes the live tree produced?
+        │
+        ├── yes  → the shims are faithful; simulation confidence goes up
+        └── no   → a shim divergence, found by reality rather than by guessing
+</code></pre>
+<p>This is the mechanism that keeps Layers 2 and 3 honest over time without an authoring API. It's also a nice second-order win: the same session data tells you which paths agents actually take, which is what should drive where you invest oracle-writing effort. Worth building in Phase 4 — after the app is real, but don't lose the idea, because it's the only external check the system will ever have.</p>
+<h3 id="what-about-browser-automation">What about browser automation?</h3>
+<p>Your ETG skill already does attended live testing this way — Chrome MCP tools driving the Zingtree panel on a sandbox Zendesk ticket, reading the child-ticket counts off the internal note, logging to the tracker. That's the right shape for <em>you</em>, on a tree that matters, when it matters. Don't productize it: it needs your session, it breaks on UI changes, and automating it for seven people means storing service-account credentials and pretending brittle is reliable. Keep it a skill, keep it attended, keep it yours.</p>
+<h2 id="9-security-data-and-what-needs-a-second-pair-of-eyes">9. Security, data, and what needs a second pair of eyes</h2>
+<p><strong>The confidentiality boundary is the thing to get right.</strong> Customer tree JSONs contain workflow logic, endpoint configuration, credential <em>references</em>, and in places realistic test data. Today they live on your laptop. This project moves them to a third-party PaaS and a third-party sandbox provider. That's a legitimate change in data posture and it needs to be a deliberate decision, not a side effect:</p>
+<ul>
+<li><strong>You own the sign-off — so write the decision down.</strong> That's genuinely simpler than routing it through someone else, and it removes a calendar dependency from the critical path. But a decision only you remember isn't a decision anyone can audit later, and this is exactly the kind of call that gets questioned after something goes wrong rather than before. One page in the repo: which vendors touch customer tree JSONs, what data classes are in scope, the retention window, and who approved it (you, dated). Ten minutes now, and it's the artifact that makes this defensible.</li>
+<li><strong>The healthcare accounts are the live question.</strong> Quest, Penrose Health, Ivy Rehab, and Corpay Healthcare Provider Support are healthcare-adjacent, and this plan does not establish BAA availability for Vercel, Supabase, or Modal. On the Anthropic side, the Managed Agents beta docs indicate it is <em>not</em> currently ZDR or HIPAA-BAA eligible — verify directly rather than taking it from this document, since that status changes. Self-hosting the Agent SDK sidesteps that specific gap but relocates the question to your three PaaS vendors rather than closing it. Confirm before any healthcare-account tree goes near the system. If BAAs are a problem, the clean fallback is a tenancy rule: healthcare accounts stay on your local workflow, everything else uses the app. Worth deciding deliberately rather than discovering — you know Zingtree's customer commitments better than any doc I can read.</li>
+<li>Row-level security scoped by account. Job A cannot read job B's uploads. Enforce in Postgres RLS <em>and</em> by per-job container isolation — belt and braces, because this is the failure that would actually hurt.</li>
+<li>A retention policy with a number in it. Uploaded tree JSONs and generated artifacts purge after N days (30 is defensible) unless pinned. Unbounded retention of customer configuration is the kind of thing that reads badly later.</li>
+<li>Redaction on intake. Transcripts are the highest-PII input in the system. Strip emails, phone numbers, and account identifiers before they enter a prompt or get stored.</li>
+</ul>
+<p><strong>Get a second pair of eyes on the auth surface before it ships.</strong> Specifically: the SSO/session implementation and the hosted-domain restriction; the RLS policies; the signed-URL download path; and secrets handling for the Anthropic API key. None of it is exotic — all of it is the category where a solo-built mistake is expensive and silent. You're building alone here, so "review" means asking someone at Zingtree who does auth work to spend thirty minutes on those four things, not a formal process. Guillaume is the obvious first ask. Do it once, before the first non-Brent user logs in.</p>
+<p><strong>Two things found in the workspace that need attention independent of this project:</strong></p>
+<ul>
+<li><code>guidecx_logger/CLAUDE.md</code> documents a previously-used GuideCX API token as <strong>compromised</strong>, with an instruction to confirm rotation before running the tool again. If that rotation hasn't been confirmed, do it now. If the token was ever committed to a git history in the workspace, rotation alone isn't enough.</li>
+<li>Your post-call pipeline notes explicitly warn that <strong>Spiky's <code>owners</code> filter leaks other people's calls.</strong> In your single-user workspace that's a nuisance; in a multi-user app it's a data leak with your name on it. If the app touches Spiky, it must fetch by explicit meeting ID that the requester supplies — never "list my meetings" — and it must verify the requester was an attendee before returning a transcript. Treat this as a hard requirement on the <code>intake</code> job.</li>
+</ul>
+<p><strong>Deliberately out of scope for v1</strong>, per your answer: per-user Gmail and Calendar OAuth. That's the right call — it's the largest security surface in the original vision and the smallest share of the value. The <code>intake</code> job takes an uploaded transcript or an explicit Spiky meeting ID and stops there.</p>
+<hr />
+<h2 id="10-cost">10. Cost</h2>
+<p>At seven users this is cheap enough that cost is a footnote rather than a constraint — but instrument it anyway, because the <em>shape</em> of the spend is what tells you whether the thing is being used.</p>
+<p><strong>Fixed, monthly:</strong> Vercel Pro ~$20, Supabase Pro ~$25, Modal compute in the single-to-low-double digits at tens of builds a month, GitHub private repo $0 on existing seats. Call it <strong>$50–75/month</strong>. You could start on free tiers for everything but Modal and still be fine; upgrade when a limit actually bites.</p>
+<p><strong>Variable — the model, and the only line that can surprise you.</strong> Rough shape per build: the corpus is ~150–250KB of context (≈40–70k tokens), a large tree JSON is another ~35k (your ETG v18 is 132KB; Penrose is 3.0MB and needs chunking, not a single prompt), and a multi-turn build with verification lands somewhere in the low hundreds of thousands to ~1M input tokens with 30–80k output. At Sonnet-class pricing that's <strong>low single-digit dollars per build</strong>, but treat that as a shape, not a quote — <a href="https://platform.claude.com/docs/en/about-claude/pricing">check current pricing</a> before you promise anyone a budget number.</p>
+<p>Three levers, in order of impact:</p>
+<ol>
+<li><strong>Prompt-cache the fixed prefix.</strong> SKILL.md plus whatever reference files every job deterministically reads first are identical at a given corpus version — cache those. Be careful not to overclaim here: the worker reads the corpus through <code>Read</code>/<code>Glob</code>/<code>Grep</code> on demand rather than stuffing the whole repo into the initial prompt, so if the read <em>set</em> varies job to job, the cacheable prefix is much shorter than "the corpus" and the savings shrink accordingly. Measure the real cache-hit rate on the first fifty jobs before treating this as the biggest lever.</li>
+<li><strong>Sonnet, not Opus.</strong> Your tiering pins Wes to <code>sonnet</code>/high because Zingtree semantics are exacting and technical; separately, it reasons that <em>no</em> agent needs Opus because the Stage A/B verification plus approval chain is the real safety net rather than model tier. Both point the same direction here, and it's a multiple on cost.</li>
+<li><strong>Hard per-job ceilings</strong>, plus a per-user monthly budget visible in the UI. Seven people is not a runaway-spend risk the way twenty would be, but a single unbounded agent run on the 3MB Penrose export is, and it costs you nothing to cap it on day one. Retrofitting budget enforcement after a surprise invoice is a bad week regardless of headcount.</li>
+</ol>
+<p>Instrument spend per job, per user, per account from the first deployed build. At this size the number that matters isn't the total — it's the distribution. If six of the seven users have spent nothing by week eight, that's your adoption signal arriving early, in a form you can't argue with.</p>
+<hr />
+<h2 id="11-phasing">11. Phasing</h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Weeks</th>
+<th>Deliverable</th>
+<th>Done when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0. Close the skill</strong></td>
+<td>1–2</td>
+<td>Corpus repo; one canonical copy; de-personalized; ~15 sanitized precedents; <strong><code>etg-errand-regression</code> pulled in and split generic-vs-ETG</strong>; 5 seed regression cases</td>
+<td>Your own local sessions read from the repo, and <code>harness/validate</code> runs clean against a tree that isn't ETG's</td>
+</tr>
+<tr>
+<td><strong>A. Distribution</strong></td>
+<td>1 (parallel)</td>
+<td>Private plugin marketplace</td>
+<td>Guillaume installs it and ships a build without you in the loop</td>
+</tr>
+<tr>
+<td><strong>1. App skeleton + Layer 1</strong></td>
+<td>3–5</td>
+<td>SSO, upload, jobs table, Modal worker, live trace, versioned download, <strong>static validation gating the download</strong>. <code>build</code> + <code>edit</code> only</td>
+<td>A teammate with no Claude workspace ships a correct, validated tree JSON end to end</td>
+</tr>
+<tr>
+<td><strong>2. Layer 2 + intake</strong></td>
+<td>6</td>
+<td>Per-tree oracle runs in-app with a FAIL table; ETG wired up as the first tree with an oracle; <code>intake</code> and <code>verify</code> jobs</td>
+<td>The harness catches something in a fresh build that you'd have missed by eye</td>
+</tr>
+<tr>
+<td><strong>3. Governance</strong></td>
+<td>7</td>
+<td>Suggestion queue, curator job, review UI, regression CI, corpus versioning end to end</td>
+<td>A teammate's proposal reaches production through the queue with zero manual git work by you</td>
+</tr>
+<tr>
+<td><strong>4. Preview + replay</strong></td>
+<td>8+</td>
+<td>Layer 3 clickable preview; session-replay loop against <code>get_session_data</code></td>
+<td>Someone clicks through a built flow before importing it — and a shim divergence gets caught by real session data</td>
+</tr>
+</tbody>
+</table>
+<p>Three scheduling notes. <strong>Phase 0 is now two weeks, not one</strong> — pulling in and splitting the harness is real work and it's the highest-value work in the plan, so don't compress it. <strong>Layer 1 validation moved forward into Phase 1</strong> because it's mostly written and because gating downloads on it from day one sets the expectation that builds get verified, rather than bolting verification on later as an optional extra. And <strong>Phase 3 can slip without much pain</strong>: with seven users and you as sole reviewer, a shared doc plus Slack handles change proposals for a good while. If time gets tight, cut governance before you cut verification.</p>
+<hr />
+<h2 id="12-how-this-fails">12. How this fails</h2>
+<p>Ranked by likelihood, with the counter for each.</p>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Why it happens</th>
+<th>Counter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Nobody uses it</strong> ← <em>the top risk, and it went up in Draft 2</em></td>
+<td>Six colleagues who all know you personally will Slack you rather than fill out a form. A public tool with 500 strangers gets adoption by default; a tool with six friendly users has to beat "just ask Brent," which is a genuinely high bar</td>
+<td>Instrument adoption from day one. Success metric: <em>builds shipped by non-Brent humans without Brent's involvement.</em> If that's under 3/month by week 12, the problem is UX or trust, and features won't fix it. Two cheap counters: pick <strong>one</strong> of the six as a design partner from Phase 1 rather than launching to all of them at once, and make the app strictly better than asking you at something specific — the validated download and the FAIL table are that something, since you can't hand those over in Slack.</td>
+</tr>
+<tr>
+<td><strong>Corpus quality decays</strong></td>
+<td>N contributors, no objective quality bar</td>
+<td>The regression suite (§7). This is why it's mandatory rather than nice-to-have.</td>
+</tr>
+<tr>
+<td><strong>Output quality is visibly worse than Brent's sessions</strong></td>
+<td>Missing corpus, missing account context, no requirements doc</td>
+<td>Phase 0. Then be explicit in the UI about what context a job had — "no account context supplied" is honest and teaches people to supply it.</td>
+</tr>
+<tr>
+<td><strong>Brent becomes the bottleneck and the queue dies</strong></td>
+<td>Reviewer of record for everything, with a day job</td>
+<td>SLA + auto-approve lane + second reviewer path (§7.2). Watch queue depth.</td>
+</tr>
+<tr>
+<td><strong>False confidence from simulation</strong> ← <em>went down in Draft 2</em></td>
+<td>Shims drift from real Zingtree semantics</td>
+<td>Much smaller than I first assumed, because the harness runs the tree's own node bodies rather than a reimplementation — the exposure is a handful of shims, not a growing clone. Label simulated results plainly, treat shim divergences as the top bug class, and build the session-replay loop (§8) as the external check.</td>
+</tr>
+<tr>
+<td><strong>Cost surprise</strong></td>
+<td>Unbounded agent run on a 3MB export</td>
+<td>Per-job and per-user ceilings in code on day one (§10). Low risk at seven users.</td>
+</tr>
+<tr>
+<td><strong>A data incident</strong></td>
+<td>Customer tree JSONs on third-party infra without a written decision</td>
+<td>You own the sign-off — so write it down before Phase 1, and settle the healthcare-account question explicitly (§9).</td>
+</tr>
+<tr>
+<td><strong>The harness stays ETG-shaped</strong></td>
+<td>Generalizing is harder than it looks; ETG assumptions are load-bearing in places</td>
+<td>Prove it in Phase 0 against a non-ETG tree before declaring the phase done. If genuine generalization turns out to be a month of work, ship Layer 1 generic and leave Layer 2 per-tree bespoke — still valuable, just less leverage.</td>
+</tr>
+<tr>
+<td><strong>You build it and Zingtree product wants to own it</strong></td>
+<td>It's genuinely a plausible product feature</td>
+<td>Not really a risk — that's the <em>good</em> outcome. Just keep it extractable (§6).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="13-decisions-resolved-and-whats-left">13. Decisions — resolved, and what's left</h2>
+<p><strong>Resolved in Draft 2:</strong> no existing internal tools app, so it's greenfield and standalone (§6). No Zingtree authoring API, now or later, so simulation is the permanent testing model (§8). You own the data sign-off (§9). The audience is seven people — you, Guillaume, Vebhav, Debby, Charchit, Monica, Adib — and Charchit is a user, not a builder, so this is a solo build (§5.1, §10, §12).</p>
+<p><strong>Still open, roughly in order of how much they'd change the plan:</strong></p>
+<ol>
+<li><strong>How technical are the six?</strong> This is the one that most affects design, and I can't infer it. §5.6 has the requester confirming their own numbered edit list — that's reasonable for someone who reads Zingtree logic fluently and much weaker for someone who doesn't. If most of the six are non-technical, the edit-list step needs to become a plain-language summary with the mechanical house-pattern lint running underneath, and Layer 3's clickable preview jumps from "nice" to "the feature that makes the app usable at all."</li>
+<li><strong>Anthropic billing</strong> — which Claude Platform org and API key does the worker use, and what monthly ceiling do you want enforced in code? Small decision, but it blocks Phase 1's first real job.</li>
+<li><strong>Is Guillaume a co-owner or a user?</strong> He's in the conversation that started this, which reads like more than "user." If he's a co-owner, he's your auth reviewer (§9), your Phase 1 design partner (§12), and eventually your second approver for non-semantic changes (§7.2). If he's a user, you're genuinely solo and Phase 3's timeline should be treated as optimistic.</li>
+<li><strong>The healthcare-account question</strong> (§9) — do Quest, Penrose Health, Ivy Rehab and Corpay Healthcare Provider Support trees go through a third-party PaaS at all, or do those stay local? Decide it deliberately in Phase 0, because retrofitting a tenancy split later is much worse than designing for it now.</li>
+<li><strong>Which tree gets the second oracle?</strong> ETG's register-errands has one. The second is the highest-value Phase 2 decision, and it should be driven by which flow's failures are most expensive rather than which is most convenient. Once the session-replay loop exists (§8), real path data answers this for you — until then it's your judgment.</li>
+<li><strong>Your build budget</strong> — seven focused weeks of your evenings is not the same project as seven weeks with real time carved out. If it's evenings, do Phase 0 + A + 1 and stop there. That's the corpus consolidated, the harness generalized, the plugin distributed, and a working upload-to-validated-download loop. It's most of the value, and it's a coherent place to stop rather than a half-built thing.</li>
+</ol>
+<hr />
+<h2 id="14-appendix-verified-vs-assumed">14. Appendix — verified vs. assumed</h2>
+<p><strong>Verified against the workspace</strong> (a subagent read the tree and the skill files): the builder skill's size and reference structure; that it depends on <code>Zingtree Builder/MEMORY.md</code> and the Script Library, neither of which is packaged; the manual sync between <code>Skill Source/</code> and the packaged <code>.skill</code>; 75+ tree exports across 15 account folders; the existing Next.js <code>zing-studio</code> prototype; the personal couplings (your Gmail, <code>America/Denver</code> calendar gate, your Chrome profile, Spiky); the GuideCX compromised-token note.</p>
+<p><strong>Verified by reading <code>etg-errand-regression</code> directly</strong> — its SKILL.md, <code>validate_tree.js</code>, <code>engine.js</code>, <code>run_full.js</code>, <code>oracle.js</code>, <code>config.assumed.json</code>, and <code>references/known-defects.md</code>, with sizes as quoted in §8. Draft 1 claimed "no automated validator or test suite exists anywhere in the workspace." That was <strong>wrong</strong> — the validator exists, it's good, and it isn't in the workspace, which is why the workspace sweep missed it. Corrected in §3 and §8, and it's the single largest change between drafts.</p>
+<p><strong>Verified against Anthropic docs</strong> (URLs below): Agent SDK hosting patterns, <code>settingSources</code>/<code>skills</code>/<code>allowedTools</code> semantics, session resume + store limits (transcripts only), container hardening guidance, multi-tenant isolation via <code>CLAUDE_CONFIG_DIR</code> + <code>CLAUDE_CODE_DISABLE_AUTO_MEMORY</code>, absence of a top-level session timeout, plugin/marketplace mechanics and <code>plugins: [{type:"local"}]</code>, API-key-vs-subscription guidance for shared production automation, Managed Agents pricing at $0.08/session-hour and its beta ZDR/HIPAA status.</p>
+<p><strong>Verified against Zingtree docs:</strong> no tree-authoring API; import/export are UI-only; per-org admin-issued API keys at 6,000 calls/day with no documented scoping; session/form/event API is well covered; webhooks exist; embed via <code>zingtree.com/live/{treeId}</code>; no Terraform provider and no separate "Studio" developer surface. <strong>Confirmed by you from the inside</strong> that no authoring API is coming, which is why Draft 2 treats simulation as permanent rather than as a stopgap.</p>
+<p><strong>Documented as silent — assume nothing:</strong> the exact <code>permissionMode</code> enum (check at implementation time; the allowlist is what enforces denial); whether Managed Agents supports custom Skills (assume no until confirmed); the custom-Skills-upload API's versioning and size limits; whether private plugin marketplaces install cleanly for Cowork/desktop users (<strong>test this in week 1</strong>); per-user usage granularity in the Usage &amp; Cost API; Agent SDK skill hot-reload in a running container (assume you restart, which the image-tag model already handles).</p>
+<p><strong>My assumptions, flagged as such:</strong> tens of builds per month as the design point, seven users (both now given rather than assumed); Modal over Fly on cold-start and per-second billing (either is fine, and Fly is the better pick if Zingtree already runs there); Supabase over Neon+S3 on vendor count; that per-build cost lands in low single-digit dollars, which needs measuring, not trusting; that <code>validate_tree.js</code> is mostly generalizable — I read it but did not run it against a non-ETG tree, and that's the assumption Phase 0 has to test first.</p>
+<p><strong>Sources</strong></p>
+<ul>
+<li><a href="https://code.claude.com/docs/en/agent-sdk/hosting">Hosting the Agent SDK</a> · <a href="https://code.claude.com/docs/en/agent-sdk/skills">Agent Skills in the SDK</a> · <a href="https://code.claude.com/docs/en/agent-sdk/secure-deployment">Secure Deployment</a> · <a href="https://code.claude.com/docs/en/agent-sdk/plugins">Plugins in the SDK</a></li>
+<li><a href="https://platform.claude.com/docs/en/managed-agents/overview">Managed Agents Overview</a> · <a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview">Agent Skills Overview</a> · <a href="https://platform.claude.com/docs/en/about-claude/pricing">Pricing</a></li>
+<li><a href="https://code.claude.com/docs/en/plugin-marketplaces">Plugin Marketplaces</a> · <a href="https://code.claude.com/docs/en/github-actions">Claude Code GitHub Actions</a> · <a href="https://code.claude.com/docs/en/authentication">Authentication</a></li>
+<li><a href="https://help.zingtree.com/hc/en-us/articles/5048766502043-Zingtree-API">Zingtree API</a> · <a href="https://help.zingtree.com/hc/en-us/articles/4766652584475-API-REST-API">REST API</a> · <a href="https://help.zingtree.com/hc/en-us/articles/6181594602523-Importing-Trees-from-a-Previously-Exported-Zingtree-JSON-File">Importing Trees from JSON</a> · <a href="https://help.zingtree.com/hc/en-us/articles/4901710729371-How-to-Export-your-Workflows-to-JSON-or-CSV">Exporting to JSON/CSV</a> · <a href="https://help.zingtree.com/hc/en-us/articles/4563541061147-How-to-Embed-Trees-on-your-Website">Embedding Trees</a> · <a href="https://zingtree.com/en/webhooks">Webhooks</a></li>
+<li>Workspace files: <code>CLAUDE.md</code>, <code>.claude/skills/zingtree-workflow-builder/</code>, <code>Zingtree Builder/MEMORY.md</code>, <code>Call Reviews/_automation/post-call-pipeline.md</code>, <code>guidecx_logger/CLAUDE.md</code></li>
+</ul>
+</main>
+</div>
+</body>
+</html>

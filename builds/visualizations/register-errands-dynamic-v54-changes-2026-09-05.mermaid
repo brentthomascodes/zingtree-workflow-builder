@@ -1,0 +1,74 @@
+%% Register Errands - Dynamic, v53 -> v54 (2026-09-05, CR-018)
+%% Only the three changed areas. The 57 untouched nodes are not drawn.
+flowchart TD
+
+  subgraph CAT["1 - ONE CONTACT-REASON CATALOGUE (was 4 hand-maintained lists)"]
+    direction TB
+    N10["node 10 - Script<br/>Clear Session and Seed Zendesk Intake<br/><b>declares the 21-row catalogue ONCE</b>"]
+    FD[("form data<br/><b>contact_reasons</b><br/>JSON string<br/>value | label | edvin | path")]
+    TR[("transforms<br/>contact_reasons_dynamic<br/>fl_paths / sc_paths<br/><i>derived, not retyped</i>")]
+    N77["node 77 - Content<br/>Verify Order Reference<br/>dynamic select"]
+    N47["node 47 - Content<br/>Additional/Different Request<br/>dynamic select"]
+    N46["node 46 - Script<br/>Format Types<br/><b>parses</b>, finds row by value<br/>-20 lines"]
+    N2["node 2 - Script<br/>Dynamic Actions List Options<br/><b>dead map deleted</b><br/>-22 lines"]
+    N81["VI subtree node 81 - Script<br/>Format Types<br/><b>parses</b> across the Tree boundary<br/>-25 lines, fixes 5 broken reasons"]
+
+    N10 --> FD
+    N10 --> TR
+    TR -->|"transforms exception 1<br/>native dynamic select source"| N77
+    TR --> N47
+    FD -->|JSON.parse| N46
+    FD -->|"form data has no TTL<br/>and crosses trees"| N81
+    N2 -.->|"needs no category name<br/>at all"| FD
+  end
+
+  subgraph API["2 - API RECEIPT (Brent's one logging exception)"]
+    direction TB
+    CALLS["9 call sites - nodes 9, 21, 29, 32, 44, 64, 65, 93, 95<br/>each already writes last_api_alias<br/><b>+ ONE line appending to api_trail</b>"]
+    TRAIL[("form data<br/><b>api_trail</b><br/>alias~:~subject~||~<br/>append-only for the run")]
+    ACT[("actions[alias]._zt_meta<br/>status code + failure detail<br/><i>latest attempt only</i>")]
+    STEPS[("form data<br/>api_steps<br/><i>alias -> readable name</i>")]
+
+    N19["<b>node 19 - Script (NEW)</b><br/>Render API Receipt<br/>collapse repeats -> attempt count<br/>grade -> failures first, then completed"]
+    N86["node 86 - Script<br/>API Failure - Log and Render<br/>+ the run's call sequence<br/>own alias map deleted"]
+
+    CALLS --> TRAIL
+    N10 -.->|seeds| STEPS
+    TRAIL --> N19
+    ACT --> N19
+    STEPS --> N19
+    STEPS --> N86
+    TRAIL -->|aliases only| N86
+    N19 --> RCPT[("form data<br/><b>api_receipt_html</b>")]
+  end
+
+  subgraph WIRE["2b - WHERE THE RECEIPT SHOWS (the only routing change)"]
+    direction LR
+    N83["node 83 - Scoring<br/>Is More PNR's?"]
+    N100["node 100 - Content<br/>Register Manually"]
+    N19b["node 19 - Script<br/>Render API Receipt"]
+    N23["node 23 - Content<br/>Closing Call<br/>prints the receipt"]
+    N48["node 48 - Content<br/>End Session<br/>prints the receipt"]
+    N44b["node 44 - loop"]
+
+    N83 -->|"is_more_pnrs"| N44b
+    N83 -->|"default<br/><b>was 23</b>"| N19b
+    N100 -->|"registered in Edvin<br/><b>was 23</b>"| N19b
+    N19b --> N23
+    N23 -->|End Session| N48
+  end
+
+  subgraph SCR["3 - NO-PNR SCREEN"]
+    N101["node 101 - Content<br/>No PNRs Available for This Order<br/>yellow WARNING pill on the title<br/>label/value rows, next-steps list<br/>817 -> 1838 chars, same words"]
+    N93["node 93 - Script<br/>No-PNR Bridge"]
+    N101 -->|Continue| N93
+  end
+
+  classDef newNode fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#065f46
+  classDef changed fill:#fef3c7,stroke:#d97706,color:#92400e
+  classDef store   fill:#ffffff,stroke:#6b7280,color:#374151
+  classDef gone    fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+
+  class N19,N19b newNode
+  class N10,N46,N2,N81,N86,N101,N83,N100,N23,N48,CALLS changed
+  class FD,TR,TRAIL,ACT,STEPS,RCPT store

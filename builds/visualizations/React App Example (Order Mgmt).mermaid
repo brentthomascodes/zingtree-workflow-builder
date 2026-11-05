@@ -1,0 +1,24 @@
+flowchart TD
+    Q(["?customer_id=…"]) --> N1
+
+    N1["1 · Script (root)<br/>Seed context & mock GET orders API<br/>ZT.setResponseData('get_orders', …)"]:::script
+    N2["2 · Script<br/>Format orders & build React shell<br/>→ transforms.app_html"]:::script
+    N3["3 · Content<br/>Order Manager (React app)<br/>renders ${transforms.app_html}"]:::content
+    N4["4 · Script<br/>Format refund & POST refund API<br/>post_refund + refreshed get_orders<br/>append action_log"]:::script
+    N5["5 · Script<br/>Format reship & POST reship API<br/>post_reship + refreshed get_orders<br/>append action_log"]:::script
+    N6["6 · Script<br/>Submit session (POST submit_session)<br/>build done_html confirmation"]:::script
+    N7["7 · Content<br/>All done — confirmation<br/>renders done_html + copy for case notes"]:::content
+    SC[["Settings > Custom Code<br/>vanilla state app<br/>(script_code)"]]:::settings
+
+    N1 --> N2 --> N3
+    N3 -- "Submit Refund (app btn)" --> N4
+    N3 -- "Submit Reship (app btn)" --> N5
+    N3 -- "Submit & finish" --> N6
+    N4 -- "reload" --> N2
+    N5 -- "reload" --> N2
+    N6 --> N7
+    SC -. "mounts into #zt-order-app,<br/>writes zt-data inputs,<br/>clicks native ZT buttons" .- N3
+
+    classDef script fill:#eef2ff,stroke:#6366f1,color:#1e1b4b;
+    classDef content fill:#ecfdf5,stroke:#10b981,color:#064e3b;
+    classDef settings fill:#fff7ed,stroke:#f97316,color:#7c2d12,stroke-dasharray:4 3;

@@ -1,0 +1,102 @@
+{
+  "tree_id": "718637140",
+  "_note": "Insurance Inquiry, real alias_35 response UT84737 + a Managed row",
+  "query_params": {
+    "clinic_cost_code": "UT84737",
+    "clinic_raintree_code": "UT84737"
+  },
+  "connected_objects": {
+    "35": "alias_35"
+  },
+  "actions": {
+    "alias_35": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "insurance_list": [
+        "Aetna - MA (Medicare Advantage); ; Accepted",
+        "Aetna Better Health (NOT ACCEPTED)",
+        "Aetna Better Health; ; Not Accepted - Insurance",
+        "Aetna; ; Accepted",
+        "BCBS (Blue Cross Blue Shield) - Michigan - Federal; ; Accepted",
+        "BCBS (Blue Cross Blue Shield) - Michigan; ; Accepted",
+        "BCBS (Blue Cross Blue Shield) Complete - MDA (Medicaid Advantage); ; Accepted",
+        "Blue Care Network Michigan (INN)",
+        "ChampVA; ; Accepted",
+        "Cigna (Priority Health or HAP); ;Accepted",
+        "Employee Benefit Logistics - Comm (INN)",
+        "First Agency - COMM (INN)",
+        "GEHA-ASA - Comm (INN)",
+        "Genesee Heath; ; Not Accepted - Insurance",
+        "Golden Rule - UHC (United Healthcare) (INN)",
+        "HAP (Health Alliance Plan) CareSource - MDA (Medicaid Advantage) (INN)",
+        "Health Alliance Plan of MI (Michigan) - HAP (INN)",
+        "Health Alliance Senior Plus - MA (Medicare Advantage) (INN)",
+        "Health Partners Claims - Comm",
+        "Healthsmart Benefit Solutions - Comm (INN)",
+        "Humana (OON)",
+        "Humana - MA (Medicare Advantage) (OON)",
+        "Humana Gold (NOT ACCEPTED)",
+        "Humana Gold; ; Not Accepted - Insurance",
+        "Liberty Union / Mid-America - Comm (INN)",
+        "Mclaren - COMM (INN)",
+        "Mclaren Health - MDA (Medicaid Advantage) (INN)",
+        "MEDICAID (INN)",
+        "Medicaid BCN (Blue Care Network) Blue Cross Complete Claims (INN)",
+        "Medicaid UHC (United Healthcare) - MDA (Medicaid Advantage) Community Plan (INN)",
+        "Medicaid; ; Not Accepted - Medicaid",
+        "MEDICARE (INN)",
+        "Medicare Dual Molina Healthcare MI (Michigan) - MA (Medicare Advantage) (NOT ACCPETED)",
+        "Medicare Dual Molina; ; Not Accepted - Insurance",
+        "Medicare Plus Blue - MA (Medicare Advantage) (INN)",
+        "Medishare (INN)",
+        "Meridian Health (INN)",
+        "Meridian Health Plan of MI (Michigan) - MDA (Medicaid Advantage) (INN)",
+        "Meridian Insurance (INN)",
+        "Meridian Wellcare HMO by Allwell - MA (Medicare Advantage) (INN)",
+        "Meritain Health (INN)",
+        "Meritain Insurance (INN)",
+        "Molina Healthcare - MDA (Medicaid Advantage) (INN)",
+        "Molina Healthcare of Michigan - Comm (INN)",
+        "Priority Health (INN)",
+        "Priority Health Medicaid - MDA (Medicaid Advantage) (INN)",
+        "Priority Health Medicare - MA (Medicare Advantage) (INN)",
+        "Railroad Medicare MI (Michigan) (INN)",
+        "Railroad Medicare MI (Michigan) (NOT ACCEPTED)",
+        "Railroad Medicare; ; Not Accepted - Insurance",
+        "Sisco Cofinity - Comm (INN)",
+        "TRICARE (OON)",
+        "Trinity Health Plan MA (NOT ACCEPTED)",
+        "Trinity Health; ; Not Accepted - Insurance",
+        "UHC (United Healthcare) (INN)",
+        "UHC (United Healthcare) - MA (Medicare Advantage) (INN)",
+        "UHC (United Healthcare) Dual Complete - MDA (Medicaid Advantage) (OON)",
+        "UHC (United Healthcare) Medicaid - MDA (Medicaid Advantage) (INN)",
+        "UMR (United Medical Resources) (INN)",
+        "VA (Veterans/Vets Affairs/Administration)",
+        "Valenz/Cam/Secure One - Comm",
+        "Valenz/Insight - Comm (INN)",
+        "Test Managed Plan; ; Managed;"
+      ]
+    }
+  },
+  "form_inputs": {
+    "45": {
+      "insurance_selection": "other_not_listed"
+    }
+  },
+  "buttons": {
+    "43": "Insurance",
+    "45": "Continue"
+  },
+  "expect": {
+    "form_data": {
+      "insurance_route": "not_accepted_other",
+      "is_display_insurance_dropdown": "true",
+      "new_cost_code": "UT84737"
+    },
+    "terminal_node": "9"
+  }
+}

@@ -1,0 +1,6898 @@
+========================================================================
+WORKFLOW DIFF — Email Automation - AI Actions INT - Homecharge
+========================================================================
+
+Before : 2 BRANCH - Homecharge 698599608 (BEFORE baseline 2026-10-19).json  (33 nodes)
+After  : 2 BRANCH - Homecharge 698599608 (links new tab 2026-10-19).json  (33 nodes)
+
+## PLAIN SUMMARY
+
+32 of 33 nodes are byte-for-byte identical to the original (97% untouched).
+0 nodes added, 0 removed, 0 renumbered, 1 modified.
+
+In plain terms:
+  * CHANGED  node 48 — claude.md [Content]
+               - content changed (6 → 7 lines) — claude.md
+
+## TREE SHAPE
+
+  node type                before    after    delta
+  AI_Action                     2        2       +0
+  Content                      12       12       +0
+  Data                          1        1       +0
+  Scoring                       7        7       +0
+  Script                       10       10       +0
+  Tree                          1        1       +0
+  TOTAL                        33       33       +0
+
+  Root node unchanged (node 3).
+
+## STRUCTURAL SANITY
+
+  No broken links introduced.
+  No nodes became unreachable.
+  Pre-existing in the BEFORE tree (not caused by this edit): 0 broken link(s), 1 unreachable node(s).
+
+## UNTOUCHED NODES (32)
+
+  3, 4, 5, 6, 7, 9, 18, 19, 20, 21, 22, 23, 24, 25, 26, 30, 31, 32, 33, 50, 51, 52, 53, 56, 62, 63, 64, 70, 71, 72, 73, 79
+
+## TREE-LEVEL SETTINGS CHANGED (1)
+
+  script_code: <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+
+:root {
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+</style>
+
+<style>
+/* =========================================================
+REQUIRED REQUEST DETAILS
+========================================================= */
+
+.zt-required {
+margin-left: 3px;
+color: #b91c1c;
+}
+
+/* Invalid Topic / Subtopic */
+.zt-form-control.zt-required-invalid {
+border-color: #b91c1c;
+box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
+}
+
+/* Validation message */
+.zt-request-validation-error {
+display: none;
+grid-column: 1 / -1;
+margin-top: -4px;
+padding: 10px 12px;
+color: #991b1b;
+font-size: 13px;
+font-weight: 500;
+background: #fef2f2;
+border: 1px solid #fecaca;
+border-radius: 8px;
+}
+
+.zt-request-validation-error.is-visible {
+display: block;
+}
+</style>
+
+<style>
+.email-summary-card-shell {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #d9e2ec;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.email-summary-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.email-summary-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 22px;
+  font-weight: 700;
+  flex: 0 0 42px;
+}
+
+.email-summary-header-copy {
+  min-width: 0;
+}
+
+.email-summary-title {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1f2937;
+}
+
+.email-summary-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.email-summary-card {
+  margin-top: 18px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+}
+
+.email-summary-card-title {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.email-summary-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 10px 0;
+  border-top: 1px solid #f1f5f9;
+}
+
+.email-summary-row:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.email-summary-row-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.email-summary-row-value {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.email-summary-html-body {
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.email-summary-html-body p:first-child {
+  margin-top: 0;
+}
+
+.email-summary-html-body p:last-child {
+  margin-bottom: 0;
+}
+
+.email-summary-muted {
+  color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+  .email-summary-card-shell {
+    padding: 18px;
+  }
+
+  .email-summary-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+</style>
+
+<style>
+.zt-rich-editor {
+  min-height: 220px;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+}
+
+.zt-rich-editor:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.zt-rich-editor p {
+  margin: 0 0 10px;
+}
+</style>
+
+<script>
+(function () {
+
+  /**
+   * ========================================================
+   * REQUEST DETAILS VALIDATION
+   *
+   * Both forms (screen 33 Request Details and screen 32
+   * Multiple Subtopics) carry:
+   *    - sf_Topic__c
+   *    - sf_Sub_Topic__c
+   * ========================================================
+   */
+
+  function getRequestFields() {
+    return {
+      topic: document.getElementById('sf_Topic__c'),
+      subtopic: document.getElementById('sf_Sub_Topic__c')
+    };
+  }
+
+
+  /**
+   * Determine whether the current node contains
+   * one of our forms.
+   */
+  function hasRequestForm() {
+    var fields = getRequestFields();
+
+    return !!fields.subtopic;
+  }
+
+
+  /**
+   * Validate whichever fields exist on the node.
+   */
+  function requestDetailsAreValid() {
+    var fields = getRequestFields();
+
+    /*
+     * No relevant form on this node.
+     */
+    if (!fields.subtopic) {
+      return true;
+    }
+
+    var subtopicValue =
+      String(fields.subtopic.value || '').trim();
+
+    /*
+     * Multiple Subtopics form:
+     * only Subtopic exists.
+     */
+    if (!fields.topic) {
+      return subtopicValue !== '';
+    }
+
+    /*
+     * Standard Request Details form:
+     * Topic + Subtopic both exist.
+     */
+    var topicValue =
+      String(fields.topic.value || '').trim();
+
+    return (
+      topicValue !== '' &&
+      subtopicValue !== ''
+    );
+  }
+
+
+  /**
+   * Create the validation message.
+   */
+  function ensureValidationMessage() {
+    var fields = getRequestFields();
+
+    if (!fields.subtopic) {
+      return null;
+    }
+
+    /*
+     * Standard Request Details form has a grid.
+     */
+    var container =
+      document.querySelector('.zt-form-grid');
+
+    /*
+     * Multiple Subtopics form does not use the grid,
+     * so use the Subtopic field wrapper instead.
+     */
+    if (!container) {
+      container =
+        fields.subtopic.closest('.zt-form-field');
+    }
+
+    if (!container) {
+      return null;
+    }
+
+    var existing =
+      container.querySelector(
+        '.zt-request-validation-error'
+      );
+
+    if (existing) {
+      return existing;
+    }
+
+    var error =
+      document.createElement('div');
+
+    error.className =
+      'zt-request-validation-error';
+
+    error.setAttribute(
+      'role',
+      'alert'
+    );
+
+    error.setAttribute(
+      'aria-live',
+      'polite'
+    );
+
+    /*
+     * Different message depending on form type.
+     */
+    if (fields.topic) {
+      error.textContent =
+        'Please select both Topic and Subtopic before continuing.';
+    } else {
+      error.textContent =
+        'Please select a Subtopic before continuing.';
+    }
+
+    container.appendChild(error);
+
+    return error;
+  }
+
+
+  /**
+   * Show validation errors.
+   */
+  function showValidationErrors() {
+    var fields = getRequestFields();
+
+    if (!fields.subtopic) {
+      return;
+    }
+
+    var error =
+      ensureValidationMessage();
+
+    var subtopicMissing =
+      String(
+        fields.subtopic.value || ''
+      ).trim() === '';
+
+    /*
+     * Topic only needs validation if it exists.
+     */
+    var topicMissing = false;
+
+    if (fields.topic) {
+      topicMissing =
+        String(
+          fields.topic.value || ''
+        ).trim() === '';
+    }
+
+
+    if (fields.topic) {
+      fields.topic.classList.toggle(
+        'zt-required-invalid',
+        topicMissing
+      );
+
+      fields.topic.setAttribute(
+        'aria-invalid',
+        topicMissing
+          ? 'true'
+          : 'false'
+      );
+    }
+
+
+    fields.subtopic.classList.toggle(
+      'zt-required-invalid',
+      subtopicMissing
+    );
+
+    fields.subtopic.setAttribute(
+      'aria-invalid',
+      subtopicMissing
+        ? 'true'
+        : 'false'
+    );
+
+
+    if (error) {
+      error.classList.toggle(
+        'is-visible',
+        topicMissing || subtopicMissing
+      );
+    }
+
+
+    /*
+     * Focus first missing field.
+     */
+    if (
+      fields.topic &&
+      topicMissing
+    ) {
+      fields.topic.focus();
+    } else if (subtopicMissing) {
+      fields.subtopic.focus();
+    }
+  }
+
+
+  /**
+   * Refresh validation after the user changes
+   * one of the dropdowns.
+   */
+  function refreshValidationState() {
+    var fields = getRequestFields();
+
+    if (!fields.subtopic) {
+      return;
+    }
+
+    var subtopicMissing =
+      String(
+        fields.subtopic.value || ''
+      ).trim() === '';
+
+    var topicMissing = false;
+
+    if (fields.topic) {
+      topicMissing =
+        String(
+          fields.topic.value || ''
+        ).trim() === '';
+
+      fields.topic.classList.toggle(
+        'zt-required-invalid',
+        topicMissing
+      );
+    }
+
+
+    fields.subtopic.classList.toggle(
+      'zt-required-invalid',
+      subtopicMissing
+    );
+
+
+    var error =
+      document.querySelector(
+        '.zt-request-validation-error'
+      );
+
+    if (error) {
+      error.classList.toggle(
+        'is-visible',
+        topicMissing || subtopicMissing
+      );
+    }
+  }
+
+
+  /**
+   * Bind fields after node render.
+   */
+  whenEvent(
+    'render:finish',
+    function () {
+
+      var fields =
+        getRequestFields();
+
+      /*
+       * Neither supported form is present.
+       */
+      if (!fields.subtopic) {
+        return;
+      }
+
+
+      ensureValidationMessage();
+
+
+      /**
+       * Bind Topic if this is the standard form.
+       */
+      if (
+        fields.topic &&
+        !fields.topic.dataset
+          .requiredValidationBound
+      ) {
+
+        fields.topic.addEventListener(
+          'change',
+          function () {
+
+            assignSessionVar(
+              'sf_Topic__c',
+              fields.topic.value
+            );
+
+            refreshValidationState();
+          }
+        );
+
+        fields.topic.dataset
+          .requiredValidationBound =
+          'true';
+      }
+
+
+      /**
+       * Bind Subtopic for both form types.
+       */
+      if (
+        !fields.subtopic.dataset
+          .requiredValidationBound
+      ) {
+
+        fields.subtopic.addEventListener(
+          'change',
+          function () {
+
+            assignSessionVar(
+              'sf_Sub_Topic__c',
+              fields.subtopic.value
+            );
+
+            refreshValidationState();
+          }
+        );
+
+        fields.subtopic.dataset
+          .requiredValidationBound =
+          'true';
+      }
+
+
+      /*
+       * Don't show errors immediately when the
+       * node first loads.
+       */
+      if (fields.topic) {
+        fields.topic.classList.remove(
+          'zt-required-invalid'
+        );
+      }
+
+      fields.subtopic.classList.remove(
+        'zt-required-invalid'
+      );
+    }
+  );
+
+
+  /**
+   * ========================================================
+   * NAVIGATION GUARD
+   * ========================================================
+   */
+  document.addEventListener(
+    'click',
+    function (event) {
+
+      var fields =
+        getRequestFields();
+
+      /*
+       * No supported form on this node.
+       */
+      if (!fields.subtopic) {
+        return;
+      }
+
+
+      /*
+       * Allow the user to interact with the form itself.
+       */
+      if (
+        event.target.closest(
+          '.zt-form-card'
+        )
+      ) {
+        return;
+      }
+
+
+      /*
+       * Only inspect clickable navigation controls.
+       */
+      var navigationControl =
+        event.target.closest(
+          'button, a, input[type="button"], input[type="submit"]'
+        );
+
+      if (!navigationControl) {
+        return;
+      }
+
+
+      /*
+       * Valid form: allow navigation.
+       */
+      if (requestDetailsAreValid()) {
+        return;
+      }
+
+
+      /*
+       * Invalid form: stop navigation.
+       */
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      showValidationErrors();
+
+    },
+    true
+  );
+
+})();
+</script>
+
+<script>
+whenEvent('render:finish', () => {
+  const editor = document.getElementById('htmlBodyEditor');
+  const hidden = document.getElementById('HtmlBody');
+
+  if (!editor || !hidden) return;
+
+  hidden.value = editor.innerHTML;
+
+  if (!editor.dataset.boundHtmlSync) {
+    editor.addEventListener('input', () => {
+      hidden.value = editor.innerHTML;
+    });
+    editor.dataset.boundHtmlSync = 'true';
+  }
+});
+</script>
+
+<script>
+/* =========================================================
+TOPIC -> SUBTOPIC FILTER (screens 32 and 33)
+
+Every subtopic <option> carries data-topic, written by nodes
+17 / 26 from the lane's own intent map. Both screens carry a
+Topic and a Subtopic select: the subtopic list shows only the
+options whose data-topic matches the chosen Topic, and a
+subtopic that no longer fits is cleared, so the pair saved on
+the Case is always one Salesforce accepts.
+========================================================= */
+whenEvent('render:finish', function () {
+  var topic = document.getElementById('sf_Topic__c');
+  var subtopic = document.getElementById('sf_Sub_Topic__c');
+
+  if (!topic || !subtopic || subtopic.dataset.topicFilterBound) return;
+  subtopic.dataset.topicFilterBound = 'true';
+
+  // keep every option once, then rebuild the list for the chosen Topic
+  var allOptions = [];
+  for (var i = 0; i < subtopic.options.length; i++) {
+    allOptions.push(subtopic.options[i]);
+  }
+
+  // Zingtree can restore the saved Topic after render:finish without firing change, which
+  // left the Subtopic list built for an empty Topic until the agent toggled Topic away and
+  // back (25 Sep standup). So the list is rebuilt whenever the Topic it was built for no
+  // longer matches the Topic on screen: on the next tick, on Topic change, and just before
+  // the agent opens the Subtopic list.
+  var builtForTopic = null;
+
+  function filterSubtopics() {
+    var topicValue = topic.value;
+    if (topicValue === builtForTopic) return;
+    builtForTopic = topicValue;
+
+    var keepValue = subtopic.value;
+    var keepStillFits = false;
+
+    subtopic.innerHTML = '';
+    for (var i = 0; i < allOptions.length; i++) {
+      var option = allOptions[i];
+      var optionTopic = option.getAttribute('data-topic') || '';
+      // the placeholder has no topic and always stays; no Topic yet shows every option
+      if (optionTopic === '' || topicValue === '' || optionTopic === topicValue) {
+        subtopic.appendChild(option);
+        if (keepValue !== '' && option.value === keepValue) keepStillFits = true;
+      }
+    }
+
+    subtopic.value = keepStillFits ? keepValue : '';
+    if (!keepStillFits && keepValue !== '') {
+      assignSessionVar('sf_Sub_Topic__c', '');
+    }
+  }
+
+  filterSubtopics();
+  setTimeout(filterSubtopics, 0);
+  topic.addEventListener('change', filterSubtopics);
+  subtopic.addEventListener('mousedown', filterSubtopics);
+  subtopic.addEventListener('focus', filterSubtopics);
+});
+</script>
+
+<style>
+.zt-form-card {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #d9e2ec;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.zt-form-header {
+  margin-bottom: 20px;
+}
+
+.zt-form-title {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1f2937;
+}
+
+.zt-form-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.zt-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.zt-form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.zt-form-field-full {
+  margin-top: 4px;
+}
+
+.zt-form-label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.zt-form-control {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #111827;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.zt-form-control:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.zt-form-textarea {
+  min-height: 220px;
+  resize: vertical;
+  font-family: Consolas, Monaco, monospace;
+}
+
+.zt-form-help {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .zt-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .zt-form-card {
+    padding: 18px;
+  }
+}
+</style>
+
+<style>
+/* =========================================================
+CASE REVIEW DASHBOARD
+Matches the supplied reference layout.
+========================================================= */
+
+.case-review-shell {
+width: 100%;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+Roboto,
+Arial,
+sans-serif;
+color: #172033;
+}
+
+.case-review-shell *,
+.case-review-shell *::before,
+.case-review-shell *::after {
+box-sizing: border-box;
+}
+
+
+/* =========================================================
+OUTER PANEL
+========================================================= */
+
+.case-review-panel {
+width: 100%;
+margin: 0;
+overflow: hidden;
+background: #f8fafc;
+border: 1px solid #e5eaf1;
+border-radius: 28px;
+}
+
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.case-review-hero {
+min-height: 210px;
+padding: 27px 28px 29px;
+color: #ffffff;
+
+background:
+linear-gradient(
+100deg,
+#091735 0%,
+#102345 56%,
+#203957 100%
+);
+}
+
+.case-review-hero-top {
+display: flex;
+align-items: flex-start;
+justify-content: space-between;
+gap: 36px;
+}
+
+.case-review-hero-copy {
+flex: 1 1 auto;
+min-width: 0;
+padding-top: 2px;
+}
+
+.case-review-eyebrow {
+margin: 0 0 10px;
+
+font-size: 12px;
+line-height: 1.2;
+font-weight: 700;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+
+color: rgba(255, 255, 255, 0.63);
+}
+
+.case-review-main-title {
+margin: 0 0 9px;
+
+font-size: 24px;
+line-height: 1.22;
+font-weight: 700;
+
+color: #ffffff;
+}
+
+.case-review-subtitle {
+font-size: 16px;
+line-height: 1.5;
+font-weight: 400;
+
+color: rgba(255, 255, 255, 0.86);
+}
+
+.case-review-subtitle strong {
+font-weight: 700;
+color: #ffffff;
+}
+
+.case-review-subtitle-separator {
+display: inline-block;
+margin: 0 4px;
+}
+
+
+/* =========================================================
+CONFIDENCE CARD
+========================================================= */
+
+.case-review-hero-metrics-card {
+flex: 0 0 32%;
+max-width: 355px;
+min-width: 285px;
+
+padding: 17px 18px;
+
+background: rgba(255, 255, 255, 0.13);
+border: 1px solid rgba(255, 255, 255, 0.13);
+border-radius: 20px;
+
+box-shadow:
+inset 0 1px 0
+rgba(255, 255, 255, 0.04);
+}
+
+.case-review-hero-metric + .case-review-hero-metric {
+margin-top: 13px;
+padding-top: 13px;
+
+border-top:
+1px solid
+rgba(255, 255, 255, 0.14);
+}
+
+.case-review-hero-metric-label {
+margin-bottom: 5px;
+
+font-size: 11px;
+line-height: 1.3;
+font-weight: 700;
+letter-spacing: 0.13em;
+text-transform: uppercase;
+
+color: rgba(255, 255, 255, 0.62);
+}
+
+.case-review-hero-metric-value {
+font-size: 24px;
+line-height: 1.2;
+font-weight: 700;
+color: #ffffff;
+}
+
+.case-review-hero-metric-text {
+font-size: 14px;
+line-height: 1.5;
+color: rgba(255, 255, 255, 0.9);
+
+overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+BODY
+========================================================= */
+
+.case-review-body {
+padding: 24px;
+background: #f8fafc;
+}
+
+
+/*
+* Reference screenshot uses:
+*
+* left ~44%
+* right ~56%
+*/
+.case-review-grid {
+display: grid;
+
+grid-template-columns:
+minmax(0, 44fr)
+minmax(0, 56fr);
+
+gap: 22px;
+
+align-items: start;
+}
+
+.case-review-col {
+min-width: 0;
+}
+
+.case-review-col .case-review-card +
+.case-review-card {
+margin-top: 22px;
+}
+
+
+/* =========================================================
+STANDARD CARD
+========================================================= */
+
+.case-review-card {
+width: 100%;
+
+padding: 19px 20px 20px;
+
+background: #ffffff;
+border: 1px solid #dde5ed;
+border-radius: 24px;
+
+box-shadow:
+0 1px 3px
+rgba(15, 23, 42, 0.035);
+}
+
+.case-review-card-title {
+margin: 0 0 17px;
+
+font-size: 16px;
+line-height: 1.35;
+font-weight: 700;
+
+color: #25334a;
+}
+
+
+/* =========================================================
+CASE DETAIL ROWS
+========================================================= */
+
+.case-review-row {
+display: grid;
+
+grid-template-columns:
+minmax(120px, 42%)
+minmax(0, 58%);
+
+gap: 18px;
+
+align-items: center;
+
+min-height: 51px;
+padding: 12px 0;
+
+border-top: 1px solid #e8ecf0;
+}
+
+.case-review-row:first-of-type {
+padding-top: 3px;
+border-top: 0;
+}
+
+.case-review-row:last-child {
+padding-bottom: 2px;
+}
+
+.case-review-row-label {
+font-size: 12px;
+line-height: 1.4;
+font-weight: 700;
+
+text-transform: uppercase;
+letter-spacing: 0.09em;
+
+color: #58677b;
+}
+
+.case-review-row-value {
+min-width: 0;
+
+font-size: 15px;
+line-height: 1.45;
+font-weight: 400;
+
+text-align: right;
+
+color: #263248;
+
+overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+EMAIL CONTENT
+========================================================= */
+
+.case-review-html-card-body {
+font-size: 15px;
+line-height: 1.62;
+font-weight: 400;
+
+color: #283344;
+
+overflow-wrap: anywhere;
+}
+
+.case-review-html-card-body p {
+margin-top: 0;
+margin-bottom: 15px;
+}
+
+.case-review-html-card-body p:last-child {
+margin-bottom: 0;
+}
+
+.case-review-html-card-body a {
+font-weight: 600;
+color: #233f73;
+text-decoration: none;
+}
+
+.case-review-html-card-body a:hover {
+text-decoration: underline;
+}
+
+.case-review-muted {
+color: #94a3b8;
+font-style: italic;
+}
+
+
+/*
+* Give the response card enough visual presence
+* to match the taller card shown in the reference.
+*/
+.case-review-response-card {
+min-height: 500px;
+}
+
+
+/* =========================================================
+POLICY FLAGS
+========================================================= */
+
+.case-review-flag-card {
+padding: 14px 15px 12px;
+
+border: 1px solid;
+border-radius: 18px;
+}
+
+.case-review-flag-top {
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+gap: 12px;
+}
+
+.case-review-flag-title {
+font-size: 12px;
+line-height: 1.4;
+font-weight: 600;
+
+color: #627085;
+}
+
+.case-review-flag-pill {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+
+min-width: 24px;
+min-height: 24px;
+
+padding: 2px 8px;
+
+border-radius: 999px;
+
+font-size: 12px;
+line-height: 1;
+font-weight: 700;
+
+color: #ffffff;
+}
+
+.case-review-flag-value {
+margin-top: 8px;
+
+font-size: 17px;
+line-height: 1.2;
+font-weight: 700;
+}
+
+
+/* =========================================================
+INTENT CARDS
+========================================================= */
+
+.case-review-intent-grid {
+display: grid;
+
+grid-template-columns:
+repeat(2, minmax(0, 1fr));
+
+gap: 15px;
+
+margin-top: 3px;
+}
+
+.case-review-intent-simple-card {
+min-height: 102px;
+
+padding: 17px 18px;
+
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+
+border: 1px solid;
+border-radius: 20px;
+}
+
+.case-review-intent-simple-title {
+font-size: 11px;
+line-height: 1.4;
+font-weight: 500;
+
+color: #718096;
+
+overflow-wrap: break-word;
+}
+
+.case-review-intent-simple-value {
+margin-top: 9px;
+
+font-size: 16px;
+line-height: 1.2;
+font-weight: 700;
+}
+
+
+/* =========================================================
+FEEDBACK WIDGET ALIGNMENT
+========================================================= */
+
+.case-review-response-card .ai-feedback-wrap {
+margin-top: 18px;
+}
+
+.case-review-response-card .ai-feedback-label {
+margin: 0 0 9px;
+
+font-size: 16px;
+line-height: 1.35;
+font-weight: 700;
+
+color: #283344;
+}
+
+.case-review-response-card .ai-feedback-buttons {
+gap: 10px;
+}
+
+.case-review-response-card .ai-feedback-btn {
+width: 56px;
+min-width: 56px;
+height: 48px;
+min-height: 48px;
+
+padding: 0;
+
+display: inline-flex;
+align-items: center;
+justify-content: center;
+
+background: #ffffff;
+border: 1px solid #d7dde5;
+border-radius: 8px;
+
+font-size: 21px;
+
+box-shadow:
+0 1px 2px
+rgba(15, 23, 42, 0.04);
+}
+
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+.case-review-grid {
+grid-template-columns:
+minmax(0, 42fr)
+minmax(0, 58fr);
+
+gap: 18px;
+}
+
+.case-review-intent-grid {
+gap: 12px;
+}
+
+.case-review-intent-simple-card {
+padding: 15px;
+}
+}
+
+
+@media (max-width: 820px) {
+
+.case-review-hero {
+min-height: 0;
+}
+
+.case-review-hero-top {
+flex-direction: column;
+}
+
+.case-review-hero-metrics-card {
+width: 100%;
+max-width: none;
+min-width: 0;
+flex-basis: auto;
+}
+
+.case-review-grid {
+grid-template-columns: 1fr;
+}
+
+.case-review-response-card {
+min-height: 0;
+}
+}
+
+
+@media (max-width: 520px) {
+
+.case-review-panel {
+border-radius: 20px;
+}
+
+.case-review-hero {
+padding: 23px 20px;
+}
+
+.case-review-body {
+padding: 15px;
+}
+
+.case-review-card {
+padding: 17px;
+border-radius: 20px;
+}
+
+.case-review-main-title {
+font-size: 22px;
+}
+
+.case-review-row {
+grid-template-columns: 1fr;
+gap: 4px;
+}
+
+.case-review-row-value {
+text-align: left;
+}
+
+.case-review-intent-grid {
+grid-template-columns: 1fr;
+}
+
+.case-review-intent-simple-card {
+min-height: 86px;
+}
+}
+</style>
+<style>
+.ai-feedback-wrap {
+  margin-top: 12px;
+}
+
+.ai-feedback-label {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.ai-feedback-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.ai-feedback-btn {
+  min-width: 52px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.ai-feedback-btn:hover {
+  border-color: #999;
+}
+
+.ai-feedback-btn.selected {
+  border-color: #222;
+  box-shadow: inset 0 0 0 2px #222;
+}
+
+.ai-feedback-comments {
+  display: none;
+  margin-top: 12px;
+}
+
+.ai-feedback-comments.is-visible {
+  display: block;
+}
+
+.ai-feedback-comments-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ai-feedback-comments-input {
+  width: 100%;
+  min-height: 96px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #111827;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.ai-feedback-comments-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.ai-feedback-comments-error {
+  min-height: 18px;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #b91c1c;
+}
+
+.ai-feedback-submit {
+  margin-top: 8px;
+  min-height: 42px;
+  padding: 9px 16px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  background: #1f2937;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.ai-feedback-submit:hover {
+  background: #111827;
+}
+
+.ai-feedback-thankyou {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #16803d;
+}
+</style>
+
+<script>
+(function () {
+  /**
+   * AI FEEDBACK (dashboards 30, 53, 54 and 55)
+   *
+   * The widget is built here, not in the dashboard HTML, and placed inside the Email Response
+   * card. Thumbs up submits straight away. Thumbs down opens the comments box and its
+   * Submit feedback button; a comment is required before it submits.
+   *
+   * Storage is three native fields on each dashboard, hidden from view: ai_feedback,
+   * ai_feedback_comments (the widget's comments box copies into it as the agent types) and
+   * ai_feedback_submitted ("No" until Submit). Native fields submit with whichever button the
+   * agent clicks, so they are what reaches form data. Submit clicks the screen's hidden native
+   * "Submit feedback" button, so the values reach form data at that moment. Router 52 returns
+   * the agent to the same dashboard, where the widget shows the thank-you instead.
+   */
+  var SUBMIT_BUTTON_TEXT = 'Submit feedback';
+
+  function nativeField(name) {
+    return document.querySelector(
+      'input[name="' + name + '"], textarea[name="' + name + '"]'
+    );
+  }
+
+  // The wrapper that holds a native field and its label: walk up while the parent holds
+  // only this one control, so nothing else on the screen moves.
+  function nativeWrapper(name) {
+    var field = nativeField(name);
+    if (!field) return null;
+    var wrapper = field;
+    while (
+      wrapper.parentElement &&
+      wrapper.parentElement.querySelectorAll('input, select, textarea').length === 1
+    ) {
+      wrapper = wrapper.parentElement;
+    }
+    return wrapper;
+  }
+
+  function hideNativeField(name) {
+    var wrapper = nativeWrapper(name);
+    if (wrapper) wrapper.style.display = 'none';
+  }
+
+  function setNativeValue(name, value) {
+    var field = nativeField(name);
+    if (field) {
+      field.value = value;
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    assignSessionVar(name, value);
+  }
+
+  // The screen's own native "Submit feedback" button (it routes back to this dashboard).
+  function nativeSubmitButton() {
+    var controls = document.querySelectorAll(
+      'button, a, input[type="button"], input[type="submit"]'
+    );
+    for (var i = 0; i < controls.length; i++) {
+      var control = controls[i];
+      if (control.closest('.ai-feedback-wrap')) continue;
+      var label = (control.value || control.textContent || '').trim();
+      if (label === SUBMIT_BUTTON_TEXT) return control;
+    }
+    return null;
+  }
+
+  var thankYouText = {
+    thumbs_up: '&#128077; Thanks for your feedback!',
+    thumbs_down: '&#128078; Thanks for your feedback - we will use it to improve.'
+  };
+
+  function buildWidget() {
+    var widget = document.createElement('div');
+    widget.className = 'ai-feedback-wrap';
+    widget.innerHTML =
+      '<div class="ai-feedback-label">Was this helpful?</div>' +
+      '<div class="ai-feedback-buttons">' +
+      '<button type="button" class="ai-feedback-btn" data-feedback="thumbs_up" aria-label="Helpful" title="Helpful">&#128077;</button>' +
+      '<button type="button" class="ai-feedback-btn" data-feedback="thumbs_down" aria-label="Not helpful" title="Not helpful">&#128078;</button>' +
+      '</div>' +
+      '<div class="ai-feedback-comments" aria-hidden="true">' +
+      '<label class="ai-feedback-comments-label">What could be improved?</label>' +
+      '<textarea class="ai-feedback-comments-input" rows="4" placeholder="Tell us what was incorrect or could be improved..."></textarea>' +
+      '<div class="ai-feedback-comments-error" role="alert" aria-live="polite"></div>' +
+      '<button type="button" class="ai-feedback-submit">Submit feedback</button>' +
+      '</div>' +
+      '<div class="ai-feedback-thankyou" role="status" aria-live="polite"></div>';
+    return widget;
+  }
+
+  function showThankYou(widget, feedbackValue) {
+    widget.querySelector('.ai-feedback-label').style.display = 'none';
+    widget.querySelector('.ai-feedback-buttons').style.display = 'none';
+    widget.querySelector('.ai-feedback-comments').classList.remove('is-visible');
+    widget.querySelector('.ai-feedback-thankyou').innerHTML =
+      thankYouText[feedbackValue] || thankYouText.thumbs_up;
+  }
+
+  function showComments(widget, shouldShow) {
+    var comments = widget.querySelector('.ai-feedback-comments');
+    if (shouldShow) {
+      comments.classList.add('is-visible');
+    } else {
+      comments.classList.remove('is-visible');
+    }
+    comments.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+    if (shouldShow) {
+      var box = widget.querySelector('.ai-feedback-comments-input');
+      window.setTimeout(function () { box.focus(); }, 0);
+    }
+  }
+
+  function submitFeedback(feedbackValue, comments) {
+    setNativeValue('ai_feedback', feedbackValue);
+    setNativeValue('ai_feedback_comments', comments);
+    setNativeValue('ai_feedback_submitted', 'Yes');
+    var button = nativeSubmitButton();
+    if (button) button.click();
+  }
+
+  whenEvent('render:finish', function () {
+    if (!nativeField('ai_feedback') || !nativeField('ai_feedback_submitted')) return;
+    if (document.querySelector('.ai-feedback-wrap')) return;
+
+    hideNativeField('ai_feedback');
+    hideNativeField('ai_feedback_comments');
+    hideNativeField('ai_feedback_submitted');
+    var submitButton = nativeSubmitButton();
+    if (submitButton) submitButton.style.display = 'none';
+
+    if (nativeField('ai_feedback_submitted').value === '') {
+      setNativeValue('ai_feedback_submitted', 'No');
+    }
+
+    var widget = buildWidget();
+    var responseCard = document.querySelector('.case-review-response-card');
+    if (responseCard) {
+      responseCard.appendChild(widget);
+    } else {
+      var feedbackWrapper = nativeWrapper('ai_feedback');
+      feedbackWrapper.parentElement.insertBefore(widget, feedbackWrapper);
+    }
+
+    // The widget's comments box writes through to the native ai_feedback_comments field.
+    var commentsBox = widget.querySelector('.ai-feedback-comments-input');
+    commentsBox.value = nativeField('ai_feedback_comments') ? nativeField('ai_feedback_comments').value : '';
+    commentsBox.addEventListener('input', function () {
+      setNativeValue('ai_feedback_comments', commentsBox.value);
+      widget.querySelector('.ai-feedback-comments-error').textContent = '';
+    });
+
+    var currentFeedback = nativeField('ai_feedback').value;
+    if (nativeField('ai_feedback_submitted').value === 'Yes') {
+      showThankYou(widget, currentFeedback);
+      return;
+    }
+    if (currentFeedback === 'thumbs_down') {
+      widget.querySelector('.ai-feedback-btn[data-feedback="thumbs_down"]').classList.add('selected');
+      showComments(widget, true);
+    }
+
+    widget.addEventListener('click', function (event) {
+      var thumb = event.target.closest('.ai-feedback-btn');
+      if (thumb) {
+        var value = thumb.getAttribute('data-feedback');
+        var thumbs = widget.querySelectorAll('.ai-feedback-btn');
+        for (var i = 0; i < thumbs.length; i++) thumbs[i].classList.remove('selected');
+        thumb.classList.add('selected');
+        widget.querySelector('.ai-feedback-comments-error').textContent = '';
+
+        if (value === 'thumbs_up') {
+          showThankYou(widget, value);
+          submitFeedback(value, '');
+        } else {
+          setNativeValue('ai_feedback', value);
+          showComments(widget, true);
+        }
+        return;
+      }
+
+      if (event.target.closest('.ai-feedback-submit')) {
+        var comments = commentsBox.value.trim();
+        if (comments === '') {
+          widget.querySelector('.ai-feedback-comments-error').textContent =
+            'Please enter a comment before submitting.';
+          commentsBox.focus();
+          return;
+        }
+        showThankYou(widget, 'thumbs_down');
+        submitFeedback('thumbs_down', comments);
+      }
+    });
+  });
+})();
+</script>
+ → <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+
+:root {
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+</style>
+
+<style>
+/* =========================================================
+REQUIRED REQUEST DETAILS
+========================================================= */
+
+.zt-required {
+margin-left: 3px;
+color: #b91c1c;
+}
+
+/* Invalid Topic / Subtopic */
+.zt-form-control.zt-required-invalid {
+border-color: #b91c1c;
+box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
+}
+
+/* Validation message */
+.zt-request-validation-error {
+display: none;
+grid-column: 1 / -1;
+margin-top: -4px;
+padding: 10px 12px;
+color: #991b1b;
+font-size: 13px;
+font-weight: 500;
+background: #fef2f2;
+border: 1px solid #fecaca;
+border-radius: 8px;
+}
+
+.zt-request-validation-error.is-visible {
+display: block;
+}
+</style>
+
+<style>
+.email-summary-card-shell {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #d9e2ec;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.email-summary-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.email-summary-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 22px;
+  font-weight: 700;
+  flex: 0 0 42px;
+}
+
+.email-summary-header-copy {
+  min-width: 0;
+}
+
+.email-summary-title {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1f2937;
+}
+
+.email-summary-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.email-summary-card {
+  margin-top: 18px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+}
+
+.email-summary-card-title {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.email-summary-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 10px 0;
+  border-top: 1px solid #f1f5f9;
+}
+
+.email-summary-row:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.email-summary-row-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.email-summary-row-value {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.email-summary-html-body {
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.email-summary-html-body p:first-child {
+  margin-top: 0;
+}
+
+.email-summary-html-body p:last-child {
+  margin-bottom: 0;
+}
+
+.email-summary-muted {
+  color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+  .email-summary-card-shell {
+    padding: 18px;
+  }
+
+  .email-summary-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+</style>
+
+<style>
+.zt-rich-editor {
+  min-height: 220px;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+}
+
+.zt-rich-editor:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.zt-rich-editor p {
+  margin: 0 0 10px;
+}
+</style>
+
+<script>
+(function () {
+
+  /**
+   * ========================================================
+   * REQUEST DETAILS VALIDATION
+   *
+   * Both forms (screen 33 Request Details and screen 32
+   * Multiple Subtopics) carry:
+   *    - sf_Topic__c
+   *    - sf_Sub_Topic__c
+   * ========================================================
+   */
+
+  function getRequestFields() {
+    return {
+      topic: document.getElementById('sf_Topic__c'),
+      subtopic: document.getElementById('sf_Sub_Topic__c')
+    };
+  }
+
+
+  /**
+   * Determine whether the current node contains
+   * one of our forms.
+   */
+  function hasRequestForm() {
+    var fields = getRequestFields();
+
+    return !!fields.subtopic;
+  }
+
+
+  /**
+   * Validate whichever fields exist on the node.
+   */
+  function requestDetailsAreValid() {
+    var fields = getRequestFields();
+
+    /*
+     * No relevant form on this node.
+     */
+    if (!fields.subtopic) {
+      return true;
+    }
+
+    var subtopicValue =
+      String(fields.subtopic.value || '').trim();
+
+    /*
+     * Multiple Subtopics form:
+     * only Subtopic exists.
+     */
+    if (!fields.topic) {
+      return subtopicValue !== '';
+    }
+
+    /*
+     * Standard Request Details form:
+     * Topic + Subtopic both exist.
+     */
+    var topicValue =
+      String(fields.topic.value || '').trim();
+
+    return (
+      topicValue !== '' &&
+      subtopicValue !== ''
+    );
+  }
+
+
+  /**
+   * Create the validation message.
+   */
+  function ensureValidationMessage() {
+    var fields = getRequestFields();
+
+    if (!fields.subtopic) {
+      return null;
+    }
+
+    /*
+     * Standard Request Details form has a grid.
+     */
+    var container =
+      document.querySelector('.zt-form-grid');
+
+    /*
+     * Multiple Subtopics form does not use the grid,
+     * so use the Subtopic field wrapper instead.
+     */
+    if (!container) {
+      container =
+        fields.subtopic.closest('.zt-form-field');
+    }
+
+    if (!container) {
+      return null;
+    }
+
+    var existing =
+      container.querySelector(
+        '.zt-request-validation-error'
+      );
+
+    if (existing) {
+      return existing;
+    }
+
+    var error =
+      document.createElement('div');
+
+    error.className =
+      'zt-request-validation-error';
+
+    error.setAttribute(
+      'role',
+      'alert'
+    );
+
+    error.setAttribute(
+      'aria-live',
+      'polite'
+    );
+
+    /*
+     * Different message depending on form type.
+     */
+    if (fields.topic) {
+      error.textContent =
+        'Please select both Topic and Subtopic before continuing.';
+    } else {
+      error.textContent =
+        'Please select a Subtopic before continuing.';
+    }
+
+    container.appendChild(error);
+
+    return error;
+  }
+
+
+  /**
+   * Show validation errors.
+   */
+  function showValidationErrors() {
+    var fields = getRequestFields();
+
+    if (!fields.subtopic) {
+      return;
+    }
+
+    var error =
+      ensureValidationMessage();
+
+    var subtopicMissing =
+      String(
+        fields.subtopic.value || ''
+      ).trim() === '';
+
+    /*
+     * Topic only needs validation if it exists.
+     */
+    var topicMissing = false;
+
+    if (fields.topic) {
+      topicMissing =
+        String(
+          fields.topic.value || ''
+        ).trim() === '';
+    }
+
+
+    if (fields.topic) {
+      fields.topic.classList.toggle(
+        'zt-required-invalid',
+        topicMissing
+      );
+
+      fields.topic.setAttribute(
+        'aria-invalid',
+        topicMissing
+          ? 'true'
+          : 'false'
+      );
+    }
+
+
+    fields.subtopic.classList.toggle(
+      'zt-required-invalid',
+      subtopicMissing
+    );
+
+    fields.subtopic.setAttribute(
+      'aria-invalid',
+      subtopicMissing
+        ? 'true'
+        : 'false'
+    );
+
+
+    if (error) {
+      error.classList.toggle(
+        'is-visible',
+        topicMissing || subtopicMissing
+      );
+    }
+
+
+    /*
+     * Focus first missing field.
+     */
+    if (
+      fields.topic &&
+      topicMissing
+    ) {
+      fields.topic.focus();
+    } else if (subtopicMissing) {
+      fields.subtopic.focus();
+    }
+  }
+
+
+  /**
+   * Refresh validation after the user changes
+   * one of the dropdowns.
+   */
+  function refreshValidationState() {
+    var fields = getRequestFields();
+
+    if (!fields.subtopic) {
+      return;
+    }
+
+    var subtopicMissing =
+      String(
+        fields.subtopic.value || ''
+      ).trim() === '';
+
+    var topicMissing = false;
+
+    if (fields.topic) {
+      topicMissing =
+        String(
+          fields.topic.value || ''
+        ).trim() === '';
+
+      fields.topic.classList.toggle(
+        'zt-required-invalid',
+        topicMissing
+      );
+    }
+
+
+    fields.subtopic.classList.toggle(
+      'zt-required-invalid',
+      subtopicMissing
+    );
+
+
+    var error =
+      document.querySelector(
+        '.zt-request-validation-error'
+      );
+
+    if (error) {
+      error.classList.toggle(
+        'is-visible',
+        topicMissing || subtopicMissing
+      );
+    }
+  }
+
+
+  /**
+   * Bind fields after node render.
+   */
+  whenEvent(
+    'render:finish',
+    function () {
+
+      var fields =
+        getRequestFields();
+
+      /*
+       * Neither supported form is present.
+       */
+      if (!fields.subtopic) {
+        return;
+      }
+
+
+      ensureValidationMessage();
+
+
+      /**
+       * Bind Topic if this is the standard form.
+       */
+      if (
+        fields.topic &&
+        !fields.topic.dataset
+          .requiredValidationBound
+      ) {
+
+        fields.topic.addEventListener(
+          'change',
+          function () {
+
+            assignSessionVar(
+              'sf_Topic__c',
+              fields.topic.value
+            );
+
+            refreshValidationState();
+          }
+        );
+
+        fields.topic.dataset
+          .requiredValidationBound =
+          'true';
+      }
+
+
+      /**
+       * Bind Subtopic for both form types.
+       */
+      if (
+        !fields.subtopic.dataset
+          .requiredValidationBound
+      ) {
+
+        fields.subtopic.addEventListener(
+          'change',
+          function () {
+
+            assignSessionVar(
+              'sf_Sub_Topic__c',
+              fields.subtopic.value
+            );
+
+            refreshValidationState();
+          }
+        );
+
+        fields.subtopic.dataset
+          .requiredValidationBound =
+          'true';
+      }
+
+
+      /*
+       * Don't show errors immediately when the
+       * node first loads.
+       */
+      if (fields.topic) {
+        fields.topic.classList.remove(
+          'zt-required-invalid'
+        );
+      }
+
+      fields.subtopic.classList.remove(
+        'zt-required-invalid'
+      );
+    }
+  );
+
+
+  /**
+   * ========================================================
+   * NAVIGATION GUARD
+   * ========================================================
+   */
+  document.addEventListener(
+    'click',
+    function (event) {
+
+      var fields =
+        getRequestFields();
+
+      /*
+       * No supported form on this node.
+       */
+      if (!fields.subtopic) {
+        return;
+      }
+
+
+      /*
+       * Allow the user to interact with the form itself.
+       */
+      if (
+        event.target.closest(
+          '.zt-form-card'
+        )
+      ) {
+        return;
+      }
+
+
+      /*
+       * Only inspect clickable navigation controls.
+       */
+      var navigationControl =
+        event.target.closest(
+          'button, a, input[type="button"], input[type="submit"]'
+        );
+
+      if (!navigationControl) {
+        return;
+      }
+
+
+      /*
+       * Valid form: allow navigation.
+       */
+      if (requestDetailsAreValid()) {
+        return;
+      }
+
+
+      /*
+       * Invalid form: stop navigation.
+       */
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      showValidationErrors();
+
+    },
+    true
+  );
+
+})();
+</script>
+
+<script>
+whenEvent('render:finish', () => {
+  const editor = document.getElementById('htmlBodyEditor');
+  const hidden = document.getElementById('HtmlBody');
+
+  if (!editor || !hidden) return;
+
+  hidden.value = editor.innerHTML;
+
+  if (!editor.dataset.boundHtmlSync) {
+    editor.addEventListener('input', () => {
+      hidden.value = editor.innerHTML;
+    });
+    editor.dataset.boundHtmlSync = 'true';
+  }
+});
+</script>
+
+<script>
+/* =========================================================
+TOPIC -> SUBTOPIC FILTER (screens 32 and 33)
+
+Every subtopic <option> carries data-topic, written by nodes
+17 / 26 from the lane's own intent map. Both screens carry a
+Topic and a Subtopic select: the subtopic list shows only the
+options whose data-topic matches the chosen Topic, and a
+subtopic that no longer fits is cleared, so the pair saved on
+the Case is always one Salesforce accepts.
+========================================================= */
+whenEvent('render:finish', function () {
+  var topic = document.getElementById('sf_Topic__c');
+  var subtopic = document.getElementById('sf_Sub_Topic__c');
+
+  if (!topic || !subtopic || subtopic.dataset.topicFilterBound) return;
+  subtopic.dataset.topicFilterBound = 'true';
+
+  // keep every option once, then rebuild the list for the chosen Topic
+  var allOptions = [];
+  for (var i = 0; i < subtopic.options.length; i++) {
+    allOptions.push(subtopic.options[i]);
+  }
+
+  // Zingtree can restore the saved Topic after render:finish without firing change, which
+  // left the Subtopic list built for an empty Topic until the agent toggled Topic away and
+  // back (25 Sep standup). So the list is rebuilt whenever the Topic it was built for no
+  // longer matches the Topic on screen: on the next tick, on Topic change, and just before
+  // the agent opens the Subtopic list.
+  var builtForTopic = null;
+
+  function filterSubtopics() {
+    var topicValue = topic.value;
+    if (topicValue === builtForTopic) return;
+    builtForTopic = topicValue;
+
+    var keepValue = subtopic.value;
+    var keepStillFits = false;
+
+    subtopic.innerHTML = '';
+    for (var i = 0; i < allOptions.length; i++) {
+      var option = allOptions[i];
+      var optionTopic = option.getAttribute('data-topic') || '';
+      // the placeholder has no topic and always stays; no Topic yet shows every option
+      if (optionTopic === '' || topicValue === '' || optionTopic === topicValue) {
+        subtopic.appendChild(option);
+        if (keepValue !== '' && option.value === keepValue) keepStillFits = true;
+      }
+    }
+
+    subtopic.value = keepStillFits ? keepValue : '';
+    if (!keepStillFits && keepValue !== '') {
+      assignSessionVar('sf_Sub_Topic__c', '');
+    }
+  }
+
+  filterSubtopics();
+  setTimeout(filterSubtopics, 0);
+  topic.addEventListener('change', filterSubtopics);
+  subtopic.addEventListener('mousedown', filterSubtopics);
+  subtopic.addEventListener('focus', filterSubtopics);
+});
+</script>
+
+<style>
+.zt-form-card {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #d9e2ec;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.zt-form-header {
+  margin-bottom: 20px;
+}
+
+.zt-form-title {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1f2937;
+}
+
+.zt-form-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.zt-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.zt-form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.zt-form-field-full {
+  margin-top: 4px;
+}
+
+.zt-form-label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.zt-form-control {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #111827;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.zt-form-control:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.zt-form-textarea {
+  min-height: 220px;
+  resize: vertical;
+  font-family: Consolas, Monaco, monospace;
+}
+
+.zt-form-help {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .zt-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .zt-form-card {
+    padding: 18px;
+  }
+}
+</style>
+
+<style>
+/* =========================================================
+CASE REVIEW DASHBOARD
+Matches the supplied reference layout.
+========================================================= */
+
+.case-review-shell {
+width: 100%;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+Roboto,
+Arial,
+sans-serif;
+color: #172033;
+}
+
+.case-review-shell *,
+.case-review-shell *::before,
+.case-review-shell *::after {
+box-sizing: border-box;
+}
+
+
+/* =========================================================
+OUTER PANEL
+========================================================= */
+
+.case-review-panel {
+width: 100%;
+margin: 0;
+overflow: hidden;
+background: #f8fafc;
+border: 1px solid #e5eaf1;
+border-radius: 28px;
+}
+
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.case-review-hero {
+min-height: 210px;
+padding: 27px 28px 29px;
+color: #ffffff;
+
+background:
+linear-gradient(
+100deg,
+#091735 0%,
+#102345 56%,
+#203957 100%
+);
+}
+
+.case-review-hero-top {
+display: flex;
+align-items: flex-start;
+justify-content: space-between;
+gap: 36px;
+}
+
+.case-review-hero-copy {
+flex: 1 1 auto;
+min-width: 0;
+padding-top: 2px;
+}
+
+.case-review-eyebrow {
+margin: 0 0 10px;
+
+font-size: 12px;
+line-height: 1.2;
+font-weight: 700;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+
+color: rgba(255, 255, 255, 0.63);
+}
+
+.case-review-main-title {
+margin: 0 0 9px;
+
+font-size: 24px;
+line-height: 1.22;
+font-weight: 700;
+
+color: #ffffff;
+}
+
+.case-review-subtitle {
+font-size: 16px;
+line-height: 1.5;
+font-weight: 400;
+
+color: rgba(255, 255, 255, 0.86);
+}
+
+.case-review-subtitle strong {
+font-weight: 700;
+color: #ffffff;
+}
+
+.case-review-subtitle-separator {
+display: inline-block;
+margin: 0 4px;
+}
+
+
+/* =========================================================
+CONFIDENCE CARD
+========================================================= */
+
+.case-review-hero-metrics-card {
+flex: 0 0 32%;
+max-width: 355px;
+min-width: 285px;
+
+padding: 17px 18px;
+
+background: rgba(255, 255, 255, 0.13);
+border: 1px solid rgba(255, 255, 255, 0.13);
+border-radius: 20px;
+
+box-shadow:
+inset 0 1px 0
+rgba(255, 255, 255, 0.04);
+}
+
+.case-review-hero-metric + .case-review-hero-metric {
+margin-top: 13px;
+padding-top: 13px;
+
+border-top:
+1px solid
+rgba(255, 255, 255, 0.14);
+}
+
+.case-review-hero-metric-label {
+margin-bottom: 5px;
+
+font-size: 11px;
+line-height: 1.3;
+font-weight: 700;
+letter-spacing: 0.13em;
+text-transform: uppercase;
+
+color: rgba(255, 255, 255, 0.62);
+}
+
+.case-review-hero-metric-value {
+font-size: 24px;
+line-height: 1.2;
+font-weight: 700;
+color: #ffffff;
+}
+
+.case-review-hero-metric-text {
+font-size: 14px;
+line-height: 1.5;
+color: rgba(255, 255, 255, 0.9);
+
+overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+BODY
+========================================================= */
+
+.case-review-body {
+padding: 24px;
+background: #f8fafc;
+}
+
+
+/*
+* Reference screenshot uses:
+*
+* left ~44%
+* right ~56%
+*/
+.case-review-grid {
+display: grid;
+
+grid-template-columns:
+minmax(0, 44fr)
+minmax(0, 56fr);
+
+gap: 22px;
+
+align-items: start;
+}
+
+.case-review-col {
+min-width: 0;
+}
+
+.case-review-col .case-review-card +
+.case-review-card {
+margin-top: 22px;
+}
+
+
+/* =========================================================
+STANDARD CARD
+========================================================= */
+
+.case-review-card {
+width: 100%;
+
+padding: 19px 20px 20px;
+
+background: #ffffff;
+border: 1px solid #dde5ed;
+border-radius: 24px;
+
+box-shadow:
+0 1px 3px
+rgba(15, 23, 42, 0.035);
+}
+
+.case-review-card-title {
+margin: 0 0 17px;
+
+font-size: 16px;
+line-height: 1.35;
+font-weight: 700;
+
+color: #25334a;
+}
+
+
+/* =========================================================
+CASE DETAIL ROWS
+========================================================= */
+
+.case-review-row {
+display: grid;
+
+grid-template-columns:
+minmax(120px, 42%)
+minmax(0, 58%);
+
+gap: 18px;
+
+align-items: center;
+
+min-height: 51px;
+padding: 12px 0;
+
+border-top: 1px solid #e8ecf0;
+}
+
+.case-review-row:first-of-type {
+padding-top: 3px;
+border-top: 0;
+}
+
+.case-review-row:last-child {
+padding-bottom: 2px;
+}
+
+.case-review-row-label {
+font-size: 12px;
+line-height: 1.4;
+font-weight: 700;
+
+text-transform: uppercase;
+letter-spacing: 0.09em;
+
+color: #58677b;
+}
+
+.case-review-row-value {
+min-width: 0;
+
+font-size: 15px;
+line-height: 1.45;
+font-weight: 400;
+
+text-align: right;
+
+color: #263248;
+
+overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+EMAIL CONTENT
+========================================================= */
+
+.case-review-html-card-body {
+font-size: 15px;
+line-height: 1.62;
+font-weight: 400;
+
+color: #283344;
+
+overflow-wrap: anywhere;
+}
+
+.case-review-html-card-body p {
+margin-top: 0;
+margin-bottom: 15px;
+}
+
+.case-review-html-card-body p:last-child {
+margin-bottom: 0;
+}
+
+.case-review-html-card-body a {
+font-weight: 600;
+color: #233f73;
+text-decoration: none;
+}
+
+.case-review-html-card-body a:hover {
+text-decoration: underline;
+}
+
+.case-review-muted {
+color: #94a3b8;
+font-style: italic;
+}
+
+
+/*
+* Give the response card enough visual presence
+* to match the taller card shown in the reference.
+*/
+.case-review-response-card {
+min-height: 500px;
+}
+
+
+/* =========================================================
+POLICY FLAGS
+========================================================= */
+
+.case-review-flag-card {
+padding: 14px 15px 12px;
+
+border: 1px solid;
+border-radius: 18px;
+}
+
+.case-review-flag-top {
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+gap: 12px;
+}
+
+.case-review-flag-title {
+font-size: 12px;
+line-height: 1.4;
+font-weight: 600;
+
+color: #627085;
+}
+
+.case-review-flag-pill {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+
+min-width: 24px;
+min-height: 24px;
+
+padding: 2px 8px;
+
+border-radius: 999px;
+
+font-size: 12px;
+line-height: 1;
+font-weight: 700;
+
+color: #ffffff;
+}
+
+.case-review-flag-value {
+margin-top: 8px;
+
+font-size: 17px;
+line-height: 1.2;
+font-weight: 700;
+}
+
+
+/* =========================================================
+INTENT CARDS
+========================================================= */
+
+.case-review-intent-grid {
+display: grid;
+
+grid-template-columns:
+repeat(2, minmax(0, 1fr));
+
+gap: 15px;
+
+margin-top: 3px;
+}
+
+.case-review-intent-simple-card {
+min-height: 102px;
+
+padding: 17px 18px;
+
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+
+border: 1px solid;
+border-radius: 20px;
+}
+
+.case-review-intent-simple-title {
+font-size: 11px;
+line-height: 1.4;
+font-weight: 500;
+
+color: #718096;
+
+overflow-wrap: break-word;
+}
+
+.case-review-intent-simple-value {
+margin-top: 9px;
+
+font-size: 16px;
+line-height: 1.2;
+font-weight: 700;
+}
+
+
+/* =========================================================
+FEEDBACK WIDGET ALIGNMENT
+========================================================= */
+
+.case-review-response-card .ai-feedback-wrap {
+margin-top: 18px;
+}
+
+.case-review-response-card .ai-feedback-label {
+margin: 0 0 9px;
+
+font-size: 16px;
+line-height: 1.35;
+font-weight: 700;
+
+color: #283344;
+}
+
+.case-review-response-card .ai-feedback-buttons {
+gap: 10px;
+}
+
+.case-review-response-card .ai-feedback-btn {
+width: 56px;
+min-width: 56px;
+height: 48px;
+min-height: 48px;
+
+padding: 0;
+
+display: inline-flex;
+align-items: center;
+justify-content: center;
+
+background: #ffffff;
+border: 1px solid #d7dde5;
+border-radius: 8px;
+
+font-size: 21px;
+
+box-shadow:
+0 1px 2px
+rgba(15, 23, 42, 0.04);
+}
+
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+.case-review-grid {
+grid-template-columns:
+minmax(0, 42fr)
+minmax(0, 58fr);
+
+gap: 18px;
+}
+
+.case-review-intent-grid {
+gap: 12px;
+}
+
+.case-review-intent-simple-card {
+padding: 15px;
+}
+}
+
+
+@media (max-width: 820px) {
+
+.case-review-hero {
+min-height: 0;
+}
+
+.case-review-hero-top {
+flex-direction: column;
+}
+
+.case-review-hero-metrics-card {
+width: 100%;
+max-width: none;
+min-width: 0;
+flex-basis: auto;
+}
+
+.case-review-grid {
+grid-template-columns: 1fr;
+}
+
+.case-review-response-card {
+min-height: 0;
+}
+}
+
+
+@media (max-width: 520px) {
+
+.case-review-panel {
+border-radius: 20px;
+}
+
+.case-review-hero {
+padding: 23px 20px;
+}
+
+.case-review-body {
+padding: 15px;
+}
+
+.case-review-card {
+padding: 17px;
+border-radius: 20px;
+}
+
+.case-review-main-title {
+font-size: 22px;
+}
+
+.case-review-row {
+grid-template-columns: 1fr;
+gap: 4px;
+}
+
+.case-review-row-value {
+text-align: left;
+}
+
+.case-review-intent-grid {
+grid-template-columns: 1fr;
+}
+
+.case-review-intent-simple-card {
+min-height: 86px;
+}
+}
+</style>
+<style>
+.ai-feedback-wrap {
+  margin-top: 12px;
+}
+
+.ai-feedback-label {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.ai-feedback-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.ai-feedback-btn {
+  min-width: 52px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.ai-feedback-btn:hover {
+  border-color: #999;
+}
+
+.ai-feedback-btn.selected {
+  border-color: #222;
+  box-shadow: inset 0 0 0 2px #222;
+}
+
+.ai-feedback-comments {
+  display: none;
+  margin-top: 12px;
+}
+
+.ai-feedback-comments.is-visible {
+  display: block;
+}
+
+.ai-feedback-comments-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ai-feedback-comments-input {
+  width: 100%;
+  min-height: 96px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #111827;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.ai-feedback-comments-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.ai-feedback-comments-error {
+  min-height: 18px;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #b91c1c;
+}
+
+.ai-feedback-submit {
+  margin-top: 8px;
+  min-height: 42px;
+  padding: 9px 16px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  background: #1f2937;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.ai-feedback-submit:hover {
+  background: #111827;
+}
+
+.ai-feedback-thankyou {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #16803d;
+}
+</style>
+
+<script>
+(function () {
+  /**
+   * AI FEEDBACK (dashboards 30, 53, 54 and 55)
+   *
+   * The widget is built here, not in the dashboard HTML, and placed inside the Email Response
+   * card. Thumbs up submits straight away. Thumbs down opens the comments box and its
+   * Submit feedback button; a comment is required before it submits.
+   *
+   * Storage is three native fields on each dashboard, hidden from view: ai_feedback,
+   * ai_feedback_comments (the widget's comments box copies into it as the agent types) and
+   * ai_feedback_submitted ("No" until Submit). Native fields submit with whichever button the
+   * agent clicks, so they are what reaches form data. Submit clicks the screen's hidden native
+   * "Submit feedback" button, so the values reach form data at that moment. Router 52 returns
+   * the agent to the same dashboard, where the widget shows the thank-you instead.
+   */
+  var SUBMIT_BUTTON_TEXT = 'Submit feedback';
+
+  function nativeField(name) {
+    return document.querySelector(
+      'input[name="' + name + '"], textarea[name="' + name + '"]'
+    );
+  }
+
+  // The wrapper that holds a native field and its label: walk up while the parent holds
+  // only this one control, so nothing else on the screen moves.
+  function nativeWrapper(name) {
+    var field = nativeField(name);
+    if (!field) return null;
+    var wrapper = field;
+    while (
+      wrapper.parentElement &&
+      wrapper.parentElement.querySelectorAll('input, select, textarea').length === 1
+    ) {
+      wrapper = wrapper.parentElement;
+    }
+    return wrapper;
+  }
+
+  function hideNativeField(name) {
+    var wrapper = nativeWrapper(name);
+    if (wrapper) wrapper.style.display = 'none';
+  }
+
+  function setNativeValue(name, value) {
+    var field = nativeField(name);
+    if (field) {
+      field.value = value;
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    assignSessionVar(name, value);
+  }
+
+  // The screen's own native "Submit feedback" button (it routes back to this dashboard).
+  function nativeSubmitButton() {
+    var controls = document.querySelectorAll(
+      'button, a, input[type="button"], input[type="submit"]'
+    );
+    for (var i = 0; i < controls.length; i++) {
+      var control = controls[i];
+      if (control.closest('.ai-feedback-wrap')) continue;
+      var label = (control.value || control.textContent || '').trim();
+      if (label === SUBMIT_BUTTON_TEXT) return control;
+    }
+    return null;
+  }
+
+  var thankYouText = {
+    thumbs_up: '&#128077; Thanks for your feedback!',
+    thumbs_down: '&#128078; Thanks for your feedback - we will use it to improve.'
+  };
+
+  function buildWidget() {
+    var widget = document.createElement('div');
+    widget.className = 'ai-feedback-wrap';
+    widget.innerHTML =
+      '<div class="ai-feedback-label">Was this helpful?</div>' +
+      '<div class="ai-feedback-buttons">' +
+      '<button type="button" class="ai-feedback-btn" data-feedback="thumbs_up" aria-label="Helpful" title="Helpful">&#128077;</button>' +
+      '<button type="button" class="ai-feedback-btn" data-feedback="thumbs_down" aria-label="Not helpful" title="Not helpful">&#128078;</button>' +
+      '</div>' +
+      '<div class="ai-feedback-comments" aria-hidden="true">' +
+      '<label class="ai-feedback-comments-label">What could be improved?</label>' +
+      '<textarea class="ai-feedback-comments-input" rows="4" placeholder="Tell us what was incorrect or could be improved..."></textarea>' +
+      '<div class="ai-feedback-comments-error" role="alert" aria-live="polite"></div>' +
+      '<button type="button" class="ai-feedback-submit">Submit feedback</button>' +
+      '</div>' +
+      '<div class="ai-feedback-thankyou" role="status" aria-live="polite"></div>';
+    return widget;
+  }
+
+  function showThankYou(widget, feedbackValue) {
+    widget.querySelector('.ai-feedback-label').style.display = 'none';
+    widget.querySelector('.ai-feedback-buttons').style.display = 'none';
+    widget.querySelector('.ai-feedback-comments').classList.remove('is-visible');
+    widget.querySelector('.ai-feedback-thankyou').innerHTML =
+      thankYouText[feedbackValue] || thankYouText.thumbs_up;
+  }
+
+  function showComments(widget, shouldShow) {
+    var comments = widget.querySelector('.ai-feedback-comments');
+    if (shouldShow) {
+      comments.classList.add('is-visible');
+    } else {
+      comments.classList.remove('is-visible');
+    }
+    comments.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+    if (shouldShow) {
+      var box = widget.querySelector('.ai-feedback-comments-input');
+      window.setTimeout(function () { box.focus(); }, 0);
+    }
+  }
+
+  function submitFeedback(feedbackValue, comments) {
+    setNativeValue('ai_feedback', feedbackValue);
+    setNativeValue('ai_feedback_comments', comments);
+    setNativeValue('ai_feedback_submitted', 'Yes');
+    var button = nativeSubmitButton();
+    if (button) button.click();
+  }
+
+  whenEvent('render:finish', function () {
+    if (!nativeField('ai_feedback') || !nativeField('ai_feedback_submitted')) return;
+    if (document.querySelector('.ai-feedback-wrap')) return;
+
+    hideNativeField('ai_feedback');
+    hideNativeField('ai_feedback_comments');
+    hideNativeField('ai_feedback_submitted');
+    var submitButton = nativeSubmitButton();
+    if (submitButton) submitButton.style.display = 'none';
+
+    if (nativeField('ai_feedback_submitted').value === '') {
+      setNativeValue('ai_feedback_submitted', 'No');
+    }
+
+    var widget = buildWidget();
+    var responseCard = document.querySelector('.case-review-response-card');
+    if (responseCard) {
+      responseCard.appendChild(widget);
+    } else {
+      var feedbackWrapper = nativeWrapper('ai_feedback');
+      feedbackWrapper.parentElement.insertBefore(widget, feedbackWrapper);
+    }
+
+    // The widget's comments box writes through to the native ai_feedback_comments field.
+    var commentsBox = widget.querySelector('.ai-feedback-comments-input');
+    commentsBox.value = nativeField('ai_feedback_comments') ? nativeField('ai_feedback_comments').value : '';
+    commentsBox.addEventListener('input', function () {
+      setNativeValue('ai_feedback_comments', commentsBox.value);
+      widget.querySelector('.ai-feedback-comments-error').textContent = '';
+    });
+
+    var currentFeedback = nativeField('ai_feedback').value;
+    if (nativeField('ai_feedback_submitted').value === 'Yes') {
+      showThankYou(widget, currentFeedback);
+      return;
+    }
+    if (currentFeedback === 'thumbs_down') {
+      widget.querySelector('.ai-feedback-btn[data-feedback="thumbs_down"]').classList.add('selected');
+      showComments(widget, true);
+    }
+
+    widget.addEventListener('click', function (event) {
+      var thumb = event.target.closest('.ai-feedback-btn');
+      if (thumb) {
+        var value = thumb.getAttribute('data-feedback');
+        var thumbs = widget.querySelectorAll('.ai-feedback-btn');
+        for (var i = 0; i < thumbs.length; i++) thumbs[i].classList.remove('selected');
+        thumb.classList.add('selected');
+        widget.querySelector('.ai-feedback-comments-error').textContent = '';
+
+        if (value === 'thumbs_up') {
+          showThankYou(widget, value);
+          submitFeedback(value, '');
+        } else {
+          setNativeValue('ai_feedback', value);
+          showComments(widget, true);
+        }
+        return;
+      }
+
+      if (event.target.closest('.ai-feedback-submit')) {
+        var comments = commentsBox.value.trim();
+        if (comments === '') {
+          widget.querySelector('.ai-feedback-comments-error').textContent =
+            'Please enter a comment before submitting.';
+          commentsBox.focus();
+          return;
+        }
+        showThankYou(widget, 'thumbs_down');
+        submitFeedback('thumbs_down', comments);
+      }
+    });
+  });
+})();
+</script>
+
+<script>
+/**
+ * ========================================================
+ * EXTERNAL LINKS OPEN IN A NEW TAB
+ * ========================================================
+ * Links in the reply preview loaded inside the Salesforce widget; pages that refuse to load
+ * in a frame then errored with no way back (Corpay UK, 19 Oct). Any http(s) link to another
+ * site opens in a new tab. If the browser blocks the new tab, the click behaves as before.
+ */
+(function () {
+  document.addEventListener(
+    'click',
+    function (event) {
+      var link = event.target.closest('a[href]');
+      if (!link) {
+        return;
+      }
+      var href = link.getAttribute('href') || '';
+      if (!/^https?:\/\//i.test(href) || link.hostname === window.location.hostname) {
+        return;
+      }
+      var opened = window.open(href, '_blank');
+      if (!opened) {
+        return;
+      }
+      opened.opener = null;
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    true
+  );
+})();
+</script>
+
+
+## COSMETIC / EDITOR-ONLY CHANGES (0) — ignore
+
+  (none)
+
+## LINE-LEVEL BODY DIFFS (1)
+
+### node 48 — claude.md (content)
+
+```diff
+--- before/node 48 content
++++ after/node 48 content
+@@ -3,4 +3,5 @@
+ 21 reply choice -> 24 origin + template key -> 22 details needed? -> 23 -> 25 reply AI (99) -> 26 dashboard builder -> 52
+ 52 -> 62 unrecognised | 53 missing charges (screenshots -> 72) | 30 dashboard; 63 regenerate -> 25; 64 keep draft
+ 31 send path: manual -> 33, multi -> 32, else -> 50; 32/33 -> 50 -> 51 provider picklists -> 71
+-Hand-back: 70-73 set branch_outcome -> 79 Tree -> master 100 Main end.</pre>
++Hand-back: 70-73 set branch_outcome -> 79 Tree -> master 100 Main end.
++2026-10-19: tree script: external http(s) links open in a new tab instead of inside the widget (Gemma Danks, 19 Oct).</pre>
+```
+
+## CHANGES THAT NEED AN EXPLANATION
+
+Every line below must map to a requirement or an explicit request.
+Anything unexplained is unintended drift — revert it before delivering.
+
+  [ ] node 48 — content changed (6 → 7 lines) — claude.md
+  [ ] tree setting —  script_code: <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+
+:root {
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+</style>
+
+<style>
+/* =========================================================
+REQUIRED REQUEST DETAILS
+========================================================= */
+
+.zt-required {
+margin-left: 3px;
+color: #b91c1c;
+}
+
+/* Invalid Topic / Subtopic */
+.zt-form-control.zt-required-invalid {
+border-color: #b91c1c;
+box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
+}
+
+/* Validation message */
+.zt-request-validation-error {
+display: none;
+grid-column: 1 / -1;
+margin-top: -4px;
+padding: 10px 12px;
+color: #991b1b;
+font-size: 13px;
+font-weight: 500;
+background: #fef2f2;
+border: 1px solid #fecaca;
+border-radius: 8px;
+}
+
+.zt-request-validation-error.is-visible {
+display: block;
+}
+</style>
+
+<style>
+.email-summary-card-shell {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #d9e2ec;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.email-summary-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.email-summary-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 22px;
+  font-weight: 700;
+  flex: 0 0 42px;
+}
+
+.email-summary-header-copy {
+  min-width: 0;
+}
+
+.email-summary-title {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1f2937;
+}
+
+.email-summary-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.email-summary-card {
+  margin-top: 18px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+}
+
+.email-summary-card-title {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.email-summary-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 10px 0;
+  border-top: 1px solid #f1f5f9;
+}
+
+.email-summary-row:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.email-summary-row-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.email-summary-row-value {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.email-summary-html-body {
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.email-summary-html-body p:first-child {
+  margin-top: 0;
+}
+
+.email-summary-html-body p:last-child {
+  margin-bottom: 0;
+}
+
+.email-summary-muted {
+  color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+  .email-summary-card-shell {
+    padding: 18px;
+  }
+
+  .email-summary-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+</style>
+
+<style>
+.zt-rich-editor {
+  min-height: 220px;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+}
+
+.zt-rich-editor:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.zt-rich-editor p {
+  margin: 0 0 10px;
+}
+</style>
+
+<script>
+(function () {
+
+  /**
+   * ========================================================
+   * REQUEST DETAILS VALIDATION
+   *
+   * Both forms (screen 33 Request Details and screen 32
+   * Multiple Subtopics) carry:
+   *    - sf_Topic__c
+   *    - sf_Sub_Topic__c
+   * ========================================================
+   */
+
+  function getRequestFields() {
+    return {
+      topic: document.getElementById('sf_Topic__c'),
+      subtopic: document.getElementById('sf_Sub_Topic__c')
+    };
+  }
+
+
+  /**
+   * Determine whether the current node contains
+   * one of our forms.
+   */
+  function hasRequestForm() {
+    var fields = getRequestFields();
+
+    return !!fields.subtopic;
+  }
+
+
+  /**
+   * Validate whichever fields exist on the node.
+   */
+  function requestDetailsAreValid() {
+    var fields = getRequestFields();
+
+    /*
+     * No relevant form on this node.
+     */
+    if (!fields.subtopic) {
+      return true;
+    }
+
+    var subtopicValue =
+      String(fields.subtopic.value || '').trim();
+
+    /*
+     * Multiple Subtopics form:
+     * only Subtopic exists.
+     */
+    if (!fields.topic) {
+      return subtopicValue !== '';
+    }
+
+    /*
+     * Standard Request Details form:
+     * Topic + Subtopic both exist.
+     */
+    var topicValue =
+      String(fields.topic.value || '').trim();
+
+    return (
+      topicValue !== '' &&
+      subtopicValue !== ''
+    );
+  }
+
+
+  /**
+   * Create the validation message.
+   */
+  function ensureValidationMessage() {
+    var fields = getRequestFields();
+
+    if (!fields.subtopic) {
+      return null;
+    }
+
+    /*
+     * Standard Request Details form has a grid.
+     */
+    var container =
+      document.querySelector('.zt-form-grid');
+
+    /*
+     * Multiple Subtopics form does not use the grid,
+     * so use the Subtopic field wrapper instead.
+     */
+    if (!container) {
+      container =
+        fields.subtopic.closest('.zt-form-field');
+    }
+
+    if (!container) {
+      return null;
+    }
+
+    var existing =
+      container.querySelector(
+        '.zt-request-validation-error'
+      );
+
+    if (existing) {
+      return existing;
+    }
+
+    var error =
+      document.createElement('div');
+
+    error.className =
+      'zt-request-validation-error';
+
+    error.setAttribute(
+      'role',
+      'alert'
+    );
+
+    error.setAttribute(
+      'aria-live',
+      'polite'
+    );
+
+    /*
+     * Different message depending on form type.
+     */
+    if (fields.topic) {
+      error.textContent =
+        'Please select both Topic and Subtopic before continuing.';
+    } else {
+      error.textContent =
+        'Please select a Subtopic before continuing.';
+    }
+
+    container.appendChild(error);
+
+    return error;
+  }
+
+
+  /**
+   * Show validation errors.
+   */
+  function showValidationErrors() {
+    var fields = getRequestFields();
+
+    if (!fields.subtopic) {
+      return;
+    }
+
+    var error =
+      ensureValidationMessage();
+
+    var subtopicMissing =
+      String(
+        fields.subtopic.value || ''
+      ).trim() === '';
+
+    /*
+     * Topic only needs validation if it exists.
+     */
+    var topicMissing = false;
+
+    if (fields.topic) {
+      topicMissing =
+        String(
+          fields.topic.value || ''
+        ).trim() === '';
+    }
+
+
+    if (fields.topic) {
+      fields.topic.classList.toggle(
+        'zt-required-invalid',
+        topicMissing
+      );
+
+      fields.topic.setAttribute(
+        'aria-invalid',
+        topicMissing
+          ? 'true'
+          : 'false'
+      );
+    }
+
+
+    fields.subtopic.classList.toggle(
+      'zt-required-invalid',
+      subtopicMissing
+    );
+
+    fields.subtopic.setAttribute(
+      'aria-invalid',
+      subtopicMissing
+        ? 'true'
+        : 'false'
+    );
+
+
+    if (error) {
+      error.classList.toggle(
+        'is-visible',
+        topicMissing || subtopicMissing
+      );
+    }
+
+
+    /*
+     * Focus first missing field.
+     */
+    if (
+      fields.topic &&
+      topicMissing
+    ) {
+      fields.topic.focus();
+    } else if (subtopicMissing) {
+      fields.subtopic.focus();
+    }
+  }
+
+
+  /**
+   * Refresh validation after the user changes
+   * one of the dropdowns.
+   */
+  function refreshValidationState() {
+    var fields = getRequestFields();
+
+    if (!fields.subtopic) {
+      return;
+    }
+
+    var subtopicMissing =
+      String(
+        fields.subtopic.value || ''
+      ).trim() === '';
+
+    var topicMissing = false;
+
+    if (fields.topic) {
+      topicMissing =
+        String(
+          fields.topic.value || ''
+        ).trim() === '';
+
+      fields.topic.classList.toggle(
+        'zt-required-invalid',
+        topicMissing
+      );
+    }
+
+
+    fields.subtopic.classList.toggle(
+      'zt-required-invalid',
+      subtopicMissing
+    );
+
+
+    var error =
+      document.querySelector(
+        '.zt-request-validation-error'
+      );
+
+    if (error) {
+      error.classList.toggle(
+        'is-visible',
+        topicMissing || subtopicMissing
+      );
+    }
+  }
+
+
+  /**
+   * Bind fields after node render.
+   */
+  whenEvent(
+    'render:finish',
+    function () {
+
+      var fields =
+        getRequestFields();
+
+      /*
+       * Neither supported form is present.
+       */
+      if (!fields.subtopic) {
+        return;
+      }
+
+
+      ensureValidationMessage();
+
+
+      /**
+       * Bind Topic if this is the standard form.
+       */
+      if (
+        fields.topic &&
+        !fields.topic.dataset
+          .requiredValidationBound
+      ) {
+
+        fields.topic.addEventListener(
+          'change',
+          function () {
+
+            assignSessionVar(
+              'sf_Topic__c',
+              fields.topic.value
+            );
+
+            refreshValidationState();
+          }
+        );
+
+        fields.topic.dataset
+          .requiredValidationBound =
+          'true';
+      }
+
+
+      /**
+       * Bind Subtopic for both form types.
+       */
+      if (
+        !fields.subtopic.dataset
+          .requiredValidationBound
+      ) {
+
+        fields.subtopic.addEventListener(
+          'change',
+          function () {
+
+            assignSessionVar(
+              'sf_Sub_Topic__c',
+              fields.subtopic.value
+            );
+
+            refreshValidationState();
+          }
+        );
+
+        fields.subtopic.dataset
+          .requiredValidationBound =
+          'true';
+      }
+
+
+      /*
+       * Don't show errors immediately when the
+       * node first loads.
+       */
+      if (fields.topic) {
+        fields.topic.classList.remove(
+          'zt-required-invalid'
+        );
+      }
+
+      fields.subtopic.classList.remove(
+        'zt-required-invalid'
+      );
+    }
+  );
+
+
+  /**
+   * ========================================================
+   * NAVIGATION GUARD
+   * ========================================================
+   */
+  document.addEventListener(
+    'click',
+    function (event) {
+
+      var fields =
+        getRequestFields();
+
+      /*
+       * No supported form on this node.
+       */
+      if (!fields.subtopic) {
+        return;
+      }
+
+
+      /*
+       * Allow the user to interact with the form itself.
+       */
+      if (
+        event.target.closest(
+          '.zt-form-card'
+        )
+      ) {
+        return;
+      }
+
+
+      /*
+       * Only inspect clickable navigation controls.
+       */
+      var navigationControl =
+        event.target.closest(
+          'button, a, input[type="button"], input[type="submit"]'
+        );
+
+      if (!navigationControl) {
+        return;
+      }
+
+
+      /*
+       * Valid form: allow navigation.
+       */
+      if (requestDetailsAreValid()) {
+        return;
+      }
+
+
+      /*
+       * Invalid form: stop navigation.
+       */
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      showValidationErrors();
+
+    },
+    true
+  );
+
+})();
+</script>
+
+<script>
+whenEvent('render:finish', () => {
+  const editor = document.getElementById('htmlBodyEditor');
+  const hidden = document.getElementById('HtmlBody');
+
+  if (!editor || !hidden) return;
+
+  hidden.value = editor.innerHTML;
+
+  if (!editor.dataset.boundHtmlSync) {
+    editor.addEventListener('input', () => {
+      hidden.value = editor.innerHTML;
+    });
+    editor.dataset.boundHtmlSync = 'true';
+  }
+});
+</script>
+
+<script>
+/* =========================================================
+TOPIC -> SUBTOPIC FILTER (screens 32 and 33)
+
+Every subtopic <option> carries data-topic, written by nodes
+17 / 26 from the lane's own intent map. Both screens carry a
+Topic and a Subtopic select: the subtopic list shows only the
+options whose data-topic matches the chosen Topic, and a
+subtopic that no longer fits is cleared, so the pair saved on
+the Case is always one Salesforce accepts.
+========================================================= */
+whenEvent('render:finish', function () {
+  var topic = document.getElementById('sf_Topic__c');
+  var subtopic = document.getElementById('sf_Sub_Topic__c');
+
+  if (!topic || !subtopic || subtopic.dataset.topicFilterBound) return;
+  subtopic.dataset.topicFilterBound = 'true';
+
+  // keep every option once, then rebuild the list for the chosen Topic
+  var allOptions = [];
+  for (var i = 0; i < subtopic.options.length; i++) {
+    allOptions.push(subtopic.options[i]);
+  }
+
+  // Zingtree can restore the saved Topic after render:finish without firing change, which
+  // left the Subtopic list built for an empty Topic until the agent toggled Topic away and
+  // back (25 Sep standup). So the list is rebuilt whenever the Topic it was built for no
+  // longer matches the Topic on screen: on the next tick, on Topic change, and just before
+  // the agent opens the Subtopic list.
+  var builtForTopic = null;
+
+  function filterSubtopics() {
+    var topicValue = topic.value;
+    if (topicValue === builtForTopic) return;
+    builtForTopic = topicValue;
+
+    var keepValue = subtopic.value;
+    var keepStillFits = false;
+
+    subtopic.innerHTML = '';
+    for (var i = 0; i < allOptions.length; i++) {
+      var option = allOptions[i];
+      var optionTopic = option.getAttribute('data-topic') || '';
+      // the placeholder has no topic and always stays; no Topic yet shows every option
+      if (optionTopic === '' || topicValue === '' || optionTopic === topicValue) {
+        subtopic.appendChild(option);
+        if (keepValue !== '' && option.value === keepValue) keepStillFits = true;
+      }
+    }
+
+    subtopic.value = keepStillFits ? keepValue : '';
+    if (!keepStillFits && keepValue !== '') {
+      assignSessionVar('sf_Sub_Topic__c', '');
+    }
+  }
+
+  filterSubtopics();
+  setTimeout(filterSubtopics, 0);
+  topic.addEventListener('change', filterSubtopics);
+  subtopic.addEventListener('mousedown', filterSubtopics);
+  subtopic.addEventListener('focus', filterSubtopics);
+});
+</script>
+
+<style>
+.zt-form-card {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #d9e2ec;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.zt-form-header {
+  margin-bottom: 20px;
+}
+
+.zt-form-title {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1f2937;
+}
+
+.zt-form-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.zt-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.zt-form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.zt-form-field-full {
+  margin-top: 4px;
+}
+
+.zt-form-label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.zt-form-control {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #111827;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.zt-form-control:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.zt-form-textarea {
+  min-height: 220px;
+  resize: vertical;
+  font-family: Consolas, Monaco, monospace;
+}
+
+.zt-form-help {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .zt-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .zt-form-card {
+    padding: 18px;
+  }
+}
+</style>
+
+<style>
+/* =========================================================
+CASE REVIEW DASHBOARD
+Matches the supplied reference layout.
+========================================================= */
+
+.case-review-shell {
+width: 100%;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+Roboto,
+Arial,
+sans-serif;
+color: #172033;
+}
+
+.case-review-shell *,
+.case-review-shell *::before,
+.case-review-shell *::after {
+box-sizing: border-box;
+}
+
+
+/* =========================================================
+OUTER PANEL
+========================================================= */
+
+.case-review-panel {
+width: 100%;
+margin: 0;
+overflow: hidden;
+background: #f8fafc;
+border: 1px solid #e5eaf1;
+border-radius: 28px;
+}
+
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.case-review-hero {
+min-height: 210px;
+padding: 27px 28px 29px;
+color: #ffffff;
+
+background:
+linear-gradient(
+100deg,
+#091735 0%,
+#102345 56%,
+#203957 100%
+);
+}
+
+.case-review-hero-top {
+display: flex;
+align-items: flex-start;
+justify-content: space-between;
+gap: 36px;
+}
+
+.case-review-hero-copy {
+flex: 1 1 auto;
+min-width: 0;
+padding-top: 2px;
+}
+
+.case-review-eyebrow {
+margin: 0 0 10px;
+
+font-size: 12px;
+line-height: 1.2;
+font-weight: 700;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+
+color: rgba(255, 255, 255, 0.63);
+}
+
+.case-review-main-title {
+margin: 0 0 9px;
+
+font-size: 24px;
+line-height: 1.22;
+font-weight: 700;
+
+color: #ffffff;
+}
+
+.case-review-subtitle {
+font-size: 16px;
+line-height: 1.5;
+font-weight: 400;
+
+color: rgba(255, 255, 255, 0.86);
+}
+
+.case-review-subtitle strong {
+font-weight: 700;
+color: #ffffff;
+}
+
+.case-review-subtitle-separator {
+display: inline-block;
+margin: 0 4px;
+}
+
+
+/* =========================================================
+CONFIDENCE CARD
+========================================================= */
+
+.case-review-hero-metrics-card {
+flex: 0 0 32%;
+max-width: 355px;
+min-width: 285px;
+
+padding: 17px 18px;
+
+background: rgba(255, 255, 255, 0.13);
+border: 1px solid rgba(255, 255, 255, 0.13);
+border-radius: 20px;
+
+box-shadow:
+inset 0 1px 0
+rgba(255, 255, 255, 0.04);
+}
+
+.case-review-hero-metric + .case-review-hero-metric {
+margin-top: 13px;
+padding-top: 13px;
+
+border-top:
+1px solid
+rgba(255, 255, 255, 0.14);
+}
+
+.case-review-hero-metric-label {
+margin-bottom: 5px;
+
+font-size: 11px;
+line-height: 1.3;
+font-weight: 700;
+letter-spacing: 0.13em;
+text-transform: uppercase;
+
+color: rgba(255, 255, 255, 0.62);
+}
+
+.case-review-hero-metric-value {
+font-size: 24px;
+line-height: 1.2;
+font-weight: 700;
+color: #ffffff;
+}
+
+.case-review-hero-metric-text {
+font-size: 14px;
+line-height: 1.5;
+color: rgba(255, 255, 255, 0.9);
+
+overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+BODY
+========================================================= */
+
+.case-review-body {
+padding: 24px;
+background: #f8fafc;
+}
+
+
+/*
+* Reference screenshot uses:
+*
+* left ~44%
+* right ~56%
+*/
+.case-review-grid {
+display: grid;
+
+grid-template-columns:
+minmax(0, 44fr)
+minmax(0, 56fr);
+
+gap: 22px;
+
+align-items: start;
+}
+
+.case-review-col {
+min-width: 0;
+}
+
+.case-review-col .case-review-card +
+.case-review-card {
+margin-top: 22px;
+}
+
+
+/* =========================================================
+STANDARD CARD
+========================================================= */
+
+.case-review-card {
+width: 100%;
+
+padding: 19px 20px 20px;
+
+background: #ffffff;
+border: 1px solid #dde5ed;
+border-radius: 24px;
+
+box-shadow:
+0 1px 3px
+rgba(15, 23, 42, 0.035);
+}
+
+.case-review-card-title {
+margin: 0 0 17px;
+
+font-size: 16px;
+line-height: 1.35;
+font-weight: 700;
+
+color: #25334a;
+}
+
+
+/* =========================================================
+CASE DETAIL ROWS
+========================================================= */
+
+.case-review-row {
+display: grid;
+
+grid-template-columns:
+minmax(120px, 42%)
+minmax(0, 58%);
+
+gap: 18px;
+
+align-items: center;
+
+min-height: 51px;
+padding: 12px 0;
+
+border-top: 1px solid #e8ecf0;
+}
+
+.case-review-row:first-of-type {
+padding-top: 3px;
+border-top: 0;
+}
+
+.case-review-row:last-child {
+padding-bottom: 2px;
+}
+
+.case-review-row-label {
+font-size: 12px;
+line-height: 1.4;
+font-weight: 700;
+
+text-transform: uppercase;
+letter-spacing: 0.09em;
+
+color: #58677b;
+}
+
+.case-review-row-value {
+min-width: 0;
+
+font-size: 15px;
+line-height: 1.45;
+font-weight: 400;
+
+text-align: right;
+
+color: #263248;
+
+overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+EMAIL CONTENT
+========================================================= */
+
+.case-review-html-card-body {
+font-size: 15px;
+line-height: 1.62;
+font-weight: 400;
+
+color: #283344;
+
+overflow-wrap: anywhere;
+}
+
+.case-review-html-card-body p {
+margin-top: 0;
+margin-bottom: 15px;
+}
+
+.case-review-html-card-body p:last-child {
+margin-bottom: 0;
+}
+
+.case-review-html-card-body a {
+font-weight: 600;
+color: #233f73;
+text-decoration: none;
+}
+
+.case-review-html-card-body a:hover {
+text-decoration: underline;
+}
+
+.case-review-muted {
+color: #94a3b8;
+font-style: italic;
+}
+
+
+/*
+* Give the response card enough visual presence
+* to match the taller card shown in the reference.
+*/
+.case-review-response-card {
+min-height: 500px;
+}
+
+
+/* =========================================================
+POLICY FLAGS
+========================================================= */
+
+.case-review-flag-card {
+padding: 14px 15px 12px;
+
+border: 1px solid;
+border-radius: 18px;
+}
+
+.case-review-flag-top {
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+gap: 12px;
+}
+
+.case-review-flag-title {
+font-size: 12px;
+line-height: 1.4;
+font-weight: 600;
+
+color: #627085;
+}
+
+.case-review-flag-pill {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+
+min-width: 24px;
+min-height: 24px;
+
+padding: 2px 8px;
+
+border-radius: 999px;
+
+font-size: 12px;
+line-height: 1;
+font-weight: 700;
+
+color: #ffffff;
+}
+
+.case-review-flag-value {
+margin-top: 8px;
+
+font-size: 17px;
+line-height: 1.2;
+font-weight: 700;
+}
+
+
+/* =========================================================
+INTENT CARDS
+========================================================= */
+
+.case-review-intent-grid {
+display: grid;
+
+grid-template-columns:
+repeat(2, minmax(0, 1fr));
+
+gap: 15px;
+
+margin-top: 3px;
+}
+
+.case-review-intent-simple-card {
+min-height: 102px;
+
+padding: 17px 18px;
+
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+
+border: 1px solid;
+border-radius: 20px;
+}
+
+.case-review-intent-simple-title {
+font-size: 11px;
+line-height: 1.4;
+font-weight: 500;
+
+color: #718096;
+
+overflow-wrap: break-word;
+}
+
+.case-review-intent-simple-value {
+margin-top: 9px;
+
+font-size: 16px;
+line-height: 1.2;
+font-weight: 700;
+}
+
+
+/* =========================================================
+FEEDBACK WIDGET ALIGNMENT
+========================================================= */
+
+.case-review-response-card .ai-feedback-wrap {
+margin-top: 18px;
+}
+
+.case-review-response-card .ai-feedback-label {
+margin: 0 0 9px;
+
+font-size: 16px;
+line-height: 1.35;
+font-weight: 700;
+
+color: #283344;
+}
+
+.case-review-response-card .ai-feedback-buttons {
+gap: 10px;
+}
+
+.case-review-response-card .ai-feedback-btn {
+width: 56px;
+min-width: 56px;
+height: 48px;
+min-height: 48px;
+
+padding: 0;
+
+display: inline-flex;
+align-items: center;
+justify-content: center;
+
+background: #ffffff;
+border: 1px solid #d7dde5;
+border-radius: 8px;
+
+font-size: 21px;
+
+box-shadow:
+0 1px 2px
+rgba(15, 23, 42, 0.04);
+}
+
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+.case-review-grid {
+grid-template-columns:
+minmax(0, 42fr)
+minmax(0, 58fr);
+
+gap: 18px;
+}
+
+.case-review-intent-grid {
+gap: 12px;
+}
+
+.case-review-intent-simple-card {
+padding: 15px;
+}
+}
+
+
+@media (max-width: 820px) {
+
+.case-review-hero {
+min-height: 0;
+}
+
+.case-review-hero-top {
+flex-direction: column;
+}
+
+.case-review-hero-metrics-card {
+width: 100%;
+max-width: none;
+min-width: 0;
+flex-basis: auto;
+}
+
+.case-review-grid {
+grid-template-columns: 1fr;
+}
+
+.case-review-response-card {
+min-height: 0;
+}
+}
+
+
+@media (max-width: 520px) {
+
+.case-review-panel {
+border-radius: 20px;
+}
+
+.case-review-hero {
+padding: 23px 20px;
+}
+
+.case-review-body {
+padding: 15px;
+}
+
+.case-review-card {
+padding: 17px;
+border-radius: 20px;
+}
+
+.case-review-main-title {
+font-size: 22px;
+}
+
+.case-review-row {
+grid-template-columns: 1fr;
+gap: 4px;
+}
+
+.case-review-row-value {
+text-align: left;
+}
+
+.case-review-intent-grid {
+grid-template-columns: 1fr;
+}
+
+.case-review-intent-simple-card {
+min-height: 86px;
+}
+}
+</style>
+<style>
+.ai-feedback-wrap {
+  margin-top: 12px;
+}
+
+.ai-feedback-label {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.ai-feedback-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.ai-feedback-btn {
+  min-width: 52px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.ai-feedback-btn:hover {
+  border-color: #999;
+}
+
+.ai-feedback-btn.selected {
+  border-color: #222;
+  box-shadow: inset 0 0 0 2px #222;
+}
+
+.ai-feedback-comments {
+  display: none;
+  margin-top: 12px;
+}
+
+.ai-feedback-comments.is-visible {
+  display: block;
+}
+
+.ai-feedback-comments-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ai-feedback-comments-input {
+  width: 100%;
+  min-height: 96px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #111827;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.ai-feedback-comments-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.ai-feedback-comments-error {
+  min-height: 18px;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #b91c1c;
+}
+
+.ai-feedback-submit {
+  margin-top: 8px;
+  min-height: 42px;
+  padding: 9px 16px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  background: #1f2937;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.ai-feedback-submit:hover {
+  background: #111827;
+}
+
+.ai-feedback-thankyou {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #16803d;
+}
+</style>
+
+<script>
+(function () {
+  /**
+   * AI FEEDBACK (dashboards 30, 53, 54 and 55)
+   *
+   * The widget is built here, not in the dashboard HTML, and placed inside the Email Response
+   * card. Thumbs up submits straight away. Thumbs down opens the comments box and its
+   * Submit feedback button; a comment is required before it submits.
+   *
+   * Storage is three native fields on each dashboard, hidden from view: ai_feedback,
+   * ai_feedback_comments (the widget's comments box copies into it as the agent types) and
+   * ai_feedback_submitted ("No" until Submit). Native fields submit with whichever button the
+   * agent clicks, so they are what reaches form data. Submit clicks the screen's hidden native
+   * "Submit feedback" button, so the values reach form data at that moment. Router 52 returns
+   * the agent to the same dashboard, where the widget shows the thank-you instead.
+   */
+  var SUBMIT_BUTTON_TEXT = 'Submit feedback';
+
+  function nativeField(name) {
+    return document.querySelector(
+      'input[name="' + name + '"], textarea[name="' + name + '"]'
+    );
+  }
+
+  // The wrapper that holds a native field and its label: walk up while the parent holds
+  // only this one control, so nothing else on the screen moves.
+  function nativeWrapper(name) {
+    var field = nativeField(name);
+    if (!field) return null;
+    var wrapper = field;
+    while (
+      wrapper.parentElement &&
+      wrapper.parentElement.querySelectorAll('input, select, textarea').length === 1
+    ) {
+      wrapper = wrapper.parentElement;
+    }
+    return wrapper;
+  }
+
+  function hideNativeField(name) {
+    var wrapper = nativeWrapper(name);
+    if (wrapper) wrapper.style.display = 'none';
+  }
+
+  function setNativeValue(name, value) {
+    var field = nativeField(name);
+    if (field) {
+      field.value = value;
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    assignSessionVar(name, value);
+  }
+
+  // The screen's own native "Submit feedback" button (it routes back to this dashboard).
+  function nativeSubmitButton() {
+    var controls = document.querySelectorAll(
+      'button, a, input[type="button"], input[type="submit"]'
+    );
+    for (var i = 0; i < controls.length; i++) {
+      var control = controls[i];
+      if (control.closest('.ai-feedback-wrap')) continue;
+      var label = (control.value || control.textContent || '').trim();
+      if (label === SUBMIT_BUTTON_TEXT) return control;
+    }
+    return null;
+  }
+
+  var thankYouText = {
+    thumbs_up: '&#128077; Thanks for your feedback!',
+    thumbs_down: '&#128078; Thanks for your feedback - we will use it to improve.'
+  };
+
+  function buildWidget() {
+    var widget = document.createElement('div');
+    widget.className = 'ai-feedback-wrap';
+    widget.innerHTML =
+      '<div class="ai-feedback-label">Was this helpful?</div>' +
+      '<div class="ai-feedback-buttons">' +
+      '<button type="button" class="ai-feedback-btn" data-feedback="thumbs_up" aria-label="Helpful" title="Helpful">&#128077;</button>' +
+      '<button type="button" class="ai-feedback-btn" data-feedback="thumbs_down" aria-label="Not helpful" title="Not helpful">&#128078;</button>' +
+      '</div>' +
+      '<div class="ai-feedback-comments" aria-hidden="true">' +
+      '<label class="ai-feedback-comments-label">What could be improved?</label>' +
+      '<textarea class="ai-feedback-comments-input" rows="4" placeholder="Tell us what was incorrect or could be improved..."></textarea>' +
+      '<div class="ai-feedback-comments-error" role="alert" aria-live="polite"></div>' +
+      '<button type="button" class="ai-feedback-submit">Submit feedback</button>' +
+      '</div>' +
+      '<div class="ai-feedback-thankyou" role="status" aria-live="polite"></div>';
+    return widget;
+  }
+
+  function showThankYou(widget, feedbackValue) {
+    widget.querySelector('.ai-feedback-label').style.display = 'none';
+    widget.querySelector('.ai-feedback-buttons').style.display = 'none';
+    widget.querySelector('.ai-feedback-comments').classList.remove('is-visible');
+    widget.querySelector('.ai-feedback-thankyou').innerHTML =
+      thankYouText[feedbackValue] || thankYouText.thumbs_up;
+  }
+
+  function showComments(widget, shouldShow) {
+    var comments = widget.querySelector('.ai-feedback-comments');
+    if (shouldShow) {
+      comments.classList.add('is-visible');
+    } else {
+      comments.classList.remove('is-visible');
+    }
+    comments.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+    if (shouldShow) {
+      var box = widget.querySelector('.ai-feedback-comments-input');
+      window.setTimeout(function () { box.focus(); }, 0);
+    }
+  }
+
+  function submitFeedback(feedbackValue, comments) {
+    setNativeValue('ai_feedback', feedbackValue);
+    setNativeValue('ai_feedback_comments', comments);
+    setNativeValue('ai_feedback_submitted', 'Yes');
+    var button = nativeSubmitButton();
+    if (button) button.click();
+  }
+
+  whenEvent('render:finish', function () {
+    if (!nativeField('ai_feedback') || !nativeField('ai_feedback_submitted')) return;
+    if (document.querySelector('.ai-feedback-wrap')) return;
+
+    hideNativeField('ai_feedback');
+    hideNativeField('ai_feedback_comments');
+    hideNativeField('ai_feedback_submitted');
+    var submitButton = nativeSubmitButton();
+    if (submitButton) submitButton.style.display = 'none';
+
+    if (nativeField('ai_feedback_submitted').value === '') {
+      setNativeValue('ai_feedback_submitted', 'No');
+    }
+
+    var widget = buildWidget();
+    var responseCard = document.querySelector('.case-review-response-card');
+    if (responseCard) {
+      responseCard.appendChild(widget);
+    } else {
+      var feedbackWrapper = nativeWrapper('ai_feedback');
+      feedbackWrapper.parentElement.insertBefore(widget, feedbackWrapper);
+    }
+
+    // The widget's comments box writes through to the native ai_feedback_comments field.
+    var commentsBox = widget.querySelector('.ai-feedback-comments-input');
+    commentsBox.value = nativeField('ai_feedback_comments') ? nativeField('ai_feedback_comments').value : '';
+    commentsBox.addEventListener('input', function () {
+      setNativeValue('ai_feedback_comments', commentsBox.value);
+      widget.querySelector('.ai-feedback-comments-error').textContent = '';
+    });
+
+    var currentFeedback = nativeField('ai_feedback').value;
+    if (nativeField('ai_feedback_submitted').value === 'Yes') {
+      showThankYou(widget, currentFeedback);
+      return;
+    }
+    if (currentFeedback === 'thumbs_down') {
+      widget.querySelector('.ai-feedback-btn[data-feedback="thumbs_down"]').classList.add('selected');
+      showComments(widget, true);
+    }
+
+    widget.addEventListener('click', function (event) {
+      var thumb = event.target.closest('.ai-feedback-btn');
+      if (thumb) {
+        var value = thumb.getAttribute('data-feedback');
+        var thumbs = widget.querySelectorAll('.ai-feedback-btn');
+        for (var i = 0; i < thumbs.length; i++) thumbs[i].classList.remove('selected');
+        thumb.classList.add('selected');
+        widget.querySelector('.ai-feedback-comments-error').textContent = '';
+
+        if (value === 'thumbs_up') {
+          showThankYou(widget, value);
+          submitFeedback(value, '');
+        } else {
+          setNativeValue('ai_feedback', value);
+          showComments(widget, true);
+        }
+        return;
+      }
+
+      if (event.target.closest('.ai-feedback-submit')) {
+        var comments = commentsBox.value.trim();
+        if (comments === '') {
+          widget.querySelector('.ai-feedback-comments-error').textContent =
+            'Please enter a comment before submitting.';
+          commentsBox.focus();
+          return;
+        }
+        showThankYou(widget, 'thumbs_down');
+        submitFeedback('thumbs_down', comments);
+      }
+    });
+  });
+})();
+</script>
+ → <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+
+:root {
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+</style>
+
+<style>
+/* =========================================================
+REQUIRED REQUEST DETAILS
+========================================================= */
+
+.zt-required {
+margin-left: 3px;
+color: #b91c1c;
+}
+
+/* Invalid Topic / Subtopic */
+.zt-form-control.zt-required-invalid {
+border-color: #b91c1c;
+box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
+}
+
+/* Validation message */
+.zt-request-validation-error {
+display: none;
+grid-column: 1 / -1;
+margin-top: -4px;
+padding: 10px 12px;
+color: #991b1b;
+font-size: 13px;
+font-weight: 500;
+background: #fef2f2;
+border: 1px solid #fecaca;
+border-radius: 8px;
+}
+
+.zt-request-validation-error.is-visible {
+display: block;
+}
+</style>
+
+<style>
+.email-summary-card-shell {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #d9e2ec;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.email-summary-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.email-summary-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 22px;
+  font-weight: 700;
+  flex: 0 0 42px;
+}
+
+.email-summary-header-copy {
+  min-width: 0;
+}
+
+.email-summary-title {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1f2937;
+}
+
+.email-summary-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.email-summary-card {
+  margin-top: 18px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+}
+
+.email-summary-card-title {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.email-summary-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 10px 0;
+  border-top: 1px solid #f1f5f9;
+}
+
+.email-summary-row:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.email-summary-row-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.email-summary-row-value {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.email-summary-html-body {
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.email-summary-html-body p:first-child {
+  margin-top: 0;
+}
+
+.email-summary-html-body p:last-child {
+  margin-bottom: 0;
+}
+
+.email-summary-muted {
+  color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+  .email-summary-card-shell {
+    padding: 18px;
+  }
+
+  .email-summary-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+</style>
+
+<style>
+.zt-rich-editor {
+  min-height: 220px;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+}
+
+.zt-rich-editor:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.zt-rich-editor p {
+  margin: 0 0 10px;
+}
+</style>
+
+<script>
+(function () {
+
+  /**
+   * ========================================================
+   * REQUEST DETAILS VALIDATION
+   *
+   * Both forms (screen 33 Request Details and screen 32
+   * Multiple Subtopics) carry:
+   *    - sf_Topic__c
+   *    - sf_Sub_Topic__c
+   * ========================================================
+   */
+
+  function getRequestFields() {
+    return {
+      topic: document.getElementById('sf_Topic__c'),
+      subtopic: document.getElementById('sf_Sub_Topic__c')
+    };
+  }
+
+
+  /**
+   * Determine whether the current node contains
+   * one of our forms.
+   */
+  function hasRequestForm() {
+    var fields = getRequestFields();
+
+    return !!fields.subtopic;
+  }
+
+
+  /**
+   * Validate whichever fields exist on the node.
+   */
+  function requestDetailsAreValid() {
+    var fields = getRequestFields();
+
+    /*
+     * No relevant form on this node.
+     */
+    if (!fields.subtopic) {
+      return true;
+    }
+
+    var subtopicValue =
+      String(fields.subtopic.value || '').trim();
+
+    /*
+     * Multiple Subtopics form:
+     * only Subtopic exists.
+     */
+    if (!fields.topic) {
+      return subtopicValue !== '';
+    }
+
+    /*
+     * Standard Request Details form:
+     * Topic + Subtopic both exist.
+     */
+    var topicValue =
+      String(fields.topic.value || '').trim();
+
+    return (
+      topicValue !== '' &&
+      subtopicValue !== ''
+    );
+  }
+
+
+  /**
+   * Create the validation message.
+   */
+  function ensureValidationMessage() {
+    var fields = getRequestFields();
+
+    if (!fields.subtopic) {
+      return null;
+    }
+
+    /*
+     * Standard Request Details form has a grid.
+     */
+    var container =
+      document.querySelector('.zt-form-grid');
+
+    /*
+     * Multiple Subtopics form does not use the grid,
+     * so use the Subtopic field wrapper instead.
+     */
+    if (!container) {
+      container =
+        fields.subtopic.closest('.zt-form-field');
+    }
+
+    if (!container) {
+      return null;
+    }
+
+    var existing =
+      container.querySelector(
+        '.zt-request-validation-error'
+      );
+
+    if (existing) {
+      return existing;
+    }
+
+    var error =
+      document.createElement('div');
+
+    error.className =
+      'zt-request-validation-error';
+
+    error.setAttribute(
+      'role',
+      'alert'
+    );
+
+    error.setAttribute(
+      'aria-live',
+      'polite'
+    );
+
+    /*
+     * Different message depending on form type.
+     */
+    if (fields.topic) {
+      error.textContent =
+        'Please select both Topic and Subtopic before continuing.';
+    } else {
+      error.textContent =
+        'Please select a Subtopic before continuing.';
+    }
+
+    container.appendChild(error);
+
+    return error;
+  }
+
+
+  /**
+   * Show validation errors.
+   */
+  function showValidationErrors() {
+    var fields = getRequestFields();
+
+    if (!fields.subtopic) {
+      return;
+    }
+
+    var error =
+      ensureValidationMessage();
+
+    var subtopicMissing =
+      String(
+        fields.subtopic.value || ''
+      ).trim() === '';
+
+    /*
+     * Topic only needs validation if it exists.
+     */
+    var topicMissing = false;
+
+    if (fields.topic) {
+      topicMissing =
+        String(
+          fields.topic.value || ''
+        ).trim() === '';
+    }
+
+
+    if (fields.topic) {
+      fields.topic.classList.toggle(
+        'zt-required-invalid',
+        topicMissing
+      );
+
+      fields.topic.setAttribute(
+        'aria-invalid',
+        topicMissing
+          ? 'true'
+          : 'false'
+      );
+    }
+
+
+    fields.subtopic.classList.toggle(
+      'zt-required-invalid',
+      subtopicMissing
+    );
+
+    fields.subtopic.setAttribute(
+      'aria-invalid',
+      subtopicMissing
+        ? 'true'
+        : 'false'
+    );
+
+
+    if (error) {
+      error.classList.toggle(
+        'is-visible',
+        topicMissing || subtopicMissing
+      );
+    }
+
+
+    /*
+     * Focus first missing field.
+     */
+    if (
+      fields.topic &&
+      topicMissing
+    ) {
+      fields.topic.focus();
+    } else if (subtopicMissing) {
+      fields.subtopic.focus();
+    }
+  }
+
+
+  /**
+   * Refresh validation after the user changes
+   * one of the dropdowns.
+   */
+  function refreshValidationState() {
+    var fields = getRequestFields();
+
+    if (!fields.subtopic) {
+      return;
+    }
+
+    var subtopicMissing =
+      String(
+        fields.subtopic.value || ''
+      ).trim() === '';
+
+    var topicMissing = false;
+
+    if (fields.topic) {
+      topicMissing =
+        String(
+          fields.topic.value || ''
+        ).trim() === '';
+
+      fields.topic.classList.toggle(
+        'zt-required-invalid',
+        topicMissing
+      );
+    }
+
+
+    fields.subtopic.classList.toggle(
+      'zt-required-invalid',
+      subtopicMissing
+    );
+
+
+    var error =
+      document.querySelector(
+        '.zt-request-validation-error'
+      );
+
+    if (error) {
+      error.classList.toggle(
+        'is-visible',
+        topicMissing || subtopicMissing
+      );
+    }
+  }
+
+
+  /**
+   * Bind fields after node render.
+   */
+  whenEvent(
+    'render:finish',
+    function () {
+
+      var fields =
+        getRequestFields();
+
+      /*
+       * Neither supported form is present.
+       */
+      if (!fields.subtopic) {
+        return;
+      }
+
+
+      ensureValidationMessage();
+
+
+      /**
+       * Bind Topic if this is the standard form.
+       */
+      if (
+        fields.topic &&
+        !fields.topic.dataset
+          .requiredValidationBound
+      ) {
+
+        fields.topic.addEventListener(
+          'change',
+          function () {
+
+            assignSessionVar(
+              'sf_Topic__c',
+              fields.topic.value
+            );
+
+            refreshValidationState();
+          }
+        );
+
+        fields.topic.dataset
+          .requiredValidationBound =
+          'true';
+      }
+
+
+      /**
+       * Bind Subtopic for both form types.
+       */
+      if (
+        !fields.subtopic.dataset
+          .requiredValidationBound
+      ) {
+
+        fields.subtopic.addEventListener(
+          'change',
+          function () {
+
+            assignSessionVar(
+              'sf_Sub_Topic__c',
+              fields.subtopic.value
+            );
+
+            refreshValidationState();
+          }
+        );
+
+        fields.subtopic.dataset
+          .requiredValidationBound =
+          'true';
+      }
+
+
+      /*
+       * Don't show errors immediately when the
+       * node first loads.
+       */
+      if (fields.topic) {
+        fields.topic.classList.remove(
+          'zt-required-invalid'
+        );
+      }
+
+      fields.subtopic.classList.remove(
+        'zt-required-invalid'
+      );
+    }
+  );
+
+
+  /**
+   * ========================================================
+   * NAVIGATION GUARD
+   * ========================================================
+   */
+  document.addEventListener(
+    'click',
+    function (event) {
+
+      var fields =
+        getRequestFields();
+
+      /*
+       * No supported form on this node.
+       */
+      if (!fields.subtopic) {
+        return;
+      }
+
+
+      /*
+       * Allow the user to interact with the form itself.
+       */
+      if (
+        event.target.closest(
+          '.zt-form-card'
+        )
+      ) {
+        return;
+      }
+
+
+      /*
+       * Only inspect clickable navigation controls.
+       */
+      var navigationControl =
+        event.target.closest(
+          'button, a, input[type="button"], input[type="submit"]'
+        );
+
+      if (!navigationControl) {
+        return;
+      }
+
+
+      /*
+       * Valid form: allow navigation.
+       */
+      if (requestDetailsAreValid()) {
+        return;
+      }
+
+
+      /*
+       * Invalid form: stop navigation.
+       */
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      showValidationErrors();
+
+    },
+    true
+  );
+
+})();
+</script>
+
+<script>
+whenEvent('render:finish', () => {
+  const editor = document.getElementById('htmlBodyEditor');
+  const hidden = document.getElementById('HtmlBody');
+
+  if (!editor || !hidden) return;
+
+  hidden.value = editor.innerHTML;
+
+  if (!editor.dataset.boundHtmlSync) {
+    editor.addEventListener('input', () => {
+      hidden.value = editor.innerHTML;
+    });
+    editor.dataset.boundHtmlSync = 'true';
+  }
+});
+</script>
+
+<script>
+/* =========================================================
+TOPIC -> SUBTOPIC FILTER (screens 32 and 33)
+
+Every subtopic <option> carries data-topic, written by nodes
+17 / 26 from the lane's own intent map. Both screens carry a
+Topic and a Subtopic select: the subtopic list shows only the
+options whose data-topic matches the chosen Topic, and a
+subtopic that no longer fits is cleared, so the pair saved on
+the Case is always one Salesforce accepts.
+========================================================= */
+whenEvent('render:finish', function () {
+  var topic = document.getElementById('sf_Topic__c');
+  var subtopic = document.getElementById('sf_Sub_Topic__c');
+
+  if (!topic || !subtopic || subtopic.dataset.topicFilterBound) return;
+  subtopic.dataset.topicFilterBound = 'true';
+
+  // keep every option once, then rebuild the list for the chosen Topic
+  var allOptions = [];
+  for (var i = 0; i < subtopic.options.length; i++) {
+    allOptions.push(subtopic.options[i]);
+  }
+
+  // Zingtree can restore the saved Topic after render:finish without firing change, which
+  // left the Subtopic list built for an empty Topic until the agent toggled Topic away and
+  // back (25 Sep standup). So the list is rebuilt whenever the Topic it was built for no
+  // longer matches the Topic on screen: on the next tick, on Topic change, and just before
+  // the agent opens the Subtopic list.
+  var builtForTopic = null;
+
+  function filterSubtopics() {
+    var topicValue = topic.value;
+    if (topicValue === builtForTopic) return;
+    builtForTopic = topicValue;
+
+    var keepValue = subtopic.value;
+    var keepStillFits = false;
+
+    subtopic.innerHTML = '';
+    for (var i = 0; i < allOptions.length; i++) {
+      var option = allOptions[i];
+      var optionTopic = option.getAttribute('data-topic') || '';
+      // the placeholder has no topic and always stays; no Topic yet shows every option
+      if (optionTopic === '' || topicValue === '' || optionTopic === topicValue) {
+        subtopic.appendChild(option);
+        if (keepValue !== '' && option.value === keepValue) keepStillFits = true;
+      }
+    }
+
+    subtopic.value = keepStillFits ? keepValue : '';
+    if (!keepStillFits && keepValue !== '') {
+      assignSessionVar('sf_Sub_Topic__c', '');
+    }
+  }
+
+  filterSubtopics();
+  setTimeout(filterSubtopics, 0);
+  topic.addEventListener('change', filterSubtopics);
+  subtopic.addEventListener('mousedown', filterSubtopics);
+  subtopic.addEventListener('focus', filterSubtopics);
+});
+</script>
+
+<style>
+.zt-form-card {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #d9e2ec;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.zt-form-header {
+  margin-bottom: 20px;
+}
+
+.zt-form-title {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1f2937;
+}
+
+.zt-form-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.zt-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.zt-form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.zt-form-field-full {
+  margin-top: 4px;
+}
+
+.zt-form-label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.zt-form-control {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #111827;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.zt-form-control:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.zt-form-textarea {
+  min-height: 220px;
+  resize: vertical;
+  font-family: Consolas, Monaco, monospace;
+}
+
+.zt-form-help {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .zt-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .zt-form-card {
+    padding: 18px;
+  }
+}
+</style>
+
+<style>
+/* =========================================================
+CASE REVIEW DASHBOARD
+Matches the supplied reference layout.
+========================================================= */
+
+.case-review-shell {
+width: 100%;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+Roboto,
+Arial,
+sans-serif;
+color: #172033;
+}
+
+.case-review-shell *,
+.case-review-shell *::before,
+.case-review-shell *::after {
+box-sizing: border-box;
+}
+
+
+/* =========================================================
+OUTER PANEL
+========================================================= */
+
+.case-review-panel {
+width: 100%;
+margin: 0;
+overflow: hidden;
+background: #f8fafc;
+border: 1px solid #e5eaf1;
+border-radius: 28px;
+}
+
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.case-review-hero {
+min-height: 210px;
+padding: 27px 28px 29px;
+color: #ffffff;
+
+background:
+linear-gradient(
+100deg,
+#091735 0%,
+#102345 56%,
+#203957 100%
+);
+}
+
+.case-review-hero-top {
+display: flex;
+align-items: flex-start;
+justify-content: space-between;
+gap: 36px;
+}
+
+.case-review-hero-copy {
+flex: 1 1 auto;
+min-width: 0;
+padding-top: 2px;
+}
+
+.case-review-eyebrow {
+margin: 0 0 10px;
+
+font-size: 12px;
+line-height: 1.2;
+font-weight: 700;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+
+color: rgba(255, 255, 255, 0.63);
+}
+
+.case-review-main-title {
+margin: 0 0 9px;
+
+font-size: 24px;
+line-height: 1.22;
+font-weight: 700;
+
+color: #ffffff;
+}
+
+.case-review-subtitle {
+font-size: 16px;
+line-height: 1.5;
+font-weight: 400;
+
+color: rgba(255, 255, 255, 0.86);
+}
+
+.case-review-subtitle strong {
+font-weight: 700;
+color: #ffffff;
+}
+
+.case-review-subtitle-separator {
+display: inline-block;
+margin: 0 4px;
+}
+
+
+/* =========================================================
+CONFIDENCE CARD
+========================================================= */
+
+.case-review-hero-metrics-card {
+flex: 0 0 32%;
+max-width: 355px;
+min-width: 285px;
+
+padding: 17px 18px;
+
+background: rgba(255, 255, 255, 0.13);
+border: 1px solid rgba(255, 255, 255, 0.13);
+border-radius: 20px;
+
+box-shadow:
+inset 0 1px 0
+rgba(255, 255, 255, 0.04);
+}
+
+.case-review-hero-metric + .case-review-hero-metric {
+margin-top: 13px;
+padding-top: 13px;
+
+border-top:
+1px solid
+rgba(255, 255, 255, 0.14);
+}
+
+.case-review-hero-metric-label {
+margin-bottom: 5px;
+
+font-size: 11px;
+line-height: 1.3;
+font-weight: 700;
+letter-spacing: 0.13em;
+text-transform: uppercase;
+
+color: rgba(255, 255, 255, 0.62);
+}
+
+.case-review-hero-metric-value {
+font-size: 24px;
+line-height: 1.2;
+font-weight: 700;
+color: #ffffff;
+}
+
+.case-review-hero-metric-text {
+font-size: 14px;
+line-height: 1.5;
+color: rgba(255, 255, 255, 0.9);
+
+overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+BODY
+========================================================= */
+
+.case-review-body {
+padding: 24px;
+background: #f8fafc;
+}
+
+
+/*
+* Reference screenshot uses:
+*
+* left ~44%
+* right ~56%
+*/
+.case-review-grid {
+display: grid;
+
+grid-template-columns:
+minmax(0, 44fr)
+minmax(0, 56fr);
+
+gap: 22px;
+
+align-items: start;
+}
+
+.case-review-col {
+min-width: 0;
+}
+
+.case-review-col .case-review-card +
+.case-review-card {
+margin-top: 22px;
+}
+
+
+/* =========================================================
+STANDARD CARD
+========================================================= */
+
+.case-review-card {
+width: 100%;
+
+padding: 19px 20px 20px;
+
+background: #ffffff;
+border: 1px solid #dde5ed;
+border-radius: 24px;
+
+box-shadow:
+0 1px 3px
+rgba(15, 23, 42, 0.035);
+}
+
+.case-review-card-title {
+margin: 0 0 17px;
+
+font-size: 16px;
+line-height: 1.35;
+font-weight: 700;
+
+color: #25334a;
+}
+
+
+/* =========================================================
+CASE DETAIL ROWS
+========================================================= */
+
+.case-review-row {
+display: grid;
+
+grid-template-columns:
+minmax(120px, 42%)
+minmax(0, 58%);
+
+gap: 18px;
+
+align-items: center;
+
+min-height: 51px;
+padding: 12px 0;
+
+border-top: 1px solid #e8ecf0;
+}
+
+.case-review-row:first-of-type {
+padding-top: 3px;
+border-top: 0;
+}
+
+.case-review-row:last-child {
+padding-bottom: 2px;
+}
+
+.case-review-row-label {
+font-size: 12px;
+line-height: 1.4;
+font-weight: 700;
+
+text-transform: uppercase;
+letter-spacing: 0.09em;
+
+color: #58677b;
+}
+
+.case-review-row-value {
+min-width: 0;
+
+font-size: 15px;
+line-height: 1.45;
+font-weight: 400;
+
+text-align: right;
+
+color: #263248;
+
+overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+EMAIL CONTENT
+========================================================= */
+
+.case-review-html-card-body {
+font-size: 15px;
+line-height: 1.62;
+font-weight: 400;
+
+color: #283344;
+
+overflow-wrap: anywhere;
+}
+
+.case-review-html-card-body p {
+margin-top: 0;
+margin-bottom: 15px;
+}
+
+.case-review-html-card-body p:last-child {
+margin-bottom: 0;
+}
+
+.case-review-html-card-body a {
+font-weight: 600;
+color: #233f73;
+text-decoration: none;
+}
+
+.case-review-html-card-body a:hover {
+text-decoration: underline;
+}
+
+.case-review-muted {
+color: #94a3b8;
+font-style: italic;
+}
+
+
+/*
+* Give the response card enough visual presence
+* to match the taller card shown in the reference.
+*/
+.case-review-response-card {
+min-height: 500px;
+}
+
+
+/* =========================================================
+POLICY FLAGS
+========================================================= */
+
+.case-review-flag-card {
+padding: 14px 15px 12px;
+
+border: 1px solid;
+border-radius: 18px;
+}
+
+.case-review-flag-top {
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+gap: 12px;
+}
+
+.case-review-flag-title {
+font-size: 12px;
+line-height: 1.4;
+font-weight: 600;
+
+color: #627085;
+}
+
+.case-review-flag-pill {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+
+min-width: 24px;
+min-height: 24px;
+
+padding: 2px 8px;
+
+border-radius: 999px;
+
+font-size: 12px;
+line-height: 1;
+font-weight: 700;
+
+color: #ffffff;
+}
+
+.case-review-flag-value {
+margin-top: 8px;
+
+font-size: 17px;
+line-height: 1.2;
+font-weight: 700;
+}
+
+
+/* =========================================================
+INTENT CARDS
+========================================================= */
+
+.case-review-intent-grid {
+display: grid;
+
+grid-template-columns:
+repeat(2, minmax(0, 1fr));
+
+gap: 15px;
+
+margin-top: 3px;
+}
+
+.case-review-intent-simple-card {
+min-height: 102px;
+
+padding: 17px 18px;
+
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+
+border: 1px solid;
+border-radius: 20px;
+}
+
+.case-review-intent-simple-title {
+font-size: 11px;
+line-height: 1.4;
+font-weight: 500;
+
+color: #718096;
+
+overflow-wrap: break-word;
+}
+
+.case-review-intent-simple-value {
+margin-top: 9px;
+
+font-size: 16px;
+line-height: 1.2;
+font-weight: 700;
+}
+
+
+/* =========================================================
+FEEDBACK WIDGET ALIGNMENT
+========================================================= */
+
+.case-review-response-card .ai-feedback-wrap {
+margin-top: 18px;
+}
+
+.case-review-response-card .ai-feedback-label {
+margin: 0 0 9px;
+
+font-size: 16px;
+line-height: 1.35;
+font-weight: 700;
+
+color: #283344;
+}
+
+.case-review-response-card .ai-feedback-buttons {
+gap: 10px;
+}
+
+.case-review-response-card .ai-feedback-btn {
+width: 56px;
+min-width: 56px;
+height: 48px;
+min-height: 48px;
+
+padding: 0;
+
+display: inline-flex;
+align-items: center;
+justify-content: center;
+
+background: #ffffff;
+border: 1px solid #d7dde5;
+border-radius: 8px;
+
+font-size: 21px;
+
+box-shadow:
+0 1px 2px
+rgba(15, 23, 42, 0.04);
+}
+
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+.case-review-grid {
+grid-template-columns:
+minmax(0, 42fr)
+minmax(0, 58fr);
+
+gap: 18px;
+}
+
+.case-review-intent-grid {
+gap: 12px;
+}
+
+.case-review-intent-simple-card {
+padding: 15px;
+}
+}
+
+
+@media (max-width: 820px) {
+
+.case-review-hero {
+min-height: 0;
+}
+
+.case-review-hero-top {
+flex-direction: column;
+}
+
+.case-review-hero-metrics-card {
+width: 100%;
+max-width: none;
+min-width: 0;
+flex-basis: auto;
+}
+
+.case-review-grid {
+grid-template-columns: 1fr;
+}
+
+.case-review-response-card {
+min-height: 0;
+}
+}
+
+
+@media (max-width: 520px) {
+
+.case-review-panel {
+border-radius: 20px;
+}
+
+.case-review-hero {
+padding: 23px 20px;
+}
+
+.case-review-body {
+padding: 15px;
+}
+
+.case-review-card {
+padding: 17px;
+border-radius: 20px;
+}
+
+.case-review-main-title {
+font-size: 22px;
+}
+
+.case-review-row {
+grid-template-columns: 1fr;
+gap: 4px;
+}
+
+.case-review-row-value {
+text-align: left;
+}
+
+.case-review-intent-grid {
+grid-template-columns: 1fr;
+}
+
+.case-review-intent-simple-card {
+min-height: 86px;
+}
+}
+</style>
+<style>
+.ai-feedback-wrap {
+  margin-top: 12px;
+}
+
+.ai-feedback-label {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.ai-feedback-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.ai-feedback-btn {
+  min-width: 52px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.ai-feedback-btn:hover {
+  border-color: #999;
+}
+
+.ai-feedback-btn.selected {
+  border-color: #222;
+  box-shadow: inset 0 0 0 2px #222;
+}
+
+.ai-feedback-comments {
+  display: none;
+  margin-top: 12px;
+}
+
+.ai-feedback-comments.is-visible {
+  display: block;
+}
+
+.ai-feedback-comments-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ai-feedback-comments-input {
+  width: 100%;
+  min-height: 96px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #111827;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.ai-feedback-comments-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.ai-feedback-comments-error {
+  min-height: 18px;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #b91c1c;
+}
+
+.ai-feedback-submit {
+  margin-top: 8px;
+  min-height: 42px;
+  padding: 9px 16px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  background: #1f2937;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.ai-feedback-submit:hover {
+  background: #111827;
+}
+
+.ai-feedback-thankyou {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #16803d;
+}
+</style>
+
+<script>
+(function () {
+  /**
+   * AI FEEDBACK (dashboards 30, 53, 54 and 55)
+   *
+   * The widget is built here, not in the dashboard HTML, and placed inside the Email Response
+   * card. Thumbs up submits straight away. Thumbs down opens the comments box and its
+   * Submit feedback button; a comment is required before it submits.
+   *
+   * Storage is three native fields on each dashboard, hidden from view: ai_feedback,
+   * ai_feedback_comments (the widget's comments box copies into it as the agent types) and
+   * ai_feedback_submitted ("No" until Submit). Native fields submit with whichever button the
+   * agent clicks, so they are what reaches form data. Submit clicks the screen's hidden native
+   * "Submit feedback" button, so the values reach form data at that moment. Router 52 returns
+   * the agent to the same dashboard, where the widget shows the thank-you instead.
+   */
+  var SUBMIT_BUTTON_TEXT = 'Submit feedback';
+
+  function nativeField(name) {
+    return document.querySelector(
+      'input[name="' + name + '"], textarea[name="' + name + '"]'
+    );
+  }
+
+  // The wrapper that holds a native field and its label: walk up while the parent holds
+  // only this one control, so nothing else on the screen moves.
+  function nativeWrapper(name) {
+    var field = nativeField(name);
+    if (!field) return null;
+    var wrapper = field;
+    while (
+      wrapper.parentElement &&
+      wrapper.parentElement.querySelectorAll('input, select, textarea').length === 1
+    ) {
+      wrapper = wrapper.parentElement;
+    }
+    return wrapper;
+  }
+
+  function hideNativeField(name) {
+    var wrapper = nativeWrapper(name);
+    if (wrapper) wrapper.style.display = 'none';
+  }
+
+  function setNativeValue(name, value) {
+    var field = nativeField(name);
+    if (field) {
+      field.value = value;
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    assignSessionVar(name, value);
+  }
+
+  // The screen's own native "Submit feedback" button (it routes back to this dashboard).
+  function nativeSubmitButton() {
+    var controls = document.querySelectorAll(
+      'button, a, input[type="button"], input[type="submit"]'
+    );
+    for (var i = 0; i < controls.length; i++) {
+      var control = controls[i];
+      if (control.closest('.ai-feedback-wrap')) continue;
+      var label = (control.value || control.textContent || '').trim();
+      if (label === SUBMIT_BUTTON_TEXT) return control;
+    }
+    return null;
+  }
+
+  var thankYouText = {
+    thumbs_up: '&#128077; Thanks for your feedback!',
+    thumbs_down: '&#128078; Thanks for your feedback - we will use it to improve.'
+  };
+
+  function buildWidget() {
+    var widget = document.createElement('div');
+    widget.className = 'ai-feedback-wrap';
+    widget.innerHTML =
+      '<div class="ai-feedback-label">Was this helpful?</div>' +
+      '<div class="ai-feedback-buttons">' +
+      '<button type="button" class="ai-feedback-btn" data-feedback="thumbs_up" aria-label="Helpful" title="Helpful">&#128077;</button>' +
+      '<button type="button" class="ai-feedback-btn" data-feedback="thumbs_down" aria-label="Not helpful" title="Not helpful">&#128078;</button>' +
+      '</div>' +
+      '<div class="ai-feedback-comments" aria-hidden="true">' +
+      '<label class="ai-feedback-comments-label">What could be improved?</label>' +
+      '<textarea class="ai-feedback-comments-input" rows="4" placeholder="Tell us what was incorrect or could be improved..."></textarea>' +
+      '<div class="ai-feedback-comments-error" role="alert" aria-live="polite"></div>' +
+      '<button type="button" class="ai-feedback-submit">Submit feedback</button>' +
+      '</div>' +
+      '<div class="ai-feedback-thankyou" role="status" aria-live="polite"></div>';
+    return widget;
+  }
+
+  function showThankYou(widget, feedbackValue) {
+    widget.querySelector('.ai-feedback-label').style.display = 'none';
+    widget.querySelector('.ai-feedback-buttons').style.display = 'none';
+    widget.querySelector('.ai-feedback-comments').classList.remove('is-visible');
+    widget.querySelector('.ai-feedback-thankyou').innerHTML =
+      thankYouText[feedbackValue] || thankYouText.thumbs_up;
+  }
+
+  function showComments(widget, shouldShow) {
+    var comments = widget.querySelector('.ai-feedback-comments');
+    if (shouldShow) {
+      comments.classList.add('is-visible');
+    } else {
+      comments.classList.remove('is-visible');
+    }
+    comments.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+    if (shouldShow) {
+      var box = widget.querySelector('.ai-feedback-comments-input');
+      window.setTimeout(function () { box.focus(); }, 0);
+    }
+  }
+
+  function submitFeedback(feedbackValue, comments) {
+    setNativeValue('ai_feedback', feedbackValue);
+    setNativeValue('ai_feedback_comments', comments);
+    setNativeValue('ai_feedback_submitted', 'Yes');
+    var button = nativeSubmitButton();
+    if (button) button.click();
+  }
+
+  whenEvent('render:finish', function () {
+    if (!nativeField('ai_feedback') || !nativeField('ai_feedback_submitted')) return;
+    if (document.querySelector('.ai-feedback-wrap')) return;
+
+    hideNativeField('ai_feedback');
+    hideNativeField('ai_feedback_comments');
+    hideNativeField('ai_feedback_submitted');
+    var submitButton = nativeSubmitButton();
+    if (submitButton) submitButton.style.display = 'none';
+
+    if (nativeField('ai_feedback_submitted').value === '') {
+      setNativeValue('ai_feedback_submitted', 'No');
+    }
+
+    var widget = buildWidget();
+    var responseCard = document.querySelector('.case-review-response-card');
+    if (responseCard) {
+      responseCard.appendChild(widget);
+    } else {
+      var feedbackWrapper = nativeWrapper('ai_feedback');
+      feedbackWrapper.parentElement.insertBefore(widget, feedbackWrapper);
+    }
+
+    // The widget's comments box writes through to the native ai_feedback_comments field.
+    var commentsBox = widget.querySelector('.ai-feedback-comments-input');
+    commentsBox.value = nativeField('ai_feedback_comments') ? nativeField('ai_feedback_comments').value : '';
+    commentsBox.addEventListener('input', function () {
+      setNativeValue('ai_feedback_comments', commentsBox.value);
+      widget.querySelector('.ai-feedback-comments-error').textContent = '';
+    });
+
+    var currentFeedback = nativeField('ai_feedback').value;
+    if (nativeField('ai_feedback_submitted').value === 'Yes') {
+      showThankYou(widget, currentFeedback);
+      return;
+    }
+    if (currentFeedback === 'thumbs_down') {
+      widget.querySelector('.ai-feedback-btn[data-feedback="thumbs_down"]').classList.add('selected');
+      showComments(widget, true);
+    }
+
+    widget.addEventListener('click', function (event) {
+      var thumb = event.target.closest('.ai-feedback-btn');
+      if (thumb) {
+        var value = thumb.getAttribute('data-feedback');
+        var thumbs = widget.querySelectorAll('.ai-feedback-btn');
+        for (var i = 0; i < thumbs.length; i++) thumbs[i].classList.remove('selected');
+        thumb.classList.add('selected');
+        widget.querySelector('.ai-feedback-comments-error').textContent = '';
+
+        if (value === 'thumbs_up') {
+          showThankYou(widget, value);
+          submitFeedback(value, '');
+        } else {
+          setNativeValue('ai_feedback', value);
+          showComments(widget, true);
+        }
+        return;
+      }
+
+      if (event.target.closest('.ai-feedback-submit')) {
+        var comments = commentsBox.value.trim();
+        if (comments === '') {
+          widget.querySelector('.ai-feedback-comments-error').textContent =
+            'Please enter a comment before submitting.';
+          commentsBox.focus();
+          return;
+        }
+        showThankYou(widget, 'thumbs_down');
+        submitFeedback('thumbs_down', comments);
+      }
+    });
+  });
+})();
+</script>
+
+<script>
+/**
+ * ========================================================
+ * EXTERNAL LINKS OPEN IN A NEW TAB
+ * ========================================================
+ * Links in the reply preview loaded inside the Salesforce widget; pages that refuse to load
+ * in a frame then errored with no way back (Corpay UK, 19 Oct). Any http(s) link to another
+ * site opens in a new tab. If the browser blocks the new tab, the click behaves as before.
+ */
+(function () {
+  document.addEventListener(
+    'click',
+    function (event) {
+      var link = event.target.closest('a[href]');
+      if (!link) {
+        return;
+      }
+      var href = link.getAttribute('href') || '';
+      if (!/^https?:\/\//i.test(href) || link.hostname === window.location.hostname) {
+        return;
+      }
+      var opened = window.open(href, '_blank');
+      if (!opened) {
+        return;
+      }
+      opened.opener = null;
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    true
+  );
+})();
+</script>
+

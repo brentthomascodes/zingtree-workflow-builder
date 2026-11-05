@@ -1,0 +1,79 @@
+{
+  "_comment": "Funding (with fee) + manual load = remaining: fee field = service fee + manual load, note shows the payment amount, date and agent auto-filled.",
+  "tree_id": "563559070",
+  "preview_host": "https://zingtree.com/preview/",
+  "query_params": {
+    "today": "10/27/26",
+    "agent": "jane.doe@corpay.com"
+  },
+  "connected_objects": {
+    "1299": "bizpay__get_payment_by_id",
+    "1300": "bizpay__post_payment_action"
+  },
+  "views": {},
+  "view_inputs": {},
+  "actions": {
+    "bizpay__get_payment_by_id": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "payment_id": 36216797,
+      "client_id": 2665,
+      "client_name": "Acetic Urchin",
+      "vendor_id": 5310609,
+      "client_vendor_id": 831532,
+      "payment_amount": 8788.15,
+      "service_fee": 1.25,
+      "funding_amount": 8789.4,
+      "manual_value_load_amount": 5,
+      "remaining_balance": 8794.4,
+      "card_status": "Created",
+      "card_status_date": "2024-11-06",
+      "cancel_card_request_exists": false,
+      "cancel_card_request_approved": false,
+      "pega_case_id": "",
+      "cancel_card_request_approved_date": null
+    },
+    "bizpay__post_payment_action": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "success": true,
+      "message": "Cancelled Card Payment with Id 36216797",
+      "request_id": 4817
+    }
+  },
+  "form_inputs": {
+    "1": {
+      "payment_id": "36136192"
+    }
+  },
+  "buttons": {
+    "1": "Continue",
+    "29": "Yes, they match",
+    "5": "Submit Cancel Card to BizPay",
+    "18": "Finish Tree"
+  },
+  "expect": {
+    "data_node_calls": {
+      "bizpay__get_payment_by_id": 1,
+      "bizpay__post_payment_action": 1
+    },
+    "form_data": {
+      "resolution_route": "reissue_check",
+      "resolution": "reissue_check",
+      "fee": "6.25",
+      "amount": "8794.4",
+      "payment_note": "10/27/26 Pmt never processed, CANCEL/ISSUE CHECK $8788.15 - jane.doe",
+      "agent_email": "system@zingtree.com",
+      "cancel_submitted": true,
+      "cancel_card_reason": "Unable to reach vendor"
+    },
+    "terminal_node": "19"
+  },
+  "ai_action_aliases": {}
+}

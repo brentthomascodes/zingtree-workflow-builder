@@ -1,0 +1,38 @@
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#EFE7FC', 'primaryBorderColor': '#6200EE', 'primaryTextColor': '#101820', 'lineColor': '#6200EE', 'fontFamily': 'Arial'}}}%%
+flowchart TD
+    subgraph VI["Register Errands - VI Dynamic (tree 756760393)"]
+        n83["83 · Set VI Combined PNR (ROOT)<br/>collapses selected_pnrs into ONE record"]
+        n82["82 · Partner / order-age route<br/>sets form data `route`"]
+        n85["85 · Select Passengers - VI  🆕<br/>findorder Dynamic View, agent picks pax"]
+        n86["86 · Continue  🆕<br/>attaches passengers +<br/>formatted_passengers to current_pnr"]
+        n49["49 · Partner logic"]
+        nSTG["50/66 → STG disruption + alternatives ladder<br/>(53,58,59,60,61,62,63,64,65,69,70,71,72,73,74,75,76)"]
+        n80["80 · Get Errand Configurations (Data, CO 182+183)"]
+        n81["81 · Format Types"]
+        n1["1 · Agent - Select Channel & Type"]
+        n2["2 · Dynamic Actions List Options<br/>upserts THE ONE combined-PNR row<br/>(passengers ride through via spread)"]
+        n12["12 · Create PNR Action Table"]
+        n25["25 · Display PNR Action Table"]
+        n27["27 · Stitch & Group  ✏️ SIMPLIFIED<br/>1 row in → 1 ticket out, NEVER a grandchild<br/>child_ticket now carries passengers +<br/>formatted_passengers; note prints Passengers line"]
+        n84["84 · Set VI Finals (combined PNR)<br/>passengers/formatted_passengers ride<br/>through via spread (+ dedupe on fallback fold)"]
+        n79["79 · Return Parent"]
+
+        n83 --> n82 --> n85 --> n86 --> n49 --> nSTG --> n80 --> n81 --> n1 --> n2 --> n12 --> n25 --> n27 --> n84 --> n79
+    end
+
+    parent3["Parent tree · node 3<br/>any child tickets?"]
+    parent32["Parent tree · node 32<br/>Loop Child Tickets<br/>reads child_ticket.passengers"]
+    parent21["Parent tree · node 21<br/>Format Internal Note<br/>reads record.passengers"]
+    parent44["Parent tree · node 44<br/>Loop Errands to Register<br/>reads rec.passengers"]
+
+    n79 -.->|"return_tree_node_id 3"| parent3
+    parent3 --> parent32
+    parent3 --> parent21
+    parent21 --> parent44
+
+    classDef new fill:#dce8df,stroke:#2f6f4f,stroke-width:2px;
+    classDef changed fill:#f3eadb,stroke:#9a6a1a,stroke-width:2px;
+    classDef parent fill:#f5f5f5,stroke:#9ca3af,stroke-dasharray: 4 3;
+    class n85,n86 new;
+    class n27,n84 changed;
+    class parent3,parent32,parent21,parent44 parent;

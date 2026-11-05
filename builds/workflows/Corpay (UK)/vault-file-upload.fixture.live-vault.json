@@ -1,0 +1,50 @@
+{
+ "tree_id": "0",
+ "preview_host": "https://zingtree.com/preview/",
+ "query_params": {},
+ "connected_objects": {
+  "1301": "zingtree__get_vault_file",
+  "1302": "zingtree__delete_vault_file",
+  "1303": "sfdc__create_content_version"
+ },
+ "form_inputs": {
+  "1": {
+   "vault_file_uid": "kr46zbsesww7e2mmp4uumj7ahe",
+   "test_scenario": "test_success",
+   "test_mock_scope": "mock_salesforce_only"
+  },
+  "7": {
+   "file_base64": "TW9jayB2YXVsdCBmaWxlIC0gQ29ycGF5IFVLIHRlc3QgbW9kZS4K"
+  }
+ },
+ "actions": {
+  "zingtree__get_vault_file": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "download_url": "https://s3.amazonaws.com/uploads.zingtree.com/vault/605481/PREVIEW_w7awr6t5nnqsr5ngy1qmqwae-kr46zbsesww7e2mmp4uumj7ahe?response-content-disposition=attachment%3B%20filename%3D%22vault_test_ok.txt%22%3B%20filename%2A%3DUTF-8%27%27vault_test_ok.txt&X-Amz-Expires=60"
+  },
+  "zingtree__delete_vault_file": {
+   "_zt_meta": {
+    "response": {
+     "code": 204
+    }
+   }
+  }
+ },
+ "buttons": {},
+ "expect": {
+  "data_node_calls": {
+   "zingtree__get_vault_file": 1,
+   "zingtree__delete_vault_file": 1,
+   "sfdc__create_content_version": 0
+  },
+  "form_data": {
+   "vault_upload_status": "attached",
+   "file_name": "vault_test_ok.txt"
+  },
+  "terminal_node": "16"
+ }
+}

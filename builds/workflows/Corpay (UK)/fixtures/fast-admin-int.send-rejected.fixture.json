@@ -1,0 +1,141 @@
+{
+ "tree_id": "783808640",
+ "preview_host": "https://zingtree.com/preview/",
+ "query_params": {
+  "sf_Id": "500Ad00000c1OgmIAE",
+  "sf_Subject": "Missing charges for \"September\"",
+  "sf_CaseNumber": "02716246",
+  "sf_ContactId": "003Ad0000001"
+ },
+ "connected_objects": {
+  "1263": "sfdc_int__case_email_ai",
+  "1264": "get_account_details__int",
+  "1265": "get_incoming_email_addresses_int",
+  "1266": "send_email_simple_int"
+ },
+ "ai_action_aliases": {
+  "12": "automate_email_intent_int",
+  "16": "automate_email_generation_int",
+  "18": "automate_hc_email_intent_int",
+  "25": "automate_hc_email_generation_int"
+ },
+ "actions": {
+  "sfdc_int__case_email_ai": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "Id": "500Ad00000c1OgmIAE",
+     "CaseNumber": "02716246",
+     "Subject": "Missing charges for \"September\"",
+     "Description": "Hi, my home charging sessions from last week are missing from my account. Thanks, Dan",
+     "SuppliedEmail": "gt@zingtree.com",
+     "AccountId": "001Ad000010Va2fIAC",
+     "Origin": "Email",
+     "Status": "New",
+     "Topic__c": "Please select one",
+     "Sub_Topic__c": "Please select one",
+     "RecordTypeId": "0124J000000Cv1rQAA",
+     "OwnerId": "00G4J000000jcvjUAA",
+     "Initial_Case_Queue_Name__c": "Allstar_Chargepass",
+     "Queue_Email__c": null,
+     "CreatedDate": "2026-08-21T15:25:32.000+0000",
+     "Last_Email_Date__c": "2026-08-21T15:25:18.000+0000",
+     "Last_Owner_Queue_Name__c": "Allstar_Chargepass",
+     "Business_process__c": "Operations"
+    }
+   ]
+  },
+  "get_account_details__int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "Id": "001Ad000010Va2fIAC",
+     "Name": "Northgate Plumbing Ltd",
+     "Framework__c": null,
+     "Account_Segment__c": "SME",
+     "AS_Account_Administrator__c": "SME Unmanaged"
+    }
+   ]
+  },
+  "get_incoming_email_addresses_int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "Id": "02sAd0000001",
+     "FromAddress": "gt@zingtree.com",
+     "ToAddress": "customerservices@allstarcard.co.uk",
+     "CcAddress": "fleet.admin@example.co.uk; accounts@example.co.uk",
+     "Incoming": true,
+     "MessageDate": "2026-08-21T15:25:18.000+0000"
+    }
+   ]
+  },
+  "send_email_simple_int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "value": [
+    {
+     "actionName": "emailSimple",
+     "isSuccess": false,
+     "errors": [
+      {
+       "statusCode": "FIELD_CUSTOM_VALIDATION_EXCEPTION",
+       "message": "Sender address is not verified"
+      }
+     ],
+     "outputValues": {}
+    }
+   ]
+  },
+  "automate_hc_email_intent_int": {
+   "email_intent": [
+    "hc_missing_charges"
+   ],
+   "hc_response_variant": "",
+   "sentiment": "neutral",
+   "escalate_to_agent": false,
+   "escalate_reason": "",
+   "confidence_score": 94,
+   "confidence_score_extracts": "quoted wording from the email",
+   "ai_exception_reason": ""
+  },
+  "automate_hc_email_generation_int": {
+   "email": "<p>Hello,</p><p>Thanks for your email.</p><p>Kind regards,<br>Allstar Customer Support</p>"
+  }
+ },
+ "buttons": {
+  "1": "Process this case",
+  "53": "Yes - send email response"
+ },
+ "form_inputs": {
+  "51": {
+   "sf_Energy_Provider__c": "Octopus Energy",
+   "sf_Data_Provider__c": "Monta"
+  }
+ },
+ "expect": {
+  "data_node_calls": {
+   "send_email_simple_int": 1
+  },
+  "form_data": {
+   "emailSent": "false",
+   "errorEmailMessage": "Sender address is not verified"
+  },
+  "terminal_node": "43"
+ }
+}

@@ -1,0 +1,94 @@
+{
+  "tree_id": "227319134",
+  "preview_host": "https://zingtree.com/preview/",
+  "_note": "Insurance path only - start the walk at node 119. clinic_region is set here to prove the Brooklyn/Charlotte gate; in production nothing writes it yet (OI-4), so every clinic falls through to the master list. The alias_35 response shape is inferred, not captured (OI-6).",
+  "query_params": {
+    "clinic_cost_code": "A0111",
+    "clinic_region": "Brooklyn",
+    "name": "Ivy Rehab Brooklyn Heights",
+    "clinic_raintree_code": "01"
+  },
+  "connected_objects": {
+    "1021": "get_token",
+    "1214": "raintree__find_master_insurances",
+    "35": "alias_35"
+  },
+  "actions": {
+    "raintree__find_master_insurances": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "records": [
+        {
+          "code": "10001",
+          "name": "Aetna"
+        },
+        {
+          "code": "10002",
+          "name": "Blue Cross Blue Shield"
+        },
+        {
+          "code": "10003",
+          "name": "Cigna"
+        },
+        {
+          "code": "10004",
+          "name": "Medicare"
+        },
+        {
+          "code": "10005",
+          "name": "United Healthcare"
+        }
+      ]
+    },
+    "alias_35": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "value": [
+        {
+          "code": "10001",
+          "name": "Aetna"
+        },
+        {
+          "code": "10004",
+          "name": "Medicare"
+        }
+      ]
+    },
+    "get_token": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "access_token": "MOCK_TOKEN",
+      "token_type": "bearer",
+      "expires_in": 600
+    }
+  },
+  "form_inputs": {
+    "119": {},
+    "149": {
+      "insurance_select": "Aetna",
+      "patient_insurance_card": "No"
+    }
+  },
+  "expect": {
+    "data_node_calls": {
+      "alias_35": 1,
+      "raintree__find_master_insurances": 1
+    },
+    "form_data": {
+      "new_cost_code": "A0111"
+    }
+  },
+  "buttons": {
+    "119": "Insurance Accepted",
+    "149": "Thank you"
+  }
+}

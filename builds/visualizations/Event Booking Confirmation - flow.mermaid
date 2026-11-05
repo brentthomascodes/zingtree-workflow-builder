@@ -1,0 +1,18 @@
+flowchart TD
+  subgraph T1["Tree 1 — Aggregator & Send (id 700000001)"]
+    A1["1 · Script (root)<br/>Look up account in Salesforce (mock)<br/>→ transforms.sf_account"]:::script
+    A2["2 · Script<br/>Build email template + booking link<br/>→ email_summary_html, booking_link (ZV_ params)"]:::script
+    A3["3 · Content<br/>Enter recipient email address<br/>(native email field, required)"]:::content
+    A4["4 · Email<br/>Send booking-confirmation email<br/>email_send_now=1"]:::email
+    A5["5 · Content<br/>Email sent — confirmation delivered"]:::content
+    A1 --> A2 --> A3 -->|Send confirmation email| A4 --> A5
+  end
+  A4 -. "emailed link<br/>zingtree.com/live/12345?ZV_sf_...=..." .-> B1
+  subgraph T2["Tree 2 — Customer Details (id 12345)"]
+    B1["1 · Content (root)<br/>Confirm your booking details<br/>14 native fields pre-filled from ZV_ params"]:::content
+    B2["2 · Content<br/>Booking confirmed"]:::content
+    B1 -->|Confirm booking| B2
+  end
+  classDef script fill:#eef2ff,stroke:#6366f1,color:#312e81;
+  classDef content fill:#f0fdf4,stroke:#22c55e,color:#14532d;
+  classDef email fill:#fff7ed,stroke:#f97316,color:#7c2d12;

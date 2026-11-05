@@ -1,0 +1,41 @@
+flowchart TD
+    E1[E1 Vertical router - Script]
+    E1 -->|Universal/iCare/iStay| E2[E2 Dashboard prep - Content]
+    E1 -->|iPay| E12b[E2b Dashboard prep iPay - Content]
+
+    E2 --> E3[E3 Escalation triage - Script]
+    E3 --> E4[E4 Triage result - Content]
+    E4 -->|no action needed| E7
+    E4 -->|request pending / cancel+reissue / make payment| E5[E5 Action Taken updater - Script]
+    E5 --> E7[E7 Loop back to next payment - Content]
+    E7 -.->|return_tree_node_id| E3
+    E4 -.->|iPay high-dollar phone payment| E6[E6 2-attempt side check - Logic+Script]
+    E6 --> E5
+
+    E4 -->|de-escalation eligible| E8[E8 De-escalation gate + steps - Script]
+    E8 --> E9[E9 De-escalation steps - Content]
+    E9 -.->|out of scope, referenced only| CPP[Card Payment Processing dashboard]
+
+    E9 --> E10[E10 NS Escalation Sheet qualifier - Script]
+    E10 --> E7
+
+    E12b --> E11[E11 iPay triage - Script]
+    E11 --> E12[E12 iPay attempt result - Content]
+    E12 --> E13[E13 iPay special-cases router - Script]
+    E13 --> E14[E14 iPay special case guidance - Content]
+    E14 --> E7
+
+    E4 -.->|3+ invoice requests| E15[E15 Repeated Invoice Request gate - Script]
+    E15 --> E16[E16 Draft CAM escalation - Script/AI Action]
+    E16 --> E17[E17 Review and send - Content]
+    E17 --> E7
+
+    E4 -.->|iStay M3/Sage| E18[E18 ShareFile gate - Script]
+    E18 --> E3
+
+    E4 -.->|misapplied payment| E20[E20 Warning: do not resolve yourself - Content]
+    E20 --> E19[E19 Lock/clear prep - Script]
+    E19 --> E21[E21 Draft manager escalation - Script/AI Action]
+    E21 --> E7
+
+    E22[E22 claude.md tree memory - Content, unlinked]

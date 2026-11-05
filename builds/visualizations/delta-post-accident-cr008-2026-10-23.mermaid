@@ -1,0 +1,14 @@
+flowchart TD
+  P7[7 Script: RS determination] --> N19
+  P18[18 Script: accident determination] --> N19
+  N4[4/25 DOT alerts] --> N19
+  N12[12 No testing] --> N19
+  N19[19 Script: finalize + email staging] --> N34[(34 Data: salesforce__get_event_request NEW)]
+  N34 --> N35[35 Script: stage SF-only fields NEW]
+  N35 --> N20[20 Content: summary + collector overrides]
+  N20 -->|Send Emails| N36[36 Script: collector + questionnaire NEW]
+  N36 --> N21[/21 Email: Delta Summary/]
+  N21 --> N22[/22 Email: Thank You for Covering/]
+  N22 --> N23[23 Session Complete]
+  classDef new fill:#e0f2fe,stroke:#0284c7;
+  class N34,N35,N36 new;

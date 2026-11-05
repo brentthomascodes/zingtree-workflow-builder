@@ -1,0 +1,60 @@
+{
+  "_comment": "Agent goes Back to node 5 after BizPay accepted the Cancel Card -> node 49 sends them to disposition, no second POST.",
+  "tree_id": "563559070",
+  "preview_host": "https://zingtree.com/preview/",
+  "query_params": {
+    "cancel_submitted": true,
+    "post_result_html": ""
+  },
+  "connected_objects": {
+    "1299": "bizpay__get_payment_by_id",
+    "1300": "bizpay__post_payment_action"
+  },
+  "views": {},
+  "view_inputs": {},
+  "actions": {
+    "bizpay__get_payment_by_id": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "payment_id": 36216797,
+      "client_id": 2665,
+      "client_name": "Acetic Urchin",
+      "vendor_id": 5310609,
+      "client_vendor_id": 831532,
+      "payment_amount": 565.53,
+      "service_fee": 0,
+      "funding_amount": 565.53,
+      "manual_value_load_amount": 0,
+      "remaining_balance": 565.53,
+      "card_status": "Created",
+      "card_status_date": "2024-11-06",
+      "cancel_card_request_exists": false,
+      "cancel_card_request_approved": false,
+      "pega_case_id": ""
+    },
+    "bizpay__post_payment_action": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "success": true,
+      "message": "Cancelled Card Payment with Id 36216797",
+      "request_id": 4817
+    }
+  },
+  "form_inputs": {},
+  "buttons": {
+    "18": "Finish Tree"
+  },
+  "expect": {
+    "data_node_calls": {
+      "bizpay__post_payment_action": 0
+    },
+    "terminal_node": "19"
+  },
+  "ai_action_aliases": {}
+}

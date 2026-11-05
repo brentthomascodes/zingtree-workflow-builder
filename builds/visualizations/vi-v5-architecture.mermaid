@@ -1,0 +1,47 @@
+%% ETG Register Errands - VI: v5 sub-tree architecture
+%% VI is a drop-in replacement for Dynamic nodes 7/8/9 - nothing more.
+flowchart LR
+
+subgraph DYN["Register Errands - Dynamic (595124299) - UNMODIFIED"]
+  direction TB
+  d24["24 Set order context &amp; channel"] --> d75{"75 Is VI contact reason?"}
+  d75 -->|no| d7["7 Set Selected PNR's<br/><i>per-PNR cursor</i>"]
+  d7 --> d8["8 Select Passengers<br/><i>per PNR</i>"] --> d9["9 Format Passengers<br/><i>per PNR</i>"]
+  d75 -->|yes| d76[["76 Tree -> VI tree, node 83"]]
+  d9 --> d42["42 GET Edvin Errands"]
+  d42 --> d46["46 Format Types"] --> d1["1 Select Channel &amp; Type"] --> d2["2 Build record<br/>+ push current_pnr"]
+  d2 --> d11{"11 Is More PNR's?<br/><i>transforms.isMorePNR</i>"}
+  d11 -->|true| d7
+  d11 -->|false| d12["12 / 25 / 27<br/>action table + stitch &amp; group"]
+  d12 --> d31["31 Update Tags"] --> d3{"3 Any child tickets?"}
+  d3 --> dRest["32-41 child / grandchild<br/>21-22 note - 44-43-45 errands<br/>23 closing"]
+end
+
+subgraph VI["Register Errands - VI Dynamic (756760393) - 12 nodes"]
+  direction TB
+  v83["83 Set Group Context<br/><i>ROOT - reset + pnr_banner</i>"] --> v79["79 Select Passengers<br/><i>GROUP level, one pass</i>"]
+  v79 --> v80["80 Format Passengers<br/><i>GROUP level</i>"]
+  v80 --> v90["90 Trip &amp; Disruption Intake<br/><i>partner + disruption +<br/>delay + flight, one screen</i>"]
+  v90 --> v113["113 Resolve STG Ladder<br/><i>LADDERS + DISRUPTION tables</i>"]
+  v113 --> v114{"114 More STG Rungs?<br/><i>the only logic node</i>"}
+  v114 -->|"vi_more_rungs == true"| v115["115 Stage STG Rung<br/><i>cursor + zt-data select</i>"]
+  v115 --> v116["116 STG Offer Sequence<br/><i>the only ladder screen</i>"]
+  v116 --> v117["117 Record Rung Outcome"]
+  v117 --> v114
+  v114 -->|"ladder done / none"| v118["118 Collapse PNRs &amp; Exit<br/><b>THE HAND-OFF CONTRACT</b><br/><i>one current_pnr,<br/>isMorePNR = false</i>"]
+  v118 --> v77[["77 Tree -> Dynamic node 42"]]
+end
+
+d76 ==>|"replaces nodes 7/8/9"| v83
+v77 ==>|"one collapsed current_pnr<br/>isMorePNR = false"| d42
+
+classDef script fill:#eef2ff,stroke:#c7d2fe,color:#1e1b4b
+classDef logic fill:#fff7ed,stroke:#fed7aa,color:#7c2d12
+classDef screen fill:#f0fdf4,stroke:#bbf7d0,color:#14532d
+classDef hop fill:#fef2f2,stroke:#fecaca,color:#7f1d1d
+classDef replaced fill:#f3f4f6,stroke:#d1d5db,color:#9ca3af
+class v83,v80,v113,v115,v117,v118,d2,d46,d9,d7,d12,d31 script
+class v114,d75,d11,d3 logic
+class v79,v90,v116,d1,d8 screen
+class v77,d76 hop
+class d7,d8,d9 replaced

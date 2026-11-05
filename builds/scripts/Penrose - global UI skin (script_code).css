@@ -1,0 +1,115 @@
+/* ===================================================================
+   Penrose MH Master Triage — global UI skin  (Penrose / NHS blue)
+   ONE source of truth for the ENTIRE tree's look & feel.
+   Lives in the tree's script_code field (wrapped in <style>); a one-line
+   script adds class `pz-skin` to <body> so every rule is scoped.
+   Penrose is an NHS GP group ("part of the NHS family") so the palette is
+   the NHS blue system. Type is fully standardised: ONE font (Arial), ONE
+   body size (16px), ONE text colour (#212B32). Colour appears only in the
+   severity chip on the outcome card.
+   Edit here -> paste into script_code -> re-import => whole tree updates.
+   =================================================================== */
+
+:root{
+  --pz-ink:#212B32; --pz-sec:#4C6272; --pz-mut:#768692;
+  --pz-blue:#005EB8; --pz-blue-dk:#003087; --pz-blue-tint:#E8F0F7; --pz-blue-bd:#B3D0E8;
+  --pz-surface:#FFFFFF; --pz-soft:#F0F4F5; --pz-bd:#E4E9EB; --pz-bd-strong:#D8DDE0;
+  --pz-red:#D5281B; --pz-red-bg:#FDEEEC; --pz-red-bd:#F4C7C1;
+  --pz-amber:#8A5A10; --pz-amber-bg:#FFF4D6; --pz-amber-bd:#F0E0B0;
+  --pz-green:#007F3B; --pz-green-bg:#E7F3EC; --pz-green-bd:#BFE0CB;
+  --pz-radius:12px;
+  --pz-font:Arial,"Helvetica Neue",Helvetica,sans-serif;
+}
+
+/* ---- UNIFORM base: one font, one size, one colour ---- */
+body.pz-skin{ font-family:var(--pz-font); color:var(--pz-ink); background:var(--pz-surface); line-height:1.55; }
+.pz-skin, .pz-skin p, .pz-skin li, .pz-skin span, .pz-skin div, .pz-skin td, .pz-skin em, .pz-skin b, .pz-skin strong{
+  font-family:var(--pz-font); color:var(--pz-ink);
+}
+.pz-skin p, .pz-skin li{ font-size:16px; }
+.pz-skin h1,.pz-skin h2,.pz-skin h3,.pz-skin h4{ font-family:var(--pz-font)!important; color:var(--pz-ink)!important; line-height:1.3; letter-spacing:-.01em; }
+.pz-skin h1{font-size:22px!important;} .pz-skin h2{font-size:20px!important;}
+.pz-skin h3{font-size:18px!important;} .pz-skin h4{font-size:16px!important;}
+.pz-skin hr{ border:none; border-top:1px solid var(--pz-bd); margin:18px 0; }
+.pz-skin p:empty{ display:none; }
+
+/* ---- DE-NOISE: crush ALL pasted inline styling to the uniform base ---- */
+.pz-skin [style]{ font-family:var(--pz-font)!important; font-size:16px!important; color:var(--pz-ink)!important; }
+.pz-skin [id="isPasted"]{ margin:0 0 .5rem; }
+/* remove the stray empty green "copy" button that shipped inside pasted notes */
+.pz-skin .btn-success:empty{ display:none!important; }
+
+/* ---- "Say this" script blocks (Zingtree zt-content-block) ---- */
+.pz-skin .zt-content-block{
+  border:none!important; border-left:4px solid var(--pz-blue)!important;
+  background:var(--pz-soft)!important; border-radius:0 var(--pz-radius) var(--pz-radius) 0;
+  padding:13px 16px!important; margin:0 0 16px!important;
+}
+.pz-skin .zt-cb-title{ background:transparent!important; border:none!important; padding:0!important; margin:0 0 5px!important; }
+.pz-skin .zt-cb-title i,.pz-skin .zt-cb-icon{ display:none!important; }
+.pz-skin .zt-cb-title h3{ font-size:0!important; margin:0!important; }
+.pz-skin .zt-cb-title h3::after{
+  content:"SAY THIS"; font-size:11px!important; font-weight:700; letter-spacing:.07em;
+  color:var(--pz-blue)!important; font-family:var(--pz-font);
+}
+.pz-skin .zt-cb-body{ padding:0!important; background:transparent!important; }
+.pz-skin .zt-cb-body p{ font-style:italic; margin:0 0 6px; } .pz-skin .zt-cb-body p:last-child{ margin-bottom:0; }
+
+/* ---- callouts (add class in node content) ---- */
+.pz-skin .pz-tip,.pz-skin .pz-task,.pz-skin .pz-crisis{ border-radius:var(--pz-radius); padding:12px 15px; margin:0 0 16px; }
+.pz-skin .pz-tip{ background:var(--pz-blue-tint); border:1px solid var(--pz-blue-bd); }
+.pz-skin .pz-task{ background:var(--pz-green-bg); border:1px solid var(--pz-green-bd); }
+.pz-skin .pz-crisis{ background:var(--pz-red-bg); border:1px solid var(--pz-red-bd); }
+.pz-skin .pz-callout-title{ font-size:13px!important; font-weight:700; margin:0 0 8px; }
+.pz-skin .pz-row{ display:flex; justify-content:space-between; gap:12px; padding:7px 0; border-top:1px solid rgba(0,0,0,.06); }
+.pz-skin .pz-row:first-of-type{ border-top:none; }
+.pz-skin .pz-row b{ white-space:nowrap; }
+
+/* ---- native form fields (clean; no appearance override so the
+        filterable/native dropdown renders correctly) ---- */
+.pz-skin label,.pz-skin .zt-form-label,.pz-skin .form-label{
+  display:block; font-size:14.5px!important; font-weight:700; color:var(--pz-ink)!important; margin:0 0 7px;
+}
+.pz-skin select,.pz-skin input[type="text"],.pz-skin input[type="number"],
+.pz-skin input[type="email"],.pz-skin input[type="date"],.pz-skin textarea,.pz-skin .form-control{
+  width:100%; box-sizing:border-box; font-family:var(--pz-font); font-size:16px; color:var(--pz-ink);
+  background:var(--pz-surface); border:1px solid var(--pz-bd-strong); border-radius:8px;
+  padding:10px 12px; margin:0 0 16px; transition:border-color .15s, box-shadow .15s;
+}
+.pz-skin select:focus,.pz-skin input:focus,.pz-skin textarea:focus{
+  outline:none; border-color:var(--pz-blue); box-shadow:0 0 0 3px rgba(0,94,184,.15);
+}
+
+/* ---- nav / answer buttons (base template primary colour is also blue via
+        css_include; these keep it consistent if class names match) ---- */
+.pz-skin .zt-button,.pz-skin .zt-btn,.pz-skin .zingtree-button,.pz-skin .answer-button,.pz-skin .btn.zt-nav{
+  font-family:var(--pz-font)!important; font-weight:700!important; font-size:15px!important;
+  background:var(--pz-blue)!important; border:1px solid var(--pz-blue)!important; color:#fff!important;
+  border-radius:8px!important; padding:11px 18px!important; box-shadow:none!important;
+}
+.pz-skin .zt-button:hover,.pz-skin .zt-btn:hover,.pz-skin .zingtree-button:hover,
+.pz-skin .answer-button:hover,.pz-skin .btn.zt-nav:hover{ background:var(--pz-blue-dk)!important; border-color:var(--pz-blue-dk)!important; }
+
+/* ===================================================================
+   OUTCOME CARD  (node 90). Tone is baked into chip_html by the catalog,
+   so NO merge field is ever placed inside an HTML attribute.
+   =================================================================== */
+.pz-skin .pz-card{ border:1px solid var(--pz-bd); border-radius:13px; overflow:hidden; background:var(--pz-surface); box-shadow:0 1px 3px rgba(0,0,0,.05); margin:4px 0 20px; }
+.pz-skin .pz-card-head{ display:flex; align-items:center; gap:10px; padding:15px 18px; background:var(--pz-soft); border-bottom:1px solid var(--pz-bd); }
+.pz-skin .pz-card-title{ font-size:19px!important; font-weight:700; }
+.pz-skin .pz-chip{ margin-left:auto; font-size:11.5px!important; font-weight:700; letter-spacing:.02em; padding:4px 12px; border-radius:999px; white-space:nowrap; }
+.pz-skin .pz-chip-routine{ background:var(--pz-green-bg); color:var(--pz-green)!important; }
+.pz-skin .pz-chip-escalate,.pz-skin .pz-chip-urgent{ background:var(--pz-amber-bg); color:var(--pz-amber)!important; }
+.pz-skin .pz-chip-emergency{ background:var(--pz-red-bg); color:var(--pz-red)!important; }
+.pz-skin .pz-card-body{ padding:16px 18px; }
+.pz-skin .pz-mini{ font-size:10.5px!important; letter-spacing:.07em; text-transform:uppercase; color:var(--pz-mut)!important; font-weight:700; margin:0 0 8px; }
+.pz-skin .pz-suggested{ white-space:pre-line; font-size:16px!important; line-height:1.55; margin:0; }
+.pz-skin .pz-copy{ display:inline-flex; align-items:center; gap:7px; margin-top:14px; font-size:13px!important; font-weight:700; color:var(--pz-blue-dk)!important; background:var(--pz-surface); border:1px solid var(--pz-blue-bd); border-radius:8px; padding:8px 14px; cursor:pointer; text-decoration:none; transition:background .15s,border-color .15s; }
+.pz-skin .pz-copy:hover{ background:var(--pz-blue-tint); border-color:var(--pz-blue); }
+.pz-skin .pz-notes{ margin-top:18px; padding-top:16px; border-top:1px dashed var(--pz-bd); }
+.pz-skin .pz-notes p,.pz-skin .pz-notes li{ font-size:16px!important; }
+.pz-skin .pz-notes ul,.pz-skin .pz-notes ol{ padding-left:20px; }
+
+/* legacy copy button that carries text (keep it, in blue) */
+.pz-skin .btn-success:not(:empty){ background:var(--pz-blue)!important; border-color:var(--pz-blue)!important; color:#fff!important; border-radius:8px!important; font-weight:700!important; box-shadow:none!important; }
+.pz-skin .btn-success:not(:empty):hover{ background:var(--pz-blue-dk)!important; }

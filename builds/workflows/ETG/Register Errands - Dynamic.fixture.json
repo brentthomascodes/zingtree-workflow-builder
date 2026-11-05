@@ -1,0 +1,205 @@
+{
+ "tree_id": "218204451",
+ "preview_host": "https://eu.zingtree.com/preview/",
+ "query_params": {
+  "zd_ticket_id": "334818",
+  "custom_field_33772689958162": "1122-047-131",
+  "custom_field_29559177650834": "contact_reason__cancellation",
+  "custom_field_31213052370194": "genesys_interaction_type__call",
+  "custom_field_28137345621650": "en",
+  "custom_field_31975964556050": "conv-334818"
+ },
+ "connected_objects": {
+  "23": "findorder",
+  "57": "create_internal_note__no_group_id",
+  "20": "create_child_ticket",
+  "159": "edvin__errand_configuration",
+  "167": "get_edvin_prop_long_value",
+  "160": "edvin__register_errand",
+  "158": "get_side_conversation_detail",
+  "207": "zingtree_redesign__update_side_conversation",
+  "176": "findorder",
+  "178": "create_internal_note__no_group_id",
+  "157": "create_child_ticket",
+  "180": "create_child_ticket",
+  "182": "edvin__errand_configuration",
+  "183": "get_edvin_prop_long_value",
+  "184": "edvin__register_errand",
+  "181": "get_side_conversation_detail",
+  "201": "zingtree_redesign__update_side_conversation"
+ },
+ "actions": {
+  "findorder": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "orderReference": "1122-047-131",
+   "orderId": "O1",
+   "orderProviderBookingDetails": [
+    {
+     "id": "P1",
+     "pnr": "Y4JU9G",
+     "postSaleHandleType": "GDS",
+     "providerSystem": "Amadeus",
+     "orderReference": "1122-047-131"
+    }
+   ],
+   "orderLinkedProviderReferences": []
+  },
+  "get_edvin_prop_long_value": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "value": "CH-PHONE"
+  },
+  "edvin__errand_configuration": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "channels": [
+    {
+     "id": "CH-PHONE",
+     "name": "Phone",
+     "categories": [
+      {
+       "id": "CAT",
+       "name": "Cancellation",
+       "types": [
+        {
+         "id": "1321",
+         "name": "Voluntary - Fare rules",
+         "actions": [
+          {
+           "id": "1973",
+           "name": "Sent to support",
+           "bucket": {
+            "id": 4,
+            "name": "Proceed"
+           },
+           "edvin_actions": {}
+          },
+          {
+           "id": "1869",
+           "name": "Do not proceed",
+           "bucket": {
+            "id": 3,
+            "name": "No action"
+           },
+           "edvin_actions": {}
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "create_child_ticket": {
+   "_zt_meta": {
+    "response": {
+     "code": 201
+    }
+   },
+   "side_conversation": {
+    "id": "SC1"
+   }
+  },
+  "get_side_conversation_detail": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "side_conversations": [
+    {
+     "id": "SC1",
+     "external_ids": {
+      "targetTicketId": "400001"
+     }
+    }
+   ]
+  },
+  "zingtree_redesign__update_side_conversation": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   }
+  },
+  "create_internal_note__no_group_id": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   }
+  },
+  "edvin__register_errand": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   }
+  }
+ },
+ "form_inputs": {
+  "1": {
+   "type": "1321",
+   "notes": "test note"
+  },
+  "25": {
+   "customer_action_Y4JU9G_0": "1973"
+  },
+  "77": {
+   "api_selection": "First Line",
+   "errand_api_path": "fl_paths",
+   "contact_reason": "contact_reason__cancellation"
+  }
+ },
+ "buttons": {
+  "77": "95",
+  "78": "43",
+  "84": "33",
+  "23": "48"
+ },
+ "expect": {
+  "data_node_calls": {
+   "create_child_ticket": 1,
+   "edvin__register_errand": 1,
+   "create_internal_note__no_group_id": 1
+  },
+  "form_data": {
+   "is_more_pnrs": false
+  },
+  "terminal_node": "48",
+  "_note_api_log": "api_trail carries a wall-clock timestamp per entry, so it cannot be asserted by exact match here. The log's parsing, per-attempt grading, retry ordering and end-of-run fallback are covered deterministically by the build's own harness (verify.mjs, T5)."
+ },
+ "view_inputs": {
+  "6": {
+   "findorder": [
+    {
+     "id": "P1",
+     "pnr": "Y4JU9G",
+     "postSaleHandleType": "GDS",
+     "providerSystem": "Amadeus",
+     "orderReference": "1122-047-131"
+    }
+   ]
+  },
+  "8": {
+   "findorder": [
+    {
+     "passengerId": "X1",
+     "passengerFirstName": "Aslan",
+     "passengerLastName": "Yilmaz"
+    }
+   ]
+  }
+ }
+}

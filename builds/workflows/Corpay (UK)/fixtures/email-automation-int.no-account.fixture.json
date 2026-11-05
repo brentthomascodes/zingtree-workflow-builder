@@ -1,0 +1,122 @@
+{
+ "tree_id": "783808640",
+ "preview_host": "https://zingtree.com/preview/",
+ "query_params": {
+  "sf_Id": "500Ad00000c1OgmIAE",
+  "sf_Subject": "02716246 - Latest invoices",
+  "sf_CaseNumber": "02716246",
+  "sf_ContactId": "003Ad0000001"
+ },
+ "connected_objects": {
+  "1263": "sfdc_int__case_email_ai",
+  "1264": "get_account_details__int",
+  "1265": "get_incoming_email_addresses_int",
+  "1266": "send_email_simple_int"
+ },
+ "ai_action_aliases": {
+  "9": "automate_email_intent_int",
+  "16": "automate_email_generation_int"
+ },
+ "actions": {
+  "sfdc_int__case_email_ai": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "Id": "500Ad00000c1OgmIAE",
+     "CaseNumber": "02716246",
+     "Subject": "02716246 - Latest invoices",
+     "Description": "Hi,<br>Please can you send my invoice for August? Thanks, Helen",
+     "SuppliedEmail": "gt@zingtree.com",
+     "AccountId": null,
+     "Origin": "Email",
+     "Status": "New",
+     "Topic__c": "Please select one",
+     "Sub_Topic__c": "Please select one",
+     "RecordTypeId": "0124J000000Cv1rQAA",
+     "OwnerId": "00G4J000000jcvjUAA",
+     "Initial_Case_Queue_Name__c": "FAST_Admin",
+     "Queue_Email__c": null,
+     "CreatedDate": "2026-08-21T15:25:32.000+0000",
+     "Last_Email_Date__c": "2026-08-21T15:25:18.000+0000",
+     "Business_process__c": "Operations"
+    }
+   ]
+  },
+  "get_account_details__int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "Id": "001Ad000010Va2fIAC",
+     "Name": "Northgate Plumbing Ltd",
+     "Framework__c": null,
+     "Account_Segment__c": "SME",
+     "AS_Account_Administrator__c": "SME Unmanaged"
+    }
+   ]
+  },
+  "get_incoming_email_addresses_int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "Id": "02sAd0000001",
+     "FromAddress": "gt@zingtree.com",
+     "ToAddress": "customerservices@allstarcard.co.uk",
+     "CcAddress": "fleet.admin@example.co.uk; accounts@example.co.uk",
+     "Incoming": true,
+     "MessageDate": "2026-08-21T15:25:18.000+0000"
+    }
+   ]
+  },
+  "send_email_simple_int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "value": [
+    {
+     "actionName": "emailSimple",
+     "isSuccess": true,
+     "errors": [],
+     "outputValues": {}
+    }
+   ]
+  },
+  "automate_email_intent_int": {
+   "email_intent": [
+    "copy_invoice"
+   ],
+   "unlock_subtype": "",
+   "sentiment": "neutral",
+   "escalate_to_agent": false,
+   "escalate_reason": "",
+   "confidence_score": 96,
+   "confidence_score_extracts": "send my invoice for August"
+  },
+  "automate_email_generation_int": {
+   "email": "<p>Hello,</p><p>Thank you for contacting us. I can see that you would like a copy of your invoice(s). Simply <a href=\"http://www.allstaronline.co.uk/\">log in</a> and navigate to the Billing tab.</p><p>Kind regards,<br>Allstar Customer Support</p>"
+  }
+ },
+ "buttons": {
+  "1": "Process this case"
+ },
+ "form_inputs": {},
+ "expect": {
+  "data_node_calls": {
+   "get_account_details__int": 0
+  },
+  "terminal_node": "4"
+ }
+}

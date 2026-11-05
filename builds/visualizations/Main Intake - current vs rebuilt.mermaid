@@ -1,0 +1,44 @@
+%% Main Intake - CURRENT (button navigation, 26 nodes, duplicated vars/buttons)
+flowchart TD
+  subgraph CURRENT["CURRENT - button nav (26 nodes)"]
+    C2["Empathy & Permission"] -->|Yes| C3["Case Type (5 buttons)"]
+    C2 -->|attorney now| C90
+    C2 -->|in a hurry| C90
+    C3 -->|Auto| C10["Auto - When (eventDate)"]
+    C3 -->|Slip| C20["Slip - When (eventDate)"]
+    C3 -->|MedMal| C30["MedMal - When (eventDate)"]
+    C3 -->|WorkComp| C40["WC - Work related? (eventLoc)"]
+    C3 -->|Other| C50["Other Case Type"]
+    C10 --> C11["Auto - Injured (injured)"] --> C12["Auto - Treatment (medicalTreatment)"] --> C13["Auto - Fault"] --> C14["Auto - Insurance"] --> C90
+    C10 -->|>2yr| C95; C11 -->|no injury| C96; C13 -->|unclear| C97
+    C20 --> C21["Slip - Location (eventLoc)"] --> C22["Slip - Injured (injured)"] --> C23["Slip - Treatment (medicalTreatment)"] --> C90
+    C20 -->|>2yr| C95; C22 -->|no injury| C96
+    C30 --> C31["MedMal - Provider"] --> C32["MedMal - Harm"] --> C90
+    C30 -->|>2yr| C95; C32 -->|no| C97
+    C40 --> C41["WC - When (eventDate)"] --> C42["WC - Reported"] --> C90
+    C40 -->|not work| C50; C41 -->|>2yr| C95
+    C50 --> C90
+    C95["Statute of Limitations"] --> C90
+    C96["No Physical Injury"] --> C90
+    C97["Liability Unclear"] --> C90
+    C95 --> C99; C96 --> C99; C97 --> C99
+    C90["Collect Caller Info"] --> C91["Schedule Consultation"]
+    C90 --> C99["End of Call"]
+    C91 --> C92["Appointment Confirmed"]
+    C91 --> C93["Callback Scheduled"]
+  end
+
+%% Main Intake - REBUILT (one screen -> script -> router, 9 nodes + claude.md)
+flowchart TD
+  subgraph REBUILT["REBUILT - one screen + script + router (9 nodes)"]
+    R2["Personal Injury Intake<br/>(native conditional fields:<br/>proceed_mode, case_type, event_date,<br/>injured, treatment + per-type fields)"] --> R100
+    R100["Evaluate Intake and Route (Script)<br/>sets needs_review_offer + route_*,<br/>stages review/summary HTML"] --> R101{"Route Caller (router)<br/>needs_review_offer == true?"}
+    R101 -->|true| R95["Attorney Review Offer<br/>(shared: SOL / no-injury /<br/>liability / other message)"]
+    R101 -->|default| R90["Collect Caller Info<br/>(+ intake summary + copy note)"]
+    R95 -->|Yes| R90
+    R95 -->|No| R99["End of Call"]
+    R90 -->|collected| R91["Schedule Consultation"]
+    R90 -->|declines| R99
+    R91 --> R92["Appointment Confirmed"]
+    R91 --> R93["Callback Scheduled"]
+  end

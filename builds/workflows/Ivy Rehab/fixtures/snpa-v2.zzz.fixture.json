@@ -1,0 +1,41 @@
+{
+  "tree_id": "227319134",
+  "preview_host": "https://zingtree.com/preview/",
+  "_note": "Insurance path, dropdown clinic. Static catalogue, no Connected Object on this path.",
+  "query_params": {
+    "clinic_raintree_code": "ZZZ",
+    "name": "Ivy Rehab Brooklyn Heights"
+  },
+  "connected_objects": {
+    "35": "alias_35"
+  },
+  "actions": {
+    "alias_35": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "insurance_list": [
+        "Aetna - Commercial"
+      ]
+    }
+  },
+  "form_inputs": {
+    "199": {
+      "is_using_insurance": "Yes",
+      "insurance_selection": "BCBS"
+    }
+  },
+  "buttons": {
+    "184": "Neither",
+    "199": "Continue"
+  },
+  "expect": {
+    "form_data": {
+      "is_display_insurance_dropdown": "true",
+      "patient_insurance_rt_code": "10003"
+    },
+    "terminal_node": "149"
+  }
+}

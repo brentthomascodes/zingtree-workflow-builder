@@ -1,0 +1,26 @@
+{
+ "_comment": "Adyen Underperformance Playbook - CR-1 feedback A/B test. Invented agent; no Connected Objects. Start the walk at node 30 (group A) or 31 (group B): the A/B node is random, the walk cannot pick a row.",
+ "tree_id": "629304572",
+ "preview_host": "https://eu.zingtree.com/preview/",
+ "query_params": {
+  "ab_group": "survey"
+ },
+ "connected_objects": {},
+ "views": {},
+ "view_inputs": {},
+ "actions": {},
+ "ai_action_aliases": {},
+ "form_inputs": {
+  "32": {
+   "wrapup_outcome": "Escalating the case",
+   "wrapup_comment": ""
+  }
+ },
+ "buttons": {},
+ "expect": {
+  "form_data": {
+   "wrapup_outcome": "Escalating the case"
+  },
+  "terminal_node": "34"
+ }
+}

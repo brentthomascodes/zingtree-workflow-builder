@@ -1,0 +1,21 @@
+{
+  "priority": "primary",
+  "effectiveFrom": "${effective_year}-01-01",
+  "subscriberId": "${subscriber_id}",
+  "groupId": "${group_number}",
+  "insurance": {
+    "code": "${patient_insurance_rt_code}"
+  },
+  "subscriber": {
+    "relationship": "${subscriber_relationship}",
+    "firstName": "${subscriber_first_name}",
+    "lastName": "${subscriber_last_name}",
+    "middleName": "${subscriber_middle_initial}",
+    "dob": "${subscriber_dob_iso}",
+    "address": "${subscriber_address}",
+    "city": "${patient_city}",
+    "state": "${patient_state}",
+    "zipCode": "${patient_zipcode}",
+    "phone": "${subscriber_phone}"
+  }
+}

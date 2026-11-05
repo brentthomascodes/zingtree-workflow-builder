@@ -1,0 +1,39 @@
+%% Adyen Underperformance Playbook - consolidated single tree (proposed)
+%% Every path converges on the catalog -> Recommended actions -> Email -> Summary sent. No dead ends.
+flowchart TD
+    entry["Select the underperformance scenario (root)"]
+
+    entry -->|MOB alert| mob["Validate the MOB alert"]
+    entry -->|Noticed while reviewing| sanity["Run sanity checks"]
+    entry -->|Vs. competitor| competitor["Confirm a fair comparison"]
+    entry -->|Uplift: Payment Conversion Rate| pcr["Assess PCR underperformance"]
+    entry -->|Uplift: Fraud rate| fraud["Assess Fraud rate"]
+
+    mob --> mobE{{"Determine MOB outcome"}} --> mobR{"Sanity needed?"}
+    mobR -->|yes| sanity
+    mobR -->|no| catalog
+
+    sanity --> sanE{{"Build sanity findings"}} --> sanR{"Factors ruled out?"}
+    sanR -->|investigate| deep["Isolate the source"]
+    sanR -->|no| catalog
+
+    deep --> deepE{{"Determine source outcome"}} --> deepR{"Check decline reason?"}
+    deepR -->|yes| decline["Select dominant decline reason"]
+    deepR -->|no| catalog
+
+    competitor --> compR{"Comparison fair?"}
+    compR -->|fair| decline
+    compR -->|not fair| catalog
+
+    pcr --> pcrE{{"Determine PCR outcome"}} --> pcrR{"Troubleshoot Protect?"}
+    pcrR -->|yes| protectml["Troubleshoot Protect"]
+    pcrR -->|no| catalog
+    protectml --> catalog
+
+    fraud --> fraudE{{"Determine Fraud outcome"}} --> catalog
+    decline --> declineE{{"Determine decline outcome"}} --> catalog
+
+    catalog{{"Build recommended actions (OUTCOMES catalog script)"}}
+    catalog --> outcome["Recommended actions (dynamic HTML)"]
+    outcome --> email[/"Email the session summary"/]
+    email --> sent["Summary sent - complete (single terminal)"]

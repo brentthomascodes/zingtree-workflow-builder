@@ -29,9 +29,9 @@ Then `references/patterns.md` for platform-shape rules (router shape, roots, imp
 node shapes, the claude.md node, multi-tree), and the topical references on demand (index at
 the end).
 
-If a workspace is connected: `Zingtree Builder/Script Library/` holds reusable production
-scripts — check it before writing from scratch — and `Zingtree Builder/Workflow JSONs/<Account>/`
-holds exports, fixtures, contracts and diffs. There is no `Zingtree Builder/MEMORY.md` any
+`builds/scripts/` holds reusable production scripts — check it before writing from scratch —
+and `builds/workflows/<Account>/` holds exports, fixtures, contracts and diffs (both in this
+repo since Nov 2026; pull first). There is no `Zingtree Builder/MEMORY.md` any
 more; its rules live here.
 
 ## The seven rules that decide most reviews
@@ -115,8 +115,7 @@ consolidate for its own sake — say when a plain logic node is clearer.
 Every build, review or idea session produces a diagram of the flow (current vs proposed when
 recommending changes): nodes as boxes labeled by type, branches labeled with the flag or
 button, Data / AI nodes and loops visually distinct. Use the environment's visualization tool
-for the interactive view and save a `.mermaid`/`.html` copy to `Zingtree Builder/Visualizations/`
-when the workspace is connected. Brent thinks in diagrams. White / light theme only.
+for the interactive view and save a `.mermaid`/`.html` copy to `builds/visualizations/`. Brent thinks in diagrams. White / light theme only.
 
 ### 5. Build
 
@@ -161,7 +160,7 @@ Brent the preview URL and the list of live-only checks, including one unmocked r
 - Plain change summary leading with the untouched count (`09-workflow-diff.md`); the saved
   diff report; the lint, walk and contract output.
 - The JSON as a new descriptively named file with the `claude.md` node updated (sections +
-  changelog entry), to `Zingtree Builder/Workflow JSONs/<Account>/`.
+  changelog entry), to `builds/workflows/<Account>/`.
 - The fixture and the preview URL.
 - Scripts as verbatim-usable node bodies; no separate "improved scripts" narrative — the
   diff is the narrative.
@@ -178,7 +177,7 @@ reference build (`10-reference-builds.md`) rather than a blank canvas.
 
 ## Nothing gets built without a requirements doc
 
-`Zingtree Builder/Requirements/<Account>/<tree-slug>-requirements.md` — numbered requirements,
+`builds/requirements/<Account>/<tree-slug>-requirements.md` — numbered requirements,
 change requests appended, agreed text never edited. A CR's "deliberately not fixed / needs a
 live run" list is a boundary; a documented interim for a blocked requirement is a build
 instruction. When the engine rejects a shape live, stop and bring the error back.

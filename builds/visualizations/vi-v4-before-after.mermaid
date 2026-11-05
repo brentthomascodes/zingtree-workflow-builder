@@ -1,0 +1,59 @@
+%% ETG Register Errands - VI Dynamic : v2/v3 (as built by Olga) vs v4 (rebuilt)
+flowchart TB
+
+subgraph BEFORE["BEFORE - 37 nodes, 24 in the VI decision block, 11 logic nodes, 13 ladder screens"]
+  direction TB
+  b78["78 Select Brand<br/><i>Content</i>"] --> b83["83 Set Group Context<br/><i>Script</i>"]
+  b83 --> b79["79 Select Passengers<br/><i>Content</i>"] --> b80["80 Format Passengers<br/><i>Script</i>"]
+  b80 --> b90["90 partner selection<br/><i>Content</i>"] --> b120["120 Compute Partner &amp; Date<br/><i>Script</i>"]
+  b120 --> b121{"121 Partner &amp; Date Routing"}
+  b121 -->|Booking / ETG pre| b92["92 Bcom &amp; ETG prior<br/>disruption radio"]
+  b121 -->|ETG post| b103["103 ETG post 22may<br/>disruption radio"]
+  b92 --> b93{"93 Continue"}
+  b103 --> b104{"104 Continue"}
+  b93 -->|SC| b94["94 Same day alt"]
+  b93 -->|delay| b99["99 Delay same day"]
+  b104 -->|SC within| b105["105 ETG post same day"]
+  b104 -->|SC outside| b94
+  b104 -->|delay| b109["109 ETG post delay"]
+  b94 --> b95{"95 logic"} -->|none| b96["96 overnight"] --> b97{"97 logic"} -->|none| b98["98 Bcom Refund offer"]
+  b99 --> b100{"100 logic"} -->|none| b101["101 overnight"] --> b102{"102 logic"} -->|none| b98
+  b105 --> b106{"106 logic"} -->|none| b107["107 overnight"] --> b108{"108 logic"} -->|none| b98
+  b109 --> b110{"110 logic"} -->|none| b111["111 overnight"] --> b112{"112 logic"} -->|none| b98
+  b95 -.accept.-> b42b["42 GET Edvin Errands"]
+  b97 -.accept.-> b42b
+  b100 -.accept.-> b42b
+  b102 -.accept.-> b42b
+  b106 -.accept.-> b42b
+  b108 -.accept.-> b42b
+  b110 -.accept.-> b42b
+  b112 -.accept.-> b42b
+  b98 --> b42b
+  b42b --> b46b["46 Format Types"] --> b81b["81 Channel &amp; Type"] --> b82b["82 Collapsed Record"]
+  b82b --> b12b["12/25/27 shared"] --> b77b["77 -> Dynamic node 3"]
+end
+
+subgraph AFTER["AFTER - 18 nodes, 5 in the VI decision block, 1 logic node, 1 ladder screen"]
+  direction TB
+  a83["83 Set Group Context<br/><i>Script - ROOT</i>"] --> a79["79 Select Passengers<br/><i>Content</i>"]
+  a79 --> a80["80 Format Passengers<br/><i>Script</i>"]
+  a80 --> a90["90 Trip &amp; Disruption Intake<br/><i>Content - brand + partner +<br/>disruption + delay + flight</i>"]
+  a90 --> a113["113 Resolve STG Ladder<br/><i>Script - LADDERS + DISRUPTION<br/>lookup tables -> rungs[]</i>"]
+  a113 --> a114{"114 More STG Rungs?<br/><i>the only logic node</i>"}
+  a114 -->|"vi_more_rungs == true"| a115["115 Stage STG Rung<br/><i>Script - cursor</i>"]
+  a115 --> a116["116 STG Offer Sequence<br/><i>Content - the only ladder screen,<br/>options from vi_rung_options</i>"]
+  a116 --> a117["117 Record Rung Outcome<br/><i>Script - accept exits,<br/>decline advances</i>"]
+  a117 --> a114
+  a114 -->|default: ladder done<br/>or no ladder| a42["42 GET Edvin Errands"]
+  a42 --> a46["46 Format Types"] --> a81["81 Channel &amp; Type"] --> a82["82 Collapsed Record<br/><i>+ STG outcome</i>"]
+  a82 --> a12["12/25/27 shared, unchanged"] --> a77["77 -> Dynamic node 3"]
+end
+
+classDef script fill:#eef2ff,stroke:#c7d2fe,color:#1e1b4b
+classDef logic fill:#fff7ed,stroke:#fed7aa,color:#7c2d12
+classDef screen fill:#f0fdf4,stroke:#bbf7d0,color:#14532d
+classDef shared fill:#f9fafb,stroke:#e5e7eb,color:#344054
+class b83,b120,b82b,b12b,a83,a80,a113,a115,a117,a82,a12,a46,b80,b46b script
+class b121,b93,b104,b95,b97,b100,b102,b106,b108,b110,b112,a114 logic
+class b78,b79,b90,b92,b103,b94,b99,b105,b109,b96,b101,b107,b111,b98,b81b,a79,a90,a116,a81 screen
+class b42b,b77b,a42,a77 shared

@@ -1,0 +1,54 @@
+%% Delta Post Accident (tree 683028422) — CURRENT vs REBUILT, 2026-07-22
+%% Rebuild from post-UAT call feedback (Chris LeDoux / Fahim Ziyad)
+
+%% ============ CURRENT (30 nodes; 6 orphaned; broken routers; notes/questions not in email) ============
+flowchart TD
+  subgraph CURRENT["CURRENT — 30 nodes"]
+    c1["1 Content: DOT Check"] --> c2{"2 Scoring: DOT?"}
+    c2 -->|any Yes| c3["3 DOT Stop/Call"] --> c51c["51 RS Summary"]
+    c2 -->|else| c46{"46 Is Suspicion?<br/>(blank expr)"}
+    c46 -->|sf_Event_Type| c47["47 Suspicion Details"]
+    c46 -->|else| c7["7 No-Testing Assess<br/>(+ hours_elapsed field)"]
+    c7 --> c8{"8 No-Testing Route"}
+    c8 -->|yes| c9["9 No Testing Req"] --> c32["32 Summary+Payload"]
+    c8 -->|else| c38["38 Select Damage"]
+    c38 --> c42["42 Iterate"] --> c10["10 Assessment"] --> c43["43 Store"] --> c44{"44 More?<br/>(blank expr)"}
+    c44 -->|is_more| c42
+    c44 -->|else| c11["11 Determination<br/>(crashes → error box)"]
+    c11 --> c15["15 Result"] --> c32
+    c32 --> c33["33 Summary<br/>(test email field)"] --> c16["16 Email Internal<br/>```html fence bug"]
+    c16 --> c17["17 Email OSM"] --> c35["35 END"]
+    c47 --> c50["50 RS Determination"] --> c48{"48 Is DOT Emp?<br/>(blank expr)"}
+    c48 --> c51c
+    c48 --> c49["49 WFH"] --> c51c
+    c51c --> c33
+    cX["ORPHANS (unreachable):<br/>34 Tree · 36 · 37 · 40 · 41 · 45"]
+  end
+
+%% ============ REBUILT (27 nodes; compact 1..27; boolean routers; notes+questions in email; claude.md) ============
+flowchart TD
+  subgraph REBUILT["REBUILT — 27 nodes (1..27 compact)"]
+    r1["1 Content: DOT Check"] --> r2["2 Script: Evaluate DOT Factors<br/>is_dot_accident · is_suspicion"]
+    r2 --> r3{"3 Router: is_dot_accident"}
+    r3 -->|true| r4["4 DOT Stop/Call"] --> r26["26 Script: Build Suspicion Summary"]
+    r3 -->|false| r5{"5 Router: is_suspicion"}
+    r5 -->|true| r22["22 Suspicion Details"]
+    r5 -->|false| r6["6 No-Testing Assess<br/>(hours field REMOVED)"]
+    r6 --> r7["7 Script: Evaluate No-Testing<br/>no_testing_confirmed"]
+    r7 --> r8{"8 Router: no_testing_confirmed"}
+    r8 -->|true| r9["9 No Testing Req"] --> r17["17 Script: Location Rules & Summary"]
+    r8 -->|false| r10["10 Select Damage"]
+    r10 --> r11["11 Script: Next Damage Type"] --> r12["12 Assessment"] --> r13["13 Script: Save Answers"]
+    r13 --> r14{"14 Router: is_more_damage_types"}
+    r14 -->|true| r11
+    r14 -->|false| r15["15 Script: Determination<br/>guarded · always sets summary"]
+    r15 --> r16["16 Result"] --> r17
+    r17 --> r18["18 Review & Send"] --> r19["19 Email: Collector<br/>→ collector_email"]
+    r19 --> r20["20 Email: OSM<br/>→ osm_email · subj: airport code"]
+    r20 --> r21["21 Workflow Complete"]
+    r22 --> r23["23 Script: Evaluate Suspicion"] --> r24{"24 Router: rs_is_wfh"}
+    r24 -->|true| r25["25 WFH Hotline"] --> r26
+    r24 -->|false| r26
+    r26 --> r18
+    r27["27 claude.md (unlinked memory)"]
+  end

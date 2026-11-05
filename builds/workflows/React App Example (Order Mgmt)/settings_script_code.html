@@ -1,0 +1,212 @@
+<!--
+  TREE SETTINGS > CUSTOM CODE  (project.script_code)
+  ===========================================================================
+  Lightweight, self-contained state-management app. NO framework, NO external
+  CDN — so nothing can fail to load. It runs in the same document as the node
+  content (proven by the Adyen tree), watches the DOM, and (re)renders the app
+  whenever the Order Manager screen appears.
+
+  Model (Brent's framing): the browser NEVER calls an API. Every data operation
+  is a *navigation* to a Script / Data Connected Node. The app only:
+    1. holds UI state (which order is selected, action params),
+    2. writes the choice into hidden zt-data inputs,
+    3. clicks the matching native Zingtree action button to advance.
+  Zingtree then routes to the format+post script (nodes 4/5), which is where the
+  "API request" actually happens, and loops back to re-render.
+-->
+<script>
+(function () {
+  "use strict";
+
+  var MOUNT  = "zt-order-app";
+  var MARKER = "zt-app-marker";     // present only on the Order Manager node
+
+  // Each app action maps to a native Zingtree button (by its visible text).
+  var ACTIONS = [
+    { key: "refund", label: "Refund selected", zt: "Submit Refund", cls: "refund" },
+    { key: "reship", label: "Reship selected", zt: "Submit Reship", cls: "reship" },
+    { key: "finish", label: "Submit &amp; finish", zt: "Finish",     cls: "finish" }
+  ];
+
+  var state = { orders: [], selectedId: "", customer: "" };
+  var lastEl = null, lastSig = "";
+
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+
+  function findNative(text) {
+    var want = text.trim().toLowerCase();
+    var els = document.querySelectorAll("a, button");
+    for (var i = 0; i < els.length; i++) {
+      if ((els[i].textContent || "").trim().toLowerCase() === want) return els[i];
+    }
+    return null;
+  }
+
+  function hideNativeButtons() {
+    ACTIONS.forEach(function (a) {
+      var el = findNative(a.zt);
+      if (el) {
+        var row = el.closest("li") || el.closest(".answer") || el;
+        row.style.display = "none";
+      }
+    });
+  }
+
+  function setInput(id, value) {
+    var el = $(id);
+    if (!el) return;
+    el.value = value;
+    el.dispatchEvent(new Event("input",  { bubbles: true }));
+    el.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+
+  function selected() {
+    for (var i = 0; i < state.orders.length; i++) {
+      if (state.orders[i].order_id === state.selectedId) return state.orders[i];
+    }
+    return {};
+  }
+
+  // Stage the choice into hidden inputs, then click the real Zingtree button.
+  function runAction(key) {
+    var a = null;
+    for (var i = 0; i < ACTIONS.length; i++) if (ACTIONS[i].key === key) a = ACTIONS[i];
+    if (!a) return;
+
+    if (key !== "finish") {
+      var reason = ($("zt-refund-reason") || {}).value || "Customer request";
+      var speed  = ($("zt-ship-speed")    || {}).value || "Standard";
+      var o = selected();
+      var payload = key === "refund"
+        ? { amount: o.amount, reason: reason }
+        : { qty: o.qty, ship_speed: speed };
+      setInput("zt_selected_order_id", state.selectedId);
+      setInput("zt_selected_action", key);
+      setInput("zt_action_payload", JSON.stringify(payload));
+    }
+    var native = findNative(a.zt);
+    if (native) native.click();
+  }
+
+  function rowsHtml() {
+    return state.orders.map(function (o) {
+      var sel = o.order_id === state.selectedId;
+      return '<tr class="zt-row' + (sel ? " sel" : "") + '" data-id="' + esc(o.order_id) + '">' +
+               '<td><input type="radio" ' + (sel ? "checked" : "") + ' readonly></td>' +
+               '<td><strong>' + esc(o.order_id) + '</strong><div class="hint">' + esc(o.placed_on) + '</div></td>' +
+               '<td>' + esc(o.item) + '<div class="hint">Qty ' + esc(o.qty) + '</div></td>' +
+               '<td>' + esc(o.amount_display) + '</td>' +
+               '<td><span class="pill ' + esc(o.status) + '">' + esc(o.status) + '</span>' +
+                   (o.tracking ? '<div class="hint">' + esc(o.tracking) + '</div>' : "") + '</td>' +
+             '</tr>';
+    }).join("");
+  }
+
+  function render() {
+    var app = $(MOUNT);
+    if (!app) return;
+    var o = selected();
+
+    app.innerHTML =
+      '<div class="zt-card">' +
+        '<h2>Orders for ' + esc(state.customer) + '</h2>' +
+        '<div class="sub">' + state.orders.length + ' orders · click a row to select</div>' +
+        '<table><thead><tr><th></th><th>Order</th><th>Item</th><th>Amount</th><th>Status</th></tr></thead>' +
+        '<tbody>' + rowsHtml() + '</tbody></table>' +
+        '<div class="params">' +
+          '<label>Refund reason ' +
+            '<select id="zt-refund-reason"><option>Customer request</option><option>Damaged</option><option>Wrong item</option></select>' +
+          '</label>' +
+          '<label>Reship speed ' +
+            '<select id="zt-ship-speed"><option>Standard</option><option>Express</option></select>' +
+          '</label>' +
+        '</div>' +
+        '<div class="bar">' +
+          '<button class="act refund" data-act="refund"' + (o.can_refund ? "" : " disabled") + '>Refund selected</button>' +
+          '<button class="act reship" data-act="reship"' + (o.can_reship ? "" : " disabled") + '>Reship selected</button>' +
+          '<button class="act finish" data-act="finish">Submit &amp; finish</button>' +
+        '</div>' +
+      '</div>';
+
+    // keep the hidden zt-data input in sync with the current selection
+    setInput("zt_selected_order_id", state.selectedId);
+
+    if (!app.__ztBound) {
+      app.addEventListener("click", function (ev) {
+        var row = ev.target.closest(".zt-row");
+        if (row) { state.selectedId = row.getAttribute("data-id"); render(); return; }
+        var btn = ev.target.closest(".act");
+        if (btn) { runAction(btn.getAttribute("data-act")); }
+      });
+      app.__ztBound = true;
+    }
+  }
+
+  function readData() {
+    var island = $("zt-order-data");
+    if (!island) return null;
+    try { return JSON.parse(island.textContent); } catch (e) { return null; }
+  }
+
+  function refresh() {
+    var onScreen = !!$(MARKER);
+    if (!onScreen) { lastEl = null; lastSig = ""; return; }
+
+    var app = $(MOUNT);
+    if (!app) return;
+    var data = readData();
+    if (!data) return;
+
+    // Re-render only when the app node or the data actually changed. This also
+    // stops our own innerHTML writes from re-triggering the observer forever.
+    var sig = data.generated_at || "";
+    if (app === lastEl && sig === lastSig) return;
+    lastEl = app; lastSig = sig;
+
+    state.orders = data.orders || [];
+    state.customer = data.customer_id || "";
+    state.selectedId = state.orders.length ? state.orders[0].order_id : "";
+
+    hideNativeButtons();
+    render();
+  }
+
+  // Observer FIRST — before anything that could throw — so a bad render never
+  // leaves the app dead. Every callback is guarded.
+  var obs = new MutationObserver(function () { try { refresh(); } catch (e) {} });
+  obs.observe(document.documentElement, { childList: true, subtree: true });
+  document.addEventListener("DOMContentLoaded", function () { try { refresh(); } catch (e) {} });
+  try { refresh(); } catch (e) {}
+})();
+</script>
+
+<style>
+  #zt-order-app * { box-sizing: border-box; }
+  #zt-order-app .zt-card { font-family: -apple-system, Segoe UI, Roboto, sans-serif; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px 18px; max-width: 840px; }
+  #zt-order-app h2 { margin: 0 0 4px; font-size: 20px; }
+  #zt-order-app .sub { color: #6b7280; font-size: 13px; margin-bottom: 14px; }
+  #zt-order-app table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  #zt-order-app th { text-align: left; color: #6b7280; font-weight: 600; padding: 8px 10px; border-bottom: 1px solid #e5e7eb; }
+  #zt-order-app td { padding: 10px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+  #zt-order-app tr.zt-row { cursor: pointer; }
+  #zt-order-app tr.sel { background: #eef2ff; }
+  #zt-order-app .hint { color: #6b7280; font-size: 12px; }
+  #zt-order-app .pill { font-size: 12px; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+  #zt-order-app .pill.Delivered  { background: #dcfce7; color: #166534; }
+  #zt-order-app .pill.Shipped    { background: #dbeafe; color: #1e40af; }
+  #zt-order-app .pill.Processing { background: #fef9c3; color: #854d0e; }
+  #zt-order-app .pill.Refunded   { background: #fee2e2; color: #991b1b; }
+  #zt-order-app .params { display: flex; gap: 18px; margin-top: 14px; font-size: 13px; color: #374151; }
+  #zt-order-app .params select { margin-left: 6px; padding: 4px 6px; }
+  #zt-order-app .bar { display: flex; gap: 10px; align-items: center; margin-top: 16px; flex-wrap: wrap; }
+  #zt-order-app button.act { border: 0; border-radius: 8px; padding: 9px 14px; font-weight: 600; cursor: pointer; font-size: 14px; }
+  #zt-order-app button.refund { background: #fee2e2; color: #991b1b; }
+  #zt-order-app button.reship { background: #eef2ff; color: #3730a3; }
+  #zt-order-app button.finish { background: #f3f4f6; color: #374151; margin-left: auto; }
+  #zt-order-app button.act:disabled { opacity: .4; cursor: not-allowed; }
+</style>

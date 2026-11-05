@@ -1,0 +1,95 @@
+<pre># claude.md - Vault File Upload - Test and Maintenance (org 605565 "Brent Thomas - Sandbox")
+
+## Purpose
+Test, demo and maintenance copy of the Corpay UK vault file upload: the agent uploads a file
+into the Zingtree vault, the tree attaches it to a Salesforce case as a ContentVersion and then
+deletes the vault copy. Every step is graded; every failure lands on one screen with Retry
+(same file, fresh link) or Upload a different file. Built from GT's demo "test doc upload sfdc"
+(tree 324193954, org 605481), which covers the happy path only.
+Requirements: Zingtree Builder/Requirements/Corpay (UK)/vault-file-upload-requirements.md
+
+## Architecture
+1  Content  Upload a file for the case: vault field vault_file_uid (required), test_case_id,
+            test_scenario, test_mock_scope -> 2
+2  Script   Start the attempt: vault_attempt + 1, case_id, mock flags, seeds mocks -> 3
+3  Scoring  File uploaded? Fetch the link live?  has_file == 'false' -> 14 |
+            mock_vault == 'true' -> 5 | else -> 4
+4  Data     Get the vault download link (CO 1301 zingtree__get_vault_file) -> 5
+5  Script   Grade the download link: vault_download_url, file_name, is_link_ok -> 6
+6  Scoring  Download link received?  is_link_ok == 'true' -> 7 | else -> 14
+7  Content  Ready to attach (browser reads the file meanwhile) -> Attach to case -> 8
+8  Script   Stage the file for Salesforce: file_base64 to a transform, form copy blanked -> 9
+9  Scoring  Send to Salesforce?  sf_route == 'error' -> 14 | 'mock' -> 11 | else -> 10
+10 Data     Attach the file to the Salesforce case (CO 1303 sfdc__create_content_version) -> 11
+11 Script   Grade the Salesforce upload: content_version_id, delete_route -> 12
+12 Scoring  Delete the vault copy?  delete_route == 'error' -> 14 | 'mock' -> 15 | else -> 13
+13 Data     Delete the file from the vault (CO 1302 zingtree__delete_vault_file) -> 15
+14 Content  File not attached: Retry with the same file -> 2 | Upload a different file -> 1
+15 Script   Grade the delete and build the result -> 16
+16 Content  File attached to the case (${transforms.vault_result_html})
+17 Content  claude.md (this node, unlinked)
+Tree script_code: (1) on node 1, keeps Continue disabled (and blocks the click) until
+form_data.vault_file_uid is set, with a hint under the button; (2) reads the file in the
+browser when vault_download_url changes and writes file_base64 (or file_read_error) back with
+assignSessionVar. Node 2 re-checks vault_file_uid on the server as the backstop.
+
+## Data dictionary
+Form data
+- vault_file_uid      vault field on 1; read by CO 1301 and 1302 URL templates
+- test_case_id, test_scenario, test_mock_scope   fields on 1; read by 2
+- vault_attempt       2 (+1 per attempt); read by 2, 14, 15 and the CO 1301 URL (cache key)
+- has_file            2 -> router 3
+- mock_vault, mock_salesforce   2 -> routers 3, 11 / 8 ("true" / "false" strings)
+- case_id             2 (test_case_id or 500Ad00000MOCK0001); read by 7, 15 and the CO 1303 template
+- vault_download_url  2 (cleared), 5 (link), 8 (cleared); read by the browser script_code
+- file_name           5 (from response-content-disposition); read by 7, 8, 15
+- is_link_ok          5 -> router 6
+- file_base64, file_read_error   browser script_code; read by 8; 8 blanks file_base64
+- sf_route            8 -> router 9 (error / mock / live)
+- content_version_id  11; read by 15
+- delete_route        11 -> router 12 (error / mock / live)
+- vault_upload_status in_progress, failed_no_file, failed_link, failed_read, failed_salesforce, attached,
+                      attached_delete_failed (2, 5, 8, 11, 15); shown on 14, form data report
+- vault_upload_error  reason text (2, 5, 8, 11, 15); shown on 14
+Transforms
+- file_base64, file_name_json   8; read by the CO 1303 body template. 11 blanks file_base64.
+- vault_result_html   15; rendered on 16
+actions
+- zingtree__get_vault_file      download_url (confirmed in a real response 2026-10-19, org 605481)
+- sfdc__create_content_version  id, success, errors (standard Salesforce create response; not
+                                yet captured in a Corpay org)
+- zingtree__delete_vault_file   204, no body
+
+## External systems
+- Data Source 760 "Zingtree API - Vault Files (placeholder)": API key header X-Api-Key, value 123
+  (placeholder). Put the org API key here to run the vault calls live.
+- Data Source 761 "Salesforce - Vault File Test (placeholder)": bearer token 123 (placeholder).
+- CO 1301 GET  https://zingtree.com/api/v1/vault_files/${vault_file_uid}?attempt=${vault_attempt}
+  The attempt parameter is a cache key: the CO cache TTL cannot go below 300 seconds, and a
+  retry must get a fresh 60-second link, not the cached expired one.
+- CO 1302 DELETE https://zingtree.com/api/v1/vault_files/${vault_file_uid}
+- CO 1303 POST placeholder.my.salesforce.com/services/data/v60.0/sobjects/ContentVersion
+  body {"Title":"${transforms.file_name_json}","PathOnClient":"${transforms.file_name_json}",
+  "VersionData":"${transforms.file_base64}","FirstPublishLocationId":"${case_id}"}
+
+## Conventions and gotchas
+- VAULT LIMITS (tested 2026-10-19 in GT's demo): .exe rejected by the upload service (400,
+  "This file type is not allowed for security reasons."); over 35 MB blocked in the browser
+  ("File size exceeds the maximum size: 35 MB"); 30 MB uploads fine.
+- A FAILED UPLOAD CLEARS THE FIELD, including an earlier good upload. The vault field's
+  required flag is NOT enforced (tested 2026-10-19: Continue works with no file), so 2 checks
+  vault_file_uid and router 3 sends an empty one to the failure screen (failed_no_file).
+- FILE CONTENTS NEVER STAY IN FORM DATA. script_code can only write form data, so 8 moves the
+  base64 to a transform and blanks the form copy in the same step; 11 blanks the transform.
+- THE BROWSER READ IS ASYNC. If the agent clicks Attach before a large file is read, 8 routes
+  to the failure screen and Retry reads it again.
+- MOCKS: failure scenarios fail on attempt 1 only. Mocked error bodies are illustrative.
+  The mocked link is a data: URL so the browser read still runs.
+- LIVE-ONLY CHECKS: the vault calls with the real key; formDataUpdated delivering
+  vault_download_url in this org; a transform holding a 35 MB file (about 47 MB of base64).
+
+## Changelog
+- 2026-10-19 - Built from GT's demo with failure handling, retry and Test Mode - nodes 1-17
+- 2026-10-19 - Preview showed the vault field's required flag is ignored; added the no-file check - nodes 2, 3
+- 2026-10-19 - Brent: disable Continue until a file is uploaded; script_code gate on node 1 - tree script_code
+</pre>

@@ -1,0 +1,46 @@
+{
+  "_comment": "actions.webscraper content is abridged (CSS trimmed) from the real model output in the Engineering sanitization ticket (FSBPT session W_3jvnc9zybxzywf5kgnp0b6q5sh2056), wrapped in the OpenAI chat-completions response shape.",
+  "tree_id": "293908919",
+  "preview_host": "https://zingtree.com/preview/",
+  "query_params": {},
+  "connected_objects": {
+    "800": "webscraper"
+  },
+  "views": {},
+  "view_inputs": {},
+  "actions": {
+    "webscraper": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "object": "chat.completion",
+      "model": "gpt-4o",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<title>Change Email - FSBPT</title>\n<style>\nbody { font-family: Arial, sans-serif; }\n</style>\n</head>\n<body>\n<div class=\"container\">\n<h1>Change Email Address</h1>\n<form id=\"changeEmailForm\">\n<label for=\"newEmail\">New Email Address:</label>\n<input type=\"email\" id=\"newEmail\" name=\"newEmail\" required>\n<input type=\"submit\" value=\"Submit\">\n</form>\n<div class=\"message\" id=\"message\"></div>\n</div>\n<script>\ndocument.getElementById('changeEmailForm').addEventListener('submit', function (e) { e.preventDefault(); });\n</script>\n</body>\n</html>"
+          },
+          "finish_reason": "stop"
+        }
+      ]
+    }
+  },
+  "form_inputs": {
+    "106": {
+      "question": "How do I change my email address?"
+    }
+  },
+  "buttons": {
+    "108": "Not Able to Assist"
+  },
+  "expect": {
+    "data_node_calls": {
+      "webscraper": 1
+    }
+  },
+  "ai_action_aliases": {}
+}

@@ -1,0 +1,25 @@
+%% Experian "IS - Experian Credit Report" (tree 910472552)
+%% Joint-accounts flow — current vs. proposed (July 2026 build)
+%% Changed/added nodes highlighted. Diff: 2 nodes changed (127,140), 4 added (142-145).
+flowchart TD
+    classDef added fill:#eef2ff,stroke:#6366f1,stroke-width:2px;
+    classDef changed fill:#fff7ed,stroke:#f59e0b,stroke-width:2px;
+    classDef existing fill:#f9fafb,stroke:#9ca3af;
+
+    N140["140 · Script<br/>Format isJointAccounts<br/>(filter Active+Joint, build checkboxes)"]:::changed
+    N141{"141 · Scoring<br/>Is Active Joint Accounts?"}:::existing
+    N127["127 · Content<br/>Has active joint accounts<br/>(select checkboxes + None option)"]:::changed
+    N128["128 · Content<br/>Does NOT have active joint accounts"]:::existing
+
+    N142["142 · Script (NEW)<br/>Collect selected joint accounts<br/>iterate option_0..n, match, flags + HTML"]:::added
+    N143{"143 · Scoring (NEW)<br/>Any joint accounts selected?"}:::added
+    N144["144 · Content (NEW)<br/>Selected joint accounts<br/>(full company + account details)"]:::added
+    N145["145 · Content (NEW)<br/>No joint accounts selected / none apply"]:::added
+
+    N140 --> N141
+    N141 -->|is_active_joint_accounts == true| N127
+    N141 -->|default| N128
+    N127 -->|Continue NEW| N142
+    N142 --> N143
+    N143 -->|has_selected_joint_accounts == true| N144
+    N143 -->|default| N145

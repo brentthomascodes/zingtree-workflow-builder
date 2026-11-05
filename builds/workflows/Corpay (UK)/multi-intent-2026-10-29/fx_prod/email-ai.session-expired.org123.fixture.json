@@ -1,0 +1,52 @@
+{
+ "tree_id": "109029630",
+ "preview_host": "https://eu.zingtree.com/preview/",
+ "connected_objects": {
+  "22": "get_case_details__prod",
+  "21": "get_account_details__prod",
+  "24": "get_incoming_email_addresses_prod",
+  "203": "send_email_simple_prod"
+ },
+ "ai_action_aliases": {
+  "12": "automate_email_responses",
+  "13": "automate_email_generation",
+  "21": "automate_hc_email_intent_prod",
+  "25": "automate_hc_email_generation_prod",
+  "60": "format_gdpr_names_int"
+ },
+ "query_params": {
+  "sf_Id": "500Ad00000c1OgmIAE",
+  "sf_Subject": "Invoices",
+  "sf_CaseNumber": "02716246",
+  "HtmlBody": "<p>Hello,</p><p>Draft reply.</p>",
+  "queue_route": "fast_admin"
+ },
+ "actions": {
+  "get_incoming_email_addresses_prod": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "Id": "02sAd0000001",
+     "FromAddress": "customer@example.co.uk",
+     "ToAddress": "customerservices@allstarcard.co.uk",
+     "CcAddress": null,
+     "Incoming": true
+    }
+   ]
+  }
+ },
+ "expect": {
+  "form_data": {
+   "session_expired": true
+  },
+  "data_node_calls": {
+   "send_email_simple_prod": 0
+  },
+  "terminal_node": "61"
+ },
+ "note": "Session reopened after the 1-hour transforms TTL: request_form_html and the case response are gone. Start at 35 (--start 35). Node 36 flags session_expired, router 37 -> screen 61; no send, no failure alert (node 42 not reached)."
+}

@@ -19,8 +19,10 @@ same week. Nothing lives in a second place.
 2. **Each rule lives in exactly one file.** `README.md` maps the files. When a rule changes,
    rewrite it in place with a supersede note (`supersedes … (Mon YYYY)`); never add a second
    version somewhere else.
-3. **No customer material.** No tree exports, no fixtures with real ids, no response contracts,
-   no org ids, no credentials. Those stay in each person's own workspace. Rules and invented
+3. **Customer builds live in `builds/`; credentials never do.** Tree exports, fixtures, response
+   contracts, scripts, requirements and diagrams go under `builds/` (supersedes the Oct 2026
+   "no customer material" rule, Nov 2026). API keys, tokens and passwords are replaced with a
+   `REDACTED_*` placeholder before commit; the repo is public. Rules and invented
    examples only.
 
 ## Before every build session
@@ -71,7 +73,7 @@ Brent commits straight to `main`. Anyone else: a PR with "docs:" in the subject,
 | Anything in `SKILL.md` or `references/` (a rule, an example, a supersede) | Brent, always |
 | Anything in `scripts/` that changes what the lint or walk reports | Brent, with the script run on a real tree before and after |
 | `companions/`, `README.md`, `CONTRIBUTING.md`, `HANDOVER.md` wording | Brent |
-| A reusable production script | Not a repo change. It goes in your workspace `Zingtree Builder/Script Library/` |
+| A reusable production script | `builds/scripts/`, no approval needed |
 | An account fact (field ids, aliases, contacts, environments) | Not a repo change. It goes in that account's `MEMORY.md` or its promote-skill map |
 
 ## Minimum check before any push
@@ -103,8 +105,8 @@ Supersede the per-item branch pattern with one structure + one loop (ETG Registe
 
 ## Never
 
-- Commit a customer export, a fixture with real ids, a response contract, an org id, or a
-  credential. If one slips into history, tell Brent the same day; a secret in history is
+- Commit a credential (API key, token, password, private key). Check before every push:
+  `git diff --cached | grep -iE "apikey=|token|password|secret|BEGIN .*PRIVATE"`. If one slips into history, tell Brent the same day; a secret in history is
   compromised even after it is removed.
 - Add a rule a shipped build has not demonstrated.
 - Write the same rule in two files, or keep an old version next to the new one.

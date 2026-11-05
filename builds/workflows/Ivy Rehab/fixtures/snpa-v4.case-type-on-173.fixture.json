@@ -1,0 +1,102 @@
+{
+  "tree_id": "227319134",
+  "_note": "Case type / discipline call before 173; discipline dropdown on 173; 174 -> 175 (192 removed).",
+  "query_params": {
+    "clinic_raintree_code": "UT84737",
+    "clinic_cost_code": "UT84737",
+    "workflow": "new_patient"
+  },
+  "connected_objects": {
+    "1021": "get_token",
+    "1290": "raintree__get_case_types",
+    "1289": "raintree__get_disciplines"
+  },
+  "actions": {
+    "get_token": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      }
+    },
+    "raintree__get_case_types": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "tabledesc": "Case Types",
+      "count": 2,
+      "tables": [
+        {
+          "filter": "PT",
+          "code": "ORT",
+          "description": "Ortho"
+        },
+        {
+          "filter": "OT",
+          "code": "ADL",
+          "description": "ADL"
+        }
+      ]
+    },
+    "raintree__get_disciplines": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "tables": [
+        {
+          "code": "PT",
+          "description": "Physical Therapy"
+        }
+      ]
+    }
+  },
+  "form_inputs": {
+    "173": {
+      "is_pt": true,
+      "body_part": "knee",
+      "discipline_selection": "PT",
+      "is_ot": false,
+      "is_speech": false,
+      "is_aba": false,
+      "is_motor_vehicle_accident": false,
+      "is_work_comp": false,
+      "is_aquatic_therapy": false,
+      "is_bells_palsy": false,
+      "is_blood_flow_restriction": false,
+      "is_concussion": false,
+      "is_dry_needling": false,
+      "is_fce": false,
+      "is_lsvt_big": false,
+      "is_lymphedema": false,
+      "is_mckenzie_method": false,
+      "is_pelvic_floor_female": false,
+      "is_pelvic_floor_male": false,
+      "is_schroth_method": false,
+      "is_telehealth": false,
+      "is_toe_walking": false,
+      "is_torticollis": false,
+      "is_vertigo": false,
+      "is_vestibular": false
+    }
+  },
+  "buttons": {
+    "173": "\"Continue\""
+  },
+  "expect": {
+    "form_data": {
+      "specialty_needed_name": "None",
+      "therapy_type": "PT",
+      "discipline_selection": "PT"
+    },
+    "path_includes": [
+      "193",
+      "173",
+      "174",
+      "175"
+    ]
+  }
+}

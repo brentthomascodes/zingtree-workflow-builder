@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Penrose Triage Consolidation — Overview</title>
+<style>body{margin:0;background:#f4f5f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding:24px;color:#2b2b2b}.wrap{max-width:1160px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px}h1{font-size:18px;margin:4px 8px 12px}</style></head>
+<body><div class="wrap"><h1>Penrose clinical triage — current vs. proposed consolidation</h1>
+<svg viewBox="0 0 1120 640" xmlns="http://www.w3.org/2000/svg" role="img" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" style="width:100%;height:auto">
+  <title>Penrose triage consolidation: current 6 separate trees vs proposed hub-and-spoke</title>
+  <desc>Six independent trees each duplicating the disposition list and safety-net, versus one hub owning entry, navigation, shared disposition vocabulary, Pharmacy First and claude.md, dispatching to six thin condition spokes that keep clinical logic verbatim.</desc>
+  <style>
+    :root{--ink:#2b2b2b;--muted:#6b7280;--line:#c9ccd1;--card:#fff;--cardbd:#e5e7eb;--red:#bf4343;--redbg:#fdf2f2;--redbd:#f0c8c8;--blue:#3b6ea5;--bluebg:#eef4fb;--bluebd:#c7dbef;--gray:#f9fafb;}
+    .h{font-size:20px;font-weight:700;fill:var(--ink);}.lbl{font-size:13px;font-weight:600;fill:var(--ink);}.sm{font-size:11px;fill:var(--muted);}
+    .chip{fill:var(--card);stroke:var(--cardbd);stroke-width:1;}.edge{stroke:var(--line);stroke-width:1.4;fill:none;}
+  </style>
+  <text x="40" y="42" class="h">Today — 6 trees, managed separately</text>
+  <text x="40" y="64" class="sm">Each tree repeats the same shell. No shared entry point.</text>
+  <g>
+    <rect x="40" y="86" width="150" height="70" rx="8" class="chip" stroke="#f0c8c8"/><text x="52" y="108" class="lbl">Contraception</text><text x="52" y="126" class="sm">outcome list ×25</text><text x="52" y="142" class="sm">own safety-net</text>
+    <rect x="205" y="86" width="150" height="70" rx="8" class="chip" stroke="#f0c8c8"/><text x="217" y="108" class="lbl">Women's Health</text><text x="217" y="126" class="sm">outcome list ×34</text><text x="217" y="142" class="sm">own safety-net</text>
+    <rect x="370" y="86" width="150" height="70" rx="8" class="chip" stroke="#f0c8c8"/><text x="382" y="108" class="lbl">Paediatric CCF</text><text x="382" y="126" class="sm">outcome list ×10</text><text x="382" y="142" class="sm">own safety-net</text>
+    <rect x="40" y="170" width="150" height="70" rx="8" class="chip" stroke="#f0c8c8"/><text x="52" y="192" class="lbl">Pharmacy First</text><text x="52" y="210" class="sm">outcome list ×8</text><text x="52" y="226" class="sm">own safety-net</text>
+    <rect x="205" y="170" width="150" height="70" rx="8" class="chip" stroke="#f0c8c8"/><text x="217" y="192" class="lbl">Rash</text><text x="217" y="210" class="sm">outcome list ×129</text><text x="217" y="226" class="sm">7 safety-nets</text>
+    <rect x="370" y="170" width="150" height="70" rx="8" class="chip" stroke="#f0c8c8"/><text x="382" y="192" class="lbl">NHS Health Check</text><text x="382" y="210" class="sm">outcome list ×3</text><text x="382" y="226" class="sm">own safety-net</text>
+  </g>
+  <rect x="40" y="262" width="480" height="86" rx="8" fill="var(--redbg)" stroke="var(--redbd)"/>
+  <text x="56" y="286" class="lbl" fill="var(--red)">The maintenance problem</text>
+  <text x="56" y="308" class="sm">Same 68-item disposition list duplicated ~181 times.</text>
+  <text x="56" y="326" class="sm">Add one disposition → edit up to 181 dropdowns, in 6 files.</text>
+  <text x="56" y="344" class="sm">No single launch point; every change is repeated per tree.</text>
+  <line x1="560" y1="80" x2="560" y2="600" stroke="var(--line)" stroke-width="1.2" stroke-dasharray="3 4"/>
+  <text x="600" y="42" class="h">Proposed — one hub, thin spokes</text>
+  <text x="600" y="64" class="sm">Hub owns the shared shell. Spokes keep clinical logic verbatim.</text>
+  <rect x="770" y="92" width="176" height="92" rx="10" fill="var(--bluebg)" stroke="var(--blue)" stroke-width="1.8"/>
+  <text x="858" y="120" text-anchor="middle" class="lbl" fill="var(--blue)">TRIAGE HUB</text>
+  <text x="858" y="140" text-anchor="middle" class="sm">Single entry + intake</text><text x="858" y="156" text-anchor="middle" class="sm">Pathway navigation</text><text x="858" y="172" text-anchor="middle" class="sm">Return / close-out</text>
+  <rect x="600" y="205" width="500" height="66" rx="8" fill="var(--gray)" stroke="var(--cardbd)"/>
+  <text x="616" y="227" class="lbl">Shared, edit once</text>
+  <text x="616" y="248" class="sm">• Disposition list ×1 (canonical)   • Pharmacy First (reused)</text>
+  <text x="616" y="264" class="sm">• Generic safety-net   • claude.md — patterns + node map for prompt edits</text>
+  <g>
+    <rect x="600" y="300" width="150" height="52" rx="8" class="chip"/><text x="612" y="322" class="lbl">Contraception</text><text x="612" y="340" class="sm">clinical Q's verbatim</text>
+    <rect x="770" y="300" width="150" height="52" rx="8" class="chip"/><text x="782" y="322" class="lbl">Women's Health</text><text x="782" y="340" class="sm">clinical Q's verbatim</text>
+    <rect x="940" y="300" width="150" height="52" rx="8" class="chip"/><text x="952" y="322" class="lbl">Paediatric CCF</text><text x="952" y="340" class="sm">clinical Q's verbatim</text>
+    <rect x="600" y="366" width="150" height="52" rx="8" class="chip"/><text x="612" y="388" class="lbl">Pharmacy First</text><text x="612" y="406" class="sm">clinical Q's verbatim</text>
+    <rect x="770" y="366" width="150" height="52" rx="8" class="chip"/><text x="782" y="388" class="lbl">Rash</text><text x="782" y="406" class="sm">clinical Q's verbatim</text>
+    <rect x="940" y="366" width="150" height="52" rx="8" class="chip"/><text x="952" y="388" class="lbl">NHS Health Check</text><text x="952" y="406" class="sm">clinical Q's verbatim</text>
+  </g>
+  <path class="edge" d="M810 184 L675 300"/><path class="edge" d="M858 184 L845 300"/><path class="edge" d="M906 184 L1015 300"/>
+  <path class="edge" d="M820 184 L675 366"/><path class="edge" d="M858 184 L845 366"/><path class="edge" d="M900 184 L1015 366"/>
+  <text x="600" y="452" class="sm" fill="var(--red)">— — every spoke's outcome dropdown reads the one canonical list</text>
+  <rect x="600" y="470" width="500" height="92" rx="8" fill="var(--bluebg)" stroke="var(--bluebd)"/>
+  <text x="616" y="494" class="lbl" fill="var(--blue)">What you gain</text>
+  <text x="616" y="516" class="sm">One place to launch. One disposition list to maintain (181 → 1).</text>
+  <text x="616" y="534" class="sm">Edits become prompt-driven: change the hub / claude.md, propagate.</text>
+  <text x="616" y="552" class="sm">Clinical decision logic unchanged — preserved exactly per condition.</text>
+</svg></div></body></html>

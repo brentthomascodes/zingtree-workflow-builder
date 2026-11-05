@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ETG Register Errands — Request Status-Check &amp; Selection Guards (2026-08-25)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<style>
+  body { font-family: Arial, sans-serif; background:#f6f4ef; color:#101820; margin:0; padding:24px; }
+  h1 { font-size:20px; margin-bottom:4px; }
+  h2 { font-size:16px; margin-top:36px; border-bottom:1px solid #e7eaee; padding-bottom:6px; }
+  p.sub { color:#667085; margin-top:0; }
+  .panel { display:flex; gap:24px; flex-wrap:wrap; }
+  .card { flex:1 1 380px; background:#fff; border:1px solid #e7eaee; border-radius:14px; padding:16px; }
+  .card h3 { margin-top:0; font-size:14px; color:#163a5f; }
+  table { border-collapse:collapse; width:100%; margin-top:8px; font-size:13px; }
+  th, td { border:1px solid #e7eaee; padding:6px 10px; text-align:left; }
+  th { background:#f3eadb; }
+  code { background:#eef2ff; padding:1px 5px; border-radius:4px; font-size:12px; }
+  .mermaid { background:#fff; border-radius:14px; padding:12px; border:1px solid #e7eaee; }
+</style>
+</head>
+<body>
+
+<h1>ETG "Register Errands" — Request Status-Check &amp; Selection Guards</h1>
+<p class="sub">Applied 2026-08-25 to both trees: <b>Register Errands</b> (Dynamic, 10 API sites) and
+<b>Register Errands - VI</b> (1 API site). Same shape repeated at every site — shown once each below,
+with the full site map underneath.</p>
+
+<h2>Pattern 1 — API request status-check (×11 total)</h2>
+<div class="panel">
+  <div class="card">
+    <h3>Before</h3>
+    <div class="mermaid">
+graph TD
+  X["Data node<br/>(fires Connected Object)"] --> Y["Original next node"]
+    </div>
+  </div>
+  <div class="card">
+    <h3>After</h3>
+    <div class="mermaid">
+graph TD
+  X["Data node<br/>(fires Connected Object)"] --> S{"Status Check (Scoring)<br/>actions.alias._zt_meta.<br/>response.code == 200 || 201 ?"}
+  S -- "yes" --> Y["Original next node<br/>(unchanged)"]
+  S -- "no" --> R["'&lt;Label&gt; - Request Failed'<br/>(Content, zt-cb-type-alert)"]
+  R -- "Retry" --> X
+  R -- "End Session::zt_request_failed" --> E["Session Ended - Request Failed<br/>(shared terminal node)"]
+    </div>
+  </div>
+</div>
+
+<h2>Pattern 2 — Selection validation (×3 total: PNR + 2× passengers)</h2>
+<div class="panel">
+  <div class="card">
+    <h3>Before</h3>
+    <div class="mermaid">
+graph TD
+  P["Selection screen<br/>(Content, findorder grid)"] --> F["Script reads views.findorder"]
+  F --> Y2["Next node<br/>(assumes a selection was made)"]
+    </div>
+  </div>
+  <div class="card">
+    <h3>After</h3>
+    <div class="mermaid">
+graph TD
+  P["Selection screen<br/>(Content, findorder grid)"] --> F["Script reads views.findorder,<br/>sets has_x_selection"]
+  F --> S2{"Selection Made? (Scoring)<br/>has_x_selection == true ?"}
+  S2 -- "yes" --> Y2["Next node<br/>(unchanged)"]
+  S2 -- "no" --> N["'Please Make a Selection'<br/>(Content, zt-cb-type-alert)"]
+  N -- "Try Again" --> P
+    </div>
+  </div>
+</div>
+
+<h2>Full site map</h2>
+
+<h3 style="font-size:14px;">Register Errands (Dynamic) — 10 API sites + PNR + passenger guard</h3>
+<table>
+<tr><th>Data / Script node</th><th>Status/Selection check</th><th>Failure screen</th><th>Alias(es) checked</th></tr>
+<tr><td>4 — Edvin - Find Order</td><td>13</td><td>14</td><td><code>findorder</code></td></tr>
+<tr><td>22 — Zendesk - Add Internal Note</td><td>15</td><td>16</td><td><code>create_internal_note__no_group_id</code></td></tr>
+<tr><td>33 — ZD - Create Child Ticket</td><td>17</td><td>18</td><td><code>create_child_ticket</code></td></tr>
+<tr><td>37 — ZD - Create Grandchild Ticket</td><td>19</td><td>20</td><td><code>create_child_ticket</code></td></tr>
+<tr><td>42 — GET Edvin Errands</td><td>26</td><td>28</td><td><code>edvin__errand_configuration</code> AND <code>get_edvin_prop_long_value</code></td></tr>
+<tr><td>43 — Edvin - Register Errand</td><td>30</td><td>31</td><td><code>edvin__register_errand</code></td></tr>
+<tr><td>63 — Get Child Ticket Details</td><td>39</td><td>40</td><td><code>get_side_conversation_detail</code></td></tr>
+<tr><td>66 — Update Child Ticket</td><td>41</td><td>45</td><td><code>zingtree_redesign__update_side_conversation</code></td></tr>
+<tr><td>70 — Get Grandchild Ticket Details</td><td>49</td><td>50</td><td><code>get_side_conversation_detail</code></td></tr>
+<tr><td>72 — Update Grandchild Ticket</td><td>51</td><td>52</td><td><code>zingtree_redesign__update_side_conversation</code></td></tr>
+<tr><td>24 — PNR selection readback</td><td>54</td><td>55 → back to node 6</td><td><em>views.findorder (PNR grid)</em></td></tr>
+<tr><td>9 — Passenger selection readback</td><td>56</td><td>57 → back to node 8</td><td><em>views.findorder (passenger grid)</em></td></tr>
+<tr><td colspan="4">Shared error-end node: <b>53</b> — "Session Ended - Request Failed"</td></tr>
+</table>
+
+<h3 style="font-size:14px; margin-top:24px;">Register Errands - VI — 1 API site + passenger guard</h3>
+<table>
+<tr><th>Data / Script node</th><th>Status/Selection check</th><th>Failure screen</th><th>Alias(es) checked</th></tr>
+<tr><td>80 — Get Errand Configurations</td><td>3</td><td>4</td><td><code>edvin__errand_configuration</code> AND <code>get_edvin_prop_long_value</code></td></tr>
+<tr><td>86 — Passenger selection readback</td><td>7</td><td>8 → back to node 85</td><td><em>views.findorder (passenger grid)</em></td></tr>
+<tr><td colspan="4">Own error-end node: <b>6</b> — "Session Ended - Request Failed" (does not return to parent)</td></tr>
+</table>
+
+<p class="sub" style="margin-top:28px;">No PNR-selection guard was added to the VI tree — it never shows its own
+PNR-selection screen; it only reads <code>transforms.selected_pnrs</code>, already validated by the parent
+tree's node 24/54.</p>
+
+<script>mermaid.initialize({startOnLoad:true, theme:'neutral'});</script>
+</body>
+</html>

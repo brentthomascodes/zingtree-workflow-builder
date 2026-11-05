@@ -1,0 +1,116 @@
+flowchart TD
+  N1["1. Greet caller and capture contact reason"]
+  N2{"2. Route by contact reason"}
+  N3[/"3. Build virtual-card education options"/]
+  N4["4. Ask caller's virtual-card question"]
+  N5[/"5. Show selected education guidance"/]
+  N6["6. Read education guidance and collect token numbers"]
+  N7["7. Refer no-EOB / no-token caller to Anthem"]
+  N8["8. Handle opt-out letter: capture Tax ID and offer retention"]
+  N9["9. Collect and validate token numbers"]
+  N10[/"10. Determine token route"/]
+  N11{"11. Route after token validation"}
+  N12["12. Re-verify token numbers with caller"]
+  N13[/"13. Determine route after re-verification"/]
+  N14{"14. Route after re-verification"}
+  N15["15. Token not valid — refer to Anthem"]
+  N16["16. Ask for practice Tax ID"]
+  N17{"17. Route by Tax ID availability"}
+  N18["18. No valid token or Tax ID — refer to Anthem"]
+  N19[/"19. Build opt-out reason options"/]
+  N20["20. Ask caller's opt-out reason"]
+  N21[/"21. Show selected opt-out guidance"/]
+  N22["22. Read opt-out guidance and confirm outcome"]
+  N23["23. Check token status"]
+  N24["24. Token blocked — advise caller"]
+  N25["25. Token expired — advise caller"]
+  N26["26. Active token — has it been used?"]
+  N27["27. Token already used — offer dispute referral"]
+  N28["28. Card decline — did the token decline?"]
+  N29[/"29. Build decline-code options"/]
+  N30["30. Select the decline code"]
+  N31[/"31. Show selected decline guidance"/]
+  N32["32. Read decline guidance and capture follow-up"]
+  N33[/"33. Determine decline route"/]
+  N34{"34. Route by decline code"}
+  N35["35. Decline 784 — Expiration Date"]
+  N36["36. Verify expiration date in XCMH"]
+  N37["37. Advise reversed date format"]
+  N38["38. Advise retry with correct date"]
+  N39["39. Decline 788/789 — added transactions"]
+  N40["40. Decline 940 — updated card settings"]
+  N41["41. Help running the transaction?"]
+  N42["42. Verify payment information with caller"]
+  N43["43. Refer caller to Anthem"]
+  N44["44. End session — reference number and survey"]
+  N45["45. (Connected) End Session"]
+  N1 -->|Continue| N2
+  N2 -->|Card Declined/POS Suppor| N9
+  N2 -->|Education/Questions on V| N3
+  N2 -->|No EOB/No Token #| N7
+  N2 -->|Opt Out - Letter| N8
+  N2 --> N44
+  N3 -.cont.-> N4
+  N4 -->|Continue| N5
+  N5 -.cont.-> N6
+  N6 -->|Continue| N44
+  N7 -->|Continue| N44
+  N8 -->|Continue| N44
+  N9 -->|Continue| N10
+  N10 -.cont.-> N11
+  N11 -->|tax_id| N16
+  N11 -->|optout| N19
+  N11 -->|status| N23
+  N11 -->|verify| N12
+  N11 --> N44
+  N12 -->|Continue| N13
+  N13 -.cont.-> N14
+  N14 -->|optout| N19
+  N14 -->|status| N23
+  N14 -->|tax_id| N16
+  N14 -->|anthem| N15
+  N15 -->|Continue| N44
+  N16 -->|Continue| N17
+  N17 -->|Yes| N19
+  N17 --> N18
+  N18 -->|Continue| N44
+  N19 -.cont.-> N20
+  N20 -->|Continue| N21
+  N21 -.cont.-> N22
+  N22 -->|Continue| N44
+  N23 -->|Active| N26
+  N23 -->|Blocked| N24
+  N23 -->|Expired| N25
+  N24 -->|Continue| N44
+  N25 -->|Continue| N44
+  N26 -->|Yes| N27
+  N26 -->|No| N28
+  N27 -->|Yes| N43
+  N27 -->|No| N44
+  N28 -->|Yes| N29
+  N28 -->|No| N41
+  N29 -.cont.-> N30
+  N30 -->|Continue| N31
+  N31 -.cont.-> N32
+  N32 -->|Continue| N33
+  N33 -.cont.-> N34
+  N34 -->|784| N35
+  N34 -->|788| N39
+  N34 -->|940| N40
+  N34 --> N44
+  N35 -->|Yes| N44
+  N35 -->|No| N36
+  N36 -->|Yes, but it is backwards| N37
+  N36 -->|No| N38
+  N37 -->|Continue| N44
+  N38 -->|Continue| N44
+  N39 -->|Continue| N44
+  N40 -->|Continue| N44
+  N41 -->|Yes| N42
+  N41 -->|No| N43
+  N42 -->|Continue| N44
+  N43 -->|Continue| N44
+  classDef script fill:#eef2ff,stroke:#6366f1;
+  classDef logic fill:#fff7ed,stroke:#f59e0b;
+  class N3,N5,N10,N13,N19,N21,N29,N31,N33 script;
+  class N2,N11,N14,N17,N34 logic;

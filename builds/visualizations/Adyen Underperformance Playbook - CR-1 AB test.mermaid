@@ -1,0 +1,19 @@
+%%{init: {'theme':'default'}}%%
+flowchart TD
+  N1["1 Script: Extract agent first name (root)"] --> N29{"29 Logic: A/B test 50/50"}
+  N29 -- "Group A" --> N30["30 Script: ab_group = buttons"]
+  N29 -- "Group B" --> N31["31 Script: ab_group = survey"]
+  N30 --> N2["2 Content: Select scenario (+ hidden ab_group marker)"]
+  N31 --> N2
+  N2 --> BR["Existing branches 3-21 (unchanged)"]
+  BR --> N22["22 Script: Build recommended actions"] --> N23["23 Content: Recommended actions"]
+  N23 --> N28["28 Script: Build email summary"] --> N24["24 Email: Session summary"]
+  N24 --> N35{"35 Router: ab_group == survey?"}
+  N35 -- "yes (Group B)" --> N36["36 Email: Feedback survey link -> #32"]
+  N35 -- "else" --> N25["25 Content: Summary sent"]
+  N36 --> N25
+  PB(["Persistent buttons, Group A only (script_code hides for B):<br/>Wrap up this session -> 32 | Share feedback -> 26"]) -.-> N32
+  N36 -. "survey link ?ab_group=survey#32" .-> N32
+  N32["32 Content: Wrap up this session<br/>wrapup_outcome + wrapup_comment"] --> N33["33 Script: Build confirmation"] --> N34["34 Content: Feedback recorded"]
+  classDef new fill:#e6f4ea,stroke:#2e7d32;
+  class N29,N30,N31,N32,N33,N34,N35,N36 new;

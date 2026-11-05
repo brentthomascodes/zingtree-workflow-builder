@@ -1,0 +1,45 @@
+{
+  "tree_id": "227319134",
+  "preview_host": "https://zingtree.com/preview/",
+  "connected_objects": {
+    "35": "alias_35"
+  },
+  "buttons": {
+    "184": "Neither",
+    "199": "Continue"
+  },
+  "_note": "Rollout clinic, SharePoint still name-only: static list",
+  "query_params": {
+    "clinic_raintree_code": "ny181",
+    "clinic_cost_code": "NY181",
+    "name": "Ivy Rehab Brooklyn Heights"
+  },
+  "actions": {
+    "alias_35": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "insurance_list": [
+        "Aetna - Commercial",
+        "Wellcare"
+      ]
+    }
+  },
+  "form_inputs": {
+    "199": {
+      "is_using_insurance": "Yes",
+      "insurance_selection": "UHC"
+    }
+  },
+  "expect": {
+    "form_data": {
+      "is_display_insurance_dropdown": "true",
+      "insurance_route": "accepted",
+      "patient_insurance_rt_code": "10012",
+      "patient_insurance_other": "UHC"
+    },
+    "terminal_node": "149"
+  }
+}

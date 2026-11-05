@@ -1,0 +1,46 @@
+{
+  "tree_id": "227319134",
+  "preview_host": "https://zingtree.com/preview/",
+  "connected_objects": {
+    "35": "alias_35"
+  },
+  "buttons": {
+    "184": "Neither",
+    "199": "Continue"
+  },
+  "_note": "SharePoint clinic, No insurance",
+  "query_params": {
+    "clinic_raintree_code": "UT901",
+    "clinic_cost_code": "UT901",
+    "name": "Ivy Rehab Parowan"
+  },
+  "actions": {
+    "alias_35": {
+      "_zt_meta": {
+        "response": {
+          "code": 200
+        }
+      },
+      "insurance_list": [
+        "Aetna - Commercial; 10001; Accepted;",
+        "UHC/United Healthcare/Choice Plus; 10012; accepted;",
+        "Fidelis/Ambetter from Fidelis/Medicaid; ; Not Accepted - Medicaid;",
+        "Wellcare; ; Not Accepted - All Other;",
+        "Cigna - Medicare Advantage/Healthspring; ; Managed;",
+        "Other; 10005; Accepted;",
+        "AARP Medicare Supplement (Secondary Only)"
+      ]
+    }
+  },
+  "form_inputs": {
+    "199": {
+      "is_using_insurance": "No"
+    }
+  },
+  "expect": {
+    "form_data": {
+      "insurance_route": "self_pay"
+    },
+    "terminal_node": "150"
+  }
+}

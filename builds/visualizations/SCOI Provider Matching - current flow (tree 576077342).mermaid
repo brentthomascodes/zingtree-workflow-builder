@@ -1,0 +1,90 @@
+%% SCOI Provider Matching / Protocol Verification - CURRENT flow
+%% Tree 576077342 ("NEW"), org 605493, export last modified 2026-06-04
+%% 90 nodes: 59 Content, 15 Logic, 8 Data, 7 Script, 1 Tree
+%% Legend: [] Content  {} Logic  [( )] Data/CX Action  [[ ]] Script
+flowchart TD
+
+    %% ---------- LOAD + INTAKE ----------
+    N2[("2 · Data · Get All Provider DNC<br/>DCO 170 → actions.all_table_information<br/>83 providers x ~56 rule columns (Airtable)")]
+    N84["84 · Content · Preferred or Authorized Provider<br/>THE intake screen: age, insurance_type,<br/>WC flags (ptp/stp/scif/usdol/sisc/consult/2nd op + wcdoi),<br/>hmo_insurance, 4 exception checkboxes,<br/>body_part_1..5, seen_by_scoi_provider<br/>+ Dynamic View provider picker (views.all_table_information)"]
+    N86[["86 · Script · Next<br/>match view selection → transforms.selectedProviderInfo<br/>set &lt;part&gt;_selected + atleast_one_body_part_selected"]]
+    N138{"138 · Logic · seen by SCOI provider?"}
+    N65[("65 · Data · Get Provider Details<br/>DCO 197 → get_full_provider_details_on_name")]
+    N64["64 · Content · Trauma<br/>shows provider PC code"]
+
+    N2 --> N84 --> N86 --> N138
+    N138 -->|Yes| N65 --> N64
+    N138 -->|No| N27
+
+    %% ---------- EXCEPTION / BODY-PART GATE ----------
+    N27{"27 · Logic · Body Part Logic<br/>7 branches, evaluated in rank order"}
+    N99["99 · Content · Student Athlete<br/>blechersports + sponsoredschool"]
+    N115{"115 · Logic · Next"}
+    N116["116 · sponsoredschool"]
+    N120["120 · blechersports"]
+    N122["122 · Content · Body Part"]
+    N100["100 · Content · Gunshot<br/>sets gunshotseen"]
+    N101["101 · Content · Open Wound<br/>sets woundseen"]
+    N102["102 · Content · Bite"]
+    N30[("30 · Data · Get Provider Details<br/>DCO 197")]
+    N139["139 · Content · Select Body Parts Condition<br/>22 condition_* dropdowns; only the<br/>selected body parts are shown (front-end JS)"]
+    N56["56 · Content · Prior Surgery<br/>elbow_sxdos date"]
+
+    N27 -->|exception_student_athlete==1| N99 --> N115
+    N115 --> N116 & N120 & N122
+    N122 --> N27
+    N27 -->|gunshot & not seen| N100 --> N27
+    N27 -->|open wound & not seen| N101 --> N27
+    N27 -->|bite| N102
+    N27 -->|provider chosen in view| N30
+    N27 -->|body part selected & not seen| N139
+    N139 -->|Yes prior surgery| N56 --> N27
+    N139 -->|No| N27
+    N27 -->|else| N5
+    N30 --> N5
+
+    %% ---------- RULES ENGINE ----------
+    N5{"5 · Logic · Insurance Type"}
+    N67[["67 · Script · THE RULES ENGINE (~21 KB)<br/>FilterRecord() over all 83 provider rows:<br/>max_body_part · min/max_age · knee_max_age<br/>fracture (+fracture_min_age, fracture_body_parts)<br/>infection · prior_surgery global period<br/>max_body_part_exception 'same only'<br/>HMO allow-list · Work Comp · Medi-Medi · Self Pay<br/>body_parts allow-list vs wont_see_conditions<br/>→ setResponseData('dummy_alias_scoi')<br/>→ transforms.hasMatchedProvider<br/>→ transforms.providerDisqualifiedText"]]
+    N75[("75 · Data · Get Form Data from Session<br/>DCO 347")]
+    N90{"90 · Logic · Insurance Logic<br/>transforms.hasMatchedProvider"}
+
+    N5 --> N67 --> N75 --> N90
+
+    %% ---------- RESULTS ----------
+    N73[["73 · Script · Map selected provider fields<br/>→ transforms.selected_provider"]]
+    N72["72 · Content · Preferred Provider Qualified<br/>PC · dept · EMG · video_visit · blackbox ·<br/>wont_see_conditions · fracture_ext"]
+    N68["68 · Content · PPO/HMO results WITH chosen provider<br/>+ providerDisqualifiedText + scheduling_exception"]
+    N96["96 · Content · PPO/HMO results WITHOUT chosen provider<br/>qualified list from dummy_alias_scoi"]
+    N78[["78 · Script · Filter Records by Location<br/>locations_1..6 ∩ fields.locations<br/>→ dummy_scoi_for_location"]]
+    N91{"91 · Logic · Insurance Logic Repeat"}
+    N82["82 · Content · PPO/HMO filtered results by location"]
+    N137[["137 · Script · Final Summary Format<br/>re-match view selection → selectedProviderInfo"]]
+    N92["92 · Content · Final Summary"]
+
+    N90 -->|true: preferred provider qualifies| N73 --> N72 --> N96
+    N90 -->|false: preferred provider disqualified| N68
+    N90 -->|else: no preferred provider| N96
+    N68 -->|Final Summary| N92
+    N96 -->|Final Summary| N137 --> N92
+    N68 -->|Filter by location| N78
+    N96 -->|Filter by location| N78
+    N78 --> N91 --> N82
+
+    %% ---------- PERSISTENT BUTTONS ----------
+    N135["135 · Content · Zip Code Locator<br/>(persistent button, available on any node)"]
+    N136[("136 · Data · Zip Code Distance Matrix<br/>DCO 552 → brent_testing_zip_codes")]
+    N118[["118 · Script · Handle response<br/>sort clinics by miles → zip_code_results_html"]]
+    N37["37 · Content · Zip code locator results"]
+    N23["23 · Content · Troubleshooting<br/>(persistent button)"]
+
+    N135 --> N136 --> N118 --> N37 --> N84
+
+    classDef script fill:#eef2ff,stroke:#6366f1,stroke-width:2px
+    classDef data fill:#fff7ed,stroke:#f97316,stroke-width:2px
+    classDef logic fill:#f9fafb,stroke:#9ca3af
+    classDef engine fill:#fef2f2,stroke:#dc2626,stroke-width:3px
+    class N86,N73,N78,N118,N137 script
+    class N2,N30,N65,N75,N136 data
+    class N5,N27,N90,N91,N115,N138 logic
+    class N67 engine

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register Errands — Node Composition &amp; Logging Strategy</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page:           #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6; /* Content */
+    --series-2:       #eb6834; /* Scoring */
+    --series-3:       #1baf7a; /* Script */
+    --series-4:       #eda100; /* Data */
+    --series-5:       #e87ba4; /* Tree */
+    --status-good:    #0ca30c;
+    --status-warning: #fab219;
+    --status-serious: #ec835a;
+    --status-critical:#d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page:           #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --gridline:       #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --series-2:       #d95926;
+      --series-3:       #199e70;
+      --series-4:       #c98500;
+      --series-5:       #d55181;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page:           #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --gridline:       #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1:       #3987e5;
+    --series-2:       #d95926;
+    --series-3:       #199e70;
+    --series-4:       #c98500;
+    --series-5:       #d55181;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .viz-root {
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding: 32px 20px 64px;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 700; margin: 0 0 4px; }
+  .subtitle { color: var(--text-secondary); font-size: 14px; margin: 0 0 32px; }
+  h2 { font-size: 16px; font-weight: 700; margin: 0 0 4px; }
+  .section-note { color: var(--text-secondary); font-size: 13.5px; line-height: 1.55; margin: 0 0 20px; }
+  section { margin-bottom: 44px; }
+  .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  /* stacked bar */
+  .bar-block { margin-bottom: 28px; }
+  .bar-label-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .bar-title { font-size: 13.5px; font-weight: 600; }
+  .bar-total { font-size: 12.5px; color: var(--text-muted); }
+  .stacked-bar {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--gridline);
+  }
+  .seg {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border-right: 2px solid var(--surface-1);
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    cursor: default;
+  }
+  .seg:last-child { border-right: none; }
+  .seg .seg-label { padding: 0 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .seg[data-fit="no"] .seg-label { display: none; }
+  .seg[data-dark-text="1"] { color: #0b0b0b; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 16px 20px; margin-top: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--text-secondary); }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--gridline); }
+  th { color: var(--text-muted); font-weight: 600; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.03em; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tr:last-child td { border-bottom: none; }
+
+  /* functional pipeline diagram */
+  .pipeline { display: flex; align-items: stretch; gap: 0; overflow-x: auto; padding: 8px 0 4px; margin-top: 18px; }
+  .pnode {
+    flex: none;
+    min-width: 132px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 12px;
+    font-size: 12px;
+    background: var(--surface-1);
+  }
+  .pnode .pn-type { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .pnode .pn-name { font-weight: 600; margin-bottom: 3px; }
+  .pnode .pn-desc { color: var(--text-muted); font-size: 11px; line-height: 1.4; }
+  .pnode.data { border-color: var(--series-4); }
+  .pnode.data .pn-type { color: var(--series-4); }
+  .pnode.scoring { border-color: var(--series-2); }
+  .pnode.scoring .pn-type { color: var(--series-2); }
+  .pnode.content-ok { border-color: var(--series-1); }
+  .pnode.content-ok .pn-type { color: var(--series-1); }
+  .pnode.content-fail { border-color: var(--status-critical); }
+  .pnode.content-fail .pn-type { color: var(--status-critical); }
+  .parrow { flex: none; align-self: center; padding: 0 8px; color: var(--text-muted); font-size: 16px; }
+  .pbranch { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+
+  .callout {
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.55;
+    margin-top: 18px;
+    border: 1px solid var(--border);
+  }
+  .callout.warn { background: color-mix(in srgb, var(--status-warning) 10%, var(--surface-1)); }
+  .callout.info { background: color-mix(in srgb, var(--series-1) 8%, var(--surface-1)); }
+  .callout b { color: var(--text-primary); }
+
+  .priority {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .priority.p-critical { background: color-mix(in srgb, var(--status-critical) 20%, transparent); color: var(--status-critical); }
+  .priority.p-serious  { background: color-mix(in srgb, var(--status-serious) 22%, transparent); color: var(--status-serious); }
+  .priority.p-good     { background: color-mix(in srgb, var(--status-good) 18%, transparent); color: var(--status-good); }
+
+  .foot { color: var(--text-muted); font-size: 11.5px; margin-top: 40px; border-top: 1px solid var(--gridline); padding-top: 16px; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+  <div class="wrap">
+    <h1>Register Errands — node composition &amp; where a Datadog hook would earn its keep</h1>
+    <p class="subtitle">ETG (Etraveli) · trees: Register Errands (id 856352556, 78 nodes) &amp; Register Errands – VI (id 343115089, 43 nodes) · sandbox exports, 2026-08-27</p>
+
+    <section>
+      <h2>1. Node type breakdown</h2>
+      <p class="section-note">Counted directly from each tree's JSON export using Zingtree's node-type field. Labels use the authoring names — the export's legacy type names ("scoring", "data") are noted in the definitions under the table. This is the raw shape of the build — not yet what each node is <em>for</em> (that's section 2).</p>
+      <div class="card">
+
+        <div class="bar-block">
+          <div class="bar-label-row">
+            <span class="bar-title">Register Errands</span>
+            <span class="bar-total">78 nodes</span>
+          </div>
+          <div class="stacked-bar" role="img" aria-label="Register Errands node types: Content 35.9%, Logic 25.6%, Script 24.4%, API/DCO 12.8%, Tree link 1.3%">
+            <div class="seg" data-fit="yes" style="width:35.9%; background:var(--series-1);"><span class="seg-label">Content 35.9%</span></div>
+            <div class="seg" data-fit="yes" style="width:25.6%; background:var(--series-2);"><span class="seg-label">Logic 25.6%</span></div>
+            <div class="seg" data-fit="yes" style="width:24.4%; background:var(--series-3);"><span class="seg-label">Script 24.4%</span></div>
+            <div class="seg" data-fit="yes" data-dark-text="1" style="width:12.8%; background:var(--series-4);"><span class="seg-label">API/DCO 12.8%</span></div>
+            <div class="seg" data-fit="no" style="width:1.3%; background:var(--series-5);"><span class="seg-label">Tree link</span></div>
+          </div>
+        </div>
+
+        <div class="bar-block" style="margin-bottom:0;">
+          <div class="bar-label-row">
+            <span class="bar-title">Register Errands – VI</span>
+            <span class="bar-total">43 nodes</span>
+          </div>
+          <div class="stacked-bar" role="img" aria-label="Register Errands VI node types: Content 44.2%, Logic 32.6%, Script 18.6%, Tree link 2.3%, API/DCO 2.3%">
+            <div class="seg" data-fit="yes" style="width:44.2%; background:var(--series-1);"><span class="seg-label">Content 44.2%</span></div>
+            <div class="seg" data-fit="yes" style="width:32.6%; background:var(--series-2);"><span class="seg-label">Logic 32.6%</span></div>
+            <div class="seg" data-fit="yes" style="width:18.6%; background:var(--series-3);"><span class="seg-label">Script 18.6%</span></div>
+            <div class="seg" data-fit="no" style="width:2.3%; background:var(--series-5);"><span class="seg-label">Tree link</span></div>
+            <div class="seg" data-fit="no" data-dark-text="1" style="width:2.3%; background:var(--series-4);"><span class="seg-label">API/DCO</span></div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item"><span class="swatch" style="background:var(--series-1);"></span>Content</div>
+          <div class="legend-item"><span class="swatch" style="background:var(--series-2);"></span>Logic</div>
+          <div class="legend-item"><span class="swatch" style="background:var(--series-3);"></span>Script</div>
+          <div class="legend-item"><span class="swatch" style="background:var(--series-4);"></span>API call (DCO)</div>
+          <div class="legend-item"><span class="swatch" style="background:var(--series-5);"></span>Tree link</div>
+        </div>
+
+        <table>
+          <thead><tr><th>Type</th><th class="num">Register Errands</th><th class="num">%</th><th class="num">VI</th><th class="num">%</th></tr></thead>
+          <tbody>
+            <tr><td>Content</td><td class="num">28</td><td class="num">35.9%</td><td class="num">19</td><td class="num">44.2%</td></tr>
+            <tr><td>Logic</td><td class="num">20</td><td class="num">25.6%</td><td class="num">14</td><td class="num">32.6%</td></tr>
+            <tr><td>Script</td><td class="num">19</td><td class="num">24.4%</td><td class="num">8</td><td class="num">18.6%</td></tr>
+            <tr><td>API call (DCO)</td><td class="num">10</td><td class="num">12.8%</td><td class="num">1</td><td class="num">2.3%</td></tr>
+            <tr><td>Tree link</td><td class="num">1</td><td class="num">1.3%</td><td class="num">1</td><td class="num">2.3%</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout info">
+          <b>What each type is:</b><br>
+          <b>Content</b> — agent-facing screens: instructions, forms, rendered Dynamic HTML, and the failure/retry screens.<br>
+          <b>Logic</b> — routing nodes (the export JSON calls this type <code>scoring</code>, a legacy name). Each button carries one boolean expression and routes on it — here that's the API health-checks reading <code>_zt_meta.response.code</code>, loop continuations like <code>is_more_child_tickets == true</code>, and selection guards. No computation happens in these; scripts set the flags they read.<br>
+          <b>Script</b> — JavaScript nodes: build payloads, group PNRs, render HTML, advance loop cursors, set the flags the Logic nodes route on.<br>
+          <b>API call (DCO)</b> — the export's <code>data</code> type: nodes that fire a Connected Object (the DCO), i.e. the actual outbound API request to Edvin or Zendesk via CX Actions, with the response landing in <code>actions.&lt;alias&gt;</code>. These are the 10 calls section 3 proposes logging.<br>
+          <b>Tree link</b> — a jump to another workflow (<code>open_tree_id</code> + return node), not the workflow itself: Register Errands' single tree-link node is node 76 handing off to the VI workflow, and VI's is the return jump back.
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. What the raw types hide: this is mostly one repeating unit</h2>
+      <p class="section-note">Per the tree's own claude.md changelog (v42, 2026-08-25), all 10 API-call (DCO) nodes were wired into an identical pattern: every API call gets a paired Logic node that reads <code>_zt_meta.response.code</code>, and a paired Content node for the failure path. That single pattern accounts for 10 of 10 API-call nodes, 10 of 20 Logic nodes, and 10 of 28 Content nodes — over a third of the entire tree exists to call an API and handle it not answering.</p>
+      <div class="card">
+        <div class="pipeline">
+          <div class="pnode data">
+            <div class="pn-type">API call (DCO)</div>
+            <div class="pn-name">e.g. node 4</div>
+            <div class="pn-desc">Fires the Connected Object (Edvin / Zendesk)</div>
+          </div>
+          <div class="parrow">→</div>
+          <div class="pnode scoring">
+            <div class="pn-type">Logic</div>
+            <div class="pn-name">e.g. node 13</div>
+            <div class="pn-desc">checks <code>actions.alias._zt_meta.response.code == 200/201</code></div>
+          </div>
+          <div class="parrow">→</div>
+          <div class="pbranch">
+            <div class="pnode content-ok">
+              <div class="pn-type">success</div>
+              <div class="pn-name">continues tree</div>
+              <div class="pn-desc">original flow, unchanged</div>
+            </div>
+            <div class="pnode content-fail">
+              <div class="pn-type">Content · fail</div>
+              <div class="pn-name">e.g. node 14</div>
+              <div class="pn-desc">"Request Failed" → Retry (loops to the API-call node) or End Session (<code>zt_request_failed</code> tag)</div>
+            </div>
+          </div>
+        </div>
+
+        <table>
+          <thead><tr><th>API call (DCO) node</th><th>Calls</th><th>Health-check</th><th>Failure screen</th></tr></thead>
+          <tbody>
+            <tr><td>4 — Edvin Find Order</td><td>findorder</td><td>13</td><td>14</td></tr>
+            <tr><td>22 — ZD Add Internal Note</td><td>create_internal_note__no_group_id</td><td>15</td><td>16</td></tr>
+            <tr><td>33 — ZD Create Child Ticket</td><td>create_child_ticket</td><td>17</td><td>18</td></tr>
+            <tr><td>37 — ZD Create Grandchild Ticket</td><td>create_child_ticket (shared CO)</td><td>19</td><td>20</td></tr>
+            <tr><td>42 — GET Edvin Errands</td><td>edvin__errand_configuration + get_edvin_prop_long_value</td><td>26</td><td>28</td></tr>
+            <tr><td>43 — Edvin Register Errand</td><td>edvin__register_errand</td><td>30</td><td>31</td></tr>
+            <tr><td>63 — Get Child Ticket Details</td><td>get_side_conversation_detail</td><td>39</td><td>40</td></tr>
+            <tr><td>66 — Update Child Ticket</td><td>zingtree_redesign__update_side_conversation</td><td>41</td><td>45</td></tr>
+            <tr><td>70 — Get Grandchild Ticket Details</td><td>get_side_conversation_detail (shared CO)</td><td>49</td><td>50</td></tr>
+            <tr><td>72 — Update Grandchild Ticket</td><td>zingtree_redesign__update_side_conversation (shared CO)</td><td>51</td><td>52</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout info">
+          The remaining <b>10 Logic nodes</b> (54, 56, 59, plus the 7 business-logic routers like node 27's grouping guard, node 3's child-ticket guard, node 11/34/45/38's loop continuations) aren't API health-checks — they're agent-input validation and loop control. And 18 of 28 Content nodes are ordinary agent-facing screens; only the 10 failure screens above are error-handling UI.
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>3. When it's worth sending this to Datadog (or similar)</h2>
+      <p class="section-note">
+        Zingtree already logs Connected Object requests/responses and script errors — but only in
+        <b>Execution Insights</b>, one session at a time, with no cross-session aggregation, no alerting,
+        and (per the troubleshooting reference) it's explicitly a debugging console, not an operations one.
+        That was the right tool while this tree was being built. It stops being enough the moment the
+        question changes from <i>"why did this one session fail?"</i> to <i>"is Edvin degraded for
+        everyone right now?"</i> — which is exactly the question that matters now that this workflow
+        went live to ~2,500 agents (go-live 2026-08-26, per the CR-015 pre-launch review).
+      </p>
+
+      <div class="card">
+        <h2 style="margin-bottom:10px;">The mechanism</h2>
+        <p class="section-note" style="margin-bottom:0;">
+          Zingtree has no native "ship logs to a 3rd party" setting. The only path out is the same one
+          this tree already uses for Edvin/Zendesk: add one more <b>Connected Object</b> (a Universal/HTTP
+          connector against Datadog's Log or Metrics intake API, API-key auth) and fire it as an API-call
+          (DCO) node from the spots below. CX Actions is already a licensed feature on this account, so this is
+          an incremental Connected Object, not new platform capability.
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:16px;">
+        <h2 style="margin-bottom:14px;">Where to hook it, in priority order</h2>
+        <table>
+          <thead><tr><th>Signal</th><th>Source</th><th>Why</th><th>Datadog construct</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>Non-2xx on any of the 10 API calls</b></td>
+              <td>The 10 Logic health-checks (13,15,17,19,26,30,39,41,49,51) — they already isolate the exact moment to hook</td>
+              <td>Direct signal of an Edvin/Zendesk outage or contract change, affecting live agents right now</td>
+              <td>Log event + count metric, alert on rate</td>
+              <td><span class="priority p-critical">Critical</span></td>
+            </tr>
+            <tr>
+              <td><b><code>zt_request_failed</code> end-of-session tag</b></td>
+              <td>Node 53 (shared "Session Ended — Request Failed")</td>
+              <td>The tag already exists for exactly this in Zendesk analytics — piping it to Datadog turns it into a real-time rate you can alert on instead of a ticket tag you'd have to query for</td>
+              <td>Monitor on tag-count rate</td>
+              <td><span class="priority p-critical">Critical</span></td>
+            </tr>
+            <tr>
+              <td><b>Grandchild-parent resolve exhausted</b> (<code>blocked_grandchild_parent_keys</code>)</td>
+              <td>Node 55 — final attempt of the 3-try resolve chain</td>
+              <td>Rare but severe: means a grandchild ticket was never linked to its parent. Silent today unless someone reads the internal note by hand</td>
+              <td>Log event, page on any occurrence</td>
+              <td><span class="priority p-critical">Critical</span></td>
+            </tr>
+            <tr>
+              <td><b>Debug payload currently printed on-screen</b> (${actions.ALIAS | stringify} on all 10 Request-Failed screens)</td>
+              <td>Same 10 failure nodes — replace the on-screen dump, don't duplicate it</td>
+              <td>The tree's own claude.md flags this (v43 Open Item #2) as needing to be scoped out before production, since it can expose tokens/internal ids to agents. Routing it to Datadog instead solves the exposure problem <i>and</i> gives durable, queryable diagnostics that an on-screen string never did</td>
+              <td>Log event (structured, not agent-visible)</td>
+              <td><span class="priority p-serious">Serious</span></td>
+            </tr>
+            <tr>
+              <td><b>Unresolved customer-action selections reaching node 27</b> (<code>has_unresolved_selections</code>)</td>
+              <td>Node 27's own counter (currently logged, nothing routes on it yet — open item #1)</td>
+              <td>Flags Edvin bucket/category config drift before it becomes a support escalation</td>
+              <td>Metric, weekly digest</td>
+              <td><span class="priority p-serious">Serious</span></td>
+            </tr>
+            <tr>
+              <td><b>Latency of each API call</b></td>
+              <td>Timestamp before the API call fires / after the Logic health-check returns, measured in the surrounding scripts</td>
+              <td><code>_zt_meta</code> gives you a status code but not timing — this has to be measured tree-side if you want it at all</td>
+              <td>Metric (p50/p95 per alias)</td>
+              <td><span class="priority p-good">Nice-to-have</span></td>
+            </tr>
+            <tr>
+              <td><b>Missing customer-action prompt rate</b> (node 58/59/60)</td>
+              <td>Node 58's <code>missing_customer_action_pnrs</code></td>
+              <td>Agent-training / UX signal, not a system-health one — useful, lower urgency</td>
+              <td>Metric, weekly digest</td>
+              <td><span class="priority p-good">Nice-to-have</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout warn">
+        <b>Volume trade-off:</b> logging every one of the 10 API calls on both success and failure roughly
+        doubles the outbound calls this tree makes per session. Recommend logging <b>failures and retries
+        unconditionally</b> (that's the actionable, alertable case and the volume is naturally low) and
+        treating successes as a <b>sampled or count-only metric</b> rather than a full log line, so the
+        added Connected Object doesn't add noticeable latency to the common path for 2,500 agents.
+      </div>
+
+      <div class="callout warn">
+        <b>Data-handling note:</b> a couple of these payloads (the raw API response dump, PNR/session
+        identifiers) carry customer and booking data. Per how this account already gates similar changes
+        (see the ETG approval queue's "nothing touching auth/payments/PII ships without human review"
+        rule), scope the Datadog payload to identifiers and status metadata — node id, alias, response
+        code, session id, tag — rather than full passenger/contact fields, and treat the Connected Object
+        itself as something worth a quick data-handling review before it ships, since it's new data leaving
+        Zendesk/Zingtree for a third-party vendor.
+      </div>
+    </section>
+
+    <div class="foot">
+      Source: sandbox exports uploaded 2026-08-27 (tree ids 856352556 / 343115089) and each tree's own
+      embedded claude.md node (v42 "Request status-check &amp; selection guards," v43 "Customer action
+      selection guard, loop counters &amp; debug printing"). Node counts and functional pairings taken
+      directly from the JSON and the tree's own maintained documentation, not inferred.
+    </div>
+  </div>
+</div>
+</body>
+</html>

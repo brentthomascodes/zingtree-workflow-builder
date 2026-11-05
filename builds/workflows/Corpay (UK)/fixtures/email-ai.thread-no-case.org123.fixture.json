@@ -1,0 +1,95 @@
+{
+ "tree_id": "109029630",
+ "preview_host": "https://eu.zingtree.com/preview/",
+ "query_params": {
+  "sf_Id": "500Ad00000c1OgmIAE",
+  "sf_Subject": "Invoices for our account",
+  "sf_CaseNumber": "02716246"
+ },
+ "connected_objects": {
+  "10": "sfdc_int__case_email_ai",
+  "20": "get_account_details__int",
+  "23": "get_incoming_email_addresses_int",
+  "187": "send_email_simple_int"
+ },
+ "ai_action_aliases": {
+  "12": "automate_email_intent_int",
+  "16": "automate_email_generation_int",
+  "18": "automate_hc_email_intent_int",
+  "25": "automate_hc_email_generation_int"
+ },
+ "actions": {
+  "sfdc_int__case_email_ai": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": []
+  },
+  "get_account_details__int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "Framework__c": null,
+     "Account_Segment__c": "SME",
+     "AS_Account_Administrator__c": "SME Unmanaged"
+    }
+   ]
+  },
+  "get_incoming_email_addresses_int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": []
+  },
+  "send_email_simple_int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "value": [
+    {
+     "actionName": "emailSimple",
+     "isSuccess": true,
+     "errors": [],
+     "outputValues": {}
+    }
+   ]
+  },
+  "automate_email_intent_int": {
+   "email_intent": [
+    "returned_direct_debit"
+   ],
+   "sentiment": "neutral",
+   "escalate_to_agent": false,
+   "escalate_reason": "",
+   "confidence_score": 95,
+   "confidence_score_extracts": "send me copies of the last three invoices",
+   "ai_exception_reason": ""
+  },
+  "automate_email_generation_int": {
+   "email": "<p>Hello,</p><p>Thank you for your email.</p><p>The Returned Direct Debit Charge (RDD) for &pound;99 is applicable to any Allstar accounts which bounce a direct debit against their account.</p><p>Kind regards,<br>Allstar Customer Support</p>"
+  }
+ },
+ "buttons": {},
+ "expect": {
+  "form_data": {
+   "latest_customer_email": "",
+   "thread_email_count": "0",
+   "last_owner_queue_name": ""
+  },
+  "data_node_calls": {
+   "send_email_simple_int": 0
+  },
+  "terminal_node": "11"
+ },
+ "note": "No case (bare preview / bad Id): node 84 stages an empty email and the run still ends on 11 Queue not in scope, as before threading."
+}

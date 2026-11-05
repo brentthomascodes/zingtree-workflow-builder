@@ -1,0 +1,18 @@
+{
+  "_comment": "Native Zingtree dynamic single-select field for the joint-accounts Content node. Add this object to that node's formfields array. Field shape (label_type, config-as-stringified-JSON, required) copied from a proven org export (ETG Rebooking Multi-Tree). Options come from transforms.joint_account_options staged by experian-joint-accounts-build-options.js (run that script on the node BEFORE this Content node). required:\"1\" makes Zingtree block Continue until the agent picks one - which is the whole point of going native. filterable adds type-ahead; drop it if the list is short.",
+
+  "type": "select",
+  "name": "joint_account_choice",
+  "label": "Which joint account applies?",
+  "label_type": "L",
+  "options": "",
+  "hidden_value": "",
+  "custom_regex": "",
+  "inline": "0",
+  "required": "1",
+  "score_var": "",
+  "checkbox_score": "1",
+  "scores": "",
+  "rank": "1",
+  "config": "{\"filterable\":true,\"list_source_type\":\"dynamic\",\"list_dynamic_source\":{\"type\":\"transforms\",\"variable\":\"joint_account_options\",\"attributes\":{\"label\":\"label\",\"value\":\"value\"}}}"
+}

@@ -1,0 +1,9 @@
+%% Debbi eLanguages (tree 908346415) - localized display, English boolean score vars
+flowchart LR
+    N1["<b>Content · node 1 (root): Start Node</b><br/>select 'selection' (Spanish) options: Sí / No<br/>score_var: selection_bool = true | false"]
+    N2["<b>Content · node 2: New Node</b><br/>select 'selection_2' (Dutch) options: Jo / Nee<br/>score_var: selection_2_bool = true | false"]
+    N3["<b>Content · node 3: claude.md</b><br/>UNLINKED in-tree memory (not in flow)"]
+    N1 -- button --> N2
+    N3 -.unlinked.-> N3
+    classDef mem fill:#f7f7f8,stroke:#b9b6c2,stroke-dasharray:5 4;
+    class N3 mem;

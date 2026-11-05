@@ -1,0 +1,30 @@
+{
+ "tree_id": "0",
+ "preview_host": "https://zingtree.com/preview/",
+ "query_params": {},
+ "connected_objects": {
+  "1301": "zingtree__get_vault_file",
+  "1302": "zingtree__delete_vault_file",
+  "1303": "sfdc__create_content_version"
+ },
+ "form_inputs": {
+  "1": {
+   "vault_file_uid": "kr46zbsesww7e2mmp4uumj7ahe",
+   "test_scenario": "test_success",
+   "test_mock_scope": "mock_all_requests"
+  },
+  "7": {
+   "file_base64": "TW9jayB2YXVsdCBmaWxlIC0gQ29ycGF5IFVLIHRlc3QgbW9kZS4K"
+  }
+ },
+ "actions": {},
+ "buttons": {},
+ "expect": {
+  "form_data": {
+   "vault_upload_status": "attached",
+   "file_base64": "",
+   "vault_download_url": ""
+  },
+  "terminal_node": "16"
+ }
+}

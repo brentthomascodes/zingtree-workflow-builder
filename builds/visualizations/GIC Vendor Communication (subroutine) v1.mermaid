@@ -1,0 +1,25 @@
+%% GIC Vendor Communication subroutine v1 — built 2026-07-27 (CR-001)
+%% Script root; returns to caller with email_sent. [PH] = placeholder CO (needs D1/D2/send/attach).
+flowchart TD
+  N1["1 · Script (root)\nPrepare vendor communication\nseed case/template/type, email_sent=false"]
+  N2["2 · Data [PH-D2]\nQuery email template from Salesforce"]
+  N3["3 · Data (live CO 444)\nLook up vendor contacts for dropship"]
+  N4["4 · Script\nBuild recipient list + draft email\n(R6/R7/R9/R10/R12)"]
+  N5["5 · Content\nAgent selects vendor recipient (required)\n(R6 — never auto-select)"]
+  N6["6 · Data [PH-D1]\nGenerate Salesforce thread ID\n(R3/R4)"]
+  N7["7 · Script\nAssemble email payload\n(embed thread ID)"]
+  N8["8 · Data [PH]\nSend vendor email from Zingtree\n(R1/R2)"]
+  N9["9 · Data [PH]\nAttach sent email to SF case\n(R5)"]
+  N10["10 · Script\nConfirm result → email_sent, vendor_comm_result, result_html"]
+  N11["11 · Content\nVendor communication result"]
+  N12["12 · Tree\nReturn to calling workflow (open_tree_id=1)\nreturns email_sent + vendor_comm_result"]
+  CM["13 · Content (unlinked)\nclaude.md — tree memory"]
+
+  N1 --> N2 --> N3 --> N4 --> N5 -->|Send to vendor| N6 --> N7 --> N8 --> N9 --> N10 --> N11 -->|Return to workflow| N12
+
+  classDef ph fill:#fff7ed,stroke:#fed7aa;
+  classDef script fill:#eef2ff,stroke:#c7d2fe;
+  classDef mem fill:#f9fafb,stroke:#e5e7eb,stroke-dasharray:4 3;
+  class N2,N6,N8,N9 ph;
+  class N1,N4,N7,N10 script;
+  class CM mem;

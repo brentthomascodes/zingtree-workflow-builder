@@ -6,11 +6,11 @@ agent workflow, a loop that creates records per item, anything that promotes bet
 environments — open the matching reference first and copy its shapes. The rules in `00`–`09`
 were rewritten against these two trees; where an older rule disagreed, the tree won.
 
-Neither tree is copied into this repo (no customer exports here). They live in the workspace:
+Corpay UK is in this repo under `builds/workflows/` (since Nov 2026); ETG Register Errands' latest exports also sit in `builds/workflows/ETG/`, with the working copies in the workspace:
 
 | Reference | Workspace path (latest export) | Companion skills |
 |---|---|---|
-| **Corpay UK — Email Automation - AI Actions INT** (58 nodes, one tree, two AI lanes) | `Zingtree Builder/Workflow JSONs/Corpay (UK)/` — newest `Email Automation - AI Actions INT (...).json`; runbook in `Account Management HQ/Corpay/UK/corpay-uk-email-ai-runbook/` | `corpay-uk-env-promote` (sandbox ↔ UK org), `corpay-uk-int-to-prod` (INT → PROD, real-data gate) |
+| **Corpay UK — Email Automation - AI Actions INT** (58 nodes, one tree, two AI lanes) | `builds/workflows/Corpay (UK)/` — newest `Email Automation - AI Actions INT (...).json`; runbook in `Account Management HQ/Corpay/UK/corpay-uk-email-ai-runbook/` | `corpay-uk-env-promote` (sandbox ↔ UK org), `corpay-uk-int-to-prod` (INT → PROD, real-data gate) |
 | **ETG — Register Errands** (89 nodes, hub with two subtrees, persistent Share / Transfer) + **Register Errands - Manager Review** (3 nodes) | `Account Management HQ/ETG (Etraveli)/Register Errands/` — newest `Register Errands (...) <date>.json` and `Register Errands - Manager Review (...)` | `etg-env-promote` (dev ↔ prod), `etg-errand-regression` (business-rule oracle) |
 
 Each tree's own `claude.md` node is the authority on that tree. Read it before this file's
@@ -175,8 +175,8 @@ shapes they show, not for their scripts. All live in Brent's workspace. (restore
 
 | Older master | Where | What it shows | Caveats |
 |---|---|---|---|
-| ETG Cancellation Errand (tree 139367450) | `Zingtree Builder/Workflow JSONs/ETG/`, scripts in `Script Library/Master - ETG Cancellation Errand/` | The single-tree loop before Register Errands: cursor loops, dynamic-HTML screens, bucket → map → loop ticket creation | Superseded by Register Errands for every rule |
-| Returns Multi-Tree (SFDC, 5 trees) | `Workflow JSONs/Returns Redesign (SFDC)/`, scripts in `Script Library/Master - Returns Multi-Tree (SFDC)/` | Hub-and-spoke by *data attribute*: the hub fetches once and buckets, Tree nodes dispatch one subtree per bucket, `return_tree_node_id` hands back; subtree roots are guards | Pre-dates the lanes pattern; read `00-etl-design.md` → "Lanes" first |
+| ETG Cancellation Errand (tree 139367450) | `builds/workflows/ETG/`, scripts in `builds/scripts/Master - ETG Cancellation Errand/` | The single-tree loop before Register Errands: cursor loops, dynamic-HTML screens, bucket → map → loop ticket creation | Superseded by Register Errands for every rule |
+| Returns Multi-Tree (SFDC, 5 trees) | `builds/workflows/Returns Redesign (SFDC)/`, scripts in `builds/scripts/Master - Returns Multi-Tree (SFDC)/` | Hub-and-spoke by *data attribute*: the hub fetches once and buckets, Tree nodes dispatch one subtree per bucket, `return_tree_node_id` hands back; subtree roots are guards | Pre-dates the lanes pattern; read `00-etl-design.md` → "Lanes" first |
 | ETG Rebooking Multi-Tree (15 trees, hub 359750132) | `Workflow JSONs/ETG/Rebooking Multi-Tree (master).json`, README in `Script Library/Master - ETG Rebooking Multi-Tree/` | Hub-and-spoke by *agent-chosen handling type*; a globally attached Persistent Buttons subtree; the richest data structures | No `claude.md` node, dev versions, generic titles — a reference, not gospel |
 
 The Experian joint-accounts set (`Script Library/experian-joint-accounts-build-options.js`,

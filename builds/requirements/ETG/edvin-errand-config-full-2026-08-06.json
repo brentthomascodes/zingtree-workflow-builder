@@ -1,0 +1,1697 @@
+{
+  "channels": [
+    {
+      "categories": [
+        {
+          "id": 151,
+          "name": "Ongoing issues",
+          "subCategories": [],
+          "types": [
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1964, "name": "Rumors" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1920, "name": "No info in Edvin - Referred to airline" }
+              ],
+              "id": 1408,
+              "name": "Unconfirmed Crisis"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1874, "name": "Escalated / handled" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1892, "name": "Information provided" }
+              ],
+              "id": 1410,
+              "name": "dLocal Installments issues"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1892, "name": "Information provided" }
+              ],
+              "id": 1409,
+              "name": "Truslty error"
+            }
+          ]
+        },
+        {
+          "id": 141,
+          "name": "Refund",
+          "subCategories": [],
+          "types": [
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1845, "name": "BR lawsuit informed to wait for outcome" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1850, "name": "Chargeback info provided - Referred to Bank" }
+              ],
+              "id": 1316,
+              "name": "Chargeback/BR lawsuit in progress/lost"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1953, "name": "Refund to customer - Info provided" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1954, "name": "Refund to us note - Escalate to Fraud" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1955, "name": "Refund to us note - info provided" }
+              ],
+              "id": 1334,
+              "name": "Fraud - Already cancelled"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1844, "name": "Booking.com placed on queue for issuance" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1935, "name": "Referred customer to download it from MYP" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1900, "name": "Informed customer to wait for the refund" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" }
+              ],
+              "id": 1335,
+              "name": "Cancellation Certificate"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1853, "name": "Claim form sent" }
+              ],
+              "id": 1317,
+              "name": "Redirect to CR"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1951, "name": "Refund received - sent to SL" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" }
+              ],
+              "id": 1331,
+              "name": "Refund received but no refund case"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1907, "name": "Informed refund pending" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1880, "name": "Failure reasons that MUST be escalated to Booking.com" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1909, "name": "Informed refund received - Escalate to Payouts" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1908, "name": "Informed refund processed" }
+              ],
+              "id": 1328,
+              "name": "Refund status"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1871, "name": "Email sent to Supplier" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1879, "name": "Escalated to TL" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1840, "name": "ARN provided" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1876, "name": "Escalated to Booking.com" }
+              ],
+              "id": 1329,
+              "name": "Unable to locate refund (ARN)"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1892, "name": "Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" }
+              ],
+              "id": 1333,
+              "name": "Bank account not valid"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1892, "name": "Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1872, "name": "Escalate to Payouts" }
+              ],
+              "id": 1330,
+              "name": "Refund brakedown"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1925, "name": "Pax confirmed alternative" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1926, "name": "Pax do not confirm alternative" }
+              ],
+              "id": 1332,
+              "name": "Refund rejected"
+            }
+          ]
+        },
+        {
+          "id": 144,
+          "name": "Change customer's personal information",
+          "subCategories": [],
+          "types": [
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1895, "name": "Information updated" }
+              ],
+              "id": 1345,
+              "name": "Apis/Docs"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1895, "name": "Information updated" }
+              ],
+              "id": 1344,
+              "name": "Phone/address"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1895, "name": "Information updated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1901, "name": "Informed main customer has to contact us" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1870, "name": "Email adress provided to submit request" }
+              ],
+              "id": 1343,
+              "name": "Email address"
+            }
+          ]
+        },
+        {
+          "id": 150,
+          "name": "Other",
+          "subCategories": [],
+          "types": [
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1940, "name": "Referred to Booking.com - no flight reservation" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1842, "name": "Asked customer to call back with Order number" }
+              ],
+              "id": 1407,
+              "name": "Booking.com - No order"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1878, "name": "Escalated to Support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1943, "name": "Referred to our website" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1924, "name": "Not related request - referred customer to contact us" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1404,
+              "name": "EU Accessibility - Formal Complaint (Existing order)"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1842, "name": "Asked customer to call back with Order number" }
+              ],
+              "id": 1406,
+              "name": "ETG - No order"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1854, "name": "Cold transfer call To Booking.com" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1866, "name": "Customer will contact Booking.com by him/herself" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1401,
+              "name": "Booking.com Accomodation"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1879, "name": "Escalated to TL" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1400,
+              "name": "Call recording request"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1402,
+              "name": "Undefined customer's request"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1956, "name": "Report fraudulent activity - Escalate to Booking.com" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1957, "name": "Report fraudulent activity - Escalate to Fraud" }
+              ],
+              "id": 1399,
+              "name": "Fraud"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1983, "name": "Used label - NDC - RA in BSP" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1984, "name": "Used label - Refund before departure" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1981, "name": "Used label - Expiring within 72hr" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1982, "name": "Used label - FLX EMD" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1985, "name": "Used label - TL Escalations" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1986, "name": "Used label - YY auth" }
+              ],
+              "id": 1403,
+              "name": "Escalate to SL through Edvin (additional errand)"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1853, "name": "Claim form sent" }
+              ],
+              "id": 1317,
+              "name": "Redirect to CR"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1883, "name": "Info provided" }
+              ],
+              "id": 1398,
+              "name": "Confirmed crisis information"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1936, "name": "Referred customer to his bank" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1858, "name": "Contact from bank - Escalated to TL" }
+              ],
+              "id": 1316,
+              "name": "Chargeback/BR lawsuit in progress/lost"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1883, "name": "Info provided" }
+              ],
+              "id": 1397,
+              "name": "Force Majeure information"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1883, "name": "Info provided" }
+              ],
+              "id": 1396,
+              "name": "Schedule Change information"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1860, "name": "Created Jira" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 2029, "name": "Referred the customer to Booking website" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1938, "name": "Referred to 3rd party tool" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1976, "name": "Submitted form on behalf of the customer" }
+              ],
+              "id": 1405,
+              "name": "EU Accessibility - Tech Error (Existing order)"
+            }
+          ]
+        },
+        {
+          "id": 148,
+          "name": "Unconfirmed booking",
+          "subCategories": [],
+          "types": [
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1905, "name": "Informed payment failed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1949, "name": "Referred to the bank" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1966, "name": "Security verification failed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1851, "name": "Charged - Sent for refund" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1876, "name": "Escalated to Booking.com" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" }
+              ],
+              "id": 1389,
+              "name": "Timed out"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1966, "name": "Security verification failed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1965, "name": "Security verification done/Info Provided" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" }
+              ],
+              "id": 1390,
+              "name": "Awaiting Manual Fraud Review"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1915, "name": "Jira raised due to payment received" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1897, "name": "Informed customer that payment was not successful" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1899, "name": "Informed customer to wait" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1876, "name": "Escalated to Booking.com" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" }
+              ],
+              "id": 1384,
+              "name": "Order Pending"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1904, "name": "Informed pax to wait 72 hours for outcome" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" }
+              ],
+              "id": 1385,
+              "name": "Pending Provider Booking"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1899, "name": "Informed customer to wait" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1898, "name": "Informed customer to make a new booking" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" }
+              ],
+              "id": 1386,
+              "name": "Shopping"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1903, "name": "Informed pax that payment is pending" }
+              ],
+              "id": 1388,
+              "name": "Awaiting Partner Payment"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1892, "name": "Information provided" }
+              ],
+              "id": 1387,
+              "name": "Price Change"
+            }
+          ]
+        },
+        {
+          "id": 142,
+          "name": "Name correction/change",
+          "subCategories": [],
+          "types": [
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1850, "name": "Chargeback info provided - Referred to Bank" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1845, "name": "BR lawsuit informed to wait for outcome" }
+              ],
+              "id": 1316,
+              "name": "Chargeback/BR lawsuit in progress/lost"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" }
+              ],
+              "id": 1337,
+              "name": "Name correction/change within the Void period"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1859, "name": "Correction processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1961, "name": "Requested docs" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1922, "name": "Not permitted" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1959, "name": "Request rejected - sent additional cost for refund" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1339,
+              "name": "Name change"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1859, "name": "Correction processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1961, "name": "Requested docs" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1922, "name": "Not permitted" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1959, "name": "Request rejected - sent additional cost for refund" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1338,
+              "name": "Name correction"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1853, "name": "Claim form sent" }
+              ],
+              "id": 1317,
+              "name": "Redirect to CR"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1917, "name": "New ticket processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1959, "name": "Request rejected - sent additional cost for refund" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1337,
+              "name": "Name correction/change within the Void period"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1959, "name": "Request rejected - sent additional cost for refund" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1336,
+              "name": "Name correction/change before ticket issuance (Only for Wenrix)"
+            }
+          ]
+        },
+        {
+          "id": 139,
+          "name": "Rebooking",
+          "subCategories": [],
+          "types": [
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1922, "name": "Not permitted" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1960, "name": "Request rejected - sent rebooking cost for refund" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1930, "name": "Rebooking processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1310,
+              "name": "Voluntary - NO Flexible ticket"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1979, "name": "Transferred to SC" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1960, "name": "Request rejected - sent rebooking cost for refund" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1930, "name": "Rebooking processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1311,
+              "name": "Force Majeure"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1980, "name": "Unable to assist/Refund flex" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1916, "name": "New ticket created" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1960, "name": "Request rejected - sent rebooking cost for refund" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1930, "name": "Rebooking processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1309,
+              "name": "Voluntary - Flexible ticket"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1839, "name": "Already handled email - closed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1922, "name": "Not permitted" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1961, "name": "Requested docs" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1313,
+              "name": "GDPR"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1960, "name": "Request rejected - sent rebooking cost for refund" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1930, "name": "Rebooking processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1312,
+              "name": "Confirmed Crisis"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1960, "name": "Request rejected - sent rebooking cost for refund" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1843, "name": "Asked customer to phone/chat" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1307,
+              "name": "Before ticket issuance (Only for Wenrix)"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1917, "name": "New ticket processed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1960, "name": "Request rejected - sent rebooking cost for refund" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1308,
+              "name": "Within the Void period"
+            },
+            {
+              "actions": [ { "bucket": { "id": 3, "name": "No action" }, "id": 1979, "name": "Transferred to SC" } ],
+              "id": 1314,
+              "name": "Schedule Change"
+            },
+            {
+              "actions": [ { "bucket": { "id": 3, "name": "No action" }, "id": 1979, "name": "Transferred to SC" } ],
+              "id": 1315,
+              "name": "Against Self Transfer Guarantee"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1850, "name": "Chargeback info provided - Referred to Bank" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1845, "name": "BR lawsuit informed to wait for outcome" }
+              ],
+              "id": 1316,
+              "name": "Chargeback/BR lawsuit in progress/lost"
+            },
+            {
+              "actions": [ { "bucket": { "id": 3, "name": "No action" }, "id": 1853, "name": "Claim form sent" } ],
+              "id": 1317,
+              "name": "Redirect to CR"
+            }
+          ]
+        },
+        {
+          "id": 149,
+          "name": "Site support",
+          "subCategories": [],
+          "types": [
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 2031, "name": "Referred to Booking.com" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1944, "name": "Referred to our website - Guidance provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1938, "name": "Referred to 3rd party tool" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" }
+              ],
+              "id": 1395,
+              "name": "EU Accessibility - Questions/Guidance"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1860, "name": "Created Jira" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 2029, "name": "Referred the customer to Booking website" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1976, "name": "Submitted form on behalf of the customer" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1938, "name": "Referred to 3rd party tool" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" }
+              ],
+              "id": 1394,
+              "name": "EU Accessibility - Tech Error (No order)"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1943, "name": "Referred to our website" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1924, "name": "Not related request - referred customer to contact us" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1878, "name": "Escalated to Support" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" }
+              ],
+              "id": 1393,
+              "name": "EU Accessibility - Formal Complaint (No order)"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1932, "name": "Redirected to Booking.com knowledge base" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1884, "name": "Info provided - Booking.com" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1885, "name": "Info provided - ETG" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1990, "name": "Wrong number - competitors" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" }
+              ],
+              "id": 1392,
+              "name": "Confirmed booking- general site support"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1932, "name": "Redirected to Booking.com knowledge base" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1884, "name": "Info provided - Booking.com" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1885, "name": "Info provided - ETG" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1990, "name": "Wrong number - competitors" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" }
+              ],
+              "id": 1391,
+              "name": "No booking- general site support"
+            }
+          ]
+        },
+        {
+          "id": 140,
+          "name": "Cancellation",
+          "subCategories": [],
+          "types": [
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1971, "name": "Sent Payment Link - fee due to CC2C" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1846, "name": "Cancellation completed - Sent for refund" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1318,
+              "name": "Before ticket issuance"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1848, "name": "Cancellation processed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1327,
+              "name": "Against Xcover (Cover Genius)"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1921, "name": "Not eligible for the product" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1848, "name": "Cancellation processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1326,
+              "name": "Against CFAR"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1922, "name": "Not permitted" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1961, "name": "Requested docs" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1313,
+              "name": "GDPR"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1988, "name": "Void not permitted" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1987, "name": "Void completed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1971, "name": "Sent Payment Link - fee due to CC2C" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1319,
+              "name": "Void"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1921, "name": "Not eligible for the product" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1848, "name": "Cancellation processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1852, "name": "Claim done" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1325,
+              "name": "Against Cancellation Guarantee"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1971, "name": "Sent Payment Link - fee due to CC2C" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1848, "name": "Cancellation processed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1977, "name": "Ticket is non-refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1989, "name": "Voucher/credit not permitted - No refund" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1322,
+              "name": "Voluntary - Voucher/Credit refund"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1921, "name": "Not eligible for the product" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1849, "name": "Cancellation processed - Requested docs" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1852, "name": "Claim done" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1324,
+              "name": "Against Cancellation Protection"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1971, "name": "Sent Payment Link - fee due to CC2C" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1846, "name": "Cancellation completed - Sent for refund" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1836, "name": "24 hour rule not permitted" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1852, "name": "Claim done" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1320,
+              "name": "24 hour rule"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1848, "name": "Cancellation processed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1847, "name": "Cancellation is not permitted" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1852, "name": "Claim done" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1311,
+              "name": "Force Majeure"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1848, "name": "Cancellation processed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1847, "name": "Cancellation is not permitted" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1852, "name": "Claim done" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1312,
+              "name": "Confirmed Crisis"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1971, "name": "Sent Payment Link - fee due to CC2C" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1848, "name": "Cancellation processed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1847, "name": "Cancellation is not permitted" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1852, "name": "Claim done" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1323,
+              "name": "Dupe"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1971, "name": "Sent Payment Link - fee due to CC2C" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1848, "name": "Cancellation processed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1977, "name": "Ticket is non-refundable" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1852, "name": "Claim done" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1321,
+              "name": "Voluntary - Fare rules"
+            },
+            {
+              "actions": [ { "bucket": { "id": 3, "name": "No action" }, "id": 1979, "name": "Transferred to SC" } ],
+              "id": 1314,
+              "name": "Schedule Change"
+            },
+            {
+              "actions": [ { "bucket": { "id": 3, "name": "No action" }, "id": 1979, "name": "Transferred to SC" } ],
+              "id": 1315,
+              "name": "Against Self Transfer Guarantee"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1850, "name": "Chargeback info provided - Referred to Bank" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1845, "name": "BR lawsuit informed to wait for outcome" }
+              ],
+              "id": 1316,
+              "name": "Chargeback/BR lawsuit in progress/lost"
+            },
+            {
+              "actions": [ { "bucket": { "id": 3, "name": "No action" }, "id": 1853, "name": "Claim form sent" } ],
+              "id": 1317,
+              "name": "Redirect to CR"
+            }
+          ]
+        },
+        {
+          "id": 146,
+          "name": "Payment Questions",
+          "subCategories": [],
+          "types": [
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1918, "name": "No action / no fare hike" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1972, "name": "Sent to refund" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" }
+              ],
+              "id": 1350,
+              "name": "Fare hike"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1861, "name": "Credit card info provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1888, "name": "Info provided about the price" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1876, "name": "Escalated to Booking.com" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1887, "name": "Info provided about credit card fees" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" }
+              ],
+              "id": 1349,
+              "name": "Original payment information"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1850, "name": "Chargeback info provided - Referred to Bank" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1845, "name": "BR lawsuit informed to wait for outcome" }
+              ],
+              "id": 1316,
+              "name": "Chargeback/BR lawsuit in progress/lost"
+            },
+            {
+              "actions": [ { "bucket": { "id": 3, "name": "No action" }, "id": 1853, "name": "Claim form sent" } ],
+              "id": 1317,
+              "name": "Redirect to CR"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1890, "name": "Info provided for PSD2 - Code problem" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1889, "name": "Info provided for PSD2 - Blank page" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1875, "name": "Escalated due to double charge" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1927, "name": "Post-sale Timed-out ancillaries - Escalated to Booking.com" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1929, "name": "Post-sale Timed-out ancillaries - Payment successful, sent for refund" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1928, "name": "Post-sale Timed-out ancillaries - Informed that attempt failed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1906, "name": "Informed reason of failed payment attempt" }
+              ],
+              "id": 1351,
+              "name": "Transaction information"
+            }
+          ]
+        },
+        {
+          "id": 143,
+          "name": "Add passenger/New ticket sell",
+          "subCategories": [],
+          "types": [
+            {
+              "actions": [ { "bucket": { "id": 3, "name": "No action" }, "id": 1853, "name": "Claim form sent" } ],
+              "id": 1317,
+              "name": "Redirect to CR"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1850, "name": "Chargeback info provided - Referred to Bank" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1845, "name": "BR lawsuit informed to wait for outcome" }
+              ],
+              "id": 1316,
+              "name": "Chargeback/BR lawsuit in progress/lost"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1959, "name": "Request rejected - sent additional cost for refund" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1917, "name": "New ticket processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1342,
+              "name": "Add infant"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1959, "name": "Request rejected - sent additional cost for refund" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1917, "name": "New ticket processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1341,
+              "name": "Add child"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1959, "name": "Request rejected - sent additional cost for refund" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1917, "name": "New ticket processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1950, "name": "Referred to the website" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" }
+              ],
+              "id": 1340,
+              "name": "Add adult/New ticket sell"
+            }
+          ]
+        },
+        {
+          "id": 145,
+          "name": "Document & Travel info",
+          "subCategories": [],
+          "types": [
+            {
+              "actions": [ { "bucket": { "id": 3, "name": "No action" }, "id": 1853, "name": "Claim form sent" } ],
+              "id": 1317,
+              "name": "Redirect to CR"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1939, "name": "Referred to airline/ local authorities" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" }
+              ],
+              "id": 1462,
+              "name": "Travel Documents required"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1962, "name": "Resent Confirmation/TD" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1963, "name": "Resent tickets/emds from the booking system" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" }
+              ],
+              "id": 1346,
+              "name": "Booking/order information"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1894, "name": "Information provided for check-in" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" }
+              ],
+              "id": 1452,
+              "name": "Check-in questions"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1893, "name": "Information provided about flight details" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" }
+              ],
+              "id": 1453,
+              "name": "Itinerary/flights questions"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1892, "name": "Information provided" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" }
+              ],
+              "id": 1347,
+              "name": "Passenger at airport"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1911, "name": "Informed this is the only document" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1974, "name": "Sent to Support - Nota Fiscal Invoice" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1914, "name": "Issued invoice for Booking.com" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1902, "name": "Informed pax about Myportal" }
+              ],
+              "id": 1348,
+              "name": "Invoice request"
+            }
+          ]
+        },
+        {
+          "id": 147,
+          "name": "Ancillaries/Services & Products",
+          "subCategories": [],
+          "types": [
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1845, "name": "BR lawsuit informed to wait for outcome" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1850, "name": "Chargeback info provided - Referred to Bank" }
+              ],
+              "id": 1316,
+              "name": "Chargeback/BR lawsuit in progress/lost"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1968, "name": "Sent for refund due to Right of Withdrawal" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1923, "name": "Not possible to add post booking" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1360,
+              "name": "Cancellation Guarantee - ETG"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1968, "name": "Sent for refund due to Right of Withdrawal" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1923, "name": "Not possible to add post booking" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1361,
+              "name": "Cancel For Any Reason (CFAR) - ETG"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1969, "name": "Sent for refund of the product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1923, "name": "Not possible to add post booking" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1377,
+              "name": "Climate compensation - Partner"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1923, "name": "Not possible to add post booking" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1366,
+              "name": "Meal Preference (Meal Light) - ETG"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1946, "name": "Referred to partner for more info" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1969, "name": "Sent for refund of the product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1923, "name": "Not possible to add post booking" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1370,
+              "name": "Xcover (Cover Genius) - Partner"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1968, "name": "Sent for refund due to Right of Withdrawal" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1969, "name": "Sent for refund of the product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1923, "name": "Not possible to add post booking" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1362,
+              "name": "Flexible ticket - ETG"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1969, "name": "Sent for refund of the product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1923, "name": "Not possible to add post booking" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1359,
+              "name": "Cancellation Protection - ETG"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1969, "name": "Sent for refund of the product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1923, "name": "Not possible to add post booking" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1368,
+              "name": "CO2 Compensation - ETG"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1942, "name": "Referred to MYP to add product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1945, "name": "Referred to parner for claim" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1373,
+              "name": "Baggage Service by Blue Ribbon Bags - Partner"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1942, "name": "Referred to MYP to add product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1379,
+              "name": "Lounge - Partner"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1942, "name": "Referred to MYP to add product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1367,
+              "name": "Seatinglight (seating/seatmap) - ETG"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1942, "name": "Referred to MYP to add product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1380,
+              "name": "Cabin Class Upgrade - Partner"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1942, "name": "Referred to MYP to add product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1856, "name": "Confirmation email sent" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1381,
+              "name": "Airport Transfer - Partner"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1942, "name": "Referred to MYP to add product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1378,
+              "name": "Visa - Partner"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1942, "name": "Referred to MYP to add product" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1969, "name": "Sent for refund of the product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1363,
+              "name": "Support Package - ETG"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1942, "name": "Referred to MYP to add product" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1969, "name": "Sent for refund of the product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1855, "name": "Confirmation email forwarded" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1867, "name": "Customer's details updated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1376,
+              "name": "Fast Track - Partner"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1873, "name": "Escalated" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1948, "name": "Referred to T&C" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1369,
+              "name": "Price Guarantee - ETG"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 2027, "name": "Sent Payment Link - add product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1365,
+              "name": "Order information SMS - ETG"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1873, "name": "Escalated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 2027, "name": "Sent Payment Link - add product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1364,
+              "name": "MTP Mobile Travel Plan - ETG"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1969, "name": "Sent for refund of the product" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 2027, "name": "Sent Payment Link - add product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1372,
+              "name": "Solid - Partner"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1969, "name": "Sent for refund of the product" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 2027, "name": "Sent Payment Link - add product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1371,
+              "name": "Airhelp - Partner"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1969, "name": "Sent for refund of the product" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1867, "name": "Customer's details updated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 2027, "name": "Sent Payment Link - add product" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1857, "name": "Confirmation email/boarding pass forwarded" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1952, "name": "Refund rejected - Not refundable" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1891, "name": "Info provided for the product" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1374,
+              "name": "Check-in Service - Partner"
+            },
+            {
+              "actions": [ { "bucket": { "id": 3, "name": "No action" }, "id": 1853, "name": "Claim form sent" } ],
+              "id": 1317,
+              "name": "Redirect to CR"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1892, "name": "Information provided" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1841, "name": "Asked consent" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1958, "name": "Request rejected" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1837, "name": "Addition completed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1354,
+              "name": "Assistance - Airline"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1892, "name": "Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1959, "name": "Request rejected - sent additional cost for refund" }
+              ],
+              "id": 1357,
+              "name": "Unaccompanied minor - Airline"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1892, "name": "Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1959, "name": "Request rejected - sent additional cost for refund" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1838, "name": "Addition processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" }
+              ],
+              "id": 1355,
+              "name": "Meals - Airline"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1892, "name": "Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1959, "name": "Request rejected - sent additional cost for refund" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1838, "name": "Addition processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" }
+              ],
+              "id": 1358,
+              "name": "Other ancillaries/services - Airline"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1959, "name": "Request rejected - sent additional cost for refund" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1838, "name": "Addition processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1896, "name": "Informed allowance" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1967, "name": "Sent claim form" }
+              ],
+              "id": 1352,
+              "name": "Baggage - Airline"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 5, "name": "Different request" }, "id": 1868, "name": "Different request" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1882, "name": "Follow up - Information provided" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1869, "name": "Do not proceed" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1973, "name": "Sent to support" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1959, "name": "Request rejected - sent additional cost for refund" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1838, "name": "Addition processed" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1975, "name": "Sent to ticketing" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1970, "name": "Sent Payment Link" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1910, "name": "Informed seating number(s)" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1967, "name": "Sent claim form" }
+              ],
+              "id": 1353,
+              "name": "Seating - Airline"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1931, "name": "Redirect to partner" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1382,
+              "name": "E-Sim - Partner"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1865, "name": "Customer will contact Booking themselves" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1941, "name": "Referred to Booking.com Mytrips" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1877, "name": "Escalated to Booking.com inovation lab" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1947, "name": "Referred to provider" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1978, "name": "Transferred to Booking.com" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1383,
+              "name": "Other Booking.com Products"
+            },
+            {
+              "actions": [
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1958, "name": "Request rejected" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1881, "name": "FF added" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1934, "name": "Referred to airline" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1913, "name": "Interaction disconnected - no response" },
+                { "bucket": { "id": 3, "name": "No action" }, "id": 1862, "name": "Customer language issue - transferred" },
+                { "bucket": { "id": 4, "name": "Proceed" }, "id": 1863, "name": "Customer requested Supervisor - Escalated" }
+              ],
+              "id": 1356,
+              "name": "Frequent Flyer - Airline"
+            }
+          ]
+        }
+      ],
+      "id": 80,
+      "name": "Phone"
+    }
+  ],
+  "_note": "Extracted 2026-08-06 from Brent's paste of the live Edvin errandConfiguration GET response (Phone channel shown; Chat and Email channels carry the same category/type/action structure per the tree's own actions_flat mapping). Supersedes the Cancellation-only edvin-errand-config-cancellation-2026-08-04.json for harness coverage purposes -- extend config.json to sweep all 13+ categories, not just Cancellation."
+}

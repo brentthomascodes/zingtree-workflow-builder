@@ -1,0 +1,10 @@
+{
+  "requested_for": "corporate.payments.support@corpay.com",
+  "short_description": "Corpay Corporate Payments Incident | ${customer_name} | SF Case ${sf_case_number}",
+  "description": "Customer Name: ${customer_name}\nAccount Code: ${account_code}\nCust ID: ${cust_ID}\nNumber of Impacted Transactions: ${impacted_transactions}\nTotal Amount of Impacted Transactions: ${amount_impacted_transactions}\nSalesforce Case Number: ${sf_case_number}\n\nWhat is the Issue: ${details_of_incident}\nWhat is the impact of the issue: ${incident_impact}\nWho is and isn't experiencing the issue: ${incident_experience}\nWhen was the last time this worked: ${incident_worked}\nWhat has changed since the last time it worked: ${incident_changed}\nWhere is the issue occurring: ${incident_occuring}\nWhat troubleshooting steps have you taken: ${incident_troubleshooting}\nHow can this issue be replicated: ${incident_replication}\nIs there a work around for this issue: ${incident_workaround}\nHow urgent is this issue: ${incident_urgency}",
+  "category": "Applications",
+  "subcategory": "Unexpected behavior",
+  "assignment_group": "Corpay Corporate Payments App Support",
+  "zingtree_session_id": "${zingtree_session_id}",
+  "work_notes": "Number of Hours reporter worked on this issue before reporting: ${hours_worked}"
+}

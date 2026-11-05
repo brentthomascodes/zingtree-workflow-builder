@@ -1,0 +1,51 @@
+%% Register Errand - Cancellations (tree 139367450) — current flow
+%% Fix applied at node 2 (channel/category stored as .name). Node 28 is dead/unreachable.
+flowchart TD
+  subgraph INTAKE["Per-PNR intake loop"]
+    n4["4 · Find Order (API)"] --> n6["6 · Select PNRs"]
+    n6 --> n24["24 · Continue (set channel/category/api)"]
+    n24 --> n7["7 · Set Selected PNRs"]
+    n7 --> n8["8 · Select Passengers"]
+    n8 --> n9["9 · Format Passengers"]
+    n9 --> n42["42 · GET Edvin Errands (API)"]
+    n42 --> n46["46 · Format Types (sets channel/category objects)"]
+    n46 --> n1["1 · Select Channel & Type"]
+    n1 --> n2["2 · Build actions_array + push PNR ✅ FIX HERE"]
+    n2 --> n11{"11 · More PNRs?"}
+    n11 -- "isMorePNR == true" --> n7
+  end
+  n11 -- else --> n12["12 · Create PNR Action Table (renders channel)"]
+  n12 --> n25["25 · Display PNR Action Table"]
+  n25 --> n27["27 · Stitch & Group selections + build child tickets"]
+  n27 --> n31["31 · Update Tags (API)"]
+  subgraph CHILD["Child + grandchild ticket loops"]
+    n31 --> n32["32 · Loop Child Tickets"]
+    n32 --> n33["33 · Create Child Ticket (API)"]
+    n33 --> n35{"35 · Grand children?"}
+    n35 -- yes --> n39["39 · Set Side Conv Parent Id"]
+    n39 --> n41["41 · Use transformed data"]
+    n41 --> n40["40 · Get Side Conversations (API)"]
+    n40 --> n36["36 · Loop Grandchild Tickets"]
+    n36 --> n37["37 · Create Grandchild Ticket (API)"]
+    n37 --> n38{"38 · More grandchildren?"}
+    n38 -- yes --> n36
+    n38 -- no --> n34
+    n35 -- no --> n34{"34 · More child tickets?"}
+    n34 -- yes --> n32
+  end
+  n34 -- no --> n21["21 · Format Internal Note"]
+  n21 --> n22["22 · Add Internal Note (API)"]
+  subgraph REG["Register errands loop"]
+    n22 --> n44["44 · Loop Errands to Register"]
+    n44 --> n43["43 · Register Errand (API)"]
+    n43 --> n45{"45 · More errands?"}
+    n45 -- yes --> n44
+  end
+  n45 -- no --> n23["23 · Closing Call"]
+  n23 --> n47["47 · Additional request"]
+  n47 --> n29["29 · Clear Data"]
+  n29 --> n4
+  n28["28 · Clear Data (CONTENT) — DEAD / unreachable"]:::dead
+  classDef dead fill:#fef2f2,stroke:#fecaca,color:#b42318,stroke-dasharray:5 3;
+  classDef fix fill:#dce8df,stroke:#4a7a5c,color:#14351f;
+  class n2 fix;

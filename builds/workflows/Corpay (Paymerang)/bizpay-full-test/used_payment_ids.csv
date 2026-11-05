@@ -1,0 +1,3 @@
+payment_id,date,resolution,agent_email,result
+36258047,2026-10-22,reissue_check,system@zingtree.com,Cancelled (request 4972)
+36258085,2026-10-23,reissue_check,system@zingtree.com,Cancelled (request 5006) after a rejected POST with a non-BizPay email

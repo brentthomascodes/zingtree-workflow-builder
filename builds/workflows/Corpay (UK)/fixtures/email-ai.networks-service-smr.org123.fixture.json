@@ -1,0 +1,125 @@
+{
+ "tree_id": "109029630",
+ "preview_host": "https://eu.zingtree.com/preview/",
+ "query_params": {
+  "sf_Id": "500Ad00000c1OgmIAE",
+  "sf_Subject": "Remittance",
+  "sf_CaseNumber": "02716246"
+ },
+ "connected_objects": {
+  "10": "sfdc_int__case_email_ai",
+  "20": "get_account_details__int",
+  "23": "get_incoming_email_addresses_int",
+  "187": "send_email_simple_int"
+ },
+ "ai_action_aliases": {
+  "93": "automate_networks_email_intent_int"
+ },
+ "actions": {
+  "sfdc_int__case_email_ai": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "Id": "500Ad00000c1OgmIAE",
+     "CaseNumber": "02716246",
+     "Subject": "Remittance",
+     "Description": "I need a copy of my remittance for the SMR payment",
+     "SuppliedEmail": "gt@zingtree.com",
+     "AccountId": "001Ad000010Va2fIAC",
+     "Origin": "Email",
+     "Status": "New",
+     "Topic__c": "Please select one",
+     "Sub_Topic__c": "Please select one",
+     "RecordTypeId": "0124J000000Cv1rQAA",
+     "OwnerId": "00G4J000000jcvjUAA",
+     "Initial_Case_Queue_Name__c": "Networks_General",
+     "Queue_Email__c": null,
+     "CreatedDate": "2026-08-21T15:25:32.000+0000",
+     "Last_Email_Date__c": "2026-08-21T15:25:18.000+0000",
+     "Last_Owner_Queue_Name__c": "Networks_General",
+     "Business_process__c": "Operations"
+    }
+   ]
+  },
+  "get_account_details__int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "Framework__c": null,
+     "Account_Segment__c": "SME",
+     "AS_Account_Administrator__c": "SME Unmanaged"
+    }
+   ]
+  },
+  "get_incoming_email_addresses_int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": [
+    {
+     "CcAddress": "fleet.admin@example.co.uk; accounts@example.co.uk"
+    }
+   ]
+  },
+  "send_email_simple_int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "value": [
+    {
+     "actionName": "emailSimple",
+     "isSuccess": true,
+     "errors": [],
+     "outputValues": {}
+    }
+   ]
+  },
+  "automate_networks_email_intent_int": {
+   "email_intent": [
+    "remittance_copy_request"
+   ],
+   "sentiment": "neutral",
+   "escalate_to_agent": false,
+   "escalate_reason": "",
+   "confidence_score": 95,
+   "confidence_score_extracts": "Send me my remittance",
+   "ai_exception_reason": ""
+  }
+ },
+ "buttons": {
+  "1": "Process this case",
+  "96": "Service department pushback response",
+  "98": "Continue",
+  "114": "Yes - send email response"
+ },
+ "form_inputs": {
+  "98": {
+   "invoice_amount": "£250.00",
+   "remittance_type": "SMR Remittance"
+  }
+ },
+ "expect": {
+  "form_data": {
+   "sf_Topic__c": "Remittance Breakdown",
+   "sf_Sub_Topic__c": "SMR Remittance",
+   "networks_pushback_type": "service_department"
+  },
+  "data_node_calls": {
+   "send_email_simple_int": 1
+  },
+  "terminal_node": "41"
+ },
+ "note": "Networks service department pushback, SMR -> sent"
+}

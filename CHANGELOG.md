@@ -8,6 +8,16 @@ that proved it. Brent rolls **Unreleased** into a dated entry on each push. See
 
 _(empty)_
 
+## 2026-11-05 — builds move into the repo
+
+Brent's `Zingtree Builder/` workspace (Workflow JSONs, Script Library, Requirements,
+Visualizations, Platform) now lives under `builds/` (`workflows/`, `scripts/`, `requirements/`,
+`visualizations/`, `platform/`). This reverses the Oct 27 "customer exports stay local" rule:
+CONTRIBUTING principle 3 now bans only credentials. Every `Zingtree Builder/...` path in
+`SKILL.md`, `references/` and the companion skill points at `builds/`. One Zingtree session API
+key (Ivy Rehab Incoming Call launch URL) is `REDACTED_ZINGTREE_APIKEY` in all eight copies.
+Left out: a raw Zendesk session dump (`ETG/data.rtf`), a 9 MB upload test file, a `.pyc`.
+
 ## 2026-10-27 — two repos merged into one
 
 The July `zingtree-builder` repo (a public snapshot of Brent's `Zingtree Builder/` workspace

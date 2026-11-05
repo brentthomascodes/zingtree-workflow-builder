@@ -1,0 +1,59 @@
+%% Penrose MH Master Triage (Consolidated) v4 — architecture
+%% One tree replaces 5 source trees. Launch with ?condition= or pick on node 3.
+flowchart TD
+    subgraph FRONT["Front door"]
+      P["Select condition / ?condition=  (n3, n1 Init, n2, n4)"]
+    end
+    P -->|smi| SMI
+    P -->|adult_mh| ADULT
+    P -->|depression| DEP
+    P -->|cyp| CYP
+    P -->|risk| RISK
+
+    subgraph SMI["SMI (n10-18)"]
+      SMI1["Purpose + emergency checkboxes"] --> SMI2["Scoring: any emergency sx?"]
+    end
+    SMI2 -->|emergency| RISK
+    SMI2 -->|none| OUT
+
+    subgraph ADULT["Adult MH (n20-27) — natural top-level triage"]
+      A1["Self / child / IN CRISIS"] --> A2["Choices: detox, ADHD, panic, meds, text, clinician"]
+      A2 --> A3["seen-before + safety-feeling (1 screen)"]
+    end
+    A1 -->|child| CYP
+    A1 -->|crisis| RISK
+    A2 -->|panic| EXT
+    A2 -->|chasing referral / repeat meds| EXT
+    A3 -->|unsafe| RISK
+    A3 -->|else| OUT
+
+    subgraph DEP["Depression (n30-34)"]
+      D1["new-symptoms + medication (1 screen)"] --> D2["eval + route"]
+    end
+    D1 -->|new symptoms| EXT
+    D2 --> OUT
+
+    subgraph CYP["Children & Young People (n40-58)"]
+      C1["Emergency?"] --> C2["Willing to discuss"]
+      C2 --> C3["Non-verbal symptom checkboxes"]
+      C3 --> C4["undiagnosed/worsening -> meds/urgent (merged screens)"]
+    end
+    C1 -->|emergency| RISK
+    C3 -->|scoring| OUT
+    C4 --> OUT
+
+    subgraph RISK["MH Risk Assessment (n60-74) — SHARED sub-flow"]
+      R1["Consent + text resources"] --> R2["Suicide / self-harm / harm checks (risk_score 7/1/0)"]
+      R2 --> R3["Dependents (3 selects, 1 screen)"] --> R4["Calculator: >=7 Emergency / =0 MHN / else Moderate"]
+    end
+    R1 -->|declines| OUT
+    R4 --> OUT
+
+    subgraph SHARED["Shared endpoints"]
+      OUT["Outcome screen n90\n96-outcome select (union) + 21 setter scripts"] --> OTHER["Other? -> free text (n91-92)"]
+      OTHER --> SN["Safety Netting n93 (sn_html per condition)"]
+    end
+
+    EXT["External trees (kept as links):\nnav 570364802, panic 812674825,\nchasing 848053525, repeat-med 416535224"]
+
+    MEM["claude.md (n200) — unlinked in-tree memory"]

@@ -1,0 +1,17 @@
+flowchart TD
+  N1["1 Start: request from Cancel Card Dashboard<br/>(iPay, oldest first)"] --> N2[["2 GET payment (CO 1299)"]]
+  N2 --> N3{{"3 Stage payment"}} --> N4{"4 found?"}
+  N4 -- no --> N5["5 Not found"] --> N1
+  N4 -- yes --> N6["6 Settlement History + Comdata?"] --> N7{"7 Comdata data?"}
+  N7 -- yes --> N8["8 Comdata totals"] --> N10
+  N7 -- no --> N9["9 Galileo Avail. To Spend"] --> N10
+  N10{{"10 Route script<br/>(replaces ~40 Visio logic nodes)"}} --> N11{"11 next step"}
+  N11 -- check_vendor --> N13["13 Supplier check"] --> N10
+  N11 -- rpps_check --> N14["14 RPPS in Actions?"] --> N10
+  N11 -- confirm_reason --> N15["15 Confirm cancel reason"] --> N10
+  N11 -- approve --> N17["17 Approve: success?"]
+  N11 -- else --> N16["16 Decision: hold / deny / deny + resubmit / escalate / not mapped"] --> N1
+  N17 -- yes --> N1
+  N17 -- no --> N18["18 Card expired?"]
+  N18 -- yes --> N19["19 Settled Credit Spreadsheet"] --> N1
+  N18 -- no --> N12["12 Escalate"] --> N1

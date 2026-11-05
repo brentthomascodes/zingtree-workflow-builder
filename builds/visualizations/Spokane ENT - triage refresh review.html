@@ -1,0 +1,486 @@
+<!doctype html>
+<title>Spokane ENT Triage Refresh</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --paper:#F7F5F1; --surface:#FFFFFF; --line:#E4DFD5; --line-soft:#EDE9E0;
+  --ink:#23324A; --mut:#6B7280;
+  --navy:#1F3A54; --navy-dk:#16283B; --teal:#3F8F6B; --teal-tint:#E3F1EC; --teal-bd:#BEDDD0;
+  --red:#C0362C; --red-bg:#FCECEA; --red-bd:#F2C6C1;
+  --amber:#92620A; --amber-bg:#FDF3E0; --amber-bd:#F0DBA6;
+  --old-green:#008C51; --old-mint:#D6FAEA;
+  --radius:10px;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141A22; --surface:#1B222C; --line:#2B3542; --line-soft:#242D38;
+    --ink:#E9E6DE; --mut:#95A0AD;
+    --navy:#5C86AC; --navy-dk:#3F6B90; --teal:#5FB088; --teal-tint:#1C2C27; --teal-bd:#31513F;
+    --red:#E2685C; --red-bg:#2C1B1A; --red-bd:#4A2825;
+    --amber:#D9A441; --amber-bg:#2B230F; --amber-bd:#4A3A17;
+    --old-green:#2FAE7A; --old-mint:#1D3A31;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141A22; --surface:#1B222C; --line:#2B3542; --line-soft:#242D38;
+  --ink:#E9E6DE; --mut:#95A0AD;
+  --navy:#5C86AC; --navy-dk:#3F6B90; --teal:#5FB088; --teal-tint:#1C2C27; --teal-bd:#31513F;
+  --red:#E2685C; --red-bg:#2C1B1A; --red-bd:#4A2825;
+  --amber:#D9A441; --amber-bg:#2B230F; --amber-bd:#4A3A17;
+  --old-green:#2FAE7A; --old-mint:#1D3A31;
+}
+
+*{box-sizing:border-box;}
+body{
+  background:var(--paper); color:var(--ink); font-family:var(--sans);
+  margin:0; padding:56px 24px 96px;
+}
+.page{ max-width:760px; margin:0 auto; }
+
+.eyebrow{
+  font-family:var(--mono); font-size:11.5px; font-weight:600; letter-spacing:.11em;
+  text-transform:uppercase; color:var(--teal); margin:0 0 14px;
+}
+h1{
+  font-family:var(--serif); font-weight:600; font-size:40px; line-height:1.1;
+  letter-spacing:-.01em; margin:0 0 10px; color:var(--ink); text-wrap:balance;
+}
+.dek{
+  font-size:15.5px; color:var(--mut); margin:0 0 6px; max-width:60ch;
+}
+.meta{
+  font-family:var(--mono); font-size:12px; color:var(--mut); margin:18px 0 0;
+  padding-top:18px; border-top:1px solid var(--line);
+  display:flex; flex-wrap:wrap; gap:6px 22px;
+}
+.meta b{ color:var(--ink); font-weight:600; }
+
+section{ margin-top:56px; }
+h2{
+  font-family:var(--serif); font-weight:600; font-size:23px; margin:0 0 6px; color:var(--ink);
+}
+.section-note{ font-size:14px; color:var(--mut); margin:0 0 22px; max-width:62ch; }
+
+p{ font-size:15.5px; line-height:1.62; margin:0 0 14px; max-width:66ch; }
+
+.outcomes{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.outcome{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+  padding:18px 18px 20px;
+}
+.outcome .num{ font-family:var(--mono); font-size:12px; color:var(--teal); font-weight:600; margin-bottom:8px; }
+.outcome h3{ font-family:var(--serif); font-size:17px; margin:0 0 6px; font-weight:600; }
+.outcome p{ font-size:13.5px; color:var(--mut); margin:0; }
+
+/* palette swatches */
+.swatch-row{ display:flex; gap:0; border-radius:var(--radius); overflow:hidden; border:1px solid var(--line); margin-bottom:10px; }
+.swatch{ flex:1; height:52px; position:relative; }
+.swatch-row.old .swatch:nth-child(1){ background:var(--old-green); }
+.swatch-row.old .swatch:nth-child(2){ background:var(--old-mint); }
+.swatch-row.old .swatch:nth-child(3){ background:#000000; }
+.swatch-row.new .swatch:nth-child(1){ background:var(--navy); }
+.swatch-row.new .swatch:nth-child(2){ background:var(--teal-tint); border-right:1px solid var(--line); }
+.swatch-row.new .swatch:nth-child(3){ background:var(--teal); }
+.swatch-label{ font-family:var(--mono); font-size:11px; color:var(--mut); display:flex; justify-content:space-between; margin:0 0 26px; }
+
+/* before / after cards */
+.compare{ display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start; }
+.compare-col .tag{ font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--mut); margin:0 0 10px; }
+.compare-col.after .tag{ color:var(--teal); }
+
+.old-alert{
+  border:2px solid #ff0000; border-radius:4px; padding:14px; background:#fff;
+  font-family:Arial,sans-serif;
+}
+.old-alert i{ display:block; text-align:center; color:#ff0000; font-size:30px; font-style:normal; margin-bottom:6px; }
+.old-alert strong{ color:#ff0000; font-size:16px; display:block; line-height:1.4; }
+.old-alert .old-btn{
+  display:inline-block; margin-top:12px; background:#eee; border:1px solid #999; color:#333;
+  padding:6px 10px; font-size:12px; font-family:monospace;
+}
+
+/* live cse-card component, same CSS shipped in the tree's script_code */
+.cse-card{ border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--surface); }
+.cse-card-head{ display:flex; align-items:center; gap:10px; padding:14px 18px; border-bottom:1px solid var(--line); }
+.cse-card-title{ font-family:var(--sans); font-size:14px; font-weight:700; letter-spacing:.02em; text-transform:uppercase; }
+.cse-card-body{ padding:16px 18px; }
+.cse-card-body p{ margin:0 0 10px; font-size:14.5px; } .cse-card-body p:last-child{ margin-bottom:0; }
+.cse-card-icon{ font-size:18px; line-height:1; }
+.cse-card--danger .cse-card-head{ background:var(--red-bg); border-color:var(--red-bd); }
+.cse-card--danger .cse-card-title,.cse-card--danger .cse-card-icon{ color:var(--red); }
+.cse-card-footer-btn{
+  margin:14px 18px 18px; display:inline-block; background:var(--navy); color:#fff; font-size:13px;
+  font-weight:600; padding:9px 16px; border-radius:8px; font-family:var(--sans);
+}
+
+/* findings table */
+.findings{ border-top:1px solid var(--line); }
+.finding{
+  display:grid; grid-template-columns:96px 1fr; gap:18px;
+  padding:18px 0; border-bottom:1px solid var(--line);
+}
+.finding .fnum{ font-family:var(--mono); font-size:12px; color:var(--mut); padding-top:2px; }
+.finding .fnum .count{ display:block; font-size:22px; font-weight:600; color:var(--ink); font-family:var(--serif); }
+.finding h4{ font-size:15.5px; margin:0 0 6px; font-weight:600; }
+.finding p{ margin:0; font-size:14px; color:var(--mut); }
+.finding .flag{
+  display:inline-block; margin-top:8px; font-family:var(--mono); font-size:11px; font-weight:600;
+  letter-spacing:.04em; color:var(--amber); background:var(--amber-bg); border:1px solid var(--amber-bd);
+  padding:3px 9px; border-radius:999px;
+}
+code{ font-family:var(--mono); font-size:.92em; background:var(--line-soft); padding:1px 5px; border-radius:4px; }
+
+/* mermaid panel */
+.diagram-panel{
+  border:1px solid var(--line); border-radius:var(--radius); background:var(--surface);
+  padding:20px; overflow-x:auto;
+}
+
+.filelist{ list-style:none; margin:0; padding:0; }
+.filelist li{
+  display:flex; justify-content:space-between; gap:16px; padding:12px 0; border-bottom:1px solid var(--line-soft);
+  font-size:14px;
+}
+.filelist li:last-child{ border-bottom:none; }
+.filelist .fname{ font-family:var(--mono); font-weight:600; }
+.filelist .floc{ color:var(--mut); font-size:12.5px; text-align:right; }
+
+footer{ margin-top:64px; padding-top:20px; border-top:1px solid var(--line); font-size:12.5px; color:var(--mut); }
+
+@media (max-width:640px){
+  .outcomes{ grid-template-columns:1fr; }
+  .compare{ grid-template-columns:1fr; }
+  h1{ font-size:32px; }
+}
+</style>
+
+<div class="page">
+
+  <div class="eyebrow">Workflow Review · Zingtree</div>
+  <h1>Spokane ENT Triage Refresh</h1>
+  <p class="dek">A read-through of <code>ent scheduling</code> (tree 730082745) — the scheduling-desk triage tool Spokane ENT staff use on live calls, under the Columbia Surgical Specialists umbrella.</p>
+  <div class="meta">
+    <span><b>Requested by</b> Aksana</span>
+    <span><b>Scope</b> visual refresh + cleanup, no new integrations</span>
+    <span><b>Nodes</b> 115 → 69 (−40%)</span>
+    <span><b>Date</b> Sep 1, 2026</span>
+  </div>
+
+  <section>
+    <h2>What this pass does</h2>
+    <p class="section-note">Three asks, three outcomes — nothing here touches routing logic beyond restoring links that appear to have been dropped by accident (flagged below).</p>
+    <div class="outcomes">
+      <div class="outcome">
+        <div class="num">01</div>
+        <h3>Looks current</h3>
+        <p>Stock Zingtree green swapped for a palette pulled from Columbia Surgical Specialists' own site, plus one consistent alert component instead of ad-hoc red text.</p>
+      </div>
+      <div class="outcome">
+        <div class="num">02</div>
+        <h3>No new systems</h3>
+        <p>Zero Connected Objects, zero Data Sources, before and after. Every fix lives inside the tree's existing nodes and two tree-level settings.</p>
+      </div>
+      <div class="outcome">
+        <div class="num">03</div>
+        <h3>Cleaned up</h3>
+        <p>A 16-instance button-label bug and 3 orphaned outcome nodes — both invisible in normal use, both quietly making the tree worse over time.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Palette</h2>
+    <p class="section-note">The tree's <code>css_include</code> was still pointed at Zingtree's out-of-the-box demo theme. It now carries Columbia Surgical Specialists' navy and teal instead.</p>
+
+    <div class="swatch-row old">
+      <div class="swatch"></div><div class="swatch"></div><div class="swatch"></div>
+    </div>
+    <div class="swatch-label"><span>Before — stock Zingtree default (#008C51 / #D6FAEA / #000000)</span></div>
+
+    <div class="swatch-row new">
+      <div class="swatch"></div><div class="swatch"></div><div class="swatch"></div>
+    </div>
+    <div class="swatch-label"><span>After — Columbia Surgical navy (#1F3A54 / #E3F1EC / #3F8F6B)</span></div>
+  </section>
+
+  <section>
+    <h2>Alert cards, before and after</h2>
+    <p class="section-note">26 nodes carried the same pattern: a hand-picked red span, a 24px inline font size, an icon paragraph. It reads as an emergency even when the message is routine — a "schedule before 3pm" note looked exactly like "this patient needs the ER." The rebuilt version sorts every one of those 26 into three tones so the color itself carries meaning.</p>
+
+    <div class="compare">
+      <div class="compare-col before">
+        <div class="tag">Before — node 178, "Scheduling Note"</div>
+        <div class="old-alert">
+          <i>&#9650;</i>
+          <strong>Look for appointment availability, before 3pm, on the calendars of the providers listed on the next page.</strong>
+          <span class="old-btn">.btn-careful.btn-red</span>
+        </div>
+      </div>
+      <div class="compare-col after">
+        <div class="tag">After — same node, tone: caution</div>
+        <div class="cse-card cse-card--caution" style="--red:var(--amber);--red-bg:var(--amber-bg);--red-bd:var(--amber-bd);">
+          <div class="cse-card-head" style="background:var(--amber-bg);border-color:var(--amber-bd);">
+            <span class="cse-card-icon" style="color:var(--amber);">&#128337;</span>
+            <span class="cse-card-title" style="color:var(--amber);">Scheduling Note</span>
+          </div>
+          <div class="cse-card-body">
+            <p>Look for appointment availability, before 3pm, on the calendars of the providers listed on the next page.</p>
+          </div>
+          <a class="cse-card-footer-btn">Continue</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Findings</h2>
+    <p class="section-note">Everything below is already applied in the delivered JSON.</p>
+    <div class="findings">
+
+      <div class="finding">
+        <div class="fnum"><span class="count">16</span>buttons</div>
+        <div>
+          <h4>Button label bug</h4>
+          <p>The single most common button label in the whole tree was the literal text <code>.btn-careful.btn-red</code> — a CSS selector typed into the visible label field, on all 16 "Urgent" and "Scheduling Note" continue buttons. Relabeled to "Acknowledge &amp; Continue" or "Continue."</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="fnum"><span class="count">26</span>nodes</div>
+        <div>
+          <h4>Alert styling consolidated</h4>
+          <p>Ad-hoc red/24px inline styling replaced by one shared component (<code>.cse-card</code>) in three tones — danger (true emergencies, 8 nodes), caution (scheduling logistics, 10 nodes), neutral (scope exclusions like "Spokane ENT does not manage X," 8 nodes). Clinical wording is untouched; only the wrapper changed.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="fnum"><span class="count">3</span>nodes</div>
+        <div>
+          <h4>Orphaned outcomes reconnected</h4>
+          <p>"Complex Facial Plastics Group," "Yes, Allergy Testing," and "Yes, Allergy Shots" had zero inbound links anywhere in the tree — unreachable from any path. Each has a near-identical sibling that <em>is</em> wired in (e.g. "Complex Facial Trauma" sits right next to the missing "Complex Facial Plastics" option in the Physician Triage list), which is why this reads as a dropped edit rather than intentional retirement. Restored using the sibling's exact pattern.</p>
+          <span class="flag">Confirm before publishing live</span>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="fnum"><span class="count">1</span>node</div>
+        <div>
+          <h4>claude.md added</h4>
+          <p>An unlinked, hidden memory node now travels with the tree — purpose, node map, conventions, and this changelog — so the next prompt-driven edit (by anyone) starts with full context instead of re-deriving it from scratch.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Script-driven Ear &amp; Nose (this pass)</h2>
+    <p class="section-note">The first pass (above) touched styling and cleanup only. This pass changes structure: the Ear and Nose branches relied on a long chain of single-purpose Content nodes to collect a handful of related answers one at a time. Each chain is now one intake screen (native form fields, follow-ups shown only when relevant) &rarr; one script that evaluates the answers &rarr; one router that jumps to the same outcome nodes the old chain used to land on. Every outcome, alert, and instructional screen downstream is untouched — only the question-collecting nodes in front of them were replaced.</p>
+
+    <div class="outcomes">
+      <div class="outcome">
+        <div class="num">Ear</div>
+        <h3>15 nodes &rarr; 3</h3>
+        <p>Nodes 2,6,13,15,17,68,82,87,97,99,102,122,123,134,146 (pure Q&amp;A, no content of their own) replaced by one intake + one script + one router.</p>
+      </div>
+      <div class="outcome">
+        <div class="num">Nose</div>
+        <h3>9 nodes &rarr; 3</h3>
+        <p>Nodes 3,27,32,39,96,100,101,103,177 replaced the same way. Node 177's "actively bleeding?" question is now a single field on the intake screen.</p>
+      </div>
+      <div class="outcome">
+        <div class="num">Net</div>
+        <h3>116 &rarr; 98 nodes</h3>
+        <p>A 15.5% reduction tree-wide, and an 80%/67% reduction within the two converted branches specifically. Throat, Other, and Established Patient are unchanged this pass — see note below.</p>
+      </div>
+    </div>
+
+    <p class="section-note" style="margin-top:22px;">Validated before writing any new JSON: both branches' original decision logic was replayed against an executable model of the source tree's actual button links (30 Ear test cases, 15 Nose test cases, 100% match) before either script was written, and the assembled tree was checked for broken links, orphans, and unreachable nodes after assembly.</p>
+
+    <div class="findings" style="margin-top:8px;">
+      <div class="finding">
+        <div class="fnum"><span class="count">3</span>dead branches</div>
+        <div>
+          <h4>Vestigial questions found and folded in</h4>
+          <p>Three original questions had both (or all) of their answers lead to the exact same node — a real inefficiency in the pre-existing tree, surfaced by this consolidation rather than caused by it: node 6 "Otorrhea, Hearing Loss?" (reached from Pain), node 39 "Nasal Trauma?", and node 27's entire "Associated Sinonasal Symptoms?" sub-tree. Those questions are no longer asked at all — the new script routes straight through.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="fnum"><span class="count">2</span>age fields</div>
+        <div>
+          <h4>Numeric age replaces age-bracket buttons</h4>
+          <p>The original tree asked staff to pick a bracket ("&lt;18" / "&gt;18 but &lt;65" / "&gt;65") — a judgment call at the boundary. The new intake asks for the patient's actual age and applies a fixed rule (65 and older, 18 and older) at those same boundaries. Flag if the practice wants different boundary behavior.</p>
+          <span class="flag">Confirm boundary convention</span>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="fnum"><span class="count">2</span>branches</div>
+        <div>
+          <h4>Left unconverted this pass</h4>
+          <p>Throat, Other, and the Established Patient cluster (161/138/139/95/etc.) still use the original Content-chain pattern. Established Patient's sub-menus are genuine live staff decisions rather than data-driven branching, so converting them has little payoff for the risk of a larger unreviewed rewrite. Throat/Other are good candidates for the same treatment in a follow-up pass, pending a look at this one first.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>ETL follow-up: content nodes should render dynamic data</h2>
+    <p class="section-note">Direct correction from Brent: think of every workflow as Extract &rarr; Transform &rarr; Load, and treat "the same variable set from multiple content nodes" as a signal to consolidate further — even past the initial intake/router, into the outcome nodes themselves. Captured as a permanent house rule in the Zingtree Builder workspace's <code>MEMORY.md</code>. Two concrete fixes applied here:</p>
+
+    <div class="compare">
+      <div class="compare-col before">
+        <div class="tag">Before — 3 static nodes, 1 dead question</div>
+        <p style="font-size:14px;">Nodes 135 "Adult CI Protocol" and 147 "Pediatric CI Protocol" held <strong>byte-identical</strong> instructions. The only reason both existed was an age question whose sole job was picking between two nodes that said the same thing.</p>
+      </div>
+      <div class="compare-col after">
+        <div class="tag">After — 1 node, 0 questions</div>
+        <p style="font-size:14px;">Node 147 deleted; 135 renamed "Cochlear Implant Coordinator Referral" and now serves both ages. The age question is gone from the intake screen entirely — it was never actually used for routing.</p>
+      </div>
+    </div>
+
+    <div class="compare" style="margin-top:18px;">
+      <div class="compare-col before">
+        <div class="tag">Before — 4 nodes, 2 more questions</div>
+        <p style="font-size:14px;">The "not actively bleeding" epistaxis path asked "Is the nose packed?" (179) and "Blood thinners?" (180) as two MORE single-purpose screens, then landed on one of two scheduling notes (181, 182) that differed only in a day range ("5 and 10" vs "3 and 7").</p>
+      </div>
+      <div class="compare-col after">
+        <div class="tag">After — 0 nodes, computed inline</div>
+        <p style="font-size:14px;">Both questions moved onto the Nose intake screen as native conditional fields. The script now stages the day-range paragraph as <code>${transforms.nose_day_range_html}</code>, and node 188 renders it directly — 179, 180, 181, and 182 are gone.</p>
+      </div>
+    </div>
+
+    <p class="section-note" style="margin-top:20px;">Both fixes were audited against every OTHER caller before touching anything: nodes 135/136 are also reachable from node 98 (a different, untouched branch) — only 135 gained a second caller, nothing about that path changed. Nodes 179/180/181/182/188 have no callers anywhere outside the Nose epistaxis chain. <code>merge_vars_not_fixed</code> is now set tree-wide, required the moment any node renders <code>${transforms.x}</code> and might be revisited.</p>
+
+    <p class="section-note"><strong>Net this pass: 98 → 93 nodes.</strong> Still open, deferred pending a full audit of their other callers (Throat/Other/Established Patient/node 77 Physician Triage): whether the genuinely shared provider-group nodes (55, 56, 60, 61, 62, 66) warrant the same dynamic-content treatment.</p>
+  </section>
+
+  <section>
+    <h2>The Other branch, torn down and rebuilt</h2>
+    <p class="section-note">This is the spider web. Node 5 "Other" fanned out <strong>23 answer-buttons</strong> into 15 pure-question nodes, 8 single-button alert screens, and 7 terminal "Spokane ENT does not manage X" notices — 30 nodes for one branch. Rebuilt as an ETL pipeline it is 6, and it reads top to bottom:</p>
+
+    <div class="diagram-panel">
+<pre class="mermaid">
+flowchart TD
+    I["5 · Other Symptoms &amp; Details<br/><i>13 native conditional fields</i>"]
+    S["7 · Classify Other Symptom<br/><i>all logic + both display catalogs</i>"]
+    R["8 · Route Other Symptom"]
+    G["a shared provider-group node<br/><i>58 / 59 / 61 / 62 / 63 / 64 / 66 / 76 / 77 / 80 / 150 / 167 / 184 — untouched</i>"]
+    A["9 · Urgent / Scheduling Note<br/><i>renders the staged alert card</i>"]
+    R2["10 · Route After Alert"]
+    N["11 · Not Managed at Spokane ENT<br/><i>renders the staged notice card</i>"]
+    I --> S --> R
+    R --> G
+    R --> A --> R2 --> G
+    R --> N
+    classDef script stroke:#3F8F6B,stroke-width:2px;
+    class S,R,R2 script;
+</pre>
+    </div>
+
+    <div class="outcomes" style="margin-top:22px;">
+      <div class="outcome">
+        <div class="num">Extract</div>
+        <h3>1 screen, 13 fields</h3>
+        <p>Every question the branch ever asked, on one screen, each follow-up appearing only when it applies. Replaces 15 question nodes.</p>
+      </div>
+      <div class="outcome">
+        <div class="num">Transform</div>
+        <h3>1 script, 2 catalogs</h3>
+        <p>All the logic, plus the 8 alert cards and 7 notice cards keyed by the node they replaced — copied verbatim at teardown, so the clinical wording can't drift.</p>
+      </div>
+      <div class="outcome">
+        <div class="num">Load</div>
+        <h3>2 dynamic screens</h3>
+        <p>One alert screen and one out-of-scope screen, each rendering whatever the script staged. Replaces 15 static nodes.</p>
+      </div>
+    </div>
+
+    <div class="findings" style="margin-top:26px;">
+      <div class="finding">
+        <div class="fnum"><span class="count">57</span>paths</div>
+        <div>
+          <h4>Proven identical, using the real script</h4>
+          <p>Every distinct path through the original branch was enumerated from the graph, then replayed against the rebuilt tree by running node 7's <em>actual JavaScript</em> under a stubbed <code>ZT</code> and evaluating both routers the way Zingtree does. All 57 land on the same node and show the same alert card. A separate check confirms no path can render an empty alert or notice.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="fnum"><span class="count">13</span>buttons</div>
+        <div>
+          <h4>The button-label bug again — my miss</h4>
+          <p>13 more buttons had the literal CSS class <code>.btn-blue </code> typed into their visible label (6 on node 5, 7 on node 116), plus <code>*…*</code> emphasis markers that render literally. Same authoring bug as the <code>.btn-careful.btn-red</code> one fixed in the first pass — I missed these then because that fix matched one exact string instead of the prefix pattern.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="fnum"><span class="count">2</span>dead questions</div>
+        <div>
+          <h4>113 and 114 never changed anything</h4>
+          <p>"Face Lump/Lesion" (On the Skin / Under the Skin) and "Mouth Lump/Lesion" (Lip, Tongue, Jaw, or Cheek / Tonsil or Palate) each had both answers leading to node 59. Five dead questions have now turned up across the whole redesign. Node 116 "Aesthetic Concern" was a related case: 7 of its 9 buttons led to the identical node.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-note" style="margin-top:24px;"><strong>Still a spider web, deliberately left for its own pass:</strong> node 77 "Physician Triage" (17 buttons — arguably a legitimate staff pick-list rather than a decision), node 98 "Automatic Complex" (11), node 4 "Throat" (8), and the Established Patient cluster. The biggest remaining prize is the 15 shared provider-group nodes — one static node each, all the same shape — but they are reached from every branch in the tree, so collapsing them into one dynamic screen is the highest-risk change left and needs its own inbound audit.</p>
+  </section>
+
+  <section>
+    <h2>Shape of the tree</h2>
+    <p class="section-note">Ear, Nose, and Other now each route through one intake screen, one script, and one router. Throat and Established Patient are still pure Content chains. High-level orientation only; not all 69 nodes are drawn.</p>
+    <div class="diagram-panel">
+<pre class="mermaid">
+flowchart TD
+    R["160 · Seen before?"] -->|No| CC["1 · Chief Complaint"]
+    R -->|Yes| EST["161 · Established Patients"]
+    CC --> EAR["2 · Ear Symptoms & Details (intake)"]
+    CC --> NOSE["3 · Nose Symptoms & Details (intake)"]
+    CC --> THROAT["Throat symptoms (unchanged chain)"]
+    CC --> OTHER["5 · Other Symptoms & Details (intake)"]
+    OTHER --> OTHSC["7 · Classify Other Symptom (script)"]
+    OTHSC --> OTHRT{{"8 · Route Other Symptom"}}
+    OTHRT --> OTHDYN["9 / 11 · shared alert + out-of-scope screens (dynamic)"]
+
+    EAR --> EARSC["6 · Compute Ear Triage Entry Node (script)"]
+    EARSC --> EARRT{{"13 · Route Ear Triage (router, 14 values)"}}
+    EARRT --> EAROUT["Ear outcome/alert nodes — unchanged"]
+
+    NOSE --> NOSESC["15 · Compute Nose Triage Entry Node (script)"]
+    NOSESC --> NOSERT{{"17 · Route Nose Triage (router, 6 values)"}}
+    NOSERT --> NOSEOUT["Nose outcome/alert nodes"]
+    NOSERT -.-> N188["188 · Scheduling Note (renders ${transforms.nose_day_range_html})"]
+
+    THROAT --> PT["77 · Physician Triage (17 options)"]
+    OTHRT -.-> PT
+    EAROUT -.-> PT
+    NOSEOUT -.-> PT
+    PT --> GROUPS["16 provider / outcome groups"]
+    PT -.reconnected.-> FP["73 · Complex Facial Plastics"]
+    EST --> IOP["196 · Yes, IOP"]
+    EST -.reconnected.-> AT["197 · Allergy Testing"]
+    EST -.reconnected.-> AS["198 · Allergy Shots"]
+
+    classDef reconnect stroke:#92620A,stroke-width:2px,stroke-dasharray: 4 3;
+    classDef script stroke:#3F8F6B,stroke-width:2px;
+    classDef dynamic stroke:#3F8F6B,stroke-width:2px,stroke-dasharray: 2 2;
+    class FP,AT,AS reconnect;
+    class EARSC,EARRT,NOSESC,NOSERT,OTHSC,OTHRT script;
+    class N188,OTHDYN dynamic;
+</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>Files</h2>
+    <ul class="filelist">
+      <li><span class="fname">ent_scheduling_improved.json</span><span class="floc">Zingtree Builder / Workflow JSONs / Spokane ENT</span></li>
+      <li><span class="fname">This report</span><span class="floc">Zingtree Builder / Visualizations</span></li>
+    </ul>
+  </section>
+
+  <footer>
+    Before publishing live: preview the two flagged reconnections (node 77, node 161) with Aksana's team; confirm the age-boundary convention on the new Ear/Nose intake screens; and click through both new intake flows once in the Zingtree editor — <code>css_include</code>/<code>script_code</code> changes and native conditional fields are both best verified visually before a dev→live push.
+  </footer>
+
+</div>

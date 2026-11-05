@@ -1,0 +1,32 @@
+{
+  "_comment": "BizPay connection test. Response body shape captured from the live Connected Object test (CO 1296, 2026-10-05); values are the ones returned.",
+  "tree_id": "0",
+  "preview_host": "https://zingtree.com/preview/",
+  "query_params": {},
+  "connected_objects": {
+    "1296": "bizpay__get_payments"
+  },
+  "views": {},
+  "view_inputs": {},
+  "actions": {
+    "bizpay__get_payments": {
+      "_zt_meta": {
+        "response": {
+          "code": 401,
+          "body": "{\"error\":\"unauthorized\"}"
+        }
+      }
+    }
+  },
+  "form_inputs": {},
+  "buttons": {
+    "1": "Run test"
+  },
+  "expect": {
+    "data_node_calls": {
+      "bizpay__get_payments": 1
+    },
+    "terminal_node": "4"
+  },
+  "ai_action_aliases": {}
+}

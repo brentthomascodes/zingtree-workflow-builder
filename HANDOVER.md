@@ -95,5 +95,5 @@ python3 zingtree-workflow-builder/scripts/lint_tree.py "<any tree export>.json"
 If the lint prints findings, it works. To use it as a skill, clone it into a Claude Code
 `.claude/skills/` folder. The README covers the companion-skill symlink.
 
-What's deliberately **not** in the repo: customer tree exports, fixtures with real ids,
-response contracts, credentials. The merged builder should keep that rule.
+Since Nov 2026 the repo also carries Brent's builds under `builds/` (tree exports, fixtures,
+scripts, requirements, diagrams). What's deliberately **not** in it: credentials.

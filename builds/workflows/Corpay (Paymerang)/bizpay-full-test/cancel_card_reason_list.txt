@@ -1,0 +1,40 @@
+Vendor does not accept card payments
+Vendor does not accept one time use card payments
+Account/client/invoice not eligible for card payments
+Discounts not eligible for card payments
+Card expired
+Cancel/reissue per client request
+Fee amount exceeds 1%
+Vendor charges % fee for card payments
+Unable to verify account information
+Must log in to portal
+Payment exceeds maximum amount eligible for card payments
+Payment exceeds maximum number of transactions allowed
+Unable to reach vendor
+Unable to short pay/over pay invoices via card
+Unable to transfer credits to separate accounts
+Vendor does not accept third party card payments
+Vendor experiencing system issues
+Vendor refusing card payment over a recorded line
+Vendor does not accept card payments over the phone
+Vendor requires PHI for card payments
+Vendor processing card outside of the US
+Unable to pay via PayPal
+Vendor unable to apply credits over the phone
+Account on auto pay
+Zero balance on account/invoice
+Paid account/invoice balance
+Invoice paid previously
+Cancel/refund per client request
+Credit balance on account/invoice
+Vendor returned payment
+Vendor credited partial payment back to card
+Payment submitted to incorrect vendor
+Payment submitted in error
+Discount applied
+No response from client
+Fee not needed
+Invalid account information
+Vendor refused payment
+Vendor requires invoice number(s)
+Does Not Meet PFY Threshold

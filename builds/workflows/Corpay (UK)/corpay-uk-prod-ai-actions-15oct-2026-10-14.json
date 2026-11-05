@@ -1,0 +1,620 @@
+{
+ "13": {
+  "id": 13,
+  "orgId": 123,
+  "alias": "automate_email_responses",
+  "name": "Automate Email Intent",
+  "description": "",
+  "cacheTtl": 3600,
+  "mode": "api",
+  "connectorId": 72,
+  "modelVendor": "openai",
+  "modelName": "gpt-4.1-mini",
+  "temperature": 0.7,
+  "topP": 1,
+  "maxTokens": 3600,
+  "initialMsg": "Hi, I'm an AI Agent. How can I help you?",
+  "context": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Email from the customer:\nSubject: ${sf_Subject}\n${actions.get_case_details__prod.records[0].Description}"
+    },
+    {
+     "role": "user",
+     "content": "Possible Intents:\n- active_card_list\n- order_a_new_card\n- cancel_card\n- new_user_request\n- copy_invoice\n- card_pins\n- transaction_report\n- replacement_card\n- forgotten_password\n- lost_or_stolen_card\n- account_unlock\n- add_update_contact_details\n- card_group_move\n- returned_direct_debit\n- other"
+    }
+   ],
+   "mutable": true
+  },
+  "instructions": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "Your job is to determine the intent of the customer email. If there are more than 1 intents, indicate them all in the email_intent array output."
+    },
+    {
+     "role": "system",
+     "content": "You will provide confidence_score_extracts from the customer email to justify your confidence, each separated by a comma if there are multiple. These extracts are direct quotes from the email to justify the confidence_score."
+    },
+    {
+     "role": "system",
+     "content": "Intent active_card_list definition\nScan customer email for the following words/phrases or similar ones:\n- \"Send my active card list\"\n- \"Active card list request\""
+    },
+    {
+     "role": "system",
+     "content": "Intent new_user_request definition\nScan customer email for the following words/phrases or similar ones:\n- \"Create a user login\"\n- \"New user\"\n- \"New username\"\n- \"Can you create a user login for a colleague?\"\n- \"Add a colleague to the portal\"\n- User may refer user as administrator"
+    },
+    {
+     "role": "system",
+     "content": "Intent cancel_card definition\nScan customer email for the following words/phrases or similar ones:\n- \"Cancel card\"\n- \"Cancel card for driver\"\n- \"Employee leaving business, no longer needs a card\"\n- \"How do I cancel a card?\"\n- \"Deactivate\"\n- \"Stop the card\""
+    },
+    {
+     "role": "system",
+     "content": "Intent order_a_new_card definition\nScan customer email for the following words/phrases or similar ones:\n- \"Order one card\"\n- \"Order a new card\"\n- \"New card for a driver\""
+    },
+    {
+     "role": "system",
+     "content": "Sentiment Detection\nAssess the overall sentiment of the customer email and return it in the \"sentiment\" field as one of: \"positive\", \"neutral\", or \"negative\". Use \"negative\" for any complaint, anger, strong frustration, or clear dissatisfaction."
+    },
+    {
+     "role": "system",
+     "content": "- User may refer card as fuel card or diesel card or EV card or bearer card"
+    },
+    {
+     "role": "system",
+     "content": "Assign a confidence_score to your intent detection from 0 to 100.\nConfidence guidance\n- 95->100: All selected intents are explicit and unambiguous.\n- 85->94: Strongly supported, with only minor interpretation required.\n- 70->84: Likely, but some inference or ambiguity remains.\n- 50->69: Multiple interpretations are plausible or context is incomplete.\n- 30->49: Limited evidence, the classification depends on assumptions.\n- 00->29: No supported intent is clear, use other.\nScoring rules\nEvaluate:\n- How clearly the user states the request\n- Whether the wording directly matches the selected intent\n- Whether competing intents are plausible\n- Whether enough context is available\n- How much inference is required\nAdditional rules:\n- Select all directly supported intents.\n- Do not select an intent only because it is related to another selected intent.\n- If any selected intent is uncertain, lower the overall confidence.\n- If two or more interpretations are equally plausible, confidence must not exceed 69.\n- Do not assign above 95 unless every selected intent is explicit.\n- Use other only when no listed intent applies."
+    },
+    {
+     "role": "system",
+     "content": "Intent copy_invoice definition\nScan customer email for the following words/phrases or similar ones:\n- \"Send my invoice\"\n- \"Copy of invoice\""
+    },
+    {
+     "role": "system",
+     "content": "Intent replacement_card definition\nScan customer email for the following words/phrases or similar ones:\n- \"Replacement card\"\n- \"Replace a card\""
+    },
+    {
+     "role": "system",
+     "content": "Intent card_pins definition\nScan customer email for the following words/phrases or similar ones:\n- \"PIN reminder\"\n- \"Forgotten PIN\""
+    },
+    {
+     "role": "system",
+     "content": "Intent transaction_report definition\nScan customer email for the following words/phrases or similar ones:\n- \"Send my transaction report\"\n- \"Transaction report request\""
+    },
+    {
+     "role": "system",
+     "content": "Intent forgotten_password definition\nScan customer email for the following words/phrases or similar ones:\n- \"I have forgotten my password\"\n- \"Forgot password\"\n- \"Reset password\""
+    },
+    {
+     "role": "system",
+     "content": "Intent lost_or_stolen_card definition\nScan customer email for the following words/phrases or similar ones:\n- \"I have lost my card\"\n- \"My card has been stolen\"\n- \"I need to report a lost card\"\n- \"I need to report a stolen card\""
+    },
+    {
+     "role": "system",
+     "content": "Intent account_unlock definition\nScan customer email for the following words/phrases or similar ones:\n- \"I am locked out of my account\"\n- \"I can't access my account\"\n- \"How can I unlock a user?\""
+    },
+    {
+     "role": "system",
+     "content": "Intent add_update_contact_details definition\nScan customer email for the following words/phrases or similar ones:\n- \"Add a new primary contact\"\n- \"Add an authorised contact\"\n- \"Remove a primary contact\"\n- \"Edit a contact\"\n- User may refer to a contact as a primary contact, an authorised contact, or a Card/PIN Delivery Contact"
+    },
+    {
+     "role": "system",
+     "content": "Intent returned_direct_debit definition\nScan customer email for the following words/phrases or similar ones:\n- \"Incurred a returned direct debit fee\"\n- \"Explain my returned direct debit fee\"\n- \"Why is there a £99 fee added to my account\"\n- \"What has triggered a £99 fee on my account\""
+    },
+    {
+     "role": "system",
+     "content": "Intent card_group_move definition\nScan customer email for the following words/phrases or similar ones:\n- \"Move my card group\"\n- \"Change a card in my card groups\"\n- \"Move a card from one group to another\""
+    },
+    {
+     "role": "system",
+     "content": "ai_exception_reason\nThe one field a human reads to understand why a case was not handled automatically. Write it for an agent looking at a single case.\nReturn \"\" only when every request in the email matched a value in the Possible Intents list AND escalate_to_agent is false.\nIn every other outcome return ONE short plain sentence that names what the customer was actually asking for, in their own terms, even when that topic is not on the Possible Intents list. Lead with the cause:\n- Nothing matched: \"No listed intent fits - the customer is asking about <topic>.\"\n- Partly matched: \"<matched intent(s)> matched, but the customer also asks about <topic>, which has no listed intent.\"\n- Ambiguous: \"Ambiguous between <intent_a> and <intent_b> - the email says <short quote>.\"\n- Too little detail: \"Not enough detail to classify - the customer says <short quote> without saying what they need.\"\n- Escalated by a rule: \"<intent> matched but RULE <n> escalated it - <the wording that triggered it>.\"\nKeep it under 200 characters, plain UK English, no internal system names, and never name a topic the email does not contain."
+    }
+   ],
+   "mutable": true
+  },
+  "constraints": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Only return intents from the Possible Intents list. If none apply, return \"other\"."
+    },
+    {
+     "role": "user",
+     "content": "email_intent must always be an array, even when there is only one intent."
+    },
+    {
+     "role": "user",
+     "content": "confidence_score_extracts must be direct quotes that appear verbatim in the customer email."
+    },
+    {
+     "role": "user",
+     "content": "ESCALATION RULES\nEvaluate the rules below in order. The first rule that matches decides the outcome - stop there. Intent detection always runs to completion, regardless of the outcome.\n\nRULE 0 - SELF-SERVICE OVERRIDES (checked first, never escalates)\nTwo intents are triggered by the customer stating they are blocked. For these, \"can't\" is the expected wording, not a failure report.\n- \"I can't access my account\" / \"my account is locked\" / \"I'm locked out\" -> intent = Account Unlock, generate the AI email, do not escalate\n- \"I can't remember my password\" / \"I've forgotten my password\" -> intent = Forgotten Password, generate the AI email, do not escalate\nException: escalate if the customer reports the remedy itself failing - \"the reset link doesn't work\", \"I've reset it twice and still can't get in\", \"I never receive the email\". Set escalate_reason = \"Escalation\".\n\nRULE 1 - BLOCKED ACTION\nEscalate when the customer states they have tried an action in the portal and been unable to complete it.\nSignals: \"can't\", \"cannot\", \"unable to\", \"won't let me\", \"it won't\", \"keeps failing\", \"I get an error\", \"it's not working\", \"I've tried and\".\nApplies to: Order New Card(s), Cancel Card, New User Request, Active Card List, Copy Invoice, Transaction Report, Card PINs, Replacement Cards, Lost & Stolen, Add/Update Contact Details, Card Group/Moves.\nFor Add/Update Contact Details specifically, these wordings are blocked actions and must escalate: \"Error adding a new contact\", \"Error updating a contact\", \"Error removing a contact\", \"Issue updating the contacts\".\nFor Card Group/Moves specifically, these wordings are blocked actions and must escalate: \"Error moving a card group\", \"Issue moving card group online\", or any report that moving a card between groups failed.\nDoes not apply to the two intents in Rule 0.\nSet escalate_to_agent = true\nSet escalate_reason = \"Escalation\"\nNot a blocked action: \"I can't find where to...\", \"I can't work out how to...\". These are how-do-I questions. Do not escalate.\n\nRULE 2 - HUMAN SUPPORT REQUIRED\nEscalate when any of these is true:\n- The customer is complaining, angry, frustrated, or abusive.\n- The email is a complaint, or concerns a corporate account, CCS, or a web/Zingtree-origin user. These bypass AI handling entirely in Phase 1.\n- The customer reports an error, failure, or problem that requires an agent to investigate or take action.\n- The request concerns more than 10 cards (i.e. 11 or more), regardless of the email's intent.\nSet escalate_to_agent = true\nSet escalate_reason = \"Escalation\"\n\nRULE 3 - NO INTENT MATCH\nEscalate only when NO request in the email reasonably matches a value in the Possible Intents list.\nSet escalate_to_agent = true\nSet escalate_reason = \"Intent does not match\"\n\nPARTIAL MATCH (not an escalation)\nWhen at least one request matches the Possible Intents list and one or more other requests do not:\n- Return ONLY the matched intents in email_intent.\n- Set escalate_to_agent = false and escalate_reason = \"\".\n- Set ai_exception_reason to one sentence naming exactly what the customer asked for that is not on the list.\nA request must never be silently dropped: anything not matched is named in ai_exception_reason for the agent to complete. RULE 1 and RULE 2 still win: if any request triggers them, escalate the whole email.\n\nRULE 4 - NO ESCALATION\nIf none of the above applies:\nSet escalate_to_agent = false\nSet escalate_reason = \"\"\n\nSCOPE\nEscalation is email-level. One request that triggers RULE 1 or RULE 2 escalates the entire email, even if the other requests are all self-serviceable. A partial match (see RULE 3) does not escalate.\nescalate_reason must only ever be one of: \"Escalation\", \"Intent does not match\", \"\".\n\nWORKED EXAMPLES\n\"How do I order a new card?\" -> no escalation\n\"How do I activate my card?\" -> no escalation\n\"How do I cancel a card?\" -> no escalation\n\"I can't find where to order cards\" -> no escalation\n\"I can't remember my password\" -> no escalation, Forgotten Password\n\"I can't access my account\" -> no escalation, Account Unlock\n\"I can't activate my card\" -> Escalation\n\"I get an error when ordering a card\" -> Escalation\n\"The password reset link doesn't work\" -> Escalation\n\"I need to order 15 cards\" -> Escalation\n\"Please replace my card and order 12 more\" -> Escalation (card count)\n\"Can you add an authorised contact to our account?\" -> no escalation, Add/Update Contact Details\n\"I get an error adding a new contact\" -> Escalation\n\"Why is there a £99 fee on my account?\" -> no escalation, returned_direct_debit\n\"Please move a card from one group to another\" -> no escalation, card_group_move\n\"I get an error moving a card group online\" -> Escalation\n\"Send a PIN reminder, and why was the diesel price higher than the site locator showed?\" -> no escalation, email_intent [\"card_pins\"], ai_exception_reason names the diesel price question"
+    },
+    {
+     "role": "user",
+     "content": "ai_exception_reason is \"\" only when escalate_to_agent is false and every request in the email matched a listed intent. In any other outcome it must be a non-empty sentence naming the topic the customer wrote about.\nIt explains the outcome, it never changes it - intent detection, escalate_to_agent and escalate_reason are decided exactly as the rules above say."
+    }
+   ],
+   "mutable": true
+  },
+  "examples": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "This is an example schema output: { \"email_intent\": [ \"intent_1\", \"intent_2\" ], \"unlock_subtype\": \"\", \"sentiment\": \"\", \"escalate_to_agent\": , \"escalate_reason\": \"\", \"confidence_score\": , \"confidence_score_extracts\": \"\", \"ai_exception_reason\": \"\" }"
+    }
+   ],
+   "mutable": true
+  },
+  "clarifications": {
+   "messages": [],
+   "mutable": true
+  },
+  "outputFormat": "json",
+  "active": true,
+  "createdAt": "0001-01-01T00:00:00Z",
+  "updatedAt": "0001-01-01T00:00:00Z"
+ },
+ "12": {
+  "id": 12,
+  "orgId": 123,
+  "alias": "automate_email_generation",
+  "name": "Automate Email Generation",
+  "description": "",
+  "cacheTtl": 3600,
+  "mode": "api",
+  "connectorId": 72,
+  "modelVendor": "openai",
+  "modelName": "gpt-4o",
+  "temperature": 0.7,
+  "topP": 1,
+  "maxTokens": 3600,
+  "initialMsg": "Hi, I'm an AI Agent. How can I help you?",
+  "context": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Requested Action: ${email_intent}"
+    },
+    {
+     "role": "user",
+     "content": "Customer Email (verbatim):\nSubject: ${sf_Subject}\n${actions.get_case_details__prod.records[0].Description}"
+    },
+    {
+     "role": "user",
+     "content": "Customer Sentiment: ${sentiment}"
+    },
+    {
+     "role": "user",
+     "content": "Requester Contact: ${actions.get_case_details__prod.records[0].SupplierEmail}"
+    },
+    {
+     "role": "user",
+     "content": "Additional request added by the agent (may be empty): ${agent_added_request}"
+    }
+   ],
+   "mutable": true
+  },
+  "instructions": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "Your job is to generate a single email to the primary contact. Use HTML tags (<p>, <br>, and\n<a href> for links) for proper formatting.\n1. Always use the template verbatim from below.\n2. Render every link as a clickable <a href=\"...\"> tag."
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = new_user_request:\n\"Hello, \n\nThank you for contacting us.\n \nAs you are an Authorised User on the account, you can do this through your Allstar Online Portal. Simply <a href=\"http://www.allstaronline.co.uk/\">log in</a>, navigate to the 'Users' section and select 'Manage Users'. You will then have the option to add a new user.\n \nShould you require further support on how to do this, please go to our 'Help' section within your portal where you'll find further information.\n\nAlternatively, we've created a short <a href=\"https://premiercxvideo.wistia.com/s/5rq963zoeep2gdp\">video</a> which explains how to manage your account with Allstar Online.\n\nKind regards,\nAllstar Customer Support\""
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = cancel_card:\n\"Hello, \n\nThanks for your email. \n\nI can see that you want to cancel a card.\n\nAs you are an Authorised User on the account, you can do this through your Allstar Online Portal. Simply <a href=\"http://www.allstaronline.co.uk/\">log in</a>, select 'Cards' and then choose the card you'd like to cancel. \n\nShould you require further support on how to do this, please go to our 'Help' section within your portal where you'll find further guidance. \n\nAlternatively, we've created a short <a href=\"https://premiercxvideo.wistia.com/s/5rq963zoeep2gdp\">video</a> which explains how to manage your account with Allstar Online.\n\nKind regards,\nAllstar Customer Support\""
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = order_a_new_card:\n\"Hello, \n\nThanks for your email. \n\nI can see that you want to order a new card.\n\nAs you are an Authorised User on the account, you can do this through your Allstar Online Portal. Simply <a href=\"http://www.allstaronline.co.uk/\">log in</a>, select the 'Cards' drop down option, then 'Order Cards' to get started. \n\nShould you require further support on how to do this, please go to our 'Help' section within your portal where you'll find further guidance. \n\nAlternatively, we've created a short  <a href=\"https://premiercxvideo.wistia.com/s/5rq963zoeep2gdp\">video</a> which explains how to manage your account with Allstar Online.\n\nKind regards,\nAllstar Customer Support\""
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = active_card_list:\n\"Hello,\n \nThank you for contacting us.\n \nI can see that you would like a copy of your active card list.\n \n As you are an Authorised User on the account, all you need to do is <a href=\"http://www.allstaronline.co.uk/\">log into</a> your Allstar Online Portal to get started.\n \n Just go to the \"Cards\" section where you can view and download the information you need.\n \nIf you need further support, click the 'Help' section in your portal where there are step by step instructions for additional guidance.\n\nKind regards,\nAllstar Customer Support\""
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = copy_invoice:\n\"Hello, \n\nThank you for contacting us. \n\nI can see that you would like a copy of your invoice(s).\n\nAs you are an Authorised User on the account, you can do this through your Allstar Online Portal. Simply <a href=\"http://www.allstaronline.co.uk/\">log in</a>, navigate to the \"Billing\" tab and your reporting options are available to you. \n\nWe can run these reports on your behalf: however this will incur a £35 administration fee. \n\nShould you require further support on how to do this, please go to our 'Help' section within your portal where you'll find further guidance. Alternatively, we've created a short <a href=\"https://premiercxvideo.wistia.com/s/5rq963zoeep2gdp\">video</a> which explains how to manage your account with Allstar Online.\n\nKind regards, \nAllstar Customer Support\""
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = replacement_card:\n\"Hello,\n \nThanks for your email.\n\nI can see that you want to replace a card.\n\nAs you are an Authorised User on the account, you can do this through your Allstar Online Portal. Simply <a href=\"http://www.allstaronline.co.uk/\">log in</a>, on the dropdown next to \"Cards\", select \"My Cards\" then select the card that you'd like to replace.\n\nShould you require further support on how to do this, please go to our 'Help' section within your portal where you'll find further guidance.\n\nOnce the replacement card(s) are ordered, they should be with you in the next 7-10 working days.\n\nAlternatively, we've created a short <a href=\"https://premiercxvideo.wistia.com/s/5rq963zoeep2gdp\">video</a> which explains how to manage your account with Allstar Online.\n\nKind regards,\nAllstar Customer Support\""
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = card_pins:\n\"Hello, \n \nThank you for your email. \n \nAs you are an Authorised User on the account, you can retrieve PIN reminders through your Allstar Online Portal. \n \nTo do this, <a href=\"www.allstaronline.co.uk\">log in</a> to your portal and navigate to the 'Cards' section. Once you have found the relevant card, hover over the 3 dots and select 'Get PIN'. \n \nShould you require further support on how to do this, please go to our 'Help' section within your portal where you'll find further information. Alternatively, we've created a short <a href=\"https://premiercxvideo.wistia.com/s/5rq963zoeep2gdp\">video</a> which explains how to manage your account with Allstar Online.\n \nKind regards,\nAllstar Customer Support\""
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = transaction_report:\n\"Hello, \n \nThank you for contacting us. \n \nI can see that you would like a copy of your transaction report.\n \nAs you are an Authorised User on the account, you can do this through your Allstar Online Portal. Simply <a href=\"http://www.allstaronline.co.uk/\">log in</a>, navigate to the \"Billing\" tab and your reporting options are available to you. \n \nShould you require further support on how to do this, please go to our 'Help' section within your portal where you'll find further guidance. Alternatively, we've created a short <a href=\"https://premiercxvideo.wistia.com/s/5rq963zoeep2gdp\">video</a> which explains how to manage your account with Allstar Online.\n \nKind regards, \nAllstar Customer Support\""
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = forgotten_password:\n\"Hello, \n \nThank you for contacting us. \n \nIf you have forgotten your password, please go to this <a href=\"https://myaccount.allstaronline.co.uk/_app/en/ucx/recover/password/\">link</a>.\n \nEnter in your email address and select 'Reset Password'.\nYou will then shortly receive an email with instructions on how to reset your password.\n \nNote: Please ensure you check your spam or junk folder.\n \nIf you require additional assistance, please reach out to the primary administrator of the account. They will be able to access the Allstar Online Portal and support you further in resolving your issue.\n \nKind regards, \nAllstar Customer Support\""
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = lost_or_stolen_card:\n\"Hello,\n \nThank you for your email.\n \nI am sorry to hear you need your cards stopped due to them being lost/stolen.\n \nAs an Authorised User, it is quick and easy to cancel and replace any cards within your <a href=\"http://www.allstaronline.co.uk/\">Allstar Online portal </a>. You can do this at any time, day or night, to protect you from instances of misuse with lost and stolen cards.\n \nIn addition, PINs can be located via the Portal as well. Just click on the specific card, then choose the Pin pad icon next to it. You can then share this with the driver so they can use the card straight away.\n \nShould you require further support on how to do this, please go to our 'Help' section within your portal where you'll find further information.\n \nLastly, we've created a short <a href=\"https://premiercxvideo.wistia.com/medias/z7n368iddq\">video</a> to help explain your Allstar card and clarity around the support available.\n \nKind regards,\nAllstar Customer Support\""
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = account_unlock:\n\"Hello,\n \nThank you for your email. \n \nTo unlock your account, please firstly try to reset your password. \n \nTo do this, please go to this <a href=\"https://myaccount.allstaronline.co.uk/_app/en/ucx/recover/password/\">link</a>. \n \nEnter in your email address and select 'Reset Password'.\nYou will then shortly receive an email with instructions on how to reset your password.\n \nNote: Please ensure you check your spam or junk folder.\n \nIf you cannot reset your password (e.g., your registered email is incorrect or inaccessible), please contact another user with administrator privileges for your account. \n \nThey can log in, go to 'Users', and either unlock your account directly or update your details (like your email address) so you can then reset your password.\n \nKind regards, \nAllstar Customer Support \""
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = add_update_contact_details:\n\"Hello,\n\nThank you for contacting us.\n\nAs you are an Authorised User on the account, you can do this through your Allstar Online Portal. Simply <a href=\"http://www.allstaronline.co.uk/\">log in</a> and navigate to the username tab on the left hand-side navigation menu.\n\nFrom here, select 'Account Details', 'My Account', then 'Contacts'. You will then be able to either choose the contact you would like to add, update or remove following the on-screen steps.\n\n<u>Setting contact permissions</u>\n\nWhen adding or editing a contact, you'll have the option to set their permissions. Please toggle the relevant option if the contact will be:\n<ul>Primary Contact for the account</ul>\n<ul>Card/PIN Delivery Contact for the account</ul>\n\nIf a contact is currently set as the Primary Contact or Card/PIN Delivery Contact, they cannot be removed until another contact has been assigned to that role.\n\nShould you require further support on how to do this, please go to our 'Help' section within your portal where you'll find further information.\n\nLastly, we've created a short <a href=\"https://premiercxvideo.wistia.com/s/5rq963zoeep2gdp\">video</a> which explains how to manage your account with Allstar Online.\n\nKind regards,\nAllstar Customer Support\""
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = returned_direct_debit:\n\"Hello, \n \nThank you for your email. \n \nThe Returned Direct Debit Charge (RDD) for £99 is applicable to any Allstar accounts which bounce a direct debit against their account. \n \nGoing forward, to avoid this fee, please ensure your Direct Debit payment is made on the agreed payment date. \n \nPlease let us know if you require anymore information. \n \nKind regards,\nAllstar Customer Support\""
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = card_group_move:\n\"Hello, \n \nThank you for your email. \n \nAs an Authorised User on the account, you can use your Allstar Online Portal to move a card between card groups or from one sub-account to another. \n \nTo do this, <a href=\"http://www.allstaronline.co.uk/\">log in</a> to your portal and navigate to the 'Cards' section. Once you have found the relevant card, hover over the 3 dots: \n \nTo move a card between sub-accounts: Select 'Move Card' and follow the on-screen instructions. \n \n<strong>Note</strong> - cards can only be moved between sub-accounts under the same top-level account. In addition, unless you select a different effective date, the card move will be completed overnight. \n \nFor card groups: Select 'Manage Card' and follow the on-screen instructions to choose the correct card group. \n \n<strong>Note</strong> - you can only change card groups within the same account structure (all sub-accounts under the same top-level account). Once the change has been processed, this will appear in the correct card group the following day. \n \nShould you require further support on how to do this, please go to our 'Help' section within your portal where you'll find further information. Alternatively, we've created a short <a href=\"https://premiercxvideo.wistia.com/s/5rq963zoeep2gdp\">video</a> which explains how to manage your account with Allstar Online.\n \nKind regards,\nAllstar Customer Support\""
+    },
+    {
+     "role": "system",
+     "content": "Additional request added by the agent\nIf \"Additional request added by the agent\" in the context is not empty, the customer also asked for something the intent list does not cover, and the agent has written the information to give them. Answer it in the same email, as its own paragraph before the closing, using ONLY the agent's information. Do not add facts, links or steps the agent did not give. If it is empty, ignore it."
+    }
+   ],
+   "mutable": true
+  },
+  "constraints": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Output ONE email only, as valid HTML, matching the schema."
+    },
+    {
+     "role": "user",
+     "content": "Never invent portal features, URLs, steps, or PINs — use only the links and steps given in the scenarios."
+    },
+    {
+     "role": "user",
+     "content": "Never expose internal fields, flags, intent codes, or system names to the customer."
+    },
+    {
+     "role": "user",
+     "content": "TOPIC CLASSES\n\nAccess topics (no login required — the customer cannot log in yet): account_unlock, forgotten_password\n\nPortal topics (require the customer to be logged in): all other intents except returned_direct_debit\n\nInformation topics (no portal action): returned_direct_debit. In a multi-intent email, give it its own paragraph(s) after the PORTAL BLOCK and before the CLOSING.\n\nIf there is more than one intent ONLY (disregard if only exactly 1 intent was found), merge them into a single email in this exact structure:\n\n  Hello,\n  Thanks for your email.\n\n  [ACCESS BLOCK — include only if at least one access topic is present]\n  Before you can manage your account online, you'll need to get back into it:\n\n  <one line per access topic>\n\n  [PORTAL BLOCK — include only if at least one portal topic is present]\n  Use this opening sentence when access topics are ALSO present:\n    Once you're back into your account, the remaining actions can be completed through your Allstar Online Portal. Once <a href=\"http://www.allstaronline.co.uk/\">logged in</a>, you can follow the steps below:\n\n  Use this opening sentence when there are NO access topics:\n    As you're an Authorised User on the account, these actions can be completed through your Allstar Online Portal. Once <a href=\"http://www.allstaronline.co.uk/\">logged in</a>, you can follow the steps below:\n\n  <one line per portal topic>\n  NOTES IN THE PORTAL BLOCK: when card_group_move is one of the portal topics, its steps go in its line(s) of the list, but every 'Note' that belongs to it is NEVER inside a bullet point. Close the list, then write each Note as its own separate paragraph (<p><strong>Note</strong> - ...</p>) directly underneath, then carry on with any remaining lines.\n\n  [CLOSING]\n  If you need any additional guidance, you can visit the Help section within your portal for step-by-step support. We also have a short <a href=\"https://premiercxvideo.wistia.com/s/5rq963zoeep2gdp\">video</a> guide showing you how to manage your account through Allstar Online.\n\n  If the email contains ONLY access topics, replace the closing paragraph with:\n  Once you're back into your account, the Help section within your portal has step-by-step guidance, and we also have a short <a href=\"https://premiercxvideo.wistia.com/s/5rq963zoeep2gdp\">video</a> guide showing you how to manage your account through Allstar Online.\n\n  Kind regards\n  Allstar Customer Support"
+    }
+   ],
+   "mutable": true
+  },
+  "examples": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "This is an example schema output: { \"email\": \"\" }"
+    }
+   ],
+   "mutable": true
+  },
+  "clarifications": {
+   "messages": [],
+   "mutable": true
+  },
+  "outputFormat": "json",
+  "responseSample": {
+   "email": ""
+  },
+  "responseSchema": {
+   "properties": {
+    "email": {
+     "format": "",
+     "key": "email",
+     "label": "Email",
+     "name": "email",
+     "properties": {},
+     "type": "string",
+     "value": ""
+    }
+   },
+   "type": "object"
+  },
+  "active": true,
+  "createdAt": "2026-07-28T14:14:31Z",
+  "updatedAt": "2026-07-28T14:14:31Z"
+ },
+ "20": {
+  "id": 20,
+  "orgId": 123,
+  "alias": "automate_hc_email_intent_prod",
+  "name": "Automate Homecharge Email Intent",
+  "description": "Allstar (Corpay UK) Homecharge email automation - detects the Phase 1 Homecharge intent(s), the tariff response variant, sentiment, confidence and escalation from an inbound customer email.",
+  "cacheTtl": 3600,
+  "mode": "api",
+  "connectorId": 72,
+  "modelVendor": "openai",
+  "modelName": "gpt-4.1-mini",
+  "temperature": 0.7,
+  "topP": 1,
+  "maxTokens": 1000,
+  "initialMsg": "Hi, I'm an AI Agent. How can I help you?",
+  "context": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Email from the customer:\nSubject: ${sf_Subject}\n${actions.get_case_details__prod.records[0].Description}"
+    },
+    {
+     "role": "user",
+     "content": "Possible Intents:\n- hc_missing_charges\n- hc_tariff_update\n- hc_password_reset\n- hc_update_charger_details\n- hc_payment_query\n- hc_resent_onboarding_email\n- other"
+    },
+    {
+     "role": "user",
+     "content": "Possible Response Variants (hc_response_variant):\nhc_tariff_update only:\n- standard_driver_pushback\n- octopus_pairing_pushback\n- driver_struggling_response\nhc_payment_query only:\n- dd_increase_pushback\n- underpayment_response\nReturn \"\" for every other intent."
+    }
+   ],
+   "mutable": true
+  },
+  "instructions": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "Your job is to determine the Homecharge intent of the customer email. If there are more than 1 intents, indicate them all in the email_intent array output."
+    },
+    {
+     "role": "system",
+     "content": "You will provide confidence_score_extracts from the customer email to justify your confidence, each separated by a comma if there are multiple. These extracts are direct quotes from the email to justify the confidence_score."
+    },
+    {
+     "role": "system",
+     "content": "Intent hc_missing_charges definition\nScan customer email for the following words/phrases or similar ones: - \"Missing charge sessions\" - \"Sessions not appearing\" - \"No charge sessions showing\" - \"Charge history missing\" - \"Recent charges not showing\" - \"Charges not appearing in account\" - \"Charge data not pulling through\" - \"Charge sessions not syncing\" - \"No recent charge activity\" - \"Session data missing\" - \"Charging activity not showing\" - \"Charger data not showing\" - \"Charge logs missing\""
+    },
+    {
+     "role": "system",
+     "content": "Intent hc_tariff_update definition\nScan customer email for the following words/phrases or similar ones, across all three groups.\nGroup 1a - tariff or supplier change: - \"Update tariff\" - \"Change tariff\" - \"Edit tariff details\" - \"Update energy tariff\" - \"Change energy tariff\" - \"Need to change tariff\" - \"Tariff is wrong\" - \"Tariff is incorrect\" - \"Tariff has changed\" - \"Tariff has gone up\" - \"Tariff has gone down\" - \"Moved to a new tariff\" - \"Tariff recently changed\" - \"Switched tariff\" - \"Changed energy supplier\" - \"Switched energy supplier\" - \"No longer with supplier\" - \"Left supplier\" - \"Joined new supplier\" - \"Supplier has changed\" - \"New tariff details provided\" - \"New tariff rate provided\" - \"New unit rate provided\" - \"New standing charge provided\" - \"Attached new tariff information\" - \"Attached new energy statement\" - \"Attached welcome email from supplier\" - \"Update energy supplier\" - \"Update account with new tariff\" - \"Update account with new supplier\" - \"Tariff hasn't been updated\" - \"Supplier hasn't been updated\" - \"Supplier is incorrect\"\nGroup 1b - Octopus: - \"Moved to Octopus\" - \"Switched to Octopus\" - \"Changed to Octopus\" - \"Joined Octopus\" - \"Now with Octopus\" - \"Recently moved to Octopus\" - \"Recently switched to Octopus\" - \"Recently joined Octopus\" - \"No longer with previous supplier and now with Octopus\" - \"Left previous supplier for Octopus\" - \"Transferred to Octopus\" - \"Energy supply moved to Octopus\" - \"Energy account moved to Octopus\" - \"Tariff moved to Octopus\" - \"Tariff switched to Octopus\" - \"Supplier changed to Octopus\" - \"Supplier switched to Octopus\" - \"Supplier updated to Octopus\" - \"Now on an Octopus energy plan\" - \"Moved home energy to Octopus\" - \"Switched home energy to Octopus\" - \"New tariff from Octopus\" - \"New energy plan from Octopus\" - \"Octopus welcome email received\" - \"Octopus tariff details provided\" - \"Octopus tariff information attached\"\nGroup 1c - submission or upload failure: - \"Submission failed\" - \"Submission error\" - \"Submission not working\" - \"Submission not going through\" - \"Submission keeps failing\" - \"Unable to submit\" - \"Upload failed\" - \"Upload error\" - \"Upload not working\" - \"Upload keeps failing\" - \"Unable to upload\" - \"Document not accepted\" - \"Document failed to upload\" - \"Document upload error\" - \"Document keeps failing\" - \"File not accepted\" - \"File failed to upload\" - \"File upload error\" - \"File upload not working\" - \"File keeps failing\" - \"Attachment not accepted\" - \"Attachment failed to upload\" - \"Attachment upload error\" - \"Attachment upload not working\" - \"Attachment not going through\" - \"Attachment keeps failing\" - \"Tariff document not accepted\" - \"Tariff document failed to upload\" - \"Tariff document upload error\" - \"Tariff document not going through\" - \"Tariff document keeps failing\""
+    },
+    {
+     "role": "system",
+     "content": "Intent hc_password_reset definition\nScan customer email for the following words/phrases or similar ones: - \"Can't log in\" - \"Can't sign in\" - \"Can't access account\" - \"Unable to log in\" - \"Login isn't working\" - \"Account won't allow access\" - \"Can't get into the portal\" - \"Can't get into account\" - \"Reset password\" - \"Forgot password\" - \"Don't know the password\" - \"Have lost the password\""
+    },
+    {
+     "role": "system",
+     "content": "Intent hc_update_charger_details definition\nScan customer email for the following words/phrases or similar ones: - \"New charger installed\" - \"Charger has been replaced\" - \"Need to update charger details\" - \"Need to update charger information\" - \"Changed home charger recently\" - \"New charger fitted\" - \"Home charger has been upgraded\" - \"Need to add new charger to the account\" - \"Charger model has changed\" - \"Charger type has changed\" - \"New charging unit installed\" - \"Home charger swapped out\" - \"Need to update charger setup\" - \"Need to register new charger\"\nThe customer is telling us the charger on the account has changed and the account needs updating. A customer whose sessions are missing but whose charger has NOT changed is hc_missing_charges, not this intent."
+    },
+    {
+     "role": "system",
+     "content": "Intent hc_payment_query definition\nScan customer email for the following words/phrases or similar ones, across both groups.\nGroup 2a - direct debit has increased: - \"Direct debit has increased\" - \"direct debit increased\" - \"direct debit has gone up\" - \"my direct debit is higher\" - \"direct debit is too high\" - \"why has my direct debit increased\" - \"why has my direct debit gone up\" - \"my monthly payment has increased\" - \"my monthly payment has gone up\" - \"my supplier increased my direct debit\" - \"energy supplier increased my direct debit\"\nGroup 2b - underpaid: - \"underpaid\" - \"I have been underpaid\" - \"payment too low\" - \"reimbursement too low\" - \"not paid enough\" - \"payment amount is wrong\" - \"reimbursement amount is wrong\" - \"payment amount seems low\" - \"reimbursement seems low\" - \"expected a higher payment\" - \"expected more money\" - \"payment lower than expected\" - \"reimbursement lower than expected\" - \"received less than expected\" - \"amount paid is incorrect\" - \"payment doesn't seem right\"\nThis intent is about how much the driver is paid or charged, not about charge sessions missing from the account (that is hc_missing_charges)."
+    },
+    {
+     "role": "system",
+     "content": "Intent hc_resent_onboarding_email definition\nScan customer email for the following words/phrases or similar ones: - \"Didn't receive the Homecharge invite\" - \"Haven't had the Homecharge invitation\" - \"No invitation email\" - \"Missing Homecharge invite\" - \"Never got the Homecharge email\" - \"Didn't get the setup email\" - \"No account invitation received\" - \"Invite hasn't come through\" - \"Waiting for the Homecharge invite\" - \"Need the Homecharge invite resent\" - \"Can the invite be resent\" - \"Resend the Homecharge email\" - \"Send the invitation again\" - \"Need a new Homecharge invite\" - \"Need another invite email\" - \"Need the setup link again\" - \"Need the registration email resent\"\nThe customer has not onboarded yet, so they have no account to get into. This is not hc_password_reset, which is a customer who has an account and cannot access it."
+    },
+    {
+     "role": "system",
+     "content": "Response Variant\nhc_response_variant applies to hc_tariff_update and hc_payment_query only. Return \"\" when neither is one of the detected intents.\n\nhc_tariff_update:\n- standard_driver_pushback: the email matches the Group 1a wording - the tariff or energy supplier has changed, or the customer is asking for it to be updated.\n- octopus_pairing_pushback: the email matches the Group 1b wording - the customer has moved, switched or joined Octopus. Octopus wording wins over Group 1a when both appear.\n- driver_struggling_response: the email matches the Group 1c wording - submitting or uploading the tariff document, statement or attachment has failed or is not working. Group 1c wins over the other two groups when it appears, because the customer is already trying to self-serve.\n\nhc_payment_query:\n- dd_increase_pushback: the email matches the Group 2a wording - the driver's electricity direct debit or energy bill has gone up.\n- underpayment_response: the email matches the Group 2b wording - the driver says the Homecharge reimbursement is too low or does not cover their charging. Group 2b wins over Group 2a when both appear.\n\nWhen both hc_tariff_update and hc_payment_query are detected, return the hc_tariff_update variant."
+    },
+    {
+     "role": "system",
+     "content": "Sentiment Detection\nAssess the overall sentiment of the customer email and return it in the \"sentiment\" field as one of: \"positive\", \"neutral\", or \"negative\". Use \"negative\" for any complaint, anger, strong frustration, or clear dissatisfaction.\n\n- The customer may refer to the charger as a home charger, charge point, charging unit, EV charger or charging unit.\n- The customer may refer to Homecharge as the driver portal, the Chargepass portal, the Mina account or the self-serve portal."
+    },
+    {
+     "role": "system",
+     "content": "Assign a confidence_score to your intent detection from 0 to 100.\nConfidence guidance - 95->100: All selected intents are explicit and unambiguous. - 85->94: Strongly supported, with only minor interpretation required. - 70->84: Likely, but some inference or ambiguity remains. - 50->69: Multiple interpretations are plausible or context is incomplete. - 30->49: Limited evidence, the classification depends on assumptions. - 00->29: No supported intent is clear, use other.\nScoring rules Evaluate: - How clearly the user states the request - Whether the wording directly matches the selected intent - Whether competing intents are plausible - Whether enough context is available - How much inference is required\nAdditional rules: - Select all directly supported intents. - Do not select an intent only because it is related to another selected intent. - If any selected intent is uncertain, lower the overall confidence. - If two or more interpretations are equally plausible, confidence must not exceed 69. - Do not assign above 95 unless every selected intent is explicit. - Use other only when no listed intent applies."
+    },
+    {
+     "role": "system",
+     "content": "ai_exception_reason\nThe one field a human reads to understand why a case was not handled automatically. Write it for an agent looking at a single case.\nReturn \"\" only when every request in the email matched a value in the Possible Intents list AND escalate_to_agent is false.\nIn every other outcome return ONE short plain sentence that names what the customer was actually asking for, in their own terms, even when that topic is not on the Possible Intents list. Lead with the cause:\n- Nothing matched: \"No listed intent fits - the customer is asking about <topic>.\"\n- Partly matched: \"<matched intent(s)> matched, but the customer also asks about <topic>, which has no listed intent.\"\n- Ambiguous: \"Ambiguous between <intent_a> and <intent_b> - the email says <short quote>.\"\n- Too little detail: \"Not enough detail to classify - the customer says <short quote> without saying what they need.\"\n- Escalated by a rule: \"<intent> matched but RULE <n> escalated it - <the wording that triggered it>.\"\nKeep it under 200 characters, plain UK English, no internal system names, and never name a topic the email does not contain."
+    }
+   ],
+   "mutable": true
+  },
+  "constraints": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Only return intents from the Possible Intents list. If none apply, return \"other\"."
+    },
+    {
+     "role": "user",
+     "content": "email_intent must always be an array, even when there is only one intent."
+    },
+    {
+     "role": "user",
+     "content": "hc_response_variant must be one of standard_driver_pushback, octopus_pairing_pushback or driver_struggling_response when hc_tariff_update is detected, one of dd_increase_pushback or underpayment_response when hc_payment_query is detected and hc_tariff_update is not, and \"\" for every other intent."
+    },
+    {
+     "role": "user",
+     "content": "confidence_score_extracts must be direct quotes that appear verbatim in the customer email."
+    },
+    {
+     "role": "user",
+     "content": "ESCALATION RULES\nEvaluate the rules below in order. The first rule that matches decides the outcome - stop there. Intent detection always runs to completion, regardless of the outcome.\n\nRULE 0 - SELF-SERVICE OVERRIDES (checked first, never escalates)\nhc_password_reset is triggered by the customer stating they are blocked, so \"can't log in\", \"can't access my account\" and \"forgotten password\" are the expected wording, not a failure report. Detect hc_password_reset, generate the AI email, do not escalate.\nException: escalate when the customer reports the remedy itself failing - \"password reset help\", \"password reset error\", \"the reset link doesn't work\", \"I've reset it twice and still can't get in\", \"I never receive the email\". Set escalate_reason = \"Escalation\".\nhc_tariff_update Group 1c wording is also a self-service override. A customer who says the tariff submission or document upload keeps failing is answered with the driver_struggling_response template, not escalated.\nhc_payment_query is an information reply and is also a self-service override. A driver saying their direct debit has gone up, or that they have been underpaid, is answered with the matching approved template, not escalated - unless Rule 2 applies.\nhc_resent_onboarding_email is an information reply and is also a self-service override. Wording about an invitation never arriving is the expected wording for this intent, not a failure report. Detect the intent, generate the AI email, do not escalate on that wording alone. Rules 2 and 3 still apply.\n\nRULE 1 - BLOCKED ACTION\nEscalate when the customer states they have tried an action in the Homecharge portal and been unable to complete it. Signals: \"can't\", \"cannot\", \"unable to\", \"won't let me\", \"it won't\", \"keeps failing\", \"I get an error\", \"it's not working\", \"I've tried and\".\nApplies to: hc_missing_charges and hc_update_charger_details. Does not apply to the overrides in Rule 0.\nSet escalate_to_agent = true\nSet escalate_reason = \"Escalation\"\nNot a blocked action: \"I can't find where to...\", \"I can't work out how to...\". These are how-do-I questions. Do not escalate.\n\nRULE 2 - HUMAN SUPPORT REQUIRED\nEscalate when any of these is true:\n- The customer is complaining, angry, frustrated, or abusive.\n- The email is a complaint, or concerns a corporate account, CCS, or a web/Zingtree-origin user. These bypass AI handling entirely in Phase 1.\n- The customer reports an error, failure or problem that requires an agent to investigate or take action, other than the tariff submission failures covered by driver_struggling_response.\nSet escalate_to_agent = true\nSet escalate_reason = \"Escalation\"\n\nRULE 3 - NO INTENT MATCH\nEscalate only when NO request in the email reasonably matches a value in the Possible Intents list.\nSet escalate_to_agent = true\nSet escalate_reason = \"Intent does not match\"\nExplain the miss in ai_exception_reason, naming what the customer asked for.\n\nPARTIAL MATCH (not an escalation)\nWhen at least one request matches the Possible Intents list and one or more other requests do not:\n- Return ONLY the matched intents in email_intent.\n- Set escalate_to_agent = false and escalate_reason = \"\".\n- Set ai_exception_reason to one sentence naming exactly what the customer asked for that is not on the list.\nA request must never be silently dropped: anything not matched is named in ai_exception_reason for the agent to complete. The rules above still win: if any request triggers them, escalate the whole email.\n\nRULE 4 - NO ESCALATION\nIf none of the above applies:\nSet escalate_to_agent = false\nSet escalate_reason = \"\"\nSet ai_exception_reason = \"\" (unless PARTIAL MATCH applies)"
+    },
+    {
+     "role": "user",
+     "content": "SCOPE\nEscalation is email-level. One request that triggers an escalation rule escalates the entire email, even if the other requests are all self-serviceable. A partial match (see RULE 3) does not escalate.\nescalate_reason must only ever be one of: \"Escalation\", \"Intent does not match\", \"\"."
+    },
+    {
+     "role": "user",
+     "content": "WORKED EXAMPLES\n\"My home charging sessions are missing from my account\" -> hc_missing_charges, no escalation\n\"None of my charges from last month are showing\" -> hc_missing_charges, no escalation\n\"I've switched to Octopus, please update my tariff\" -> hc_tariff_update, octopus_pairing_pushback, no escalation\n\"My energy supplier changed last month and the tariff is wrong\" -> hc_tariff_update, standard_driver_pushback, no escalation\n\"I keep trying to upload my energy statement and it fails\" -> hc_tariff_update, driver_struggling_response, no escalation\n\"I can't log in to my Homecharge account\" -> hc_password_reset, no escalation\n\"The password reset link doesn't work\" -> hc_password_reset, Escalation\n\"I want to make a complaint, my charges have been missing for three months\" -> hc_missing_charges, Escalation\n\"Please cancel my fuel card\" -> other, Intent does not match\n\"I've had a new charger installed and need to update my account\" -> hc_update_charger_details, no escalation\n\"My charger was replaced and I can't add the new one, it keeps failing\" -> hc_update_charger_details, Escalation\n\"Which chargers work with Homecharge?\" -> other, Intent does not match\n\"My direct debit has gone up since I started charging at home\" -> hc_payment_query, dd_increase_pushback, no escalation\n\"My reimbursement is lower than expected, I think I've been underpaid\" -> hc_payment_query, underpayment_response, no escalation\n\"I never received my Homecharge invitation, can it be resent?\" -> hc_resent_onboarding_email, no escalation\n\"I've forgotten my password, and can my charger be moved to my new house?\" -> hc_password_reset, no escalation, ai_exception_reason names the charger move question"
+    },
+    {
+     "role": "user",
+     "content": "ai_exception_reason is \"\" only when escalate_to_agent is false and every request in the email matched a listed intent. In any other outcome it must be a non-empty sentence naming the topic the customer wrote about.\nIt explains the outcome, it never changes it - intent detection, escalate_to_agent and escalate_reason are decided exactly as the rules above say."
+    }
+   ],
+   "mutable": true
+  },
+  "examples": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "This is an example schema output: { \"email_intent\": [ \"intent_1\", \"intent_2\" ], \"hc_response_variant\": \"\", \"sentiment\": \"\", \"escalate_to_agent\": , \"escalate_reason\": \"\", \"confidence_score\": , \"confidence_score_extracts\": \"\", \"ai_exception_reason\": \"\" }"
+    }
+   ],
+   "mutable": true
+  },
+  "clarifications": {
+   "messages": [],
+   "mutable": true
+  },
+  "outputFormat": "json",
+  "active": true,
+  "createdAt": "2026-09-24T22:37:05.871Z",
+  "updatedAt": "2026-09-24T22:37:05.871Z"
+ },
+ "21": {
+  "id": 21,
+  "orgId": 123,
+  "alias": "automate_hc_email_generation_prod",
+  "name": "Automate Homecharge Email Generation",
+  "description": "Allstar (Corpay UK) Homecharge email automation - drafts the HTML customer reply for the detected Homecharge intents using the Phase 1 templates.",
+  "cacheTtl": 3600,
+  "mode": "api",
+  "connectorId": 72,
+  "modelVendor": "openai",
+  "modelName": "gpt-4.1-mini",
+  "temperature": 0.7,
+  "topP": 1,
+  "maxTokens": 3000,
+  "initialMsg": "Hi, I'm an AI Agent. How can I help you?",
+  "context": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Requested Action: ${email_intent}"
+    },
+    {
+     "role": "user",
+     "content": "Template Key: ${hc_template_key}\nResponse Variant: ${hc_response_variant}\nRequester Type: ${hc_requester_type}"
+    },
+    {
+     "role": "user",
+     "content": "Customer Email (verbatim):\nSubject: ${sf_Subject}\n${actions.get_case_details__prod.records[0].Description}"
+    },
+    {
+     "role": "user",
+     "content": "Customer Sentiment: ${sentiment}"
+    },
+    {
+     "role": "user",
+     "content": "Additional request added by the agent (may be empty): ${agent_added_request}"
+    }
+   ],
+   "mutable": true
+  },
+  "instructions": {
+   "messages": [
+    {
+     "role": "system",
+     "content": "Your job is to generate a single email to the customer who wrote in.\n1. Each template below is written in HTML. Reproduce the template's wording AND its HTML structure exactly: every <p>, <ul>, <li>, <strong> and <a> stays where it is. Do not merge paragraphs, do not flatten lists into sentences, do not turn list items into paragraphs.\n2. Links are already written as <a href=\"...\">text</a>. Keep the href and the link text exactly. Never print a URL as visible text.\n3. Requested Action gives the detected intent key(s). Response Variant selects which template to use where the intent has variants - the three hc_tariff_update templates and the two hc_payment_query templates."
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = hc_missing_charges:\n<p>Hello,</p>\n<p>Thank you for your email.</p>\n<p>Are you able to see your missing home charging sessions in your charger app? If so, please reply to this email with screenshots of your home charging sessions from your charger app and the case will be reviewed further. Please make sure that the kWh figure is on display.</p>\n<p>For more information on charge sessions, please click the following <a href=\"https://premiercxvideo.wistia.com/medias/em3vjetodw\">link to an informational video</a>.</p>\n<p>Alternatively, for further assistance, please visit the \"Help and Support\" page in the Homecharge portal.</p>\n<p>Kind regards,<br>Allstar Homecharge Support</p>"
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = hc_tariff_update and Response Variant = standard_driver_pushback:\n<p>Hello,</p>\n<p>Thank you for your email.</p>\n<p>To make sure that we are paying accurately based on the new tariff information, the tariff details in the account must always be kept up to date. An energy statement will need to be uploaded to update the tariff using our self-serve portal.</p>\n<p>Below are the instructions for how to action this:</p>\n<p>Once logged into the Homecharge driver portal, navigate to 'My Details' and select 'Energy Supplier Details'. From there, the energy information held on the account can be viewed and edited. It's possible to update the supplier, enter the date the tariff changed, and upload a PDF copy of the most recent energy statement displaying the new tariff information.</p>\n<p>After the document is submitted, we'll review the details and update the account accordingly. There may be a short period where charge sessions don't appear in the driver portal, but these will return once the information has been verified.</p>\n<p>We also have a handy <a href=\"https://premiercxvideo.wistia.com/medias/8a0slecoud\">step-by-step video</a> that explains this process.</p>\n<p>If access to the account is not possible, here are some instructions below to assist with account access:</p>\n<ul>\n<li>Use this link: <a href=\"https://app.mina.co.uk/reset-password\">Reset password</a></li>\n<li>Type in the email address used to create the Homecharge account</li>\n<li>Then click Submit</li>\n</ul>\n<p>An email will be sent shortly with password set-up instructions.</p>\n<p>If further support is needed, please visit the Help & Support section in the driver portal. Additional guidance can also be found in the Homecharge How To Video Library by <a href=\"https://login.chargepass.co.uk/\">logging in</a>, going to the Help & Support tab, and selecting How To Video Library.</p>\n<p>Kind regards,<br>Allstar Homecharge Support</p>"
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = hc_tariff_update and Response Variant = octopus_pairing_pushback:\n<p>Hello,</p>\n<p>Thank you for your email.</p>\n<p>Below are the instructions for pairing an Octopus account with Homecharge.</p>\n<p>You can now pair your Octopus account with your Homecharge account by submitting your API key to us within the Homecharge portal.</p>\n<p>Before proceeding, please generate a new API key. This typically needs to be copied from a desktop device, and the key may not function if it isn't copied directly from your Octopus account.</p>\n<p>To do this - please log-in to your Homecharge account and click edit against your tariff information. Please follow the instructions that appear on screen to pair your Octopus account with your Homecharge account. You should see a prompt to submit your API key to complete the pairing.</p>\n<p>Once paired, we should be able to cost your charge sessions using the live unit rates within your Octopus app.</p>\n<p>For further assistance, please visit the Help & Support section in the driver portal. Alternatively, we have a handy <a href=\"https://premiercxvideo.wistia.com/medias/8a0slecoud\">step-by-step video</a> that explains this process.</p>\n<p>Kind regards,<br>Allstar Homecharge Support</p>"
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = hc_tariff_update and Response Variant = driver_struggling_response:\n<p>Hello,</p>\n<p>Thank you for your email.</p>\n<p>We understand there has been difficulty submitting the tariff information in the Homecharge account. The following guidance should help resolve this:</p>\n<p>A <a href=\"https://premiercxvideo.wistia.com/medias/8a0slecoud\">step-by-step video</a> explaining the tariff update process is available.</p>\n<p>Before starting, please ensure a PDF copy of the most recent energy statement is available, showing the updated tariff information.</p>\n<p>Once logged into the Homecharge driver portal, go to 'My Details' and select 'Energy Supplier Details'. From there, the energy information held on the account can be viewed and updated. The portal allows the supplier to be updated, the date the tariff changed to be entered, and a PDF copy of the most recent energy statement to be uploaded.</p>\n<p>After the document is submitted, the details will be reviewed, and the account updated accordingly. There may be a short period where charge sessions do not appear in the driver portal. These will return once the updated information has been verified.</p>\n<p>If access to the account is not possible, please follow the steps below to request a password reset:</p>\n<ul>\n<li>Go to: <a href=\"https://app.mina.co.uk/reset-password\">Reset password</a></li>\n<li>Enter the email address used to create the Homecharge account</li>\n<li>Select Submit</li>\n</ul>\n<p>A password reset email will be sent shortly with instructions to set a new password.</p>\n<p>If you experience any error messages or require any further support, please respond to this email with a screenshot of the error message and attach a PDF copy of your most up-to-date energy statement displaying your new tariff information.</p>\n<p>For further assistance, please visit the Help & Support section in the driver portal.</p>\n<p>Kind regards,<br>Allstar Homecharge Support</p>"
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = hc_update_charger_details:\n<p>Hello,</p>\n<p>Thank you for your email.</p>\n<p>We haven't made any changes to your account as you can action this quickly and easily through your Allstar Homecharge self-serve portal.</p>\n<p>Please follow the below instructions to make changes to your account information.</p>\n<p>Before continuing in the portal, please make sure you have the relevant charger app downloaded and that it is paired with your charger. If you can see your charging sessions within the app, this usually confirms that your charger is successfully paired.</p>\n<p><strong>Finding your charger serial number</strong></p>\n<p>If you do not use ev.energy - within your charger app you should also be able to locate your charger serial number. It may also be referred to as a charger ID. Please have this to hand when you continue with the below steps.</p>\n<p>If you can't find the serial number in the app, don't worry. You may also be able to find it:</p>\n<ul>\n<li>On a sticker on your physical charger, often located on the side or underneath the unit.</li>\n<li>By contacting your charger installer, who should be able to provide the serial number for you.</li>\n</ul>\n<p>Once you are ready:</p>\n<ul>\n<li>Log in at: <a href=\"https://login.chargepass.co.uk\">Homecharge portal</a></li>\n<li>Once you are in your account, please navigate to your charger information and hit \"edit\" against it.</li>\n</ul>\n<p>Here, instructions will appear on screen where you will be able to enter your charger information and pair your charger if needed.</p>\n<p>If you are unable to access your account, please follow the below instructions -</p>\n<ol>\n<li>Use this link: <a href=\"https://app.mina.co.uk/reset-password\">Reset password</a></li>\n<li>Type in the email address you used to create your Homecharge account</li>\n<li>Then click 'Submit'</li>\n</ol>\n<p>You will receive an email shortly with your new password set-up instructions.</p>\n<p><strong>Need further help?</strong></p>\n<p>Here is a <a href=\"https://premiercxvideo.wistia.com/medias/irq71m1bte\">link to a video</a> that should help you to update information in your account.</p>\n<p>Kind regards,<br>Allstar Homecharge Support</p>"
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = hc_password_reset:\n<p>Hello,</p>\n<p>Thank you for your email.</p>\n<p>Below are the instructions to receive a password reset email and regain access to the Homecharge account:</p>\n<ul>\n<li>Go to: <a href=\"https://app.mina.co.uk/reset-password\">Reset password</a></li>\n<li>Enter the email address used to create the Homecharge account</li>\n<li>Select Submit</li>\n</ul>\n<p>A password reset email will be sent shortly with instructions to set a new password.</p>\n<p>Please note- you can use this master link to reset your password any time.</p>\n<p>Once logged in, if you need further guidance on any other questions or queries, please visit our 'Help & Support' tab where you'll find helpful FAQ's and our Homecharge 'How-To Video' Library.</p>\n<p>Kind regards,<br>Allstar Homecharge Support</p>"
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = hc_payment_query and Response Variant = dd_increase_pushback:\n<p>Hello,</p>\n<p>Thank you for your email.</p>\n<p>We understand your concern. Energy costs across the UK are increasing and as a result, if you pay your energy supplier by direct debit you may see your monthly payment increase too.</p>\n<p>If your direct debit has changed or if you receive notification of a change, you can ask your supplier to review the direct debit. It is important to ask them to take into account the payments they receive from Allstar for EV consumption - these appear as \"Bank transfer\" payments on your energy statement.</p>\n<p>As long as your energy account does not have any outstanding debt, your energy supplier will be able to assist you. Please note that you should be able to request to withdraw any positive balance by contacting your energy supplier directly.</p>\n<p>Below is an email template you may use to send to your energy supplier if you believe your direct debit is incorrect. Alternatively, we advise that you contact your energy supplier via telephone.</p>\n<p>\"<strong>Subject:</strong> My direct debit for [energy account number]</p>\n<p>My direct debit has recently changed and I believe not all the relevant information has been taken into account. I charge my company EV at home and this consumption is paid for directly, to you, by Allstar. This should be excluded from my direct debit calculation.</p>\n<p>Please could you review my direct debit and provide an explanation of why my direct debit has been set at this level. If Allstar payments have not been taken into account, please can you review my direct debit taking these into consideration.\"</p>\n<p>For more information on your payments please click the following links - <a href=\"https://premiercxvideo.wistia.com/medias/a1lzdtoahn\">Viewing your Homecharge payments</a> and <a href=\"https://premiercxvideo.wistia.com/medias/i5kc5vzc0l\">Missing payments</a>.</p>\n<p>Kind regards<br>Allstar Homecharge Support</p>\nReproduce the supplier email template as ordinary <p> paragraphs in the same font, size and style as the rest of the email, with an opening double quotation mark (\") at the start of its first paragraph and a closing double quotation mark at the end of its last paragraph, exactly as written above. Never use <blockquote>, headings, <big>, <small> or any font-size or style for it. Reproduce [energy account number] exactly as written."
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = hc_payment_query and Response Variant = underpayment_response:\n<p>Hello,</p>\n<p>Thank you for your email.</p>\n<p>While we can help with your Homecharge payments, we don't have access to your wider energy account, including your household usage, balance or Direct Debit.</p>\n<p>We appreciate that understanding how your home energy bill and Homecharge reimbursements work together can sometimes be confusing, so we'd like to explain how your payments are calculated and where you can check them.</p>\n<p><strong>If your Direct Debit has changed</strong></p>\n<p>If your energy supplier has changed your Direct Debit, or has notified you of an upcoming change, you can ask them to review it. When speaking to your supplier, please ask them to take into account the reimbursements you receive from Allstar for your EV charging. These payments will usually appear as \"Bank transfer\" payments on your energy statement.</p>\n<p>Your energy supplier will be best placed to review your Direct Debit and overall account balance with you.</p>\n<p><strong>How to check your Homecharge payments</strong></p>\n<p>You can see a full breakdown of your Homecharge reimbursements by <a href=\"https://login.chargepass.co.uk\">logging into your account</a>.</p>\n<p>Once logged in, go to 'Payments'. Here you can:</p>\n<ul>\n<li>View your total payments to date</li>\n<li>Open an individual payment to see which charging sessions are included</li>\n<li>Select a charging session to see how the reimbursement was calculated</li>\n</ul>\n<p><strong>How we calculate your reimbursement</strong></p>\n<p>Your Homecharge payments are calculated using the unit rate you have provided to us, which is currently [INSERT UNIT RATE EXCLUDING VAT] p/kWh, multiplied by the kWh usage sent directly from your charger app.</p>\n<p>The unit rate displayed in your Homecharge account is shown excluding VAT. VAT is automatically added when your charging sessions are billed, helping to ensure your reimbursement reflects the full electricity cost associated with your eligible EV charging.</p>\n<p><strong>If you're an Octopus customer</strong></p>\n<p>If you're an Octopus customer and have paired your account using your Octopus API Key, we'll use the live unit rates received directly from Octopus to calculate the cost of your charging sessions. If your Octopus rates change, the updated live rates will be used.</p>\n<p><strong>Keeping your tariff up to date</strong></p>\n<p>Please make sure your tariff details are kept up to date in your Homecharge account to help ensure your reimbursements are calculated correctly. We have a <a href=\"https://premiercxvideo.wistia.com/medias/8a0slecoud\">step-by-step video</a> showing you how to update this in your Homecharge portal.</p>\n<p><strong>Why your home energy bill may increase</strong></p>\n<p>It's normal for your household electricity usage to increase when you start charging an electric vehicle at home, as your charger is using additional electricity.</p>\n<p>You should continue paying your energy supplier as normal. Homecharge then reimburses the eligible cost associated specifically with your EV charging by making payments towards your energy account.</p>\n<p>If you feel your overall energy bill or Direct Debit is higher than expected, we recommend speaking with your energy supplier.</p>\n<p><strong>If a charging session is missing</strong></p>\n<p>If you notice that a charging session hasn't appeared in your Homecharge account, please send us a screenshot showing the kWh figure from your charger app, and we'll be happy to investigate.</p>\n<p>You can also find more information about your payments in these helpful videos: <a href=\"https://premiercxvideo.wistia.com/medias/a1lzdtoahn\">Viewing your Homecharge payments</a> and <a href=\"https://premiercxvideo.wistia.com/medias/i5kc5vzc0l\">Missing payments</a>.</p>\n<p>For additional guidance, our Homecharge How To Video Library is available within your Homecharge account. Simply <a href=\"https://login.chargepass.co.uk\">log in</a>, go to Help & Support, and select How To Video Library.</p>\n<p>Kind regards,<br>Allstar Homecharge Support</p>\nKeep every <p><strong> heading and its paragraphs exactly as shown, and reproduce [INSERT UNIT RATE EXCLUDING VAT] exactly as written."
+    },
+    {
+     "role": "system",
+     "content": "If Requested Action = hc_resent_onboarding_email:\n<p>Hello,</p>\n<p>Thank you for your email.</p>\n<p>Please contact your Fleet Manager to request a sign-up link.</p>\n<p>If you have a sign-up link that is not expired, here is a <a href=\"https://premiercxvideo.wistia.com/medias/71tyopoq91\">short video</a> that walks you through the onboarding process.</p>\n<p>Once you have successfully onboarded, if you need any further assistance or have any other questions, you can access our Homecharge \"How to Video Library\" by <a href=\"https://login.chargepass.co.uk/\">logging in</a> and going to the Help & Support tab.</p>\n<p>Kind regards,<br>Allstar Homecharge Support</p>"
+    },
+    {
+     "role": "system",
+     "content": "REQUESTER TYPE\nRequester Type tells you who sent the email: driver or fleet. The approved Phase 1 templates are written for a driver, so when Requester Type = driver, use the template wording exactly as written. When Requester Type = fleet, keep every step, link, instruction and paragraph of the template, but address the fleet manager rather than the driver - refer to the driver's account, the driver's charger app and the driver's charge sessions in place of your account, your charger app and your charge sessions. Do not add steps, caveats or wording that are not in the template.\nFor BOTH driver and fleet, the HTML structure of the template is identical: re-framing changes words only, never tags, paragraphs or lists."
+    },
+    {
+     "role": "system",
+     "content": "ADDITIONAL REQUEST ADDED BY THE AGENT\nIf \"Additional request added by the agent\" in the context is not empty, the customer also asked for something the intent list does not cover, and the agent has written the information to give them. Answer it in the same email, as its own paragraph before the closing, using ONLY the agent's information. Do not add facts, links or steps the agent did not give. If it is empty, ignore it."
+    }
+   ],
+   "mutable": true
+  },
+  "constraints": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "Output ONE email only, as valid HTML, matching the schema.\nHTML FORMATTING\n- The whole email is HTML. Every paragraph is its own <p>. Steps and lists are <ul><li>, one <li> per item, a numbered list is <ol><li>, used only where the template itself has one. Headings inside an email are <p><strong>Heading</strong></p>. The sign-off is one <p> with a <br> between \"Kind regards,\" and the team name.\n- Never use newline characters, blank lines, markdown or bullet characters for layout. Spacing comes only from the HTML tags.\n- A <ul><li> or <ol><li> list appears ONLY where the template itself has one, with exactly the template's <li> items. A sentence the template writes as a <p> stays a <p>: never turn it into a bullet, never append it to the list above or below it, and never add an <li> the template does not have. Close every </ul> before the next <p>.\n- Every <p> in the template stays its own separate <p> (never join two paragraphs - the only <br> is the one in the sign-off), so paragraphs are visibly spaced.\n- Never style text: no <blockquote>, <h1>-<h6>, <big>, <small>, <font> or style attributes. Every paragraph uses the same font and size.\n- Never print a raw URL. Every link is <a href=\"URL\">link text</a> exactly as the template writes it.\n- Do not wrap the output in code fences."
+    },
+    {
+     "role": "user",
+     "content": "Never invent portal features, URLs, steps, timescales or contact routes - use only the links and steps given in the templates above."
+    },
+    {
+     "role": "user",
+     "content": "Never expose internal fields, flags, intent codes, template keys or system names to the customer."
+    },
+    {
+     "role": "user",
+     "content": "MULTIPLE INTENTS\nIf there is more than one intent ONLY (disregard if exactly 1 intent was found), merge them into a single email in this exact structure, using the same HTML rules:\n<p>Hello,</p>\n<p>Thank you for your email.</p>\n[ACCESS BLOCK - include only if hc_password_reset is one of the intents] <p>Before the account can be managed online, access needs to be restored first:</p> followed by the password reset <ul> from the hc_password_reset template.\n[PORTAL BLOCK - one short section per remaining intent, in the order they appear in Requested Action, each starting with a <p><strong> heading naming the request and keeping the paragraphs, lists and links of its own template]\nUse this opening sentence when hc_password_reset is ALSO present: <p>Once you're back into the account, the remaining actions can be completed in the Homecharge portal. Once logged in, you can follow the steps below:</p>\nUse this opening sentence when hc_password_reset is NOT present: <p>These actions can be completed in your Allstar Homecharge self-serve portal. Once logged in, you can follow the steps below:</p>\n[CLOSING] <p>If you need any additional guidance, please visit the Help & Support section in the driver portal, where you will also find the Homecharge How To Video Library.</p>\n<p>Kind regards<br>Allstar Homecharge Support</p>\nNever drop an intent from the merged email, and never repeat the same link twice."
+    },
+    {
+     "role": "user",
+     "content": "SALESFORCE AND NEXT STEPS\nThe Salesforce Topic and Sub Topic, the energy supplier and data provider fields, and the agent's own validation work are handled by the workflow, not by this email. Do not mention them, do not ask the customer for them, and do not tell the customer what the agent will do next beyond what the template itself says."
+    },
+    {
+     "role": "user",
+     "content": "PLACEHOLDERS\nTwo templates contain square-bracket placeholders: [INSERT UNIT RATE EXCLUDING VAT] in the underpayment_response template, and [energy account number] in the dd_increase_pushback supplier email template. Reproduce both exactly as written. Never guess, calculate, substitute or omit them - the agent completes the unit rate before the reply is sent, and the customer completes their own energy account number."
+    }
+   ],
+   "mutable": true
+  },
+  "examples": {
+   "messages": [
+    {
+     "role": "user",
+     "content": "This is an example schema output (single-intent hc_password_reset, driver):\n{ \"email\": \"<p>Hello,</p><p>Thank you for your email.</p><p>Below are the instructions to receive a password reset email and regain access to the Homecharge account:</p><ul><li>Go to: <a href='https://app.mina.co.uk/reset-password'>Reset password</a></li><li>Enter the email address used to create the Homecharge account</li><li>Select Submit</li></ul><p>A password reset email will be sent shortly with instructions to set a new password.</p><p>Kind regards,<br>Allstar Homecharge Support</p>\" }"
+    }
+   ],
+   "mutable": true
+  },
+  "clarifications": {
+   "messages": [],
+   "mutable": true
+  },
+  "outputFormat": "json",
+  "responseSample": {
+   "email": "<p>Hello,</p><p>Thank you for your email.</p><p>Below are the instructions to receive a password reset email and regain access to the Homecharge account:</p><ul><li>Go to: <a href='https://app.mina.co.uk/reset-password'>Reset password</a></li><li>Enter the email address used to create the Homecharge account</li><li>Select Submit</li></ul><p>A password reset email will be sent shortly with instructions to set a new password.</p><p>Kind regards,<br>Allstar Homecharge Support</p>"
+  },
+  "responseSchema": {
+   "properties": {
+    "email": {
+     "format": "style",
+     "key": "email",
+     "label": "Email",
+     "name": "email",
+     "properties": {},
+     "type": "string",
+     "value": "<p>Hello,</p><p>Thank you for your email.</p><p>Below are the instructions to receive a password reset email and regain access to the Homecharge account:</p><ul><li>Go to: <a href='https://app.mina.co.uk/reset-password'>Reset password</a></li><li>Enter the email address used to create the Homecharge account</li><li>Select Submit</li></ul><p>A password reset email will be sent shortly with instructions to set a new password.</p><p>Kind regards,<br>Allstar Homecharge Support</p>"
+    }
+   },
+   "type": "object"
+  },
+  "active": true,
+  "createdAt": "2026-09-24T22:37:33.089Z",
+  "updatedAt": "2026-09-24T22:37:33.089Z"
+ }
+}

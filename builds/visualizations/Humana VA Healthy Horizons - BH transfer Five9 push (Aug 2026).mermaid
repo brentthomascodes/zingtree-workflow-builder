@@ -1,0 +1,65 @@
+%% Humana VA Healthy Horizons (tree 560583601)
+%% Aksana request, Aug 2026: fire Five9 Add-to-List on the BH warm transfer.
+%% CURRENT vs PROPOSED. All three Data nodes call Connected Object 1096.
+
+flowchart TD
+
+subgraph CUR["CURRENT"]
+  direction TB
+  C50["50 Content<br/>Need - BH"] --> C63["63 Content<br/>Transfer to BH Counselor"]
+  C63 -->|Continue| C64["64 Content<br/>BH Welcome"]
+  C111["111 Content<br/>BH Start"] -->|Green| C64
+  C112["112 Content<br/>BH Assessment Needed"] -->|No Risk| C64
+  C64 --> C83["83 -> 84 -> 86 -> 85<br/>-> 72 -> 82 -> 27"]
+  C83 --> C28["28 Content<br/>Conclude Call"]
+  C28 -->|End| C124["124 Script<br/>Generate GUID"]
+  C124 --> C125["125 Data<br/>Five9 - Add To List"]
+  C125 --> C102["102 Content<br/>End"]
+
+  C17["17 Content<br/>Humana Services"] -->|Warm Transfer| C126["126 Script<br/>Generate GUID<br/>(identical to 124)"]
+  C126 --> C127["127 Data<br/>Five9 - Add to List"]
+  C127 --> C25["25 Content<br/>Additional Support"]
+end
+
+subgraph PROP["PROPOSED - duplicate the pair as 128/129"]
+  direction TB
+  P50["50 Content<br/>Need - BH"] --> P63["63 Content<br/>Transfer to BH Counselor"]
+  P63 -->|"Continue<br/>REPOINTED 64 -> 128"| P128["128 Script NEW<br/>Five9 Handoff -<br/>Stage BH Transfer Payload"]
+  P128 --> P129["129 Data NEW<br/>Five9 - Add to List<br/>(BH Transfer) - CO 1096"]
+  P129 -->|continuation| P64["64 Content<br/>BH Welcome"]
+  P111["111 Content<br/>BH Start"] -->|"Green<br/>no push"| P64
+  P112["112 Content<br/>BH Assessment Needed"] -->|"No Risk<br/>no push"| P64
+  P64 --> P83["83 -> 84 -> 86 -> 85<br/>-> 72 -> 82 -> 27"]
+  P83 --> P28["28 Content<br/>Conclude Call"]
+  P28 -->|End| P124["124 Script<br/>UNCHANGED"]
+  P124 --> P125["125 Data<br/>UNCHANGED - still -> 102"]
+  P125 --> P102["102 Content<br/>End"]
+
+  P17["17 Content<br/>Humana Services"] -->|Warm Transfer| P126["126 Script<br/>UNCHANGED"]
+  P126 --> P127["127 Data<br/>UNCHANGED - still -> 25"]
+  P127 --> P25["25 Content<br/>Additional Support"]
+end
+
+NOTE1["<b>Why duplicate:</b> a Zingtree Script node and a Data node each have<br/>ONE continuation and cannot branch. Node 125 cannot return to<br/>both 102 and 64. Precedent already set by 126/127, a byte-identical<br/>copy of 124/125 created for the node 17 path."]
+
+NOTE2["<b>Accepted trade-off:</b> a BH call now fires Five9 TWICE - once at<br/>129 (handoff) and again at 125 (wrap-up) - with different GUIDs,<br/>so two distinct records per call. To collapse to one record,<br/>have 128 mint the GUID only when guid is empty."]
+
+NOTE3["<b>Open item:</b> nodes 111 (Green) and 112 (No Risk) also enter 64<br/>and will NOT fire the push. Confirm with Aksana whether<br/>those handoffs need it too."]
+
+PROP --- NOTE1
+NOTE1 --- NOTE2
+NOTE2 --- NOTE3
+
+classDef newNode fill:#eef2ff,stroke:#4f46e5,stroke-width:3px,color:#1e1b4b
+classDef dataNode fill:#fff7ed,stroke:#ea580c,stroke-width:2px,color:#431407
+classDef scriptNode fill:#f0fdf4,stroke:#16a34a,stroke-width:2px,color:#052e16
+classDef contentNode fill:#f9fafb,stroke:#9ca3af,color:#111827
+classDef note fill:#fefce8,stroke:#ca8a04,stroke-width:1px,color:#422006
+classDef touched fill:#fef2f2,stroke:#dc2626,stroke-width:3px,color:#450a0a
+
+class P128,P129 newNode
+class C125,C127,P125,P127 dataNode
+class C124,C126,P124,P126 scriptNode
+class C50,C63,C64,C83,C28,C102,C17,C25,C111,C112,P50,P64,P83,P28,P102,P17,P25,P111,P112 contentNode
+class P63 touched
+class NOTE1,NOTE2,NOTE3 note

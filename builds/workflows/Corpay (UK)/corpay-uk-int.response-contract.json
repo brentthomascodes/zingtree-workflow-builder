@@ -1,0 +1,9 @@
+{
+ "sfdc_int__case_email_ai": {
+  "top": ["records", "_zt_meta"],
+  "record_fields": ["AccountId","Business_process__c","Id","CaseNumber","Origin","CreatedDate","Description","SuppliedEmail","Initial_Case_Queue_Name__c","Last_Email_Date__c","OwnerId","Queue_Email__c","RecordTypeId","Status","Sub_Topic__c","Subject","Topic__c","Last_Owner_Queue_Name__c"],
+  "confirmed": "2026-09-29, Brent, real CO 10 response (corpay-uk-int-to-prod skill)"
+ },
+ "get_account_details__int": {"top": ["records","_zt_meta"], "record_fields": ["Framework__c","Account_Segment__c","AS_Account_Administrator__c"], "confirmed": "2026-09-17"},
+ "get_incoming_email_addresses_int": {"top": ["records","_zt_meta"], "record_fields": ["CcAddress"], "confirmed": "2026-09-17"}
+}

@@ -15,7 +15,7 @@ Then explain it in plain words.
 1. **A plain-text summary in chat** — what changed, in the fewest words that are still true.
    Node numbers and titles, one line each. No JSON, no jargon.
 2. **A saved change report** next to the delivered JSON:
-   `Zingtree Builder/Workflow JSONs/<account>/<tree-slug>-diff-<YYYY-MM-DD>.md`
+   `builds/workflows/<account>/<tree-slug>-diff-<YYYY-MM-DD>.md`
    Full report including line-level script diffs. This is the record.
 
 ---
@@ -40,7 +40,7 @@ A diff needs a *before*. Capture it **before making any edit**:
 
 ```bash
 python3 scripts/tree_diff.py BEFORE.json AFTER.json \
-  -o "Zingtree Builder/Workflow JSONs/<Account>/<tree-slug>-diff-2026-08-04.md"
+  -o "builds/workflows/<Account>/<tree-slug>-diff-2026-08-04.md"
 ```
 
 Options: `--no-bodies` (node-level only, for a quick check), `--context N` (script diff

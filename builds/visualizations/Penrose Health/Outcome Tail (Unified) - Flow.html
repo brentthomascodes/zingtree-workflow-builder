@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Penrose Outcome Tail (Unified) v2 — Flow</title>
+<style>
+  :root{--bg:#0f172a;--panel:#1e293b;--ink:#e2e8f0;--muted:#94a3b8;--line:#334155;
+    --script:#fbbf24;--content:#818cf8;--tree:#34d399;--warn:#f87171}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.45}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 24px 64px}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 24px}
+  .kpi{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:26px}
+  .kpi div{flex:1;min-width:130px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;text-align:center}
+  .kpi .big{font-size:24px;font-weight:700;color:var(--tree)}
+  .kpi .big.r{color:var(--warn)} .kpi .big.a{color:var(--content)}
+  .kpi .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+  .node{border-radius:10px;padding:12px 16px;margin:8px auto;font-size:13.5px;border:1px solid var(--line);background:var(--panel);max-width:640px}
+  .node b{font-weight:650}
+  .node small{color:var(--muted);display:block;font-size:11.5px;margin-top:3px;line-height:1.5}
+  .n-script{border-left:4px solid var(--script)}
+  .n-content{border-left:4px solid var(--content)}
+  .n-tree{border-left:4px solid var(--tree)}
+  .arrow{text-align:center;color:var(--muted);font-size:14px;margin:0}
+  .branches{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;max-width:860px;margin:8px auto}
+  @media(max-width:820px){.branches{grid-template-columns:1fr}}
+  .branches .node{margin:0;max-width:none}
+  .blab{text-align:center;font-size:11px;color:var(--muted);margin:2px 0 4px}
+  .loop{text-align:center;font-size:11.5px;color:var(--script);margin:4px 0 0}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:20px;justify-content:center}
+  .chip{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  code{background:#0b1220;border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:11.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Penrose Outcome Tail (Unified) — v2</h1>
+  <p class="sub">One script owns all data + logic · one dynamic screen · verified 147/147 keys, 0 failures · sources set <code>outcome_key</code> → Tree node → here</p>
+
+  <div class="kpi">
+    <div><div class="big r">201</div><div class="lbl">source outcome screens</div></div>
+    <div><div class="big">6</div><div class="lbl">nodes (was 19 in v1)</div></div>
+    <div><div class="big a">147</div><div class="lbl">catalog entries in 1 script</div></div>
+    <div><div class="big">1</div><div class="lbl">place to edit outcomes</div></div>
+  </div>
+
+  <div class="node n-script"><b>1 · Resolve outcome and build screen</b> <span style="color:var(--muted)">(Script, root)</span>
+    <small>THE script — OUTCOMES catalog (147 entries, all six trees) · NETTING map · legacy CODE_TO_KEY map · resolver (outcome_key, or source_tree + suggested_outcome fallback) · builds <code>outcome_screen_html</code>: advice / P1-referral escape guidance / unknown-key notice · stages alt_* for the swap</small>
+  </div>
+  <div class="arrow">↓</div>
+  <div class="node n-content"><b>2 · Outcome</b> <span style="color:var(--muted)">(Content — the one dynamic screen)</span>
+    <small>${transforms.outcome_screen_html} + copy area · native fields: <code>outcome</code> (canonical 104-option select, required) + <code>other_outcome</code> (optional multiline — no snake) · replaces v1 nodes 9, 10, 11, 12, 20</small>
+  </div>
+  <div class="branches">
+    <div>
+      <div class="blab">Submit outcome</div>
+      <div class="node n-content"><b>3 · Safety Netting</b><small>${transforms.source_netting_html} — the calling tree's own netting · <b>end</b></small></div>
+    </div>
+    <div>
+      <div class="blab">Patient has already trialled Pharmacy First</div>
+      <div class="node n-tree"><b>4 · Open Pharmacy First tree</b><small>Tree node · open_tree_id 824824140</small></div>
+    </div>
+    <div>
+      <div class="blab">Pharmacy First not possible — record alternate</div>
+      <div class="node n-script"><b>5 · Swap to alternate outcome</b><small>applies staged alt_* · safe no-op notice when no alternate</small>
+        <div class="loop">↩ back to 2 (the one intentional revisit)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><span class="chip" style="background:var(--script)"></span>Script</span>
+    <span><span class="chip" style="background:var(--content)"></span>Content</span>
+    <span><span class="chip" style="background:var(--tree)"></span>Tree link</span>
+    <span>+ unlinked <code>claude.md</code> node (6) · <code>merge_vars_not_fixed="1"</code></span>
+  </div>
+</div>
+</body>
+</html>

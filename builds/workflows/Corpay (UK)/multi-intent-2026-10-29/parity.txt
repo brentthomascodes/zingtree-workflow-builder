@@ -1,0 +1,68 @@
+SAME hc   email-ai-int.hc-payment-query-underpayment.reference.fixtu before=PASS/41 after=PASS/41 
+SAME hc   email-ai.admin-blank.org123.fixture.json                   before=PASS/9 after=PASS/9 
+SAME hc   email-ai.case-closed-plain.org123.fixture.json             before=FAIL/? after=FAIL/? 
+SAME hc   email-ai.case-closed.org123.fixture.json                   before=FAIL/? after=FAIL/? 
+SAME hc   email-ai.case-open.org123.fixture.json                     before=PASS/41 after=PASS/41 
+SAME hc   email-ai.case-resolved-plain.org123.fixture.json           before=FAIL/? after=FAIL/? 
+SAME hc   email-ai.case-resolved.org123.fixture.json                 before=FAIL/? after=FAIL/? 
+SAME fast email-ai.fast-card-group-move.org123.fixture.json          before=PASS/41 after=PASS/41 
+SAME fast email-ai.fast-copy-invoice-send.fixture.json               before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   email-ai.fast-gdpr-dashboard-manual.fixture.json           before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   email-ai.fast-gdpr-dashboard-send.fixture.json             before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast email-ai.fast-gdpr-names-format.org123.fixture.json        before=PASS/41 after=PASS/41 
+SAME hc   email-ai.fast-gdpr-non-authorised.fixture.json             before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast email-ai.fast-gdpr-non-authorised.org123.fixture.json      before=FAIL/? after=FAIL/? 
+SAME fast email-ai.fast-gdpr-v2.org123.fixture.json                  before=PASS/41 after=PASS/41 
+SAME fast email-ai.fast-partial-unrecognised.org123.fixture.json     before=PASS/41 after=PASS/41 
+SAME fast email-ai.fast-returned-direct-debit.org123.fixture.json    before=PASS/41 after=PASS/41 
+SAME fast email-ai.fast-smb-eligible.fixture.json                    before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast email-ai.feedback-return-fast.org123.fixture.json          before=PASS/54 after=PASS/54 
+SAME fast email-ai.feedback-return-gdpr.org123.fixture.json          before=PASS/55 after=PASS/55 
+SAME fast email-ai.feedback-return-hc-missing-charges.org123.fixture before=FAIL/53 after=FAIL/53 
+SAME fast email-ai.feedback-return-hc.org123.fixture.json            before=FAIL/30 after=FAIL/30 
+SAME hc   email-ai.hc-compatible-chargers.org123.fixture.json        before=FAIL/41 after=FAIL/41 
+SAME hc   email-ai.hc-missing-charges-regression.fixture.json        before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   email-ai.hc-partial-unrecognised.org123.fixture.json       before=PASS/41 after=PASS/41 
+SAME hc   email-ai.hc-payment-query-dd-increase.fixture.json         before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   email-ai.hc-payment-query-underpayment.fixture.json        before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   email-ai.hc-payment-query-underpayment.org123.fixture.json before=FAIL/41 after=FAIL/41 
+SAME hc   email-ai.hc-resent-onboarding.org123.fixture.json          before=PASS/41 after=PASS/41 
+SAME hc   email-ai.hc-tariff-regression.fixture.json                 before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   email-ai.hc-underpayment-unmapped-gap.org123.fixture.json  before=PASS/41 after=PASS/41 
+SAME hc   email-ai.hc-update-charger-details.fixture.json            before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+DIFF nw   email-ai.networks-attachment-needed.org123.fixture.json    before=FAIL/? after=PASS/29 
+DIFF nw   email-ai.networks-date-blank.org123.fixture.json           before=FAIL/? after=PASS/41 
+SAME nw   email-ai.networks-general-fuel.org123.fixture.json         before=PASS/41 after=PASS/41 
+DIFF nw   email-ai.networks-invoice-blank.org123.fixture.json        before=FAIL/41 after=PASS/41 
+SAME nw   email-ai.networks-invoice-gbp-added.org123.fixture.json    before=PASS/41 after=PASS/41 
+SAME nw   email-ai.networks-invoice-gbp-kept.org123.fixture.json     before=PASS/41 after=PASS/41 
+SAME nw   email-ai.networks-merchant-no-account.org123.fixture.json  before=PASS/41 after=PASS/41 
+SAME nw   email-ai.networks-merchant-not-eligible.org123.fixture.jso before=PASS/41 after=PASS/41 
+SAME nw   email-ai.networks-other.org123.fixture.json                before=PASS/29 after=PASS/29 
+SAME nw   email-ai.networks-remittance-wrong.org123.fixture.json     before=PASS/28 after=PASS/28 
+SAME nw   email-ai.networks-service-smr.org123.fixture.json          before=PASS/41 after=PASS/41 
+SAME fast email-ai.session-expired.org123.fixture.json               before=FAIL/61 after=FAIL/61 
+DIFF fast email-ai.thread-latest-email.org123.fixture.json           before=FAIL/41 after=PASS/41 
+DIFF fast email-ai.thread-no-case.org123.fixture.json                before=FAIL/11 after=PASS/11 
+DIFF fast email-ai.thread-no-emailmessage.org123.fixture.json        before=FAIL/41 after=PASS/41 
+SAME fast email-automation-int.bypass-web.fixture.json               before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast email-automation-int.contact-details-manual.fixture.json   before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast email-automation-int.escalation.fixture.json               before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast email-automation-int.fail-send.fixture.json                before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast email-automation-int.fixture.json                          before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast email-automation-int.multi-intent.fixture.json             before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast email-automation-int.no-account.fixture.json               before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast email-automation-int.not-eligible.fixture.json             before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast email-automation-int.out-of-scope.fixture.json             before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast email-automation-int.test-mode.fixture.json                before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast fast-admin-int.escalation-rule.fixture.json                before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   fast-admin-int.hc-compatible-chargers.fixture.json         before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   fast-admin-int.hc-intent-action-failed.fixture.json        before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   fast-admin-int.hc-missing-charges-screenshots.fixture.json before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   fast-admin-int.hc-missing-charges.fixture.json             before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   fast-admin-int.hc-password-reset-incomplete.fixture.json   before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   fast-admin-int.hc-payment-query-underpayment.fixture.json  before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast fast-admin-int.intent-action-failed.fixture.json           before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME fast fast-admin-int.out-of-scope.fixture.json                   before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   fast-admin-int.send-http-error.fixture.json                before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
+SAME hc   fast-admin-int.send-rejected.fixture.json                  before=FAIL/? after=FAIL/? FAIL  script node 84 ("Stage email thread") threw: Cannot read properties of undefined (reading '_zt_meta')
