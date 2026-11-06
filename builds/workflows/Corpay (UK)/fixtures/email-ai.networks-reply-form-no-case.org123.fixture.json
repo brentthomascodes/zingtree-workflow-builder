@@ -1,0 +1,56 @@
+{
+ "tree_id": "0",
+ "preview_host": "https://eu.zingtree.com/preview/",
+ "query_params": {
+  "sf_Id": "500Ad00000dG5JwIAK"
+ },
+ "connected_objects": {
+  "10": "sfdc_int__case_email_ai",
+  "187": "send_email_simple_int"
+ },
+ "ai_action_aliases": {},
+ "actions": {
+  "sfdc_int__case_email_ai": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "records": []
+  },
+  "send_email_simple_int": {
+   "_zt_meta": {
+    "response": {
+     "code": 200
+    }
+   },
+   "value": [
+    {
+     "actionName": "emailSimple",
+     "isSuccess": true,
+     "errors": [],
+     "outputValues": {}
+    }
+   ]
+  }
+ },
+ "buttons": {
+  "4": "Submit"
+ },
+ "form_inputs": {
+  "4": {
+   "invoice_amount": "125.40",
+   "merchant_id_number": "M123456"
+  }
+ },
+ "expect": {
+  "form_data": {
+   "case_found": "false"
+  },
+  "data_node_calls": {
+   "send_email_simple_int": 0
+  },
+  "terminal_node": "9"
+ },
+ "note": "Networks reply form demo: link with no matching case -> 9"
+}

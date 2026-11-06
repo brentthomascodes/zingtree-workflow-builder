@@ -83,8 +83,8 @@ if (found) {
   // The confirm-reason screen opens on the reason the request was made with
   ZT.setFormData("resubmit_reason", ZT.getVariableValue("requested_cancel_reason", ""));
 
-  let row = (label, value) => `<tr><td style="padding:4px 16px 4px 0;border-bottom:1px solid #e5e7eb;">${label}</td><td style="padding:4px 0;border-bottom:1px solid #e5e7eb;"><strong>${value}</strong></td></tr>`;
-  let payment_html = `<table style="border-collapse:collapse;margin:0 0 12px 0;">`
+  let row = (label, value) => `<tr><th style="text-align:left;font-weight:600;color:#444;padding:8px 24px 8px 10px;border:none;border-bottom:1px solid #e3e3e3;white-space:nowrap;width:40%;">${label}</th><td style="text-align:left;padding:8px 10px;border:none;border-bottom:1px solid #e3e3e3;">${value}</td></tr>`;
+  let payment_html = `<table border="0" style="border:none;border-collapse:collapse;width:100%;max-width:560px;margin:12px 0 20px 0;font-size:15px;">`
     + row("Client", response.client_name)
     + row("Payment amount", "$" + Number(response.payment_amount).toFixed(2))
     + row("Service fee", "$" + Number(response.service_fee).toFixed(2))
@@ -96,7 +96,7 @@ if (found) {
 }'''
 
 route = r'''let cents = (value) => Math.round(Number(value) * 100);
-let money = (amount) => "$" + (amount / 100).toFixed(2);
+let money = (amount) => (amount < 0 ? "-$" : "$") + (Math.abs(amount) / 100).toFixed(2);
 let answer = (name) => String(ZT.getVariableValue(name, ""));
 
 let payment_amount = cents(ZT.getVariableValue("payment_amount", 0));
@@ -206,6 +206,7 @@ if (outcome.decision === "resubmit") {
   outcome.steps = "Deny the request, then resubmit it with these details:"
     + `<ul style="margin:6px 0 0 0;"><li>Action: <strong>${outcome.resolution}</strong></li>`
     + `<li>Cancel reason: <strong>${answer("resubmit_reason")}</strong></li>`
+    + `<li>Amount: <strong>${money(funds_remaining)}</strong></li>`
     + `<li>Fee: <strong>${money(outcome.fee)}</strong></li></ul>`;
 }
 if (outcome.decision === "not_mapped") {
@@ -217,7 +218,7 @@ ZT.setFormData("route", outcome.route);
 ZT.setFormData("decision", outcome.decision || "");
 
 if (outcome.route === "outcome" || outcome.route === "approve") {
-  let row = (label, value) => `<tr><td style="padding:4px 16px 4px 0;border-bottom:1px solid #e5e7eb;">${label}</td><td style="padding:4px 0;border-bottom:1px solid #e5e7eb;"><strong>${value}</strong></td></tr>`;
+  let row = (label, value) => `<tr><th style="text-align:left;font-weight:600;color:#444;padding:8px 24px 8px 10px;border:none;border-bottom:1px solid #e3e3e3;white-space:nowrap;width:40%;">${label}</th><td style="text-align:left;padding:8px 10px;border:none;border-bottom:1px solid #e3e3e3;">${value}</td></tr>`;
   let outcome_html = `<p style="margin:0 0 6px 0;font-size:18px;"><strong>${outcome.headline}</strong></p>`
     + `<p style="margin:0 0 12px 0;line-height:1.5;">${outcome.steps}</p>`
     + `<table style="border-collapse:collapse;margin:0;">`
@@ -344,6 +345,7 @@ Fee Cancellation and Partial Refund always resubmit, never approve, per Visio.
 Fee Cancellation reason assumed "Fee not needed". Resubmit amount not in the Visio.
 
 Changelog
+- 11/5: UI test fixes: resubmit shows Amount (= funds remaining), negative amounts read -$, payment tables restyled like Small Balance.
 - 11/4: Caroline's 11/2 answers: fee on file = service fee + MVL for approve and resubmit; MVL payments can be approved; funds = funding + MVL is full funds; Fee Cancellation fee = amount.
 - 10/27: draft built from the Cancel Card Dashboard Workflow Visio. GET only (CO 1299); approve/deny/resubmit done in BizPay until the Cancel Card API exists.</pre>"""
 n["20"] = node(20, "Content", "claude.md", "Tree memory: purpose, node map, data dictionary", content=claude_md)
